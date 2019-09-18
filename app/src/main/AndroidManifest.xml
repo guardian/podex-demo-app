@@ -15,5 +15,6 @@
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.guardian.podexdemo.ui.main.MainActivity" />
     </application>
 </manifest>
