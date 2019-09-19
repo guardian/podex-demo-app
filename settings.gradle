@@ -1,2 +1,6 @@
 include ':app', ':common'
 rootProject.name='PodExDemo'
+include ':podex'
+include ':entities'
+include ':feedrepository'
+include ':database'
