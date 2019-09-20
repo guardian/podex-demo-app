@@ -26,10 +26,6 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
-import com.guardian.common.AbstractMusicSource
-import com.guardian.common.STATE_ERROR
-import com.guardian.common.STATE_INITIALIZED
-import com.guardian.common.STATE_INITIALIZING
 import com.guardian.common.media.extensions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -166,7 +162,7 @@ fun MediaMetadataCompat.Builder.from(jsonMusic: JsonMusic): MediaMetadataCompat.
  * Wrapper object for our JSON in order to be processed easily by GSON.
  */
 class JsonCatalog {
-    var music: List<JsonMusic> = ArrayList()
+    var music: List<JsonMusic> = listOf()
 }
 
 /**

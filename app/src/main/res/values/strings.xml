@@ -3,4 +3,5 @@
     <string name="title_entities">Module Title</string>
     <string name="title_feedrepository">Feed Repository</string>
     <string name="title_database">Local Database</string>
+    <string name="title_podcastplayer">Podcast Player</string>
 </resources>

@@ -19,7 +19,6 @@ package com.guardian.common.media.library
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaMetadataCompat
-import com.guardian.common.MusicSource
 import com.guardian.common.media.MusicService
 import com.guardian.common.media.extensions.*
 

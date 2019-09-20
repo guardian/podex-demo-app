@@ -33,6 +33,10 @@ import android.support.v4.media.session.PlaybackStateCompat.ACTION_SKIP_TO_NEXT
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_STOP
 import com.guardian.common.*
+import com.guardian.common.media.extensions.isPlayEnabled
+import com.guardian.common.media.extensions.isPlaying
+import com.guardian.common.media.extensions.isSkipToNextEnabled
+import com.guardian.common.media.extensions.isSkipToPreviousEnabled
 
 const val NOW_PLAYING_CHANNEL: String = "com.example.android.uamp.media.NOW_PLAYING"
 const val NOW_PLAYING_NOTIFICATION: Int = 0xb339

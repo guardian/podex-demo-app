@@ -28,11 +28,11 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.upstream.DataSource
-import com.guardian.common.*
 import com.guardian.common.media.extensions.album
 import com.guardian.common.media.extensions.id
 import com.guardian.common.media.extensions.toMediaSource
 import com.guardian.common.media.extensions.trackNumber
+import com.guardian.common.media.library.MusicSource
 
 /**
  * Class to bridge UAMP to the ExoPlayer MediaSession extension.
