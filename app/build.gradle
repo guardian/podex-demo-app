@@ -26,25 +26,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-
-    dynamicFeatures = [":entities", ":feedrepository", ":database"]
-
-
-
-
-    
-
-
-
-
-    
-
-
 }
 
 dependencies {
-    implementation project(':common')
+    implementation project(':mediaplayer')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

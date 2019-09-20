@@ -1,6 +1,3 @@
-include ':app', ':common'
+include ':app', ':mediaplayer'
 rootProject.name='PodExDemo'
 include ':podex'
-include ':entities'
-include ':feedrepository'
-include ':database'
