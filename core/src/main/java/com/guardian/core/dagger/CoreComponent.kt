@@ -16,7 +16,4 @@ interface CoreComponent {
     interface Builder {
         fun build(): CoreComponent
     }
-
-    fun provideOkHttpClient(): OkHttpClient
-    fun provideGson(): Gson
 }
