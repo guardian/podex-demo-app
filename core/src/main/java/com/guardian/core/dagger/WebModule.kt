@@ -11,7 +11,6 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import javax.inject.Singleton
 
 @Module
-@Singleton
 class WebModule {
 
     @Provides
@@ -32,17 +31,14 @@ class WebModule {
     }
 
     @Provides
-    @Singleton
     fun provideGson(): Gson = Gson()
 
     @Suppress("DEPRECATION")
     @Provides
-    @Singleton
     fun provideSimpleXml(): SimpleXmlConverterFactory =
         SimpleXmlConverterFactory.create()
 
     @Provides
-    @Singleton
     fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory =
         GsonConverterFactory.create(gson)
 }

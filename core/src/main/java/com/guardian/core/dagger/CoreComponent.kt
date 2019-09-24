@@ -1,19 +1,21 @@
 package com.guardian.core.dagger
 
-import com.google.gson.Gson
+import com.guardian.core.dagger.search.SearchDataModule
+import com.guardian.core.search.SearchRepository
 import dagger.Component
-import okhttp3.OkHttpClient
-import javax.inject.Singleton
 
 /**
  * Component providing application wide singletons.
  */
-@Component(modules = [WebModule::class])
-@Singleton
+@Component(modules = [WebModule::class,
+    SearchDataModule::class,
+    RepositoryModule::class])
 interface CoreComponent {
 
     @Component.Builder
     interface Builder {
         fun build(): CoreComponent
     }
+
+    fun provideSearchRepository(): SearchRepository
 }

@@ -42,9 +42,13 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    api 'com.google.dagger:dagger-android:2.23.2'
-    api 'com.google.dagger:dagger-android-support:2.23.2'
-    kapt 'com.google.dagger:dagger-android-processor:2.23.2'
+    api 'com.google.dagger:dagger:2.24'
+    kapt 'com.google.dagger:dagger-compiler:2.24'
+
+
+    api 'com.google.dagger:dagger-android:2.24'
+    api 'com.google.dagger:dagger-android-support:2.24'
+    kapt 'com.google.dagger:dagger-android-processor:2.24'
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation ('com.squareup.retrofit2:converter-simplexml:2.6.1') {

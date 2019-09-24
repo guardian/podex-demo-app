@@ -1,8 +1,7 @@
-package com.guardian.podexdemo
+package com.guardian.podxdemo
 
-import android.app.Activity
 import android.app.Application
-import com.guardian.core.dagger.CoreComponent
+import com.guardian.podxdemo.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -14,10 +13,8 @@ class PodExDemoApplication : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
-    }
-
-    private val coreComponent: CoreComponent by lazy {
-        DaggerAppComponent.create()
+        DaggerAppComponent.builder()
+            .build()
             .inject(this)
     }
 

@@ -1,3 +1,2 @@
 include ':app', ':mediaplayer', ':core'
-rootProject.name='PodExDemo'
-include ':podex'
+rootProject.name='PodXDemo'

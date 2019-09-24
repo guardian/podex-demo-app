@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navgraph_main.xml"
-    app:startDestination="@id/placeholder">
+    app:startDestination="@id/search_fragment">
 
-    <fragment android:id="@+id/placeholder" />
+    <fragment android:id="@+id/search_fragment"
+        android:name="com.guardian.podxdemo.presentation.search.SearchFragment"/>
 </navigation>

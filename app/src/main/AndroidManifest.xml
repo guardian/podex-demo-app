@@ -1,18 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.podexdemo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.guardian.podexdemo.PodExDemoApplication">
-        <activity android:name="com.guardian.podexdemo.presentation.MainActivity" >
+        android:name="com.guardian.podxdemo.PodExDemoApplication"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name="com.guardian.podxdemo.presentation.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>
