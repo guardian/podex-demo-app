@@ -1,4 +1,4 @@
-package com.example.podexdemo
+package com.guardian.podxdemo
 
 import org.junit.Test
 

@@ -3,7 +3,7 @@ package com.guardian.podxdemo.presentation
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.podexdemo.R
+import com.example.podxdemo.R
 import com.guardian.podxdemo.dagger.FragmentInjectionFactory
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector

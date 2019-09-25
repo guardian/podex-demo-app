@@ -1,10 +1,6 @@
 package com.guardian.core.dagger.search
 
-import com.guardian.core.dagger.scopes.FeatureScope
-import com.guardian.core.search.SearchRepository
-import com.guardian.core.search.SearchRepositoryImpl
 import com.guardian.core.search.api.ItunesSearchApi
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

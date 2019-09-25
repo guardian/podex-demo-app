@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.guardian.core.dagger
 
 import com.google.gson.Gson
@@ -8,7 +10,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
-import javax.inject.Singleton
 
 @Module
 class WebModule {
