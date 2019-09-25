@@ -11,6 +11,8 @@ class SearchViewModel
 @Inject constructor(searchRepository: SearchRepository)
     : ViewModel() {
     val searchResults: LiveData<List<SearchResult>> = liveData {
-        emit(searchRepository.doSearch("news"))
+        emit(searchRepository.doSearch(searchString))
     }
+
+    var searchString = "news"
 }

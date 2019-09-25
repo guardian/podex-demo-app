@@ -7,5 +7,6 @@ data class SearchItunesApiDataObject (
     @SerializedName("feedUrl") val feedUrlString: String,
     @SerializedName("artworkUrl30") val atworkUrl30String: String,
     @SerializedName("artworkUrl60") val atworkUrl60String: String,
-    @SerializedName("artworkUrl100") val atworkUrl100String: String
+    @SerializedName("artworkUrl100") val atworkUrl100String: String,
+    @SerializedName("artworkUrl600") val atworkUrl600String: String
 )

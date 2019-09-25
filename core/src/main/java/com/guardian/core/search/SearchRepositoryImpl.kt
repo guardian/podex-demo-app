@@ -11,7 +11,7 @@ class SearchRepositoryImpl
         return itunesSearchApi.search(term).awaitResponse().body()?.results?.map {
             SearchResult(
                 it.name,
-                it.atworkUrl100String,
+                it.atworkUrl600String,
                 it.feedUrlString
             )
         } ?: listOf()
