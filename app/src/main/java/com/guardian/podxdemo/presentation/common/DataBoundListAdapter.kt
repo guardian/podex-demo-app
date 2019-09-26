@@ -7,6 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * A generic ListAdapter with the boilerplate involved in setting a recyclerview viewholder's data
+ * using the data binding library.
+ *
+ * @param T : A data class to bind to.
+ * @param V : [ViewDataBinding] for the viewholder
+ */
+
+//todo ensure the asyc differ is actually running asyc
 abstract class DataBoundListAdapter<T, V : ViewDataBinding> (
     callback: DiffUtil.ItemCallback<T>
 ) : ListAdapter<T, DataBoundListAdapter.DataBoundViewHolder<V>>(

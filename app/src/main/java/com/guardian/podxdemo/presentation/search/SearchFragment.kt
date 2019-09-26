@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.guardian.core.search.SearchResult
@@ -89,7 +90,13 @@ class SearchFragment
                     return oldItem.feedUrlString == newItem.feedUrlString
                 }
             }
-        ).apply {
+        ) { searchResult ->  
+            findNavController()
+                .navigate(R.id.action_search_fragment_to_feedFragment,
+                    Bundle().apply {
+                        this.putParcelable("searchResult", searchResult)
+                    })
+        }.apply {
             searchViewModel.searchResults
                 .observe(viewLifecycleOwner, Observer { results ->
                     this.submitList(results)

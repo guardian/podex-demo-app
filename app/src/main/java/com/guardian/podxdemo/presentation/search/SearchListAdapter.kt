@@ -9,7 +9,8 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.ViewholderSearchadapterResultBinding
 import com.guardian.podxdemo.presentation.common.DataBoundListAdapter
 
-class SearchListAdapter(callback: DiffUtil.ItemCallback<SearchResult>) :
+class SearchListAdapter(callback: DiffUtil.ItemCallback<SearchResult>,
+                        val handleSelection :(SearchResult) -> Unit) :
     DataBoundListAdapter<SearchResult, ViewholderSearchadapterResultBinding>(callback) {
     override fun createBinding(parent: ViewGroup): ViewholderSearchadapterResultBinding {
         return DataBindingUtil.inflate(
@@ -22,5 +23,6 @@ class SearchListAdapter(callback: DiffUtil.ItemCallback<SearchResult>) :
 
     override fun bind(holder: ViewholderSearchadapterResultBinding, item: SearchResult) {
         holder.searchResult = item
+        holder.root.setOnClickListener { handleSelection(item) }
     }
 }
