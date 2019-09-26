@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:listitem="@layout/viewholder_searchadapter_result" />
+            tools:listitem="@layout/viewholder_searchadapter_result"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{searchResult.title}"
-            tools:text="Podex Podcast"
-            />
+            tools:text="PodX Podcast"
+            android:maxLines="4"
+            android:ellipsize="end"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

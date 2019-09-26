@@ -1,4 +1,4 @@
-package com.guardian.podxdemo.utils.binding
+package com.guardian.podxdemo.presentation.common.binding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
