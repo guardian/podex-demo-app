@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.guardian.core.search.SearchResult
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
+import com.guardian.podxdemo.presentation.common.hideKeyboard
 import com.guardian.podxdemo.utils.lifecycleAwareLazy
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -61,6 +61,7 @@ class SearchFragment
             if (eventId == EditorInfo.IME_ACTION_DONE) {
                 Timber.i("got done action")
                 searchViewModel.doSearch()
+                hideKeyboard()
             }
 
             true
