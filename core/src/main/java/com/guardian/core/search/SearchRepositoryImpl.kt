@@ -8,11 +8,14 @@ class SearchRepositoryImpl
 @Inject constructor(val itunesSearchApi: ItunesSearchApi)
     : SearchRepository {
     override suspend fun doSearch(term: String): List<SearchResult> {
-        return itunesSearchApi.search(term).awaitResponse().body()?.results?.map {
+        return itunesSearchApi.search(term).awaitResponse().body()?.results?.filter {
+            it.feedUrlString != null && it.feedUrlString.isNotEmpty()
+            //todo filter invalid feed urls out
+        } ?.map {
             SearchResult(
-                it.name,
-                it.atworkUrl600String,
-                it.feedUrlString
+                it.name ?: "",
+                it.atworkUrl600String ?: "",
+                it.feedUrlString ?: ""
             )
         } ?: listOf()
     }
