@@ -1,8 +1,6 @@
 package com.guardian.core.search
 
-import android.os.Parcel
 import android.os.Parcelable
-import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 
 /**

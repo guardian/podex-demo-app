@@ -30,6 +30,10 @@ android {
         experimental = true
     }
 
+    sourceSets {
+        test.resources.srcDirs += 'src/test/res'
+    }
+
 }
 
 dependencies {
@@ -55,10 +59,5 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.24'
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation ('com.squareup.retrofit2:converter-simplexml:2.6.1') {
-        exclude group: 'stax', module: 'stax-api'
-        exclude group: 'stax', module: 'stax'
-        exclude group: 'xpp3', module: 'xpp3'
-    }
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
 }
