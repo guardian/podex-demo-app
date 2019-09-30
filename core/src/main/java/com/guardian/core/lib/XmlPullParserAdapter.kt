@@ -2,6 +2,6 @@ package com.guardian.core.lib
 
 import java.io.InputStream
 
-interface XmlPullParserAdapter<out T> {
-    fun parseXml(xmlInput: InputStream): T
+interface XmlPullParserAdapter {
+    suspend fun deSerialiseXml(xmlInput: InputStream, xmlDataObject: XmlDataObject): XmlDataObject
 }
