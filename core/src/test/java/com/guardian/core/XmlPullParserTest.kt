@@ -1,9 +1,11 @@
 package com.guardian.core
 
-import com.guardian.core.feed.Feed
+import com.guardian.core.feed.api.RootXmlDataObject
 import com.guardian.core.lib.XmlPullParserAdapterImpl
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.xmlpull.v1.XmlPullParserFactory
+import timber.log.Timber
 
 class XmlPullParserTest {
 
@@ -11,7 +13,19 @@ class XmlPullParserTest {
     fun testPullParserOnSample() {
         val inputStream = this.javaClass.classLoader!!.getResourceAsStream("sampleFeedPodex.xml")
 
-        XmlPullParserAdapterImpl<Feed>(xmlPullParserFactory = XmlPullParserFactory.newInstance())
-            .parseXml(inputStream)
+        Timber.plant(object: Timber.Tree() {
+            override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+                println("$tag: $message")
+                t?.printStackTrace()
+            }
+
+        })
+
+        runBlocking {
+            val testStream = XmlPullParserAdapterImpl(xmlPullParserFactory = XmlPullParserFactory.newInstance())
+                .deSerialiseXml(inputStream) { RootXmlDataObject() }
+
+            System.out.println(testStream)
+        }
     }
 }

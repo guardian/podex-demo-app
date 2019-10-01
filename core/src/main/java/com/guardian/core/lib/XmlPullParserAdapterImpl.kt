@@ -4,6 +4,7 @@ import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.*
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
+import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 import java.io.InvalidClassException
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 /**
  * A crude pull parser implementation for de-serialising XML documents. Currently only set up to
- * produce instances of [com.guardian.core.feed.api.RootFeedXmlDataObject] and it's children.
+ * produce instances of [com.guardian.core.feed.api.RootXmlDataObject] and it's children.
  *
  * Maps for the values stored in each object can be taken from the [XmlDataObject]'s
  * factory, which is the type of the companion object. it is assumed the objects are perfectly
@@ -48,30 +49,32 @@ class XmlPullParserAdapterImpl
      */
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
     private fun deSerializeBody(xmlPullParser: XmlPullParser, xmlDataObject: XmlDataObject): XmlDataObject {
-        var eventType = xmlPullParser.getEventType()
-        val currentDepth = xmlPullParser.depth
         val elementMap = xmlDataObject.factory.getXmlParserElementMap()
-        var currentElement: ValueContainer<String>? = null
-
         val xmlAttributeValueMap = mutableMapOf<String, String>()
-        for (attributeIndex in 0..xmlPullParser.attributeCount) {
-            xmlAttributeValueMap[xmlPullParser.getAttributeName(attributeIndex)] =
-                xmlPullParser.getAttributeValue(attributeIndex)
+        for (attributeIndex in 0 until xmlPullParser.attributeCount) {
+            xmlAttributeValueMap.put(xmlPullParser.getAttributeName(attributeIndex),
+                xmlPullParser.getAttributeValue(attributeIndex))
+
+            Timber.i("getting attribute xmlPullParser.getAttributeName(attributeIndex)")
         }
 
         //handle self closing tags
-        if (!xmlPullParser.isEmptyElementTag) {
+        if (xmlPullParser.eventType != START_TAG || !xmlPullParser.isEmptyElementTag) {
             xmlPullParser.next()
+            var eventType = xmlPullParser.eventType
+            var currentElement: ValueContainer<String>? = null
+            val currentDepth = xmlPullParser.depth
 
             while (eventType != END_DOCUMENT && xmlPullParser.depth >= currentDepth) {
                 if (eventType == START_TAG) {
-                    val currentName = xmlPullParser.getName()
+                    val currentName = xmlPullParser.name
                     val attributeCheck = elementMap[currentName]
+
+                    Timber.i("checking $currentName")
 
                     if (attributeCheck == null) {
                         skip(xmlPullParser)
                     } else if (attributeCheck.value is String && !xmlPullParser.isEmptyElementTag) {
-                        @Suppress("UNCHECKED_CAST")
                         currentElement = attributeCheck as ValueContainer<String>
                     } else {
                         // recurse here to instantiate a new data object as a child

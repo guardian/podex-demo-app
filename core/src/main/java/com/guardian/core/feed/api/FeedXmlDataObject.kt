@@ -9,7 +9,7 @@ data class FeedXmlDataObject (
     val link: String = "",
     val description: String = "",
     val image: FeedImageXmlDataObject = FeedImageXmlDataObject(),
-    val itunesImage: String = "",
+    val itunesImage: FeedItunesImageXmlDataObject = FeedItunesImageXmlDataObject(),
     val feedItems: List<FeedItemXmlDataObject> = listOf(FeedItemXmlDataObject())
 ) : XmlDataObject {
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
@@ -21,7 +21,7 @@ data class FeedXmlDataObject (
                 "link" to ValueContainer(""),
                 "description" to ValueContainer(""),
                 "image" to ValueContainer(FeedImageXmlDataObject()),
-                "itunes:image" to ValueContainer(""),
+                "itunes:image" to ValueContainer(FeedItunesImageXmlDataObject()),
                 "item" to ValueContainer(listOf(FeedItemXmlDataObject()))
             )
         }
@@ -32,7 +32,7 @@ data class FeedXmlDataObject (
                 xmlParserElementMap["link"]?.value as String,
                 xmlParserElementMap["description"]?.value as String,
                 xmlParserElementMap["image"]?.value as FeedImageXmlDataObject,
-                xmlParserElementMap["itunes:image"]?.value as String,
+                xmlParserElementMap["itunes:image"]?.value as FeedItunesImageXmlDataObject,
                 xmlParserElementMap["item"]?.value as List<FeedItemXmlDataObject>
             )
         }
