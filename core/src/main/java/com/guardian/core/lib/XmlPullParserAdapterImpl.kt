@@ -1,131 +1,104 @@
 package com.guardian.core.lib
 
-import com.guardian.core.feed.api.FeedXmlDataObject
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.*
+import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
+import java.io.IOException
 import java.io.InputStream
 import java.io.InvalidClassException
-import java.lang.reflect.Type
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 
 /**
- * A simple pull parser adapter for de-serialising XML documents to [Feed] data objects. The [Feed]
- * and it's children, [FeedItem] and [PodexEvent]. Mutable maps for the values stored in each object
- * from the
+ * A crude pull parser implementation for de-serialising XML documents. Currently only set up to
+ * produce instances of [com.guardian.core.feed.Feed]
+ *
+ * Maps for the values stored in each object can be taken from the [XmlDataObject]'s
+ * factory, which is the type of the companion object.
+ *
+ * The only supported attribute types for [XmlDataObject] mappings are currently:
+ *      [String]
+ *      [XmlDataObject]
+ *      [List<XmlDataObject>]
  */
 
 class XmlPullParserAdapterImpl
 @Inject constructor(val xmlPullParserFactory: XmlPullParserFactory)
     : XmlPullParserAdapter {
 
-    override suspend fun deSerialiseXml(xmlInput: InputStream, dataObject: XmlDataObject): XmlDataObject {
+    @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
+    override suspend fun deSerialiseXml(xmlInput: InputStream, rootDataObjectInitializer: () -> XmlDataObject): XmlDataObject {
         val xmlPullParser = xmlPullParserFactory.newPullParser()
 
-        //todo get charset from xml, assume utf8
         xmlPullParser.setInput(xmlInput.reader(StandardCharsets.UTF_8))
         while (xmlPullParser.eventType != START_DOCUMENT) {
             print(xmlPullParser.text)
             xmlPullParser.next()
         }
 
-        return deSerializeBody(xmlPullParser, dataObject)
+        return deSerializeBody(xmlPullParser, rootDataObjectInitializer())
     }
 
-    // current element = blank
-    // map of elements to values
-    //while not end of document
-        //if start tag
-            //if tag matches list data param
-                // map listdataparam element to deserialisebody()
-            //if tag matches string param
-                //current param = that string param
-        //if text
-            //if current element is set
-                //map current element to text
-        //if end tag
-            // current element = blank
-            // if tag name = this root type
-                // return new instance with value of map
-
-    // return new instance with value of map
-
+    /**
+     * recursively fill the XmlDataObjects using the pull parser, using the arg to instantiate a
+     * new data object.
+     */
+    @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
     private fun deSerializeBody(xmlPullParser: XmlPullParser, xmlDataObject: XmlDataObject): XmlDataObject {
-
         var eventType = xmlPullParser.getEventType()
-        val attributeMap: MutableMap<String, ValueContainer<*>> = xmlDataObject.getXmlParserAttributeMap()
-
+        val currentDepth = xmlPullParser.depth
+        val attributeMap = xmlDataObject.factory.getXmlParserAttributeMap()
         var currentAttribute: ValueContainer<String>? = null
 
-        while (eventType != END_DOCUMENT) {
+        while (eventType != END_DOCUMENT && xmlPullParser.depth >= currentDepth) {
             if (eventType == START_TAG) {
-                //System.out.println("Start tag " + xmlPullParser.getName())
+                val attributeCheck = attributeMap[xmlPullParser.getName()]
+
+                if (attributeCheck == null) {
+                    skip(xmlPullParser)
+                } else if (attributeCheck.value is String) {
+                    @Suppress("UNCHECKED_CAST")
+                    currentAttribute = attributeCheck as ValueContainer<String>
+                } else {
+                    // recurse here to instantiate a new data object as a child
+//                    if (attributeCheck.value is List<*>) {
+//                        xmlPullParser.next()
+//                        attributeCheck.value = attributeCheck.value + listOf(deSerializeBody(xmlPullParser, attributeCheck.value.first() as XmlDataObject))
+//                    } else if (attributeCheck.value is XmlDataObject) {
+//                        val recursableAttribute
+//
+//                        xmlPullParser.next()
+//                        attributeCheck.value = deSerializeBody(xmlPullParser, attributeCheck.value)
+//                    }
+                }
             } else if (eventType == END_TAG) {
-                //System.out.println("End tag " + xmlPullParser.getName())
+                currentAttribute = null
             } else if (eventType == TEXT) {
-                //System.out.println("Text " + xmlPullParser.getText())
+                currentAttribute?.value = xmlPullParser.text
             }
             eventType = xmlPullParser.next()
         }
 
-        return xmlDataObject.instantiateFromXmlParserAttributeMap(attributeMap)
+        return xmlDataObject.factory.instantiateFromXmlParserAttributeMap(attributeMap)
     }
 
-//    /**
-//     * Prefill map with default constructor values for collections and strings
-//     */
-//    private fun constructAttributeMap(type: Type): MutableMap<Type, ValueContainer<*>> {
-//        val keys = getParamTypes(type)
-//        val map = mutableMapOf<Type, ValueContainer<*>>()
-//
-//
-//        Class.forName(type.typeName)
-//            .declaredFields
-//            .forEach {
-//                if (it.type == String::class.java) {
-//                    map[it.type] = ValueContainer("")
-//                } else if (it.type == List::class.java) {
-//                    //extract the generic type
-//                    val genericName = it.genericType
-//                        .typeName
-//                        .dropWhile { c -> c != '<' }
-//                        .removeSuffix(">")
-//                        .removePrefix("<")
-//
-//                    val genericType = Class.forName(genericName)
-//
-//                    map[genericType] = ValueContainer(mutableListOf<ValueContainer<*>>())
-//                }
-//            }
-//        for (key in keys) {
-//            if (key?.typeName == String::class.java.typeName) {
-//                map[key] = ValueContainer("")
-//                System.out.println(key.typeName)
-//            } else {
-//                if (key != null) {
-//                    System.out.println(Class.forName(key.typeName).canonicalName)
-//                    System.out.println(Class.forName(key.typeName).typeName)
-//                    System.out.println(key.typeName)
-//                }
-//            }
-//        }
-//
-//        return map
-//    }
-
-//
-//    private fun getParamTypes(baseType: Type): List<Type?> {
-//        val baseClass = Class.forName(baseType.typeName)
-//
-//        if (baseClass.declaredFields.isEmpty()) {
-//            throw InvalidClassException("Class ${baseClass.name} needs a constructor")
-//        }
-//
-//        return baseClass.declaredFields.map {
-//            it.type.componentType ?: it.type
-//        }
-//    }
+    /**
+     * handy function from the android docs
+     */
+    @Throws(XmlPullParserException::class, IOException::class)
+    private fun skip(parser: XmlPullParser) {
+        if (parser.eventType != START_TAG) {
+            throw IllegalStateException()
+        }
+        var depth = 1
+        while (depth != 0) {
+            when (parser.next()) {
+                END_TAG -> depth--
+                START_TAG -> depth++
+            }
+        }
+    }
 }
 
