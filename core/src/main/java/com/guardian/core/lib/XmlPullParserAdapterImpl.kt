@@ -13,15 +13,16 @@ import javax.inject.Inject
 
 /**
  * A crude pull parser implementation for de-serialising XML documents. Currently only set up to
- * produce instances of [com.guardian.core.feed.Feed]
+ * produce instances of [com.guardian.core.feed.api.RootFeedXmlDataObject] and it's children.
  *
  * Maps for the values stored in each object can be taken from the [XmlDataObject]'s
- * factory, which is the type of the companion object.
+ * factory, which is the type of the companion object. it is assumed the objects are perfectly
+ * formed.
  *
  * The only supported attribute types for [XmlDataObject] mappings are currently:
- *      [String]
- *      [XmlDataObject]
- *      [List<XmlDataObject>]
+ * [String]
+ * [XmlDataObject]
+ * [List]<[XmlDataObject]>
  */
 
 class XmlPullParserAdapterImpl
@@ -42,46 +43,80 @@ class XmlPullParserAdapterImpl
     }
 
     /**
-     * recursively fill the XmlDataObjects using the pull parser, using the arg to instantiate a
+     * Recursively fill the XmlDataObjects using the pull parser, using the arg to instantiate a
      * new data object.
      */
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
     private fun deSerializeBody(xmlPullParser: XmlPullParser, xmlDataObject: XmlDataObject): XmlDataObject {
         var eventType = xmlPullParser.getEventType()
         val currentDepth = xmlPullParser.depth
-        val attributeMap = xmlDataObject.factory.getXmlParserAttributeMap()
-        var currentAttribute: ValueContainer<String>? = null
+        val elementMap = xmlDataObject.factory.getXmlParserElementMap()
+        var currentElement: ValueContainer<String>? = null
 
-        while (eventType != END_DOCUMENT && xmlPullParser.depth >= currentDepth) {
-            if (eventType == START_TAG) {
-                val attributeCheck = attributeMap[xmlPullParser.getName()]
-
-                if (attributeCheck == null) {
-                    skip(xmlPullParser)
-                } else if (attributeCheck.value is String) {
-                    @Suppress("UNCHECKED_CAST")
-                    currentAttribute = attributeCheck as ValueContainer<String>
-                } else {
-                    // recurse here to instantiate a new data object as a child
-//                    if (attributeCheck.value is List<*>) {
-//                        xmlPullParser.next()
-//                        attributeCheck.value = attributeCheck.value + listOf(deSerializeBody(xmlPullParser, attributeCheck.value.first() as XmlDataObject))
-//                    } else if (attributeCheck.value is XmlDataObject) {
-//                        val recursableAttribute
-//
-//                        xmlPullParser.next()
-//                        attributeCheck.value = deSerializeBody(xmlPullParser, attributeCheck.value)
-//                    }
-                }
-            } else if (eventType == END_TAG) {
-                currentAttribute = null
-            } else if (eventType == TEXT) {
-                currentAttribute?.value = xmlPullParser.text
-            }
-            eventType = xmlPullParser.next()
+        val xmlAttributeValueMap = mutableMapOf<String, String>()
+        for (attributeIndex in 0..xmlPullParser.attributeCount) {
+            xmlAttributeValueMap[xmlPullParser.getAttributeName(attributeIndex)] =
+                xmlPullParser.getAttributeValue(attributeIndex)
         }
 
-        return xmlDataObject.factory.instantiateFromXmlParserAttributeMap(attributeMap)
+        //handle self closing tags
+        if (!xmlPullParser.isEmptyElementTag) {
+            xmlPullParser.next()
+
+            while (eventType != END_DOCUMENT && xmlPullParser.depth >= currentDepth) {
+                if (eventType == START_TAG) {
+                    val currentName = xmlPullParser.getName()
+                    val attributeCheck = elementMap[currentName]
+
+                    if (attributeCheck == null) {
+                        skip(xmlPullParser)
+                    } else if (attributeCheck.value is String && !xmlPullParser.isEmptyElementTag) {
+                        @Suppress("UNCHECKED_CAST")
+                        currentElement = attributeCheck as ValueContainer<String>
+                    } else {
+                        // recurse here to instantiate a new data object as a child
+                        val checkElementValue = attributeCheck.value
+                        if (checkElementValue is List<*>) {
+                            val mutableNewList = mutableListOf<XmlDataObject>()
+                            checkElementValue.forEach {
+                                if (it is XmlDataObject) {
+                                    mutableNewList.add(it)
+                                }
+                            }
+
+                            mutableNewList.add(
+                                deSerializeBody(
+                                    xmlPullParser,
+                                    mutableNewList.first()
+                                )
+                            )
+
+                            (elementMap[currentName] as ValueContainer<List<XmlDataObject>>)
+                                .value = mutableNewList.toList()
+                        } else if (checkElementValue is XmlDataObject) {
+                            (elementMap[currentName] as ValueContainer<XmlDataObject>)
+                                .value = deSerializeBody(xmlPullParser, checkElementValue)
+                        }
+                    }
+                } else if (eventType == END_TAG) {
+                    currentElement = null
+                } else if (eventType == TEXT) {
+                    currentElement?.value = xmlPullParser.text
+                }
+                eventType = xmlPullParser.next()
+            }
+        } else {
+            xmlPullParser.next()
+        }
+
+        return xmlDataObject.factory.instantiateFromXmlParserElementMap(elementMap).apply {
+            this.attributes.keys.forEach{
+                val xmlAttributeValue = xmlAttributeValueMap[it]
+                if (xmlAttributeValue != null) {
+                    this.attributes[it]?.value = xmlAttributeValue
+                }
+            }
+        }
     }
 
     /**

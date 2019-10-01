@@ -12,8 +12,10 @@ data class FeedXmlDataObject (
     val itunesImage: String = "",
     val feedItems: List<FeedItemXmlDataObject> = listOf(FeedItemXmlDataObject())
 ) : XmlDataObject {
+    override val attributes: Map<String, ValueContainer<String>> = mapOf()
+
     companion object: XmlDataObjectFactory {
-        override fun getXmlParserAttributeMap(): Map<String, ValueContainer<*>> {
+        override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mutableMapOf(
                 "title" to ValueContainer(""),
                 "link" to ValueContainer(""),
@@ -24,14 +26,14 @@ data class FeedXmlDataObject (
             )
         }
 
-        override fun instantiateFromXmlParserAttributeMap(xmlParserAttributeMap: Map<String, ValueContainer<*>>): XmlDataObject {
+        override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
             return FeedXmlDataObject(
-                xmlParserAttributeMap["title"]?.value as String,
-                xmlParserAttributeMap["link"]?.value as String,
-                xmlParserAttributeMap["description"]?.value as String,
-                xmlParserAttributeMap["image"]?.value as FeedImageXmlDataObject,
-                xmlParserAttributeMap["itunes:image"]?.value as String,
-                xmlParserAttributeMap["item"]?.value as List<FeedItemXmlDataObject>
+                xmlParserElementMap["title"]?.value as String,
+                xmlParserElementMap["link"]?.value as String,
+                xmlParserElementMap["description"]?.value as String,
+                xmlParserElementMap["image"]?.value as FeedImageXmlDataObject,
+                xmlParserElementMap["itunes:image"]?.value as String,
+                xmlParserElementMap["item"]?.value as List<FeedItemXmlDataObject>
             )
         }
     }

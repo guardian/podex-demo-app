@@ -4,23 +4,23 @@ import com.guardian.core.lib.ValueContainer
 import com.guardian.core.lib.XmlDataObject
 import com.guardian.core.lib.XmlDataObjectFactory
 
-data class FeedItemXmlDataObject (
-    val title: String = ""
+data class RootFeedXmlDataObject (
+    val feeds: List<FeedXmlDataObject> = listOf(FeedXmlDataObject())
 ) : XmlDataObject {
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
-    companion object: XmlDataObjectFactory {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
-            return mutableMapOf(
-                "title" to ValueContainer("")
+            return  mapOf(
+                "channel" to ValueContainer(listOf(FeedXmlDataObject()))
             )
         }
 
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            return FeedItemXmlDataObject(
-                xmlParserElementMap["title"]?.value as String
+            return RootFeedXmlDataObject(
+                xmlParserElementMap["channel"]?.value as List<FeedXmlDataObject>
             )
         }
-    }
 
+    }
 }

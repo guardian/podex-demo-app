@@ -9,22 +9,24 @@ data class FeedImageXmlDataObject (
     val url: String = "",
     val link: String = ""
 ): XmlDataObject {
+    override val attributes: Map<String, ValueContainer<String>> = mapOf()
+
     companion object: XmlDataObjectFactory
     {
-        override fun getXmlParserAttributeMap(): Map<String, ValueContainer<*>> {
-            return mutableMapOf(
+        override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
+            return mapOf(
                 "title" to ValueContainer(""),
                 "url" to ValueContainer(""),
                 "link" to ValueContainer("")
             )
         }
 
-        override fun instantiateFromXmlParserAttributeMap(
-            xmlParserAttributeMap: Map<String, ValueContainer<*>>): XmlDataObject {
+        override fun instantiateFromXmlParserElementMap(
+            xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
             return FeedImageXmlDataObject(
-                xmlParserAttributeMap["title"]?.value as String,
-                xmlParserAttributeMap["url"]?.value as String,
-                xmlParserAttributeMap["link"]?.value as String
+                xmlParserElementMap["title"]?.value as String,
+                xmlParserElementMap["url"]?.value as String,
+                xmlParserElementMap["link"]?.value as String
             )
         }
     }
