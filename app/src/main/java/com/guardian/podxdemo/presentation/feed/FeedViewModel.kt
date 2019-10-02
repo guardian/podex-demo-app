@@ -15,7 +15,9 @@ import javax.inject.Inject
 class FeedViewModel
 @Inject constructor(val feedRepository: FeedRepository)
     : ViewModel() {
-    val feedData: MutableLiveData<Feed> = MutableLiveData()
+    val feedData: MutableLiveData<Feed> = MutableLiveData(
+        Feed("","","","", listOf())
+    )
 
     fun setPlaceholderData(searchResult: SearchResult) {
         feedData.postValue(

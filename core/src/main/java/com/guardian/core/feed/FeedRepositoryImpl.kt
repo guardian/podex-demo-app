@@ -61,10 +61,10 @@ class FeedRepositoryImpl
                     ?: it.image.url
 
                 FeedItem(
-                    it.title,
-                    it.description,
-                    feedItemImage,
-                    dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis())
+                    title = it.title,
+                    description = it.description,
+                    imageUrlString = feedItemImage,
+                    pubDate = dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis())
                 )
             }
         )
