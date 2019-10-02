@@ -26,8 +26,8 @@ import javax.inject.Inject
  */
 
 class SearchFragment
-    @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
-    : Fragment() {
+    @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
+    Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels {
         viewModelProviderFactory
@@ -103,4 +103,3 @@ class SearchFragment
         }
     }
 }
-

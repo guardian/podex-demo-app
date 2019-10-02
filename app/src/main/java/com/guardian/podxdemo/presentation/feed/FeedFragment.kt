@@ -9,21 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import com.guardian.core.feed.FeedItem
-import com.guardian.core.search.SearchResult
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
-import com.guardian.podxdemo.presentation.search.SearchListAdapter
 import com.guardian.podxdemo.utils.lifecycleAwareLazy
-import timber.log.Timber
 import javax.inject.Inject
 
 class FeedFragment
-@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
-    : Fragment() {
+@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
+    Fragment() {
 
     val feedViewModel: FeedViewModel by viewModels {
         viewModelProviderFactory
@@ -32,7 +28,6 @@ class FeedFragment
     var binding: LayoutFeedfragmentBinding by lifecycleAwareLazy()
 
     val args: FeedFragmentArgs by navArgs()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +52,7 @@ class FeedFragment
 
         feedViewModel.feedData.observe(
             viewLifecycleOwner,
-            Observer {feed ->
+            Observer { feed ->
                 binding.feed = feed
             }
         )
@@ -81,12 +76,10 @@ class FeedFragment
         ).apply {
             feedViewModel.feedData.observe(
                 viewLifecycleOwner,
-                Observer {feed ->
+                Observer { feed ->
                     submitList(feed.feedItems)
                 }
             )
         }
     }
-
-
 }

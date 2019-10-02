@@ -21,12 +21,12 @@ import javax.inject.Inject
  */
 
 class FeedRepositoryImpl
-@Inject constructor(val generalFeedApi: GeneralFeedApi)
-    : FeedRepository {
+@Inject constructor(val generalFeedApi: GeneralFeedApi) :
+    FeedRepository {
     override suspend fun getFeed(feedUrl: String): Feed {
         var feed: Feed? = null
 
-        //todo get feed from repo
+        // todo get feed from repo
 
         try {
             val feedApiObject = generalFeedApi.getFeedDeSerializedXml(feedUrl)
@@ -43,13 +43,11 @@ class FeedRepositoryImpl
         return feed ?: Feed("", "", "", "", listOf())
     }
 
-    private fun mapFeedObjectFromXmlFeedObject(feedXmlDataObject: FeedXmlDataObject) : Feed {
-        val feedImage : String = feedXmlDataObject.itunesImage.attributes["href"]?.value
+    private fun mapFeedObjectFromXmlFeedObject(feedXmlDataObject: FeedXmlDataObject): Feed {
+        val feedImage: String = feedXmlDataObject.itunesImage.attributes["href"]?.value
             ?: feedXmlDataObject.image.url
 
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
-
-
 
         return Feed(
             title = feedXmlDataObject.title,
@@ -68,7 +66,5 @@ class FeedRepositoryImpl
                 )
             }
         )
-
     }
-
 }

@@ -1,6 +1,6 @@
 package com.guardian.core.feed
 
-data class Feed (
+data class Feed(
     val feedUrlString: String,
     val title: String,
     val feedImageUrlString: String,

@@ -13,7 +13,7 @@ class XmlPullParserTest {
     fun testPullParserOnSample() {
         val inputStream = this.javaClass.classLoader!!.getResourceAsStream("sampleFeedPodex.xml")
 
-        Timber.plant(object: Timber.Tree() {
+        Timber.plant(object : Timber.Tree() {
             override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
                 println("$tag: $message")
                 t?.printStackTrace()

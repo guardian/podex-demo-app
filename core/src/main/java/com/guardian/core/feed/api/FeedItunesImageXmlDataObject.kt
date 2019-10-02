@@ -9,14 +9,14 @@ import com.guardian.core.dagger.xml.XmlDataObjectFactory
  */
 class FeedItunesImageXmlDataObject : XmlDataObject {
     override fun isEmpty(): Boolean = attributes.values
-        .map { it.value.isEmpty()}
+        .map { it.value.isEmpty() }
         .reduce { acc, b -> acc && b }
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf(
         "href" to ValueContainer("")
     )
 
-    companion object: XmlDataObjectFactory {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mapOf()
         }
@@ -24,6 +24,5 @@ class FeedItunesImageXmlDataObject : XmlDataObject {
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
             return FeedItunesImageXmlDataObject()
         }
-
     }
 }

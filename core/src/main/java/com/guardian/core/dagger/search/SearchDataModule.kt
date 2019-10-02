@@ -10,15 +10,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 class SearchDataModule {
     @Provides
-    fun provideSearchRemoteDataSource (
+    fun provideSearchRemoteDataSource(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ) : ItunesSearchApi = Retrofit.Builder()
+    ): ItunesSearchApi = Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(ItunesSearchApi.ENDPOINT)
             .addConverterFactory(gsonConverterFactory)
             .build()
             .create(ItunesSearchApi::class.java)
 
-    //todo some sort of LRU disk cache for recent search results
+    // todo some sort of LRU disk cache for recent search results
 }

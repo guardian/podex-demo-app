@@ -7,16 +7,14 @@ import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.search.SearchResult
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newCoroutineContext
 import javax.inject.Inject
 
 class FeedViewModel
-@Inject constructor(val feedRepository: FeedRepository)
-    : ViewModel() {
+@Inject constructor(val feedRepository: FeedRepository) :
+    ViewModel() {
     val feedData: MutableLiveData<Feed> = MutableLiveData(
-        Feed("","","","", listOf())
+        Feed("", "", "", "", listOf())
     )
 
     fun setPlaceholderData(searchResult: SearchResult) {

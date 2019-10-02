@@ -25,8 +25,7 @@ class LifecycleAwareVar <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fr
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-        return value ?: throw IllegalStateException(
-        )
+        return value ?: throw IllegalStateException()
     }
 
     override fun setValue(thisRef: Fragment, property: KProperty<*>, value: T) {

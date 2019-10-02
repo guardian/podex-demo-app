@@ -3,13 +3,10 @@ package com.guardian.podxdemo.dagger
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.guardian.podxdemo.dagger.keys.ViewModelKey
-import com.guardian.podxdemo.presentation.feed.FeedFragment
 import com.guardian.podxdemo.presentation.feed.FeedViewModel
 import com.guardian.podxdemo.presentation.search.SearchViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module

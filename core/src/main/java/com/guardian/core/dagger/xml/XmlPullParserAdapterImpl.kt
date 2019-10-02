@@ -8,8 +8,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InvalidClassException
 import java.nio.charset.StandardCharsets
-import javax.inject.Inject
-
 
 /**
  * A crude pull parser implementation for de-serialising XML documents. Currently only set up to
@@ -25,8 +23,8 @@ import javax.inject.Inject
  * [List]<[XmlDataObject]>
  */
 
-class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullParserFactory)
-    : XmlPullParserAdapter {
+class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullParserFactory) :
+    XmlPullParserAdapter {
 
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
     override suspend fun deSerialiseXml(xmlInput: InputStream, rootDataObjectInitializer: () -> XmlDataObject): XmlDataObject {
@@ -54,7 +52,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
                 xmlPullParser.getAttributeValue(attributeIndex))
         }
 
-        //handle self closing tags
+        // handle self closing tags
         if (xmlPullParser.eventType != START_TAG || !xmlPullParser.isEmptyElementTag) {
             xmlPullParser.next()
             var eventType = xmlPullParser.eventType
@@ -81,12 +79,11 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
                                 }
                             }
 
-
                             mutableNewList.add(
                                 deSerializeBody(xmlPullParser, mutableNewList.first())
                             )
 
-                            //check if we just have the initialised blank list as the only current element of the old list
+                            // check if we just have the initialised blank list as the only current element of the old list
                             mutableNewList.removeAll { it.isEmpty() }
 
                             if (mutableNewList.isNotEmpty()) {
@@ -110,7 +107,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
         }
 
         return xmlDataObject.factory.instantiateFromXmlParserElementMap(elementMap).apply {
-            this.attributes.keys.forEach{
+            this.attributes.keys.forEach {
                 val xmlAttributeValue = xmlAttributeValueMap[it]
                 if (xmlAttributeValue != null) {
                     this.attributes[it]?.value = xmlAttributeValue
@@ -136,4 +133,3 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
         }
     }
 }
-

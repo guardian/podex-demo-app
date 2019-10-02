@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
  * @param V : [ViewDataBinding] for the viewholder
  */
 
-//todo ensure the asyc differ is actually running asyc
+// todo ensure the asyc differ is actually running asyc
 abstract class DataBoundListAdapter<T, V : ViewDataBinding> (
     callback: DiffUtil.ItemCallback<T>
 ) : ListAdapter<T, DataBoundListAdapter.DataBoundViewHolder<V>>(
@@ -31,7 +31,7 @@ abstract class DataBoundListAdapter<T, V : ViewDataBinding> (
     abstract fun createBinding(parent: ViewGroup): V
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<V>, position: Int) {
-        bind(holder.binding , getItem(position))
+        bind(holder.binding, getItem(position))
     }
 
     abstract fun bind(holder: V, item: T)

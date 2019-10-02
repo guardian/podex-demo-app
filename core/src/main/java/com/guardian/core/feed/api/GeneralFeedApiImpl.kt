@@ -7,9 +7,11 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GeneralFeedApiImpl
-@Inject constructor(val xmlPullParserAdapter: XmlPullParserAdapter,
-                    val okHttpClient: OkHttpClient)
-    : GeneralFeedApi {
+@Inject constructor(
+    val xmlPullParserAdapter: XmlPullParserAdapter,
+    val okHttpClient: OkHttpClient
+) :
+    GeneralFeedApi {
 
     @Throws(IOException::class)
     override suspend fun getFeedDeSerializedXml(feedUrlString: String): FeedXmlDataObject {
@@ -27,8 +29,8 @@ class GeneralFeedApiImpl
                 if (body != null) {
                     val xmlDataObject = xmlPullParserAdapter
                         .deSerialiseXml(body.byteStream()) { RootXmlDataObject() }
-                    if(xmlDataObject is RootXmlDataObject) {
-                        //todo merge feed lists
+                    if (xmlDataObject is RootXmlDataObject) {
+                        // todo merge feed lists
 
                         return xmlDataObject.rssRoot.feeds.first()
                     }
@@ -38,5 +40,4 @@ class GeneralFeedApiImpl
             throw IOException("Http request Failed: ${it.code}")
         }
     }
-
 }

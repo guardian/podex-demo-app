@@ -7,7 +7,6 @@ import com.guardian.podxdemo.presentation.feed.FeedFragment
 import com.guardian.podxdemo.presentation.search.SearchFragment
 import dagger.Binds
 import dagger.Module
-import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module
@@ -23,6 +22,6 @@ abstract class PodcastFragmentsModule {
     abstract fun bindsFeedFragment(feedFragment: FeedFragment): Fragment
 
     @Binds
-    abstract fun bindsFragmentInjectionFactory(fragmentInjectionFactory: FragmentInjectionFactory)
-            : FragmentFactory
+    abstract fun bindsFragmentInjectionFactory(fragmentInjectionFactory: FragmentInjectionFactory):
+            FragmentFactory
 }

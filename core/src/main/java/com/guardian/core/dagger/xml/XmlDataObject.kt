@@ -39,5 +39,6 @@ interface XmlDataObjectFactory {
      * @param xmlParserElementMap should come from an instance of the same type otherwise it will
      */
     fun instantiateFromXmlParserElementMap(
-        xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject
+        xmlParserElementMap: Map<String, ValueContainer<*>>
+    ): XmlDataObject
 }

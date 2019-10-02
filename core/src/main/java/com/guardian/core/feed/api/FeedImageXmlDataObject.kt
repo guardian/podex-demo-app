@@ -4,21 +4,19 @@ import com.guardian.core.dagger.xml.ValueContainer
 import com.guardian.core.dagger.xml.XmlDataObject
 import com.guardian.core.dagger.xml.XmlDataObjectFactory
 
-data class FeedImageXmlDataObject (
+data class FeedImageXmlDataObject(
     val title: String = "",
     val url: String = "",
     val link: String = ""
-): XmlDataObject {
+) : XmlDataObject {
     override fun isEmpty(): Boolean =
-        title.isEmpty()
-                && url.isEmpty()
-                && link.isEmpty()
-
+        title.isEmpty() &&
+                url.isEmpty() &&
+                link.isEmpty()
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
-    companion object: XmlDataObjectFactory
-    {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mapOf(
                 "title" to ValueContainer(""),
@@ -28,7 +26,8 @@ data class FeedImageXmlDataObject (
         }
 
         override fun instantiateFromXmlParserElementMap(
-            xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
+            xmlParserElementMap: Map<String, ValueContainer<*>>
+        ): XmlDataObject {
             return FeedImageXmlDataObject(
                 xmlParserElementMap["title"]?.value as String,
                 xmlParserElementMap["url"]?.value as String,

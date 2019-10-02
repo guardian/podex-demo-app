@@ -4,7 +4,7 @@ import com.guardian.core.dagger.xml.ValueContainer
 import com.guardian.core.dagger.xml.XmlDataObject
 import com.guardian.core.dagger.xml.XmlDataObjectFactory
 
-data class FeedItemXmlDataObject (
+data class FeedItemXmlDataObject(
     val title: String = "",
     val description: String = "",
     val itunesImage: FeedItunesImageXmlDataObject = FeedItunesImageXmlDataObject(),
@@ -15,7 +15,7 @@ data class FeedItemXmlDataObject (
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
-    companion object: XmlDataObjectFactory {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mutableMapOf(
                 "title" to ValueContainer(""),
@@ -38,5 +38,4 @@ data class FeedItemXmlDataObject (
             )
         }
     }
-
 }

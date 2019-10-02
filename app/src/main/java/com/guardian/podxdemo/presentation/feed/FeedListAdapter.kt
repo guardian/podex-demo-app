@@ -9,7 +9,7 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.ViewholderFeedadapterFeeditemBinding
 import com.guardian.podxdemo.presentation.common.DataBoundListAdapter
 
-class FeedListAdapter (callback: DiffUtil.ItemCallback<FeedItem>) :
+class FeedListAdapter(callback: DiffUtil.ItemCallback<FeedItem>) :
     DataBoundListAdapter<FeedItem, ViewholderFeedadapterFeeditemBinding>(callback) {
     override fun createBinding(parent: ViewGroup): ViewholderFeedadapterFeeditemBinding {
         return DataBindingUtil.inflate(
@@ -22,6 +22,6 @@ class FeedListAdapter (callback: DiffUtil.ItemCallback<FeedItem>) :
 
     override fun bind(holder: ViewholderFeedadapterFeeditemBinding, item: FeedItem) {
         holder.feedItem = item
-        //holder.root.setOnClickListener { handleSelection(item) }
+        // holder.root.setOnClickListener { handleSelection(item) }
     }
 }
