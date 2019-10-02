@@ -12,6 +12,14 @@ data class FeedXmlDataObject (
     val itunesImage: FeedItunesImageXmlDataObject = FeedItunesImageXmlDataObject(),
     val feedItems: List<FeedItemXmlDataObject> = listOf(FeedItemXmlDataObject())
 ) : XmlDataObject {
+    override fun isEmpty(): Boolean = title.isEmpty()
+            && link.isEmpty()
+            && description.isEmpty()
+            && image.isEmpty()
+            && itunesImage.isEmpty()
+            && feedItems.isEmpty() || feedItems.map { it.isEmpty() }.reduce{acc, b ->  acc && b}
+
+
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
     companion object: XmlDataObjectFactory {

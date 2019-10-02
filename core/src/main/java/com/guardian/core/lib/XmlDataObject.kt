@@ -8,6 +8,7 @@ import kotlin.reflect.full.companionObjectInstance
  */
 interface XmlDataObject {
     val attributes: Map<String, ValueContainer<String>>
+    fun isEmpty(): Boolean
 }
 
 /**

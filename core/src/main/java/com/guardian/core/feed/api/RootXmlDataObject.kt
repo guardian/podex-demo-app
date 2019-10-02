@@ -7,6 +7,8 @@ import com.guardian.core.lib.XmlDataObjectFactory
 data class RootXmlDataObject (
     val rssRoot: RssRootXmlDataObject = RssRootXmlDataObject()
 ): XmlDataObject {
+    override fun isEmpty(): Boolean = rssRoot.isEmpty()
+
     override val attributes: Map<String, ValueContainer<String>>
         get() = mapOf()
 

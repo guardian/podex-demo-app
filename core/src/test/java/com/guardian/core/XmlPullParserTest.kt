@@ -18,14 +18,14 @@ class XmlPullParserTest {
                 println("$tag: $message")
                 t?.printStackTrace()
             }
-
         })
 
         runBlocking {
             val testStream = XmlPullParserAdapterImpl(xmlPullParserFactory = XmlPullParserFactory.newInstance())
-                .deSerialiseXml(inputStream) { RootXmlDataObject() }
+                .deSerialiseXml(inputStream) { RootXmlDataObject() } as RootXmlDataObject
 
-            System.out.println(testStream)
+            println(testStream)
+            println(testStream.rssRoot.feeds.map { channel -> channel.itunesImage.attributes.map { it.value.value } })
         }
     }
 }

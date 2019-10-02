@@ -36,7 +36,6 @@ class XmlPullParserAdapterImpl
 
         xmlPullParser.setInput(xmlInput.reader(StandardCharsets.UTF_8))
         while (xmlPullParser.eventType != START_DOCUMENT) {
-            print(xmlPullParser.text)
             xmlPullParser.next()
         }
 
@@ -54,8 +53,6 @@ class XmlPullParserAdapterImpl
         for (attributeIndex in 0 until xmlPullParser.attributeCount) {
             xmlAttributeValueMap.put(xmlPullParser.getAttributeName(attributeIndex),
                 xmlPullParser.getAttributeValue(attributeIndex))
-
-            Timber.i("getting attribute xmlPullParser.getAttributeName(attributeIndex)")
         }
 
         //handle self closing tags
@@ -69,8 +66,6 @@ class XmlPullParserAdapterImpl
                 if (eventType == START_TAG) {
                     val currentName = xmlPullParser.name
                     val attributeCheck = elementMap[currentName]
-
-                    Timber.i("checking $currentName")
 
                     if (attributeCheck == null) {
                         skip(xmlPullParser)
@@ -87,15 +82,18 @@ class XmlPullParserAdapterImpl
                                 }
                             }
 
+
                             mutableNewList.add(
-                                deSerializeBody(
-                                    xmlPullParser,
-                                    mutableNewList.first()
-                                )
+                                deSerializeBody(xmlPullParser, mutableNewList.first())
                             )
 
-                            (elementMap[currentName] as ValueContainer<List<XmlDataObject>>)
-                                .value = mutableNewList.toList()
+                            //check if we just have the initialised blank list as the only current element of the old list
+                            mutableNewList.removeAll { it.isEmpty() }
+
+                            if (mutableNewList.isNotEmpty()) {
+                                (elementMap[currentName] as ValueContainer<List<XmlDataObject>>)
+                                    .value = mutableNewList.toList()
+                            }
                         } else if (checkElementValue is XmlDataObject) {
                             (elementMap[currentName] as ValueContainer<XmlDataObject>)
                                 .value = deSerializeBody(xmlPullParser, checkElementValue)

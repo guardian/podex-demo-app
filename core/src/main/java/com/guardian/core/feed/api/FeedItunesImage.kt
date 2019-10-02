@@ -8,6 +8,10 @@ import com.guardian.core.lib.XmlDataObjectFactory
  * empty data object used to get attributes
  */
 class FeedItunesImageXmlDataObject () : XmlDataObject {
+    override fun isEmpty(): Boolean = attributes.values
+        .map { it.value.isEmpty()}
+        .reduce { acc, b -> acc && b }
+
     override val attributes: Map<String, ValueContainer<String>> = mapOf(
         "href" to ValueContainer("")
     )

@@ -7,6 +7,8 @@ import com.guardian.core.lib.XmlDataObjectFactory
 data class FeedItemXmlDataObject (
     val title: String = ""
 ) : XmlDataObject {
+    override fun isEmpty(): Boolean = title.isEmpty()
+
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
     companion object: XmlDataObjectFactory {
