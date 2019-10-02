@@ -1,10 +1,9 @@
-package com.guardian.core.lib
+package com.guardian.core.dagger.xml
 
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.*
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
 import java.io.InvalidClassException
@@ -26,8 +25,7 @@ import javax.inject.Inject
  * [List]<[XmlDataObject]>
  */
 
-class XmlPullParserAdapterImpl
-@Inject constructor(val xmlPullParserFactory: XmlPullParserFactory)
+class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullParserFactory)
     : XmlPullParserAdapter {
 
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
@@ -46,6 +44,7 @@ class XmlPullParserAdapterImpl
      * Recursively fill the XmlDataObjects using the pull parser, using the arg to instantiate a
      * new data object.
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
     private fun deSerializeBody(xmlPullParser: XmlPullParser, xmlDataObject: XmlDataObject): XmlDataObject {
         val elementMap = xmlDataObject.factory.getXmlParserElementMap()

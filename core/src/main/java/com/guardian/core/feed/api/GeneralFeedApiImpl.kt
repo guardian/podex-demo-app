@@ -1,12 +1,8 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.lib.XmlPullParserAdapter
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
+import com.guardian.core.dagger.xml.XmlPullParserAdapter
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
-import okio.BufferedSink
 import java.io.IOException
 import javax.inject.Inject
 
@@ -25,7 +21,7 @@ class GeneralFeedApiImpl
             .addHeader("Accept", "application/xml;q=0.9")
             .build()
 
-        okHttpClient.newCall(xmlRequest).execute().use {
+            okHttpClient.newCall(xmlRequest).execute().use {
             if (it.isSuccessful) {
                 val body = it.body
                 if (body != null) {

@@ -1,6 +1,7 @@
 package com.guardian.core.dagger
 
 import com.guardian.core.dagger.search.SearchDataModule
+import com.guardian.core.feed.FeedRepository
 import com.guardian.core.search.SearchRepository
 import dagger.Component
 
@@ -18,4 +19,5 @@ interface CoreComponent {
     }
 
     fun provideSearchRepository(): SearchRepository
+    fun provideFeedRepository(): FeedRepository
 }

@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import com.guardian.core.feed.FeedItem
 import com.guardian.core.search.SearchResult
@@ -29,6 +31,8 @@ class FeedFragment
 
     var binding: LayoutFeedfragmentBinding by lifecycleAwareLazy()
 
+    val args: FeedFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,38 +52,39 @@ class FeedFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args = arguments
-        if (args != null) {
+        feedViewModel.setPlaceholderData(args.searchResult)
+        feedViewModel.getFeed(args.searchResult.feedUrlString)
 
-
-            binding.searchResult = args.getParcelable("searchResult") as SearchResult?
-
-            binding.recyclerviewFeedResults.adapter = FeedListAdapter(
-                callback = object : DiffUtil.ItemCallback<FeedItem>() {
-                    override fun areItemsTheSame(
-                        oldItem: FeedItem,
-                        newItem: FeedItem
-                    ): Boolean {
-                        return oldItem == newItem
-                    }
-
-                    override fun areContentsTheSame(
-                        oldItem: FeedItem,
-                        newItem: FeedItem
-                    ): Boolean {
-                        return oldItem.episode == newItem.episode
-                    }
-                }
-            ).apply {
-                //todo remove test data
-                submitList(
-                    mutableListOf<FeedItem>().apply {
-                        for (episode in 1..100) {
-                            this.add(FeedItem("Rohans test","cool","", episode))
-                        }
-                    }
-                )
+        feedViewModel.feedData.observe(
+            viewLifecycleOwner,
+            Observer {feed ->
+                binding.feed = feed
             }
+        )
+
+        binding.recyclerviewFeedResults.adapter = FeedListAdapter(
+            callback = object : DiffUtil.ItemCallback<FeedItem>() {
+                override fun areItemsTheSame(
+                    oldItem: FeedItem,
+                    newItem: FeedItem
+                ): Boolean {
+                    return oldItem == newItem
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: FeedItem,
+                    newItem: FeedItem
+                ): Boolean {
+                    return oldItem.title == newItem.title
+                }
+            }
+        ).apply {
+            feedViewModel.feedData.observe(
+                viewLifecycleOwner,
+                Observer {feed ->
+                    submitList(feed.feedItems)
+                }
+            )
         }
     }
 

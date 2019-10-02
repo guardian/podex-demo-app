@@ -90,12 +90,10 @@ class SearchFragment
                     return oldItem.feedUrlString == newItem.feedUrlString
                 }
             }
-        ) { searchResult ->  
+        ) { searchResult ->
+            val action = SearchFragmentDirections.actionSearchFragmentToFeedFragment(searchResult)
             findNavController()
-                .navigate(R.id.action_search_fragment_to_feedFragment,
-                    Bundle().apply {
-                        this.putParcelable("searchResult", searchResult)
-                    })
+                .navigate(action)
         }.apply {
             searchViewModel.searchResults
                 .observe(viewLifecycleOwner, Observer { results ->

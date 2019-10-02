@@ -1,8 +1,8 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.lib.XmlDataObject
-import com.guardian.core.lib.ValueContainer
-import com.guardian.core.lib.XmlDataObjectFactory
+import com.guardian.core.dagger.xml.XmlDataObject
+import com.guardian.core.dagger.xml.ValueContainer
+import com.guardian.core.dagger.xml.XmlDataObjectFactory
 
 data class FeedXmlDataObject (
     val title: String = "",
@@ -29,11 +29,14 @@ data class FeedXmlDataObject (
                 "link" to ValueContainer(""),
                 "description" to ValueContainer(""),
                 "image" to ValueContainer(FeedImageXmlDataObject()),
-                "itunes:image" to ValueContainer(FeedItunesImageXmlDataObject()),
+                "itunes:image" to ValueContainer(
+                    FeedItunesImageXmlDataObject()
+                ),
                 "item" to ValueContainer(listOf(FeedItemXmlDataObject()))
             )
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
             return FeedXmlDataObject(
                 xmlParserElementMap["title"]?.value as String,

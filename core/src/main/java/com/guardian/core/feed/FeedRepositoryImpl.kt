@@ -2,12 +2,11 @@ package com.guardian.core.feed
 
 import com.guardian.core.feed.api.FeedXmlDataObject
 import com.guardian.core.feed.api.GeneralFeedApi
-import javax.inject.Inject
 import com.guardian.core.search.SearchResult
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.inject.Inject
 
 /**
  * A repository with co-routines for accessing podcast feed data from the web or from a local

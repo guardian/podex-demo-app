@@ -1,4 +1,4 @@
-package com.guardian.core.lib
+package com.guardian.core.dagger.xml
 
 import java.io.InvalidClassException
 import kotlin.reflect.full.companionObjectInstance

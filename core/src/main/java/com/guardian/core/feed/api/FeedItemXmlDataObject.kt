@@ -1,8 +1,8 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.lib.ValueContainer
-import com.guardian.core.lib.XmlDataObject
-import com.guardian.core.lib.XmlDataObjectFactory
+import com.guardian.core.dagger.xml.ValueContainer
+import com.guardian.core.dagger.xml.XmlDataObject
+import com.guardian.core.dagger.xml.XmlDataObjectFactory
 
 data class FeedItemXmlDataObject (
     val title: String = "",
@@ -20,7 +20,9 @@ data class FeedItemXmlDataObject (
             return mutableMapOf(
                 "title" to ValueContainer(""),
                 "description" to ValueContainer(""),
-                "itunes:image" to ValueContainer(FeedItunesImageXmlDataObject()),
+                "itunes:image" to ValueContainer(
+                    FeedItunesImageXmlDataObject()
+                ),
                 "image" to ValueContainer(FeedImageXmlDataObject()),
                 "pubDate" to ValueContainer("")
             )

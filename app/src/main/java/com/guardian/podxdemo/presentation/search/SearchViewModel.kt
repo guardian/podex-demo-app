@@ -16,7 +16,7 @@ class SearchViewModel
 
     var searchString = "news"
 
-    fun doSearch () = viewModelScope.launch{
+    fun doSearch () = viewModelScope.launch(Dispatchers.IO) {
         searchResults.postValue(searchRepository.doSearch(searchString))
     }
 }

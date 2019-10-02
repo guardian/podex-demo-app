@@ -1,7 +1,7 @@
 package com.guardian.core
 
 import com.guardian.core.feed.api.RootXmlDataObject
-import com.guardian.core.lib.XmlPullParserAdapterImpl
+import com.guardian.core.dagger.xml.XmlPullParserAdapterImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.xmlpull.v1.XmlPullParserFactory
@@ -21,7 +21,9 @@ class XmlPullParserTest {
         })
 
         runBlocking {
-            val testStream = XmlPullParserAdapterImpl(xmlPullParserFactory = XmlPullParserFactory.newInstance())
+            val testStream = XmlPullParserAdapterImpl(
+                xmlPullParserFactory = XmlPullParserFactory.newInstance()
+            )
                 .deSerialiseXml(inputStream) { RootXmlDataObject() } as RootXmlDataObject
 
             println(testStream)

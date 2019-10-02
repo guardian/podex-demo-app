@@ -13,5 +13,9 @@
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.guardian.podxdemo.presentation.feed.FeedFragment"
-        android:label="FeedFragment" />
+        android:label="FeedFragment" >
+        <argument
+            android:name="searchResult"
+            app:argType="com.guardian.core.search.SearchResult" />
+    </fragment>
 </navigation>

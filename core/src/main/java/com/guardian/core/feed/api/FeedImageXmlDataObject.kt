@@ -1,8 +1,8 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.lib.ValueContainer
-import com.guardian.core.lib.XmlDataObject
-import com.guardian.core.lib.XmlDataObjectFactory
+import com.guardian.core.dagger.xml.ValueContainer
+import com.guardian.core.dagger.xml.XmlDataObject
+import com.guardian.core.dagger.xml.XmlDataObjectFactory
 
 data class FeedImageXmlDataObject (
     val title: String = "",
