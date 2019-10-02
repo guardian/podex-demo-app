@@ -2,6 +2,7 @@ package com.guardian.core.dagger
 
 import com.google.gson.Gson
 import com.guardian.core.BuildConfig
+import com.guardian.core.lib.XmlPullParserAdapter
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

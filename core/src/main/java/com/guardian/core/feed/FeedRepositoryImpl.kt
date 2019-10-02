@@ -1,7 +1,13 @@
 package com.guardian.core.feed
 
+import com.guardian.core.feed.api.FeedXmlDataObject
+import com.guardian.core.feed.api.GeneralFeedApi
 import javax.inject.Inject
 import com.guardian.core.search.SearchResult
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * A repository with co-routines for accessing podcast feed data from the web or from a local
@@ -16,7 +22,54 @@ import com.guardian.core.search.SearchResult
  */
 
 class FeedRepositoryImpl
-@Inject constructor()
+@Inject constructor(val generalFeedApi: GeneralFeedApi)
     : FeedRepository {
+    override suspend fun getFeed(feedUrl: String): Feed {
+        var feed: Feed? = null
+
+        //todo get feed from repo
+
+        try {
+            val feedApiObject = generalFeedApi.getFeedDeSerializedXml(feedUrl)
+
+            feed = mapFeedObjectFromXmlFeedObject(feedApiObject)
+        } catch (apiError: Throwable) {
+            Timber.e(apiError)
+        }
+
+        if (feed == null) {
+            Timber.e("Could not get feed at $feedUrl")
+        }
+
+        return feed ?: Feed("", "", "", "", listOf())
+    }
+
+    private fun mapFeedObjectFromXmlFeedObject(feedXmlDataObject: FeedXmlDataObject) : Feed {
+        val feedImage : String = feedXmlDataObject.itunesImage.attributes["href"]?.value
+            ?: feedXmlDataObject.image.url
+
+        val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
+
+
+
+        return Feed(
+            title = feedXmlDataObject.title,
+            description = feedXmlDataObject.description,
+            feedUrlString = feedXmlDataObject.link,
+            feedImageUrlString = feedImage,
+            feedItems = feedXmlDataObject.feedItems.map {
+                val feedItemImage: String = it.itunesImage.attributes["href"]?.value
+                    ?: it.image.url
+
+                FeedItem(
+                    it.title,
+                    it.description,
+                    feedItemImage,
+                    dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis())
+                )
+            }
+        )
+
+    }
 
 }
