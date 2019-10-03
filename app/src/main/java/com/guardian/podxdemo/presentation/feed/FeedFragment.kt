@@ -15,10 +15,14 @@ import com.guardian.core.feed.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareLazy
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 class FeedFragment
-@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
+@Inject constructor(
+    viewModelProviderFactory: ViewModelProvider.Factory,
+    val executor: Executor
+) :
     Fragment() {
 
     val feedViewModel: FeedViewModel by viewModels {
@@ -72,7 +76,8 @@ class FeedFragment
                 ): Boolean {
                     return oldItem.title == newItem.title
                 }
-            }
+            },
+            executor = executor
         ).apply {
             feedViewModel.feedData.observe(
                 viewLifecycleOwner,

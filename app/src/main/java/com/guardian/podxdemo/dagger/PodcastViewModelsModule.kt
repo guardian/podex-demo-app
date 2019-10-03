@@ -22,5 +22,6 @@ abstract class PodcastViewModelsModule {
     abstract fun bindsFeedFragment(feedViewModel: FeedViewModel): ViewModel
 
     @Binds
-    abstract fun bindsViewModelFactory(factory: ViewModelInjectionFactory): ViewModelProvider.Factory
+    abstract fun bindsViewModelFactory(factory: ViewModelInjectionFactory):
+        ViewModelProvider.Factory
 }

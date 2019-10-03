@@ -8,12 +8,14 @@ import com.guardian.core.search.SearchResult
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.ViewholderSearchadapterResultBinding
 import com.guardian.podxdemo.presentation.common.DataBoundListAdapter
+import java.util.concurrent.Executor
 
 class SearchListAdapter(
     callback: DiffUtil.ItemCallback<SearchResult>,
+    executor: Executor,
     val handleSelection: (SearchResult) -> Unit
 ) :
-    DataBoundListAdapter<SearchResult, ViewholderSearchadapterResultBinding>(callback) {
+    DataBoundListAdapter<SearchResult, ViewholderSearchadapterResultBinding>(callback, executor) {
     override fun createBinding(parent: ViewGroup): ViewholderSearchadapterResultBinding {
         return DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),

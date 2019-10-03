@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import java.util.concurrent.Executor
 
 /**
  * A generic ListAdapter with the boilerplate involved in setting a recyclerview viewholder's data
@@ -17,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 // todo ensure the asyc differ is actually running asyc
 abstract class DataBoundListAdapter<T, V : ViewDataBinding> (
-    callback: DiffUtil.ItemCallback<T>
+    callback: DiffUtil.ItemCallback<T>,
+    executor: Executor
 ) : ListAdapter<T, DataBoundListAdapter.DataBoundViewHolder<V>>(
     AsyncDifferConfig.Builder<T>(callback)
+        .setBackgroundThreadExecutor(executor)
         .build()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<V> {

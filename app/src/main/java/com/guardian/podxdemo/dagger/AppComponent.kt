@@ -8,7 +8,8 @@ import dagger.android.AndroidInjectionModule
 @Component(modules = [AndroidInjectionModule::class,
     MainActivityModule::class,
     PodcastFragmentsModule::class,
-    PodcastViewModelsModule::class],
+    PodcastViewModelsModule::class,
+    AppExecutorsModule::class],
     dependencies = [CoreComponent::class])
 interface AppComponent {
     @Component.Builder

@@ -19,6 +19,7 @@ import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
 import com.guardian.podxdemo.presentation.common.hideKeyboard
 import com.guardian.podxdemo.utils.lifecycleAwareLazy
 import timber.log.Timber
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 /**
@@ -26,7 +27,10 @@ import javax.inject.Inject
  */
 
 class SearchFragment
-    @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
+    @Inject constructor(
+        viewModelProviderFactory: ViewModelProvider.Factory,
+        val executor: Executor
+    ) :
     Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels {
@@ -89,7 +93,8 @@ class SearchFragment
                 ): Boolean {
                     return oldItem.feedUrlString == newItem.feedUrlString
                 }
-            }
+            },
+            executor = executor
         ) { searchResult ->
             val action = SearchFragmentDirections.actionSearchFragmentToFeedFragment(searchResult)
             findNavController()
