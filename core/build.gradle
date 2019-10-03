@@ -31,9 +31,10 @@ android {
     }
 
     sourceSets {
-        test.resources.srcDirs += 'src/test/res'
+        test{
+            resources.srcDirs += ["src/test/res/raw"]
+        }
     }
-
 }
 
 dependencies {

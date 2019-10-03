@@ -16,6 +16,10 @@ class FeedItunesImageXmlDataObject : XmlDataObject {
         "href" to ValueContainer("")
     )
 
+    override fun toString(): String {
+        return attributes.toString()
+    }
+
     companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mapOf()

@@ -1,7 +1,11 @@
 package com.guardian.core.dagger.xml
 
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParser.*
+import org.xmlpull.v1.XmlPullParser.END_DOCUMENT
+import org.xmlpull.v1.XmlPullParser.END_TAG
+import org.xmlpull.v1.XmlPullParser.START_DOCUMENT
+import org.xmlpull.v1.XmlPullParser.START_TAG
+import org.xmlpull.v1.XmlPullParser.TEXT
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.IOException
@@ -58,8 +62,9 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
             var eventType = xmlPullParser.eventType
             var currentElement: ValueContainer<String>? = null
             val currentDepth = xmlPullParser.depth
-
-            while (eventType != END_DOCUMENT && xmlPullParser.depth >= currentDepth) {
+            while (eventType != END_DOCUMENT &&
+                xmlPullParser.depth >= currentDepth &&
+                !(xmlPullParser.depth == currentDepth && eventType == END_TAG)) {
                 if (eventType == START_TAG) {
                     val currentName = xmlPullParser.name
                     val attributeCheck = elementMap[currentName]
@@ -100,6 +105,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
                 } else if (eventType == TEXT) {
                     currentElement?.value = xmlPullParser.text
                 }
+
                 eventType = xmlPullParser.next()
             }
         } else {
