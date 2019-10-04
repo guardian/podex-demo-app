@@ -9,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import com.guardian.core.feed.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
-import com.guardian.podxdemo.utils.lifecycleAwareLazy
+import com.guardian.podxdemo.utils.lifecycleAwareVar
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -29,7 +30,7 @@ class FeedFragment
         viewModelProviderFactory
     }
 
-    var binding: LayoutFeedfragmentBinding by lifecycleAwareLazy()
+    var binding: LayoutFeedfragmentBinding by lifecycleAwareVar()
 
     val args: FeedFragmentArgs by navArgs()
 
@@ -78,7 +79,11 @@ class FeedFragment
                 }
             },
             executor = executor
-        ).apply {
+        ) { feedItem ->
+            val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment(feedItem)
+            findNavController()
+                .navigate(action)
+        }.apply {
             feedViewModel.feedData.observe(
                 viewLifecycleOwner,
                 Observer { feed ->

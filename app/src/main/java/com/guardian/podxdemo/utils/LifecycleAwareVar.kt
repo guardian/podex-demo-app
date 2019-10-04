@@ -36,4 +36,4 @@ class LifecycleAwareVar <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fr
 /**
  * Creates an [LifecycleAwareVar] associated with this fragment.
  */
-fun <T : Any> Fragment.lifecycleAwareLazy() = LifecycleAwareVar<T>(this)
+fun <T : Any> Fragment.lifecycleAwareVar() = LifecycleAwareVar<T>(this)

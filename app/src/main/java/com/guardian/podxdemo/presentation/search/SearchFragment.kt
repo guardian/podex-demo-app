@@ -17,7 +17,7 @@ import com.guardian.core.search.SearchResult
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
 import com.guardian.podxdemo.presentation.common.hideKeyboard
-import com.guardian.podxdemo.utils.lifecycleAwareLazy
+import com.guardian.podxdemo.utils.lifecycleAwareVar
 import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class SearchFragment
     private val searchViewModel: SearchViewModel by viewModels {
         viewModelProviderFactory
     }
-    private var binding: LayoutSearchfragmentBinding by lifecycleAwareLazy()
+    private var binding: LayoutSearchfragmentBinding by lifecycleAwareVar()
 
     override fun onCreateView(
         inflater: LayoutInflater,

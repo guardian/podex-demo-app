@@ -1,9 +1,12 @@
 package com.guardian.podxdemo.presentation.search
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.guardian.core.search.SearchRepository
 import com.guardian.core.search.SearchResult
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchViewModel
@@ -12,7 +15,7 @@ class SearchViewModel
 
     val searchResults: MutableLiveData<List<SearchResult>> = MutableLiveData()
 
-    var searchString = "news"
+    var searchString = "guardian"
 
     fun doSearch() = viewModelScope.launch(Dispatchers.IO) {
         searchResults.postValue(searchRepository.doSearch(searchString))
