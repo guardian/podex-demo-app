@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media.library
+package com.guardian.mediaplayer.media.library
 
 import android.os.Build
 import android.os.Bundle
@@ -22,8 +22,8 @@ import android.provider.MediaStore
 import androidx.annotation.IntDef
 import android.support.v4.media.MediaMetadataCompat
 import android.util.Log
-import com.guardian.common.media.MusicService
-import com.guardian.common.media.extensions.*
+import com.guardian.mediaplayer.media.MusicService
+import com.guardian.mediaplayer.media.extensions.*
 
 /**
  * Interface used by [MusicService] for looking up [MediaMetadataCompat] objects.

@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.search.SearchResult
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +28,7 @@ class FeedViewModel
         )
     }
 
-    fun getFeed(feedUrl: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun getFeed(feedUrl: String) = viewModelScope.launch {
         feedData.postValue(feedRepository.getFeed(feedUrl))
     }
 }

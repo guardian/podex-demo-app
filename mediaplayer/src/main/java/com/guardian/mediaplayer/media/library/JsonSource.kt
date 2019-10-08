@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media.library
+package com.guardian.mediaplayer.media.library
 
 import android.content.Context
 import android.net.Uri
@@ -26,7 +26,23 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
-import com.guardian.common.media.extensions.*
+import com.guardian.mediaplayer.media.extensions.album
+import com.guardian.mediaplayer.media.extensions.albumArt
+import com.guardian.mediaplayer.media.extensions.albumArtUri
+import com.guardian.mediaplayer.media.extensions.artist
+import com.guardian.mediaplayer.media.extensions.displayDescription
+import com.guardian.mediaplayer.media.extensions.displayIconUri
+import com.guardian.mediaplayer.media.extensions.displaySubtitle
+import com.guardian.mediaplayer.media.extensions.displayTitle
+import com.guardian.mediaplayer.media.extensions.downloadStatus
+import com.guardian.mediaplayer.media.extensions.duration
+import com.guardian.mediaplayer.media.extensions.flag
+import com.guardian.mediaplayer.media.extensions.genre
+import com.guardian.mediaplayer.media.extensions.id
+import com.guardian.mediaplayer.media.extensions.mediaUri
+import com.guardian.mediaplayer.media.extensions.title
+import com.guardian.mediaplayer.media.extensions.trackCount
+import com.guardian.mediaplayer.media.extensions.trackNumber
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader

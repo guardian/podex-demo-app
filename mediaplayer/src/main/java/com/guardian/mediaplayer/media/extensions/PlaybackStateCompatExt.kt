@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media.extensions
+package com.guardian.mediaplayer.media.extensions
 
 import android.support.v4.media.session.PlaybackStateCompat
 import android.os.SystemClock

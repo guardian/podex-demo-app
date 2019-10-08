@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media
+package com.guardian.mediaplayer.media
 
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.media.app.NotificationCompat.MediaStyle
-import androidx.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_PAUSE
@@ -32,11 +28,15 @@ import android.support.v4.media.session.PlaybackStateCompat.ACTION_PLAY
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_SKIP_TO_NEXT
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
 import android.support.v4.media.session.PlaybackStateCompat.ACTION_STOP
-import com.guardian.common.*
-import com.guardian.common.media.extensions.isPlayEnabled
-import com.guardian.common.media.extensions.isPlaying
-import com.guardian.common.media.extensions.isSkipToNextEnabled
-import com.guardian.common.media.extensions.isSkipToPreviousEnabled
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.media.app.NotificationCompat.MediaStyle
+import androidx.media.session.MediaButtonReceiver
+import com.guardian.mediaplayer.R
+import com.guardian.mediaplayer.media.extensions.isPlayEnabled
+import com.guardian.mediaplayer.media.extensions.isPlaying
+import com.guardian.mediaplayer.media.extensions.isSkipToNextEnabled
+import com.guardian.mediaplayer.media.extensions.isSkipToPreviousEnabled
 
 const val NOW_PLAYING_CHANNEL: String = "com.example.android.uamp.media.NOW_PLAYING"
 const val NOW_PLAYING_NOTIFICATION: Int = 0xb339

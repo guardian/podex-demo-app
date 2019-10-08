@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty
 /**
  * A property that gets cleaned up when the fragment is destroyed.
  *
- * Accessing this variable in a destroyed fragment will throw NPE.
+ * Accessing this variable in a destroyed fragment will throw an exception.
  */
 class LifecycleAwareVar <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
     private var value: T? = null

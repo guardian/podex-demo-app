@@ -46,6 +46,7 @@ android {
 
 dependencies {
     api project(":core")
+    implementation project(":mediaplayer")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

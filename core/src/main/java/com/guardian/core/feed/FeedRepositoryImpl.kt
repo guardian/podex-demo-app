@@ -3,9 +3,12 @@ package com.guardian.core.feed
 import com.guardian.core.feed.api.FeedXmlDataObject
 import com.guardian.core.feed.api.GeneralFeedApi
 import com.guardian.core.search.SearchResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -24,23 +27,24 @@ class FeedRepositoryImpl
 @Inject constructor(val generalFeedApi: GeneralFeedApi) :
     FeedRepository {
     override suspend fun getFeed(feedUrl: String): Feed {
-        var feed: Feed? = null
+        return withContext(Dispatchers.IO) {
+            var feed: Feed? = null
 
-        // todo get feed from repo
+            // todo get feed from repo
+            try {
+                val feedApiObject = generalFeedApi.getFeedDeSerializedXml(feedUrl)
 
-        try {
-            val feedApiObject = generalFeedApi.getFeedDeSerializedXml(feedUrl)
+                feed = mapFeedObjectFromXmlFeedObject(feedApiObject)
+            } catch (apiError: Throwable) {
+                Timber.e(apiError)
+            }
 
-            feed = mapFeedObjectFromXmlFeedObject(feedApiObject)
-        } catch (apiError: Throwable) {
-            Timber.e(apiError)
+            if (feed == null) {
+                Timber.e("Could not get feed at $feedUrl")
+            }
+
+            feed ?: Feed("", "", "", "", listOf())
         }
-
-        if (feed == null) {
-            Timber.e("Could not get feed at $feedUrl")
-        }
-
-        return feed ?: Feed("", "", "", "", listOf())
     }
 
     private fun mapFeedObjectFromXmlFeedObject(feedXmlDataObject: FeedXmlDataObject): Feed {

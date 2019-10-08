@@ -1,4 +1,4 @@
-package com.guardian.common.media
+package com.guardian.mediaplayer.media
 
 import android.app.PendingIntent
 import android.app.Service
@@ -30,9 +30,14 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.guardian.common.*
-import com.guardian.common.media.extensions.flag
-import com.guardian.common.media.library.*
+import com.guardian.mediaplayer.R
+import com.guardian.mediaplayer.media.extensions.flag
+import com.guardian.mediaplayer.media.library.BrowseTree
+import com.guardian.mediaplayer.media.library.JsonSource
+import com.guardian.mediaplayer.media.library.MEDIA_SEARCH_SUPPORTED
+import com.guardian.mediaplayer.media.library.MusicSource
+import com.guardian.mediaplayer.media.library.UAMP_BROWSABLE_ROOT
+import com.guardian.mediaplayer.media.library.UAMP_EMPTY_ROOT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -78,6 +83,7 @@ open class MusicService : MediaBrowserServiceCompat() {
 
     private var isForegroundService = false
 
+    //todo fix this
     private val remoteJsonSource: Uri =
         Uri.parse("https://storage.googleapis.com/uamp/catalog.json")
 
@@ -439,7 +445,7 @@ private class BecomingNoisyReceiver(
 /*
  * (Media) Session events
  */
-const val NETWORK_FAILURE = "com.example.android.uamp.media.session.NETWORK_FAILURE"
+const val NETWORK_FAILURE = "com.guardian.mediaplayer.media.session.NETWORK_FAILURE"
 
 /** Content styling constants */
 private const val CONTENT_STYLE_BROWSABLE_HINT = "android.media.browse.CONTENT_STYLE_BROWSABLE_HINT"

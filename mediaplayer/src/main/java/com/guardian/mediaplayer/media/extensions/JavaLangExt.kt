@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media.extensions
+package com.guardian.mediaplayer.media.extensions
 
 import android.net.Uri
 import java.net.URLEncoder

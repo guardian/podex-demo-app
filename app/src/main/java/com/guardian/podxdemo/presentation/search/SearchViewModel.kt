@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.guardian.core.search.SearchRepository
 import com.guardian.core.search.SearchResult
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class SearchViewModel
 
     var searchString = "guardian"
 
-    fun doSearch() = viewModelScope.launch(Dispatchers.IO) {
+    fun doSearch() = viewModelScope.launch {
         searchResults.postValue(searchRepository.doSearch(searchString))
     }
 }

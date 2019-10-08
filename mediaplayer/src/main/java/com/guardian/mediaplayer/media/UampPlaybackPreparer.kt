@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media
+package com.guardian.mediaplayer.media
 
 import android.net.Uri
 import android.os.Bundle
@@ -28,11 +28,11 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.upstream.DataSource
-import com.guardian.common.media.extensions.album
-import com.guardian.common.media.extensions.id
-import com.guardian.common.media.extensions.toMediaSource
-import com.guardian.common.media.extensions.trackNumber
-import com.guardian.common.media.library.MusicSource
+import com.guardian.mediaplayer.media.extensions.album
+import com.guardian.mediaplayer.media.extensions.id
+import com.guardian.mediaplayer.media.extensions.toMediaSource
+import com.guardian.mediaplayer.media.extensions.trackNumber
+import com.guardian.mediaplayer.media.library.MusicSource
 
 /**
  * Class to bridge UAMP to the ExoPlayer MediaSession extension.

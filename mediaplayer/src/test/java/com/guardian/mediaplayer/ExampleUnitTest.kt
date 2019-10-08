@@ -1,4 +1,4 @@
-package com.guardian.common
+package com.guardian.mediaplayer
 
 import org.junit.Test
 

@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media.library
+package com.guardian.mediaplayer.media.library
 
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaMetadataCompat
-import com.guardian.common.media.MusicService
-import com.guardian.common.media.extensions.*
+import com.guardian.mediaplayer.media.MusicService
+import com.guardian.mediaplayer.media.extensions.album
+import com.guardian.mediaplayer.media.extensions.albumArt
+import com.guardian.mediaplayer.media.extensions.albumArtUri
+import com.guardian.mediaplayer.media.extensions.artist
+import com.guardian.mediaplayer.media.extensions.flag
+import com.guardian.mediaplayer.media.extensions.id
+import com.guardian.mediaplayer.media.extensions.title
+import com.guardian.mediaplayer.media.extensions.trackNumber
+import com.guardian.mediaplayer.media.extensions.urlEncoded
 
 /**
  * Represents a tree of media that's used by [MusicService.onLoadChildren].

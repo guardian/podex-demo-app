@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.guardian.common.media
+package com.guardian.mediaplayer.media
 
 import android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE
 import android.Manifest.permission.MEDIA_CONTENT_CONTROL
