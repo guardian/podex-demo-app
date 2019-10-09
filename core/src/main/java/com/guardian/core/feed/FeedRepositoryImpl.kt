@@ -66,7 +66,9 @@ class FeedRepositoryImpl
                     title = it.title,
                     description = it.description,
                     imageUrlString = feedItemImage,
-                    pubDate = dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis())
+                    pubDate = dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()),
+                    feedAudioEncoding = it.enclosureXmlDataObject.attributes["type"]?.value ?: "",
+                    feedAudioUrl = it.enclosureXmlDataObject.attributes["url"]?.value ?: ""
                 )
             }
         )

@@ -15,8 +15,8 @@ import com.guardian.podxdemo.utils.lifecycleAwareVar
 import javax.inject.Inject
 
 class PlayerFragment
-@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
-    : Fragment() {
+@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
+    Fragment() {
 
     val playerViewModel: PlayerViewModel by viewModels {
         viewModelProviderFactory
@@ -45,5 +45,7 @@ class PlayerFragment
         super.onViewCreated(view, savedInstanceState)
 
         binding.feedItem = args.feedItem
+
+        playerViewModel.playFromUri(args.feedItem.feedAudioUrl)
     }
 }

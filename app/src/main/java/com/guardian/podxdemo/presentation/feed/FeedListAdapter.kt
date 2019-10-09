@@ -10,9 +10,12 @@ import com.guardian.podxdemo.databinding.ViewholderFeedadapterFeeditemBinding
 import com.guardian.podxdemo.presentation.common.DataBoundListAdapter
 import java.util.concurrent.Executor
 
-class FeedListAdapter(callback: DiffUtil.ItemCallback<FeedItem>, executor: Executor,
-                      val handleSelection: (FeedItem) -> Unit)
-    : DataBoundListAdapter<FeedItem, ViewholderFeedadapterFeeditemBinding>(callback, executor) {
+class FeedListAdapter(
+    callback: DiffUtil.ItemCallback<FeedItem>,
+    executor: Executor,
+    val handleSelection: (FeedItem) -> Unit
+) :
+    DataBoundListAdapter<FeedItem, ViewholderFeedadapterFeeditemBinding>(callback, executor) {
     override fun createBinding(parent: ViewGroup): ViewholderFeedadapterFeeditemBinding {
         return DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),

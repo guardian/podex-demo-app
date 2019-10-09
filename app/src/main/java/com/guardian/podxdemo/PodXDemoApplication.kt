@@ -2,7 +2,6 @@ package com.guardian.podxdemo
 
 import android.app.Application
 import com.guardian.core.dagger.DaggerCoreComponent
-import com.guardian.mediaplayer.media.dagger.DaggerMediaPlayerComponent
 import com.guardian.podxdemo.dagger.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -19,11 +18,7 @@ class PodXDemoApplication : Application(), HasAndroidInjector {
         DaggerAppComponent.builder()
             .coreComponent(
                 DaggerCoreComponent.builder()
-                    .build()
-            )
-            .mediaPlayerComponent(
-                DaggerMediaPlayerComponent.builder()
-                    .bindContext(context = this.applicationContext)
+                    .bindContext(applicationContext)
                     .build()
             )
             .build()

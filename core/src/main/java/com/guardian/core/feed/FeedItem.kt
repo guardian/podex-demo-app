@@ -9,7 +9,7 @@ data class FeedItem(
     val title: String,
     val description: String,
     val imageUrlString: String,
-    // val feedAudioUrl: String,
-    // val feedAudioEncoding: String,
+    val feedAudioUrl: String,
+    val feedAudioEncoding: String,
     val pubDate: Date
 ) : Parcelable

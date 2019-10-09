@@ -88,7 +88,8 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
                                 deSerializeBody(xmlPullParser, mutableNewList.first())
                             )
 
-                            // check if we just have the initialised blank list as the only current element of the old list
+                            // check if we just have the initialised blank list as the only current
+                            // element of the old list
                             mutableNewList.removeAll { it.isEmpty() }
 
                             if (mutableNewList.isNotEmpty()) {
