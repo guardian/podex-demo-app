@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
-import com.guardian.core.feed.FeedItem
+import com.guardian.core.feeditem.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
@@ -87,7 +87,8 @@ class FeedFragment
             feedViewModel.feedData.observe(
                 viewLifecycleOwner,
                 Observer { feed ->
-                    submitList(feed.feedItems)
+                    //todo point this call to a feed item repository get items for feed method
+                    //submitList(feed.feedItems)
                 }
             )
         }

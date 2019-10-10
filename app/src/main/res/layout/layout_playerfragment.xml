@@ -3,7 +3,7 @@
     <data>
         <variable
             name="feedItem"
-            type="com.guardian.core.feed.FeedItem" />
+            type="com.guardian.core.feeditem.FeedItem" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

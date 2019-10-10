@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -33,16 +32,17 @@ import com.google.android.exoplayer2.util.Util
 import com.guardian.core.R
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.library.BrowseTree
-import com.guardian.core.mediaplayer.library.JsonSource
 import com.guardian.core.mediaplayer.library.MEDIA_SEARCH_SUPPORTED
 import com.guardian.core.mediaplayer.library.MusicSource
 import com.guardian.core.mediaplayer.library.UAMP_BROWSABLE_ROOT
 import com.guardian.core.mediaplayer.library.UAMP_EMPTY_ROOT
+import com.guardian.core.search.SearchRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Google's UAMP media service to be repurposed for Podex
@@ -58,14 +58,7 @@ import kotlinx.coroutines.launch
  * For more information on implementing a MediaBrowserService,
  * visit [https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowserservice.html](https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowserservice.html).
  */
-open class MediaService : MediaBrowserServiceCompat() {
-    /*
-    * todo
-    *  val browseTree mutable with lists of search results
-    *  fun add browsable
-    *  callback metadata for id
-    */
-
+open class MediaService @Inject constructor(searchRepository: SearchRepository) : MediaBrowserServiceCompat() {
     private lateinit var becomingNoisyReceiver: BecomingNoisyReceiver
     private lateinit var notificationManager: NotificationManagerCompat
     private lateinit var notificationBuilder: NotificationBuilder
@@ -89,9 +82,6 @@ open class MediaService : MediaBrowserServiceCompat() {
     }
 
     private var isForegroundService = false
-
-    private val remoteJsonSource: Uri =
-        Uri.parse("https://storage.googleapis.com/uamp/catalog.json")
 
     private val uAmpAudioAttributes = AudioAttributes.Builder()
         .setContentType(C.CONTENT_TYPE_MUSIC)
@@ -153,10 +143,10 @@ open class MediaService : MediaBrowserServiceCompat() {
 
         // The media library is built from a remote JSON file. We'll create the source here,
         // and then use a suspend function to perform the download off the main thread.
-        mediaSource = JsonSource(
-            context = this,
-            source = remoteJsonSource
-        )
+        // mediaSource = JsonSource(
+        //     context = this,
+        //     source = remoteJsonSource
+        // )
         serviceScope.launch {
             mediaSource.load()
         }

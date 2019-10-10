@@ -1,11 +1,15 @@
 package com.guardian.core.feed
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feed.api.FeedXmlDataObject
 import com.guardian.core.feed.api.GeneralFeedApi
+import com.guardian.core.feed.dao.FeedDao
+import com.guardian.core.feeditem.dao.FeedItemDao
+import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.search.SearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -24,26 +28,30 @@ import javax.inject.Inject
  */
 
 class FeedRepositoryImpl
-@Inject constructor(val generalFeedApi: GeneralFeedApi) :
+@Inject constructor(val generalFeedApi: GeneralFeedApi,
+                    val feedDao: FeedDao,
+                    val feedItemDao: FeedItemDao
+) :
     FeedRepository {
-    override suspend fun getFeed(feedUrl: String): Feed {
-        return withContext(Dispatchers.IO) {
-            var feed: Feed? = null
+    override fun getFeeds(): LiveData<List<Feed>> {
+        return feedDao.getCachedFeeds()
+    }
 
-            // todo get feed from repo
-            try {
-                val feedApiObject = generalFeedApi.getFeedDeSerializedXml(feedUrl)
+    override suspend fun getFeed(feedUrl: String): LiveData<Feed> {
+        return MutableLiveData<Feed>().also {
+            mutableLiveData -> withContext(Dispatchers.IO) {
+                feedDao.getFeedForUrlString(feedUrl).observeForever {
+                    feed -> mutableLiveData.postValue(feed)
+                }
 
-                feed = mapFeedObjectFromXmlFeedObject(feedApiObject)
-            } catch (apiError: Throwable) {
-                Timber.e(apiError)
+            generalFeedApi.getFeedDeSerializedXml(feedUrl).apply {
+
+                feedDao.addFeedToCache(
+                    mapFeedObjectFromXmlFeedObject(this)
+                )
+
             }
-
-            if (feed == null) {
-                Timber.e("Could not get feed at $feedUrl")
             }
-
-            feed ?: Feed("", "", "", "", listOf())
         }
     }
 
@@ -53,24 +61,28 @@ class FeedRepositoryImpl
 
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
 
+        feedXmlDataObject.feedItems.map {
+            val feedItemImage: String = it.itunesImage.attributes["href"]?.value
+                ?: it.image.url
+
+            FeedItem(
+                title = it.title,
+                description = it.description,
+                imageUrlString = feedItemImage,
+                pubDate = dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()),
+                feedItemAudioEncoding = it.enclosureXmlDataObject.attributes["type"]?.value ?: "",
+                feedItemAudioUrl = it.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                feedUrlString = feedXmlDataObject.link
+            )
+        }.also {
+            feedItems -> feedItemDao.addFeedList(feedItems)
+        }
+
         return Feed(
             title = feedXmlDataObject.title,
             description = feedXmlDataObject.description,
             feedUrlString = feedXmlDataObject.link,
-            feedImageUrlString = feedImage,
-            feedItems = feedXmlDataObject.feedItems.map {
-                val feedItemImage: String = it.itunesImage.attributes["href"]?.value
-                    ?: it.image.url
-
-                FeedItem(
-                    title = it.title,
-                    description = it.description,
-                    imageUrlString = feedItemImage,
-                    pubDate = dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()),
-                    feedAudioEncoding = it.enclosureXmlDataObject.attributes["type"]?.value ?: "",
-                    feedAudioUrl = it.enclosureXmlDataObject.attributes["url"]?.value ?: ""
-                )
-            }
+            feedImageUrlString = feedImage
         )
     }
 }

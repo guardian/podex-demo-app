@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import com.guardian.core.feed.FeedItem
+import com.guardian.core.feeditem.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.ViewholderFeedadapterFeeditemBinding
 import com.guardian.podxdemo.presentation.common.DataBoundListAdapter

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="feedItem"
-            type="com.guardian.core.feed.FeedItem" />
+            type="com.guardian.core.feeditem.FeedItem" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

@@ -39,7 +39,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
             xmlPullParser.next()
         }
 
-        return deSerializeBody(xmlPullParser, rootDataObjectInitializer())
+        return deSerialiseBody(xmlPullParser, rootDataObjectInitializer())
     }
 
     /**
@@ -48,7 +48,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
-    private fun deSerializeBody(xmlPullParser: XmlPullParser, xmlDataObject: XmlDataObject): XmlDataObject {
+    private fun deSerialiseBody(xmlPullParser: XmlPullParser, xmlDataObject: XmlDataObject): XmlDataObject {
         val elementMap = xmlDataObject.factory.getXmlParserElementMap()
         val xmlAttributeValueMap = mutableMapOf<String, String>()
         for (attributeIndex in 0 until xmlPullParser.attributeCount) {
@@ -85,7 +85,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
                             }
 
                             mutableNewList.add(
-                                deSerializeBody(xmlPullParser, mutableNewList.first())
+                                deSerialiseBody(xmlPullParser, mutableNewList.first())
                             )
 
                             // check if we just have the initialised blank list as the only current
@@ -98,7 +98,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
                             }
                         } else if (checkElementValue is XmlDataObject) {
                             (elementMap[currentName] as ValueContainer<XmlDataObject>)
-                                .value = deSerializeBody(xmlPullParser, checkElementValue)
+                                .value = deSerialiseBody(xmlPullParser, checkElementValue)
                         }
                     }
                 } else if (eventType == END_TAG) {

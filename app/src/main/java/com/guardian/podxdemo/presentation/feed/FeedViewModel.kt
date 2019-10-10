@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
-import com.guardian.core.search.SearchResult
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.search.SearchResult
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,7 +38,9 @@ class FeedViewModel
         mediaSessionConnection.subscribe(feedUrl, subscriptionCallback)
 
         viewModelScope.launch {
-            feedData.postValue(feedRepository.getFeed(feedUrl))
+            feedRepository.getFeed(feedUrl).observeForever { feed ->
+                feedData.postValue(feed)
+            }
         }
     }
 

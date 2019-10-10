@@ -46,6 +46,6 @@ class PlayerFragment
 
         binding.feedItem = args.feedItem
 
-        playerViewModel.playFromUri(args.feedItem.feedAudioUrl)
+        playerViewModel.playFromUri(args.feedItem.feedItemAudioUrl)
     }
 }

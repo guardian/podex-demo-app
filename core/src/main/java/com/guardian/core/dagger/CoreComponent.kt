@@ -14,7 +14,8 @@ import dagger.Component
 @Component(modules = [WebModule::class,
     SearchDataModule::class,
     RepositoryModule::class,
-    MediaSessionConnectionModule::class])
+    MediaSessionConnectionModule::class,
+    RoomModule::class])
 interface CoreComponent {
 
     @Component.Builder
