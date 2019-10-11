@@ -16,6 +16,7 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
+import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class FeedFragment
         super.onViewCreated(view, savedInstanceState)
 
         feedViewModel.setPlaceholderData(args.searchResult)
-        feedViewModel.getFeed(args.searchResult.feedUrlString)
+        feedViewModel.getFeedAndItems(args.searchResult.feedUrlString)
 
         feedViewModel.feedData.observe(
             viewLifecycleOwner,
@@ -84,11 +85,11 @@ class FeedFragment
             findNavController()
                 .navigate(action)
         }.apply {
-            feedViewModel.feedData.observe(
+            feedViewModel.feedItemData.observe(
                 viewLifecycleOwner,
-                Observer { feed ->
-                    //todo point this call to a feed item repository get items for feed method
-                    //submitList(feed.feedItems)
+                Observer { feedItemList ->
+                    Timber.i("returned items ${feedItemList.size}")
+                    submitList(feedItemList)
                 }
             )
         }

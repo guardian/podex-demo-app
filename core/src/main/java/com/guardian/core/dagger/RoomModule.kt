@@ -11,7 +11,7 @@ import dagger.Provides
 @Module
 class RoomModule {
     @Provides
-    fun providePodXRoomDatabase(context: Context) : PodXRoomDatabase {
+    fun providePodXRoomDatabase(context: Context): PodXRoomDatabase {
         return Room.databaseBuilder(context, PodXRoomDatabase::class.java, PodXRoomDatabase.NAME)
             .build()
     }

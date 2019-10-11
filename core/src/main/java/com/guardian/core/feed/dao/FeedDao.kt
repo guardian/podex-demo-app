@@ -12,12 +12,11 @@ import com.guardian.core.feed.Feed
 interface FeedDao {
     @Transaction
     @Query("SELECT * from feeds")
-    fun getCachedFeeds() : LiveData<List<Feed>>
+    fun getCachedFeeds(): LiveData<List<Feed>>
 
     @Transaction
     @Query("SELECT * from feeds WHERE feedUrlString = :url")
     fun getFeedForUrlString(url: String): LiveData<Feed>
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addFeedToCache(feed: Feed)

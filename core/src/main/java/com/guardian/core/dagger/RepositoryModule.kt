@@ -20,8 +20,8 @@ abstract class RepositoryModule {
     abstract fun bindFeedRepository(feedRepositoryImpl: FeedRepositoryImpl): FeedRepository
 
     @Binds
-    abstract fun bindFeedItemRepository(feedItemRepositoryImpl: FeedItemRepositoryImpl)
-        : FeedItemRepository
+    abstract fun bindFeedItemRepository(feedItemRepositoryImpl: FeedItemRepositoryImpl):
+        FeedItemRepository
 
     @Binds
     abstract fun bindGeneralFeedApi(generalFeedApiImpl: GeneralFeedApiImpl): GeneralFeedApi

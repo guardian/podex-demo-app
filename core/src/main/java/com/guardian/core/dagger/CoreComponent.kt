@@ -3,6 +3,7 @@ package com.guardian.core.dagger
 import android.content.Context
 import com.guardian.core.dagger.search.SearchDataModule
 import com.guardian.core.feed.FeedRepository
+import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.search.SearchRepository
 import dagger.BindsInstance
@@ -27,5 +28,6 @@ interface CoreComponent {
 
     fun provideSearchRepository(): SearchRepository
     fun provideFeedRepository(): FeedRepository
+    fun provideFeedItemRepository(): FeedItemRepository
     fun provideMediaSessionConnection(): MediaSessionConnection
 }

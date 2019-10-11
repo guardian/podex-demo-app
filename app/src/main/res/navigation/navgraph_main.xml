@@ -28,6 +28,6 @@
         android:label="PlayerFragment" >
         <argument
             android:name="feedItem"
-            app:argType="com.guardian.core.feed.FeedItem" />
+            app:argType="com.guardian.core.feeditem.FeedItem" />
     </fragment>
 </navigation>
