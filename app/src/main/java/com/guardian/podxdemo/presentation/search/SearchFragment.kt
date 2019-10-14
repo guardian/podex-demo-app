@@ -50,24 +50,28 @@ class SearchFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.searchViewModel = searchViewModel
+
         setupRecyclerView()
         setupEditText()
+
+        if (savedInstanceState == null) {
+            binding.search = getString(R.string.searchfragment_default_term)
+            searchViewModel.doSearch(getString(R.string.searchfragment_default_term))
+        }
     }
 
     private fun setupEditText() {
         binding.edittextSearchTerm.setOnEditorActionListener { _, eventId, _ ->
-            Timber.i("got editor action")
             if (eventId == EditorInfo.IME_ACTION_DONE) {
-                Timber.i("got done action")
-                searchViewModel.doSearch()
+                val searchTerm: String = binding.search
+                    ?: getString(R.string.searchfragment_default_term)
+                searchViewModel.doSearch(searchTerm)
                 hideKeyboard()
+
             }
 
             true
         }
-
-        searchViewModel.doSearch()
     }
 
     private fun setupRecyclerView() {
@@ -90,7 +94,7 @@ class SearchFragment
                 }
             }
         ).apply {
-            searchViewModel.searchResults
+            searchViewModel.uiModel.results
                 .observe(viewLifecycleOwner, Observer { results ->
                     this.submitList(results)
                     Timber.i("${this.itemCount} SearchResults added")

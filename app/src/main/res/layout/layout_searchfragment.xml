@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="searchViewModel"
-            type="com.guardian.podxdemo.presentation.search.SearchViewModel" />
+            name="search"
+            type="String"/>
     </data>
 
 
@@ -41,7 +41,7 @@
                         android:importantForAutofill="no"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:text="@={searchViewModel.searchString}" />
+                        android:text="@={search}" />
                 </LinearLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
