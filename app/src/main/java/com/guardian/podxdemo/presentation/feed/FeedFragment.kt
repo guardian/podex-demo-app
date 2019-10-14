@@ -23,17 +23,17 @@ import javax.inject.Inject
 class FeedFragment
 @Inject constructor(
     viewModelProviderFactory: ViewModelProvider.Factory,
-    val executor: Executor
+    private val executor: Executor
 ) :
     Fragment() {
 
-    val feedViewModel: FeedViewModel by viewModels {
+    private val feedViewModel: FeedViewModel by viewModels {
         viewModelProviderFactory
     }
 
-    var binding: LayoutFeedfragmentBinding by lifecycleAwareVar()
+    private var binding: LayoutFeedfragmentBinding by lifecycleAwareVar()
 
-    val args: FeedFragmentArgs by navArgs()
+    private val args: FeedFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,13 +56,20 @@ class FeedFragment
         feedViewModel.setPlaceholderData(args.searchResult)
         feedViewModel.getFeedAndItems(args.searchResult.feedUrlString)
 
-        feedViewModel.feedData.observe(
+        setupFeedInfoView()
+        setupFeedEpisodeList()
+    }
+
+    private fun setupFeedInfoView() {
+        feedViewModel.uiModel.feedData.observe(
             viewLifecycleOwner,
             Observer { feed ->
                 binding.feed = feed
             }
         )
+    }
 
+    private fun setupFeedEpisodeList() {
         binding.recyclerviewFeedResults.adapter = FeedListAdapter(
             callback = object : DiffUtil.ItemCallback<FeedItem>() {
                 override fun areItemsTheSame(
@@ -85,7 +92,7 @@ class FeedFragment
             findNavController()
                 .navigate(action)
         }.apply {
-            feedViewModel.feedItemData.observe(
+            feedViewModel.uiModel.feedItemData.observe(
                 viewLifecycleOwner,
                 Observer { feedItemList ->
                     Timber.i("returned items ${feedItemList.size}")

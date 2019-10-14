@@ -29,7 +29,7 @@ import javax.inject.Inject
 class SearchFragment
     @Inject constructor(
         viewModelProviderFactory: ViewModelProvider.Factory,
-        val executor: Executor
+        private val executor: Executor
     ) :
     Fragment() {
 

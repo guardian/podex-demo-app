@@ -16,7 +16,6 @@ import java.util.concurrent.Executor
  * @param V : [ViewDataBinding] for the viewholder
  */
 
-// todo ensure the asyc differ is actually running asyc
 abstract class DataBoundListAdapter<T, V : ViewDataBinding> (
     callback: DiffUtil.ItemCallback<T>,
     executor: Executor

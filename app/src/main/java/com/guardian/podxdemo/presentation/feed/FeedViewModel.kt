@@ -1,6 +1,7 @@
 package com.guardian.podxdemo.presentation.feed
 
 import android.support.v4.media.MediaBrowserCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,19 +17,24 @@ import javax.inject.Inject
 
 class FeedViewModel
 @Inject constructor(
-    val feedRepository: FeedRepository,
-    val feedItemRepository: FeedItemRepository,
-    val mediaSessionConnection: MediaSessionConnection
+    private val feedRepository: FeedRepository,
+    private val feedItemRepository: FeedItemRepository,
+    private val mediaSessionConnection: MediaSessionConnection
 ) :
     ViewModel() {
-    val feedData: MutableLiveData<Feed>
-        by lazy { MutableLiveData<Feed>() }
 
-    val feedItemData: MutableLiveData<List<FeedItem>>
-        by lazy { MutableLiveData<List<FeedItem>>(listOf())}
+    val uiModel by lazy {
+        FeedUiModel(
+            mutableFeedData,
+            mutableFeedItemData
+        )
+    }
+
+    private val mutableFeedData: MutableLiveData<Feed> = MutableLiveData()
+    private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
 
     fun setPlaceholderData(searchResult: SearchResult) {
-        feedData.postValue(
+        mutableFeedData.postValue(
             Feed(
                 feedUrlString = searchResult.feedUrlString,
                 title = searchResult.title,
@@ -43,7 +49,7 @@ class FeedViewModel
             feedRepository.getFeed(feedUrl).observeForever { feed ->
                 Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
                 if (feed != null) {
-                    feedData.postValue(feed)
+                    mutableFeedData.postValue(feed)
                     getFeedItems(feed)
                 }
             }
@@ -54,7 +60,7 @@ class FeedViewModel
         viewModelScope.launch {
             feedItemRepository.getFeedItemsForFeed(feed).observeForever { feedItemList ->
                 Timber.i("list from repo ${feedItemList.size}")
-                feedItemData.postValue(feedItemList)
+                mutableFeedItemData.postValue(feedItemList)
             }
         }
     }
@@ -69,3 +75,8 @@ class FeedViewModel
         }
     }
 }
+
+data class FeedUiModel(
+    val feedData: LiveData<Feed>,
+    val feedItemData: LiveData<List<FeedItem>>
+)

@@ -18,13 +18,13 @@ class PlayerFragment
 @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
     Fragment() {
 
-    val playerViewModel: PlayerViewModel by viewModels {
+    private val playerViewModel: PlayerViewModel by viewModels {
         viewModelProviderFactory
     }
 
-    var binding: LayoutPlayerfragmentBinding by lifecycleAwareVar()
+    private var binding: LayoutPlayerfragmentBinding by lifecycleAwareVar()
 
-    val args: PlayerFragmentArgs by navArgs()
+    private val args: PlayerFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
