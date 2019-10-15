@@ -7,7 +7,7 @@ import com.guardian.core.dagger.xml.XmlDataObjectFactory
 class FeedItemEnclosureXmlDataObject : XmlDataObject {
     override fun isEmpty(): Boolean = attributes.values
     .map { it.value.isEmpty() }
-    .reduce { acc, b -> acc && b }
+    .reduce { acc, b -> acc || b }
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf(
         "url" to ValueContainer(""),

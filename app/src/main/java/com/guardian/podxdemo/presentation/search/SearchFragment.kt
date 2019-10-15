@@ -72,7 +72,6 @@ class SearchFragment
                     ?: getString(R.string.searchfragment_default_term)
                 searchViewModel.doSearch(searchTerm)
                 hideKeyboard()
-
             }
 
             true

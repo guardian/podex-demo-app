@@ -5,7 +5,7 @@ import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import javax.inject.Inject
 
 class PlayerViewModel
-@Inject constructor(val mediaSessionConnection: MediaSessionConnection) :
+@Inject constructor(private val mediaSessionConnection: MediaSessionConnection) :
     ViewModel() {
 
     fun playFromUri(mediaUri: String) {

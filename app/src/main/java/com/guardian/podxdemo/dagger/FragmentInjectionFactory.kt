@@ -7,13 +7,13 @@ import javax.inject.Provider
 
 class FragmentInjectionFactory
 @Inject constructor(
-    val fragmentMultibinding: Map<Class<out Fragment>,
+    private val fragmentMultiBinding: Map<Class<out Fragment>,
 @JvmSuppressWildcards Provider<Fragment>>
 ) :
     FragmentFactory() {
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
-        val fragmentProvider = fragmentMultibinding[loadFragmentClass(classLoader, className)]
+        val fragmentProvider = fragmentMultiBinding[loadFragmentClass(classLoader, className)]
         try {
             return fragmentProvider?.get() ?: super.instantiate(classLoader, className)
         } catch (e: Exception) {

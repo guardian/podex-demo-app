@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class GeneralFeedApiImpl
 @Inject constructor(
-    val xmlPullParserAdapter: XmlPullParserAdapter,
-    val okHttpClient: OkHttpClient
+    private val xmlPullParserAdapter: XmlPullParserAdapter,
+    private val okHttpClient: OkHttpClient
 ) :
     GeneralFeedApi {
 

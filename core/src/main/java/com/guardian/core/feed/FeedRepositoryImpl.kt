@@ -29,9 +29,9 @@ import javax.inject.Inject
 
 class FeedRepositoryImpl
 @Inject constructor(
-    val generalFeedApi: GeneralFeedApi,
-    val feedDao: FeedDao,
-    val feedItemDao: FeedItemDao
+    private val generalFeedApi: GeneralFeedApi,
+    private val feedDao: FeedDao,
+    private val feedItemDao: FeedItemDao
 ) :
     FeedRepository {
     override fun getFeeds(): LiveData<List<Feed>> {
@@ -54,23 +54,28 @@ class FeedRepositoryImpl
 
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
 
-        feedXmlDataObject.feedItems.map {
-            val feedItemImage: String = it.itunesImage.attributes["href"]?.value
-                ?: it.image.url
+        feedXmlDataObject.feedItems
+            .sortedBy { dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()) }
+            .mapIndexed { index, feedItemXmlDataObject ->
+                val feedItemImage: String = feedItemXmlDataObject.itunesImage.attributes["href"]?.value
+                    ?: feedItemXmlDataObject.image.url
 
-            FeedItem(
-                title = it.title,
-                description = it.description,
-                imageUrlString = feedItemImage,
-                pubDate = dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()),
-                feedItemAudioEncoding = it.enclosureXmlDataObject.attributes["type"]?.value ?: "",
-                feedItemAudioUrl = it.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                feedUrlString = feedUrl
-            )
-        }.also {
-            feedItems -> feedItemDao.addFeedList(feedItems)
-            Timber.i("Caching feed items ${feedItems.size}")
-        }
+                FeedItem(
+                    title = feedItemXmlDataObject.title,
+                    description = feedItemXmlDataObject.description,
+                    imageUrlString = feedItemImage,
+                    pubDate = dateFormatter.parse(feedItemXmlDataObject.pubDate) ?: Date(System.currentTimeMillis()),
+                    feedItemAudioEncoding = feedItemXmlDataObject.enclosureXmlDataObject.attributes["type"]?.value ?: "",
+                    feedItemAudioUrl = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                    feedUrlString = feedUrl,
+                    author = feedItemXmlDataObject.author,
+                    episodeNumber = index,
+                    lengthMs = feedItemXmlDataObject.enclosureXmlDataObject.attributes["length"]?.value?.toInt() ?: 0
+                )
+            }.also {
+                feedItems -> feedItemDao.addFeedList(feedItems)
+                Timber.i("Caching feed items ${feedItems.size}")
+            }
 
         Feed(
             title = feedXmlDataObject.title,

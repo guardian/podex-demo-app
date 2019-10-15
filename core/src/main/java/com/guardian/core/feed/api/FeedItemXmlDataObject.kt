@@ -10,9 +10,11 @@ data class FeedItemXmlDataObject(
     val itunesImage: FeedItunesImageXmlDataObject = FeedItunesImageXmlDataObject(),
     val image: FeedImageXmlDataObject = FeedImageXmlDataObject(),
     val pubDate: String = "",
-    val enclosureXmlDataObject: FeedItemEnclosureXmlDataObject = FeedItemEnclosureXmlDataObject()
+    val enclosureXmlDataObject: FeedItemEnclosureXmlDataObject = FeedItemEnclosureXmlDataObject(),
+    val author: String = "",
+    val keywords: String = ""
 ) : XmlDataObject {
-    override fun isEmpty(): Boolean = title.isEmpty()
+    override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
@@ -24,7 +26,9 @@ data class FeedItemXmlDataObject(
                 "itunes:image" to ValueContainer(FeedItunesImageXmlDataObject()),
                 "image" to ValueContainer(FeedImageXmlDataObject()),
                 "pubDate" to ValueContainer(""),
-                "enclosure" to ValueContainer(FeedItemEnclosureXmlDataObject())
+                "enclosure" to ValueContainer(FeedItemEnclosureXmlDataObject()),
+                "itunes:author" to ValueContainer(""),
+                "itunes:keywords" to ValueContainer("")
             )
         }
 
@@ -37,7 +41,9 @@ data class FeedItemXmlDataObject(
                 image = xmlParserElementMap["image"]?.value as FeedImageXmlDataObject,
                 pubDate = xmlParserElementMap["pubDate"]?.value as String,
                 enclosureXmlDataObject = xmlParserElementMap["enclosure"]?.value
-                    as FeedItemEnclosureXmlDataObject
+                    as FeedItemEnclosureXmlDataObject,
+                author = xmlParserElementMap["itunes:author"]?.value as String,
+                keywords = xmlParserElementMap["itunes:keywords"]?.value as String
             )
         }
     }

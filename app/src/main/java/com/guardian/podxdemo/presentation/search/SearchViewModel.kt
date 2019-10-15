@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SearchViewModel
-@Inject constructor(private val searchRepository: SearchRepository)
-    : ViewModel() {
+@Inject constructor(private val searchRepository: SearchRepository) :
+    ViewModel() {
 
     private val searchResults: MutableLiveData<List<SearchResult>> = MutableLiveData()
 
@@ -21,7 +21,7 @@ class SearchViewModel
         )
     }
 
-    fun doSearch (search: String) = viewModelScope.launch{
+    fun doSearch(search: String) = viewModelScope.launch {
         searchResults.postValue(searchRepository.doSearch(search))
     }
 }

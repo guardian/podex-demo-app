@@ -6,13 +6,12 @@ import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.dao.FeedItemDao
 import javax.inject.Inject
 
-class FeedItemRepositoryImpl @Inject constructor(val feedItemDao: FeedItemDao,
-                                                 val feedRepository: FeedRepository)
+class FeedItemRepositoryImpl @Inject constructor(
+    private val feedItemDao: FeedItemDao,
+    private val feedRepository: FeedRepository)
     : FeedItemRepository {
 
     override suspend fun getFeedItemsForFeed(feed: Feed): LiveData<List<FeedItem>> {
-        //feedRepository.getFeed(feed.feedUrlString)
-
         return feedItemDao.getFeedItemsForFeedUrl(feed.feedUrlString)
     }
 

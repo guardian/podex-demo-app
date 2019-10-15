@@ -25,5 +25,8 @@ data class FeedItem(
     @PrimaryKey
     val feedItemAudioUrl: String,
     val feedItemAudioEncoding: String,
-    val pubDate: Date
+    val pubDate: Date,
+    val author: String,
+    val lengthMs: Int,
+    val episodeNumber: Int
 ) : Parcelable

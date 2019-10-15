@@ -7,7 +7,7 @@ import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class SearchRepositoryImpl
-@Inject constructor(val itunesSearchApi: ItunesSearchApi) :
+@Inject constructor(private val itunesSearchApi: ItunesSearchApi) :
     SearchRepository {
     override suspend fun doSearch(term: String): List<SearchResult> {
         return withContext(Dispatchers.IO) {
