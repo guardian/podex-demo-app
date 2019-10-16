@@ -69,6 +69,7 @@ class UampPlaybackPreparer(
     override fun onPrepareFromMediaId(mediaId: String?, playWhenReady: Boolean, extras: Bundle?) {
         musicSource.whenReady {
             val itemToPlay: MediaMetadataCompat? = musicSource.find { item ->
+                Timber.i("checking ${item.id}")
                 item.id == mediaId
             }
             if (itemToPlay == null) {

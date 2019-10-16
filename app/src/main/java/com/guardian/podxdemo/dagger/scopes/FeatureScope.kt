@@ -1,4 +1,4 @@
-package com.guardian.core.dagger.scopes
+package com.guardian.podxdemo.dagger.scopes
 
 import javax.inject.Scope
 

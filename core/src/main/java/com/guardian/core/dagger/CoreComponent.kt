@@ -8,10 +8,12 @@ import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.search.SearchRepository
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
 /**
  * Component providing application wide singletons.
  */
+@Singleton
 @Component(modules = [WebModule::class,
     SearchDataModule::class,
     RepositoryModule::class,

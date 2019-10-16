@@ -32,16 +32,18 @@ import com.google.android.exoplayer2.util.Util
 import com.guardian.core.R
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.library.BrowseTree
+import com.guardian.core.mediaplayer.library.FeedSource
 import com.guardian.core.mediaplayer.library.MEDIA_SEARCH_SUPPORTED
 import com.guardian.core.mediaplayer.library.MusicSource
 import com.guardian.core.mediaplayer.library.UAMP_BROWSABLE_ROOT
 import com.guardian.core.mediaplayer.library.UAMP_EMPTY_ROOT
-import com.guardian.core.search.SearchRepository
+import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -58,11 +60,14 @@ import javax.inject.Inject
  * For more information on implementing a MediaBrowserService,
  * visit [https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowserservice.html](https://developer.android.com/guide/topics/media-apps/audio-app/building-a-mediabrowserservice.html).
  */
-open class MediaService @Inject constructor(searchRepository: SearchRepository) : MediaBrowserServiceCompat() {
+open class MediaService : MediaBrowserServiceCompat() {
     private lateinit var becomingNoisyReceiver: BecomingNoisyReceiver
     private lateinit var notificationManager: NotificationManagerCompat
     private lateinit var notificationBuilder: NotificationBuilder
     private lateinit var mediaSource: MusicSource
+
+    @Inject lateinit var feedSource: FeedSource
+
     private lateinit var packageValidator: PackageValidator
 
     private val serviceJob = SupervisorJob()
@@ -100,7 +105,10 @@ open class MediaService @Inject constructor(searchRepository: SearchRepository) 
 
     @ExperimentalCoroutinesApi
     override fun onCreate() {
+        AndroidInjection.inject(this)
         super.onCreate()
+
+        feedSource.setupGlide(this)
 
         // Build a PendingIntent that can be used to launch the UI.
         val sessionActivityPendingIntent =
@@ -141,12 +149,8 @@ open class MediaService @Inject constructor(searchRepository: SearchRepository) 
                 sessionToken = mediaSession.sessionToken
             )
 
-        // The media library is built from a remote JSON file. We'll create the source here,
-        // and then use a suspend function to perform the download off the main thread.
-        // mediaSource = JsonSource(
-        //     context = this,
-        //     source = remoteJsonSource
-        // )
+        mediaSource = feedSource
+
         serviceScope.launch {
             mediaSource.load()
         }
@@ -272,9 +276,11 @@ open class MediaService @Inject constructor(searchRepository: SearchRepository) 
                 val children = browseTree[parentMediaId]?.map { item ->
                     MediaItem(item.description, item.flag)
                 }
+                Timber.i("sending children")
                 result.sendResult(children)
             } else {
                 mediaSession.sendSessionEvent(NETWORK_FAILURE, null)
+                Timber.i("sending null")
                 result.sendResult(null)
             }
         }
@@ -305,6 +311,7 @@ open class MediaService @Inject constructor(searchRepository: SearchRepository) 
                     .map { mediaMetadata ->
                         MediaItem(mediaMetadata.description, mediaMetadata.flag)
                     }
+                Timber.i("sending resultsList")
                 result.sendResult(resultsList)
             }
         }

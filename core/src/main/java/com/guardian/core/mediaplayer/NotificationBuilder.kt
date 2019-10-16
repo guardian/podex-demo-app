@@ -33,7 +33,10 @@ import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import androidx.media.session.MediaButtonReceiver
 import com.guardian.core.R
-import com.guardian.core.mediaplayer.extensions.*
+import com.guardian.core.mediaplayer.extensions.isPlayEnabled
+import com.guardian.core.mediaplayer.extensions.isPlaying
+import com.guardian.core.mediaplayer.extensions.isSkipToNextEnabled
+import com.guardian.core.mediaplayer.extensions.isSkipToPreviousEnabled
 
 const val NOW_PLAYING_CHANNEL: String = "com.example.android.uamp.media.NOW_PLAYING"
 const val NOW_PLAYING_NOTIFICATION: Int = 0xb339
@@ -104,6 +107,7 @@ class NotificationBuilder(private val context: Context) {
                 .setDeleteIntent(stopPendingIntent)
                 .setLargeIcon(description.iconBitmap)
                 .setOnlyAlertOnce(true)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setStyle(mediaStyle)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build()

@@ -30,6 +30,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.media.MediaBrowserServiceCompat
 import com.guardian.core.mediaplayer.NETWORK_FAILURE
 import com.guardian.core.mediaplayer.common.MediaSessionConnection.MediaBrowserConnectionCallback
+import timber.log.Timber
 
 /**
  * Class that manages a connection to a [MediaBrowserServiceCompat] instance.
@@ -50,6 +51,9 @@ import com.guardian.core.mediaplayer.common.MediaSessionConnection.MediaBrowserC
  *  [MediaBrowserConnectionCallback] and [MediaBrowserCompat] objects.
  */
 class MediaSessionConnection(context: Context, serviceComponent: ComponentName) {
+    init {
+        Timber.i("new controller is being made")
+    }
     val isConnected = MutableLiveData<Boolean>()
         .apply { postValue(false) }
     val networkFailure = MutableLiveData<Boolean>()
@@ -107,9 +111,12 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
          */
         override fun onConnected() {
             // Get a MediaController for the MediaSession.
+            Timber.i("meadiaController is instantiated")
             mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken).apply {
                 registerCallback(MediaControllerCallback())
             }
+
+            Timber.i(transportControls.toString())
 
             isConnected.postValue(true)
         }

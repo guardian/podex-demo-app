@@ -2,13 +2,14 @@ package com.guardian.podxdemo.dagger
 
 import com.guardian.core.dagger.CoreComponent
 import com.guardian.podxdemo.PodXDemoApplication
+import com.guardian.podxdemo.dagger.scopes.FeatureScope
 import dagger.Component
 import dagger.android.AndroidInjectionModule
-import javax.inject.Singleton
 
-@Singleton
+@FeatureScope
 @Component(modules = [AndroidInjectionModule::class,
     MainActivityModule::class,
+    ServiceModule::class,
     PodcastFragmentsModule::class,
     PodcastViewModelsModule::class,
     AppExecutorsModule::class],

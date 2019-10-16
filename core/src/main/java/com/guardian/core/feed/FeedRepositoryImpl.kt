@@ -69,8 +69,8 @@ class FeedRepositoryImpl
                     feedItemAudioUrl = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
                     feedUrlString = feedUrl,
                     author = feedItemXmlDataObject.author,
-                    episodeNumber = index,
-                    lengthMs = feedItemXmlDataObject.enclosureXmlDataObject.attributes["length"]?.value?.toInt() ?: 0
+                    episodeNumber = index.toLong(),
+                    lengthMs = feedItemXmlDataObject.enclosureXmlDataObject.attributes["length"]?.value?.toLong() ?: 0
                 )
             }.also {
                 feedItems -> feedItemDao.addFeedList(feedItems)
