@@ -4,22 +4,18 @@ import android.support.v4.media.MediaBrowserCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
-import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.search.SearchResult
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 class FeedViewModel
 @Inject constructor(
     private val feedRepository: FeedRepository,
-    private val feedItemRepository: FeedItemRepository,
-    private val mediaSessionConnection: MediaSessionConnection
+    private val feedItemRepository: FeedItemRepository
 ) :
     ViewModel() {
 
@@ -45,24 +41,23 @@ class FeedViewModel
     }
 
     fun getFeedAndItems(feedUrl: String) {
-        viewModelScope.launch {
-            feedRepository.getFeed(feedUrl).observeForever { feed ->
+        feedRepository.getFeed(feedUrl)
+            .subscribe { feed ->
                 Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
                 if (feed != null) {
                     mutableFeedData.postValue(feed)
                     getFeedItems(feed)
                 }
             }
-        }
     }
 
     private fun getFeedItems(feed: Feed) {
-        viewModelScope.launch {
-            feedItemRepository.getFeedItemsForFeed(feed).observeForever { feedItemList ->
+
+        feedItemRepository.getFeedItemsForFeed(feed)
+            .subscribe { feedItemList ->
                 Timber.i("list from repo ${feedItemList.size}")
                 mutableFeedItemData.postValue(feedItemList)
             }
-        }
     }
 
     object subscriptionCallback : MediaBrowserCompat.SubscriptionCallback() {

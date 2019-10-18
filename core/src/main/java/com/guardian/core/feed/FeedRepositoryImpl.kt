@@ -1,14 +1,14 @@
 package com.guardian.core.feed
 
-import androidx.lifecycle.LiveData
+import com.guardian.core.base.BaseRepository
 import com.guardian.core.feed.api.FeedXmlDataObject
 import com.guardian.core.feed.api.GeneralFeedApi
 import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.dao.FeedItemDao
 import com.guardian.core.search.SearchResult
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import io.reactivex.rxjava3.core.Flowable
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -23,8 +23,8 @@ import javax.inject.Inject
  * [Feed.feedUrlString]. The feedUrl string corresponds to the [SearchResult.feedUrlString] and can
  * therefore be treated as a foreign key.
  *
- * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXEvent]
- * objects which are all returned from this repository at this time.
+ * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXEvent].
+ * These can be acessed through their own repositories.
  */
 
 class FeedRepositoryImpl
@@ -33,13 +33,15 @@ class FeedRepositoryImpl
     private val feedDao: FeedDao,
     private val feedItemDao: FeedItemDao
 ) :
-    FeedRepository {
-    override fun getFeeds(): LiveData<List<Feed>> {
+    FeedRepository, BaseRepository() {
+    override fun getFeeds(): Flowable<List<Feed>> {
         return feedDao.getCachedFeeds()
     }
 
-    override suspend fun getFeed(feedUrl: String): LiveData<Feed> {
-        withContext(Dispatchers.IO) {
+    override fun getFeed(feedUrl: String): Flowable<Feed> {
+        // Fire and forget our update from the web for this feed, results will update the room repo
+        // which will in turn propagate via subscription
+        repositoryScope.launch {
             generalFeedApi.getFeedDeSerializedXml(feedUrl).apply {
                 mapFeedObjectFromXmlFeedObjectAndCache(this, feedUrl)
             }

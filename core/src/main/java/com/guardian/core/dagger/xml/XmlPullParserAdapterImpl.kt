@@ -31,7 +31,7 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
     XmlPullParserAdapter {
 
     @Throws(XmlPullParserException::class, IOException::class, InvalidClassException::class)
-    override suspend fun deSerialiseXml(xmlInput: InputStream, rootDataObjectInitializer: () -> XmlDataObject): XmlDataObject {
+    override fun deSerialiseXml(xmlInput: InputStream, rootDataObjectInitializer: () -> XmlDataObject): XmlDataObject {
         val xmlPullParser = xmlPullParserFactory.newPullParser()
 
         xmlPullParser.setInput(xmlInput.reader(StandardCharsets.UTF_8))

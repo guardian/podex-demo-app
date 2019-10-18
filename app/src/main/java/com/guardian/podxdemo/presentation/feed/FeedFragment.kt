@@ -32,8 +32,7 @@ class FeedFragment
 
     init {
         mediaSessionConnection.subscribe("unused",
-            object: MediaBrowserCompat.SubscriptionCallback() {
-
+            object : MediaBrowserCompat.SubscriptionCallback() {
             }
             )
     }
@@ -41,7 +40,6 @@ class FeedFragment
     private val feedViewModel: FeedViewModel by viewModels {
         viewModelProviderFactory
     }
-
 
     private var binding: LayoutFeedfragmentBinding by lifecycleAwareVar()
 

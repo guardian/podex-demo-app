@@ -33,10 +33,10 @@ import timber.log.Timber
 /**
  * Interface used by [MediaService] for looking up [MediaMetadataCompat] objects.
  *
- * Because Kotlin provides methods such as [Iterable.find] and [Iterable.filter],
- * this is a convenient interface to have on sources.
+ * In UAMP it implements iterable but the Podex client is backed by a room database and search
+ * APIs, so we must implement find and filter methods that leverage those
  */
-interface MusicSource : Iterable<MediaMetadataCompat> {
+interface MusicSource {
 
     /**
      * Begins loading the data for this music source.
@@ -53,6 +53,23 @@ interface MusicSource : Iterable<MediaMetadataCompat> {
     fun whenReady(performAction: (Boolean) -> Unit): Boolean
 
     fun search(query: String, extras: Bundle): List<MediaMetadataCompat>
+
+    /**
+     * Returns the first [MediaMetadataCompat] matching the given [predicate], or `null` if no such
+     * element was found.
+     */
+    fun find(predicate: (MediaMetadataCompat) -> Boolean): MediaMetadataCompat?
+
+    /**
+     * Returns a list containing only [MediaMetadataCompat] matching the given [predicate].
+     */
+    fun filter(predicate: (MediaMetadataCompat) -> Boolean): List<MediaMetadataCompat>
+
+    /**
+     * todo find a better default play option if nothing matches a query, only really relevant when
+     * dealing with input from outside the app.
+     */
+    fun shuffled(): List<MediaMetadataCompat>
 }
 
 @IntDef(

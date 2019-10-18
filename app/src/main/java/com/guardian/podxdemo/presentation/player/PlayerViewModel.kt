@@ -13,10 +13,10 @@ class PlayerViewModel
 @Inject constructor(private val mediaSessionConnection: MediaSessionConnection) :
     ViewModel() {
 
+    /**
+     *
+     */
     fun playFromUri(mediaUri: String) {
-        // todo use subscription on feeds to populate a source so we have initialised
-        //  transport controls here
-
         val nowPlaying = mediaSessionConnection.nowPlaying.value
         val transportControls = mediaSessionConnection.transportControls
 

@@ -1,8 +1,8 @@
 package com.guardian.core.feeditem
 
-import androidx.lifecycle.LiveData
 import com.guardian.core.feed.Feed
 import com.guardian.core.feeditem.dao.FeedItemDao
+import io.reactivex.rxjava3.core.Flowable
 import javax.inject.Inject
 
 class FeedItemRepositoryImpl @Inject constructor(
@@ -10,11 +10,11 @@ class FeedItemRepositoryImpl @Inject constructor(
 )
     : FeedItemRepository {
 
-    override suspend fun getFeedItemsForFeed(feed: Feed): LiveData<List<FeedItem>> {
+    override fun getFeedItemsForFeed(feed: Feed): Flowable<List<FeedItem>> {
         return feedItemDao.getFeedItemsForFeedUrl(feed.feedUrlString)
     }
 
-    override suspend fun getFeedItemForUrlString(feedItemUrlString: String): LiveData<FeedItem> {
+    override fun getFeedItemForUrlString(feedItemUrlString: String): Flowable<FeedItem> {
         return feedItemDao.getFeedItemForUrlString(feedItemUrlString)
     }
 }

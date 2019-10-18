@@ -27,7 +27,6 @@ import com.guardian.core.mediaplayer.extensions.artist
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.title
-import com.guardian.core.mediaplayer.extensions.trackNumber
 import com.guardian.core.mediaplayer.extensions.urlEncoded
 
 /**
@@ -39,12 +38,15 @@ import com.guardian.core.mediaplayer.extensions.urlEncoded
  * For example, given the following conceptual tree:
  * root
  *  +-- Albums
- *  |    +-- Album_A
- *  |    |    +-- Song_1
- *  |    |    +-- Song_2
+ *  |    +-- Feed_A
+ *  |    |    +-- Episode_1
+ *  |    |    +-- Episode_2
  *  ...
  *  +-- Artists
  *  ...
+ *
+ *  The [MediaMetadataCompat] class is clearly set up for music but attributes can be translated for
+ *  relevance to podcasts, the "Artists" are the Creators, "Albums" are mapped to Feed Urls
  *
  *  Requesting `browseTree["root"]` would return a list that included "Albums", "Artists", and
  *  any other direct children. Taking the media ID of "Albums" ("Albums" in this example),
@@ -66,8 +68,6 @@ class BrowseTree(musicSource: MusicSource) {
      * [UAMP_BROWSABLE_ROOT]). The root's children are each album included in the
      * [MusicSource], and the children of each album are the songs on that album.
      * (See [BrowseTree.buildAlbumRoot] for more details.)
-     *
-     * TODO: Expand to allow more browsing types.
      */
     init {
         val rootList = mediaIdToChildren[UAMP_BROWSABLE_ROOT] ?: mutableListOf()
@@ -80,7 +80,7 @@ class BrowseTree(musicSource: MusicSource) {
             flag = MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
         }.build()
 
-        val albumsMetadata = MediaMetadataCompat.Builder().apply {
+        val feedsMetadata = MediaMetadataCompat.Builder().apply {
             // todo get proper defaults
             id = UAMP_ALBUMS_ROOT
             title = "todo"
@@ -89,22 +89,25 @@ class BrowseTree(musicSource: MusicSource) {
         }.build()
 
         rootList += recommendedMetadata
-        rootList += albumsMetadata
+        rootList += feedsMetadata
         mediaIdToChildren[UAMP_BROWSABLE_ROOT] = rootList
 
-        musicSource.forEach { mediaItem ->
-            val albumMediaId = mediaItem.album.urlEncoded
-            val albumChildren = mediaIdToChildren[albumMediaId] ?: buildAlbumRoot(mediaItem)
-            albumChildren += mediaItem
+        // todo move this to the actual source, basically construct the album nodes
 
-            // Add the first track of each album to the 'Recommended' category
-            if (mediaItem.trackNumber == 1L) {
-                val recommendedChildren = mediaIdToChildren[UAMP_RECOMMENDED_ROOT]
-                                        ?: mutableListOf()
-                recommendedChildren += mediaItem
-                mediaIdToChildren[UAMP_RECOMMENDED_ROOT] = recommendedChildren
-            }
-        }
+        // musicSource.forEach { mediaItem ->
+        //     val albumMediaId = mediaItem.album.urlEncoded
+        //     val albumChildren = mediaIdToChildren[albumMediaId] ?: buildAlbumRoot(mediaItem)
+        //     albumChildren += mediaItem
+        //
+        //
+        //     // // Add the first track of each album to the 'Recommended' category
+        //     // if (mediaItem.trackNumber == 1L) {
+        //     //     val recommendedChildren = mediaIdToChildren[UAMP_RECOMMENDED_ROOT]
+        //     //                             ?: mutableListOf()
+        //     //     recommendedChildren += mediaItem
+        //     //     mediaIdToChildren[UAMP_RECOMMENDED_ROOT] = recommendedChildren
+        //     // }
+        // }
     }
 
     /**

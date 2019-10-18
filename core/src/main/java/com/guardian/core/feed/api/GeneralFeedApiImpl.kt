@@ -14,7 +14,7 @@ class GeneralFeedApiImpl
     GeneralFeedApi {
 
     @Throws(IOException::class)
-    override suspend fun getFeedDeSerializedXml(feedUrlString: String): FeedXmlDataObject {
+    override fun getFeedDeSerializedXml(feedUrlString: String): FeedXmlDataObject {
 
         val xmlRequest = Request.Builder()
             .url(feedUrlString)

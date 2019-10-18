@@ -88,6 +88,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     testImplementation "androidx.room:room-testing:$room_version"
+
+    implementation "io.reactivex.rxjava3:rxjava:3.0.0-RC3"
 }
