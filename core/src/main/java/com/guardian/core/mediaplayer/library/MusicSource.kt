@@ -35,6 +35,8 @@ import timber.log.Timber
  *
  * In UAMP it implements iterable but the Podex client is backed by a room database and search
  * APIs, so we must implement find and filter methods that leverage those
+ *
+ * All methods query a repo that must be run off the main thread, so are all suspended
  */
 interface MusicSource {
 
@@ -52,24 +54,30 @@ interface MusicSource {
      */
     fun whenReady(performAction: (Boolean) -> Unit): Boolean
 
-    fun search(query: String, extras: Bundle): List<MediaMetadataCompat>
+    suspend fun search(query: String, extras: Bundle): List<MediaMetadataCompat>
 
     /**
      * Returns the first [MediaMetadataCompat] matching the given [predicate], or `null` if no such
      * element was found.
      */
-    fun find(predicate: (MediaMetadataCompat) -> Boolean): MediaMetadataCompat?
+    suspend fun find(predicate: (MediaMetadataCompat) -> Boolean): MediaMetadataCompat?
+
+    /**
+     * Returns the first [MediaMetadataCompat] with the  the given id, or `null` if no such
+     * element was found.
+     */
+    suspend fun findById(id: String): MediaMetadataCompat?
 
     /**
      * Returns a list containing only [MediaMetadataCompat] matching the given [predicate].
      */
-    fun filter(predicate: (MediaMetadataCompat) -> Boolean): List<MediaMetadataCompat>
+    suspend fun filter(predicate: (MediaMetadataCompat) -> Boolean): List<MediaMetadataCompat>
 
     /**
      * todo find a better default play option if nothing matches a query, only really relevant when
      * dealing with input from outside the app.
      */
-    fun shuffled(): List<MediaMetadataCompat>
+    suspend fun shuffled(): List<MediaMetadataCompat>
 }
 
 @IntDef(
@@ -144,7 +152,7 @@ abstract class AbstractMusicSource : MusicSource {
      * Handles searching a [MusicSource] from a focused voice search, often coming
      * from the Google Assistant.
      */
-    override fun search(query: String, extras: Bundle): List<MediaMetadataCompat> {
+    override suspend fun search(query: String, extras: Bundle): List<MediaMetadataCompat> {
         // First attempt to search with the "focus" that's provided in the extras.
         val focusSearchResult = when (extras[MediaStore.EXTRA_MEDIA_FOCUS]) {
             MediaStore.Audio.Genres.ENTRY_CONTENT_TYPE -> {

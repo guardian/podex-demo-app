@@ -7,7 +7,7 @@ import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.dao.FeedItemDao
 import com.guardian.core.search.SearchResult
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Flowable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.SimpleDateFormat

@@ -7,6 +7,7 @@ import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
+import com.guardian.core.mediaplayer.extensions.album
 import com.guardian.core.mediaplayer.extensions.albumArtUri
 import com.guardian.core.mediaplayer.extensions.artist
 import com.guardian.core.mediaplayer.extensions.displayDescription
@@ -19,8 +20,9 @@ import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.mediaUri
 import com.guardian.core.mediaplayer.extensions.title
+import com.guardian.core.mediaplayer.extensions.trackCount
 import com.guardian.core.mediaplayer.extensions.trackNumber
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 class MediaMetadataRepositoryImpl
@@ -29,22 +31,60 @@ class MediaMetadataRepositoryImpl
     private val feedItemRepository: FeedItemRepository
 ) :
     MediaMetadataRepository {
+    override fun getStoredMetadata(): Flowable<List<MediaMetadataCompat>> {
+        // todo make this not terrible
+        return feedRepository.getFeeds()
+            .flatMap { feedList ->
+                // every time the feed repo is updated
+
+                // merge together a list of queries for feed item lists mapped to metadata
+                Flowable.amb(
+                    feedList.map { feed ->
+                        // for every feed
+
+                        feedItemRepository.getFeedItemsForFeed(feed)
+                            .map { feedItemList ->
+                                // get the associated feed items
+
+                                feedItemList.map { feedItem ->
+                                    // for every feed item
+
+                                    // return a MediaMetadataCompat with that feed items data
+                                    MediaMetadataCompat.Builder()
+                                        .from(feedItem, feed, feedItemList.size)
+                                        .build()
+                                }
+                            }
+                    }
+                )
+            }
+    }
+
     override fun getMetadataForId(idString: String): Flowable<MediaMetadataCompat> {
-        return Flowable.empty()
+        return feedItemRepository.getFeedItemForUrlString(idString)
+            .flatMap { feedItem: FeedItem ->
+                feedRepository.getFeed(feedItem.feedUrlString)
+                    .map { feed ->
+                        MediaMetadataCompat.Builder()
+                            .from(feedItem, feed, 1)
+                            .build()
+                    }
+            }
     }
 }
 
-fun MediaMetadataCompat.Builder.from(feedItem: FeedItem, feed: Feed): MediaMetadataCompat.Builder {
+private fun MediaMetadataCompat.Builder.from(feedItem: FeedItem, feed: Feed, episodeCount: Int):
+    MediaMetadataCompat.Builder {
     id = feedItem.feedItemAudioUrl
     title = feedItem.title
     artist = feedItem.author
-    // album = todo get from feed
+    album = feed.title
     duration = feedItem.lengthMs
-    // genre = jsonMusic.genre
+    // todo genre = jsonMusic.genre
     mediaUri = feedItem.feedItemAudioUrl
     albumArtUri = feedItem.imageUrlString
     trackNumber = feedItem.episodeNumber
-    // trackCount = todo get from feed
+    trackCount = episodeCount.toLong()
     flag = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 
     // todo move to metadata getalbumArt = art

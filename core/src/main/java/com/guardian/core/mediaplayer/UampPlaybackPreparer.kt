@@ -32,6 +32,8 @@ import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.toMediaSource
 import com.guardian.core.mediaplayer.extensions.trackNumber
 import com.guardian.core.mediaplayer.library.MusicSource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -40,7 +42,8 @@ import timber.log.Timber
 class UampPlaybackPreparer(
     private val musicSource: MusicSource,
     private val exoPlayer: ExoPlayer,
-    private val dataSourceFactory: DataSource.Factory
+    private val dataSourceFactory: DataSource.Factory,
+    private val coroutineScope: CoroutineScope
 ) : MediaSessionConnector.PlaybackPreparer {
     /**
      * UAMP supports preparing (and playing) from search, as well as media ID, so those
@@ -68,25 +71,27 @@ class UampPlaybackPreparer(
      */
     override fun onPrepareFromMediaId(mediaId: String?, playWhenReady: Boolean, extras: Bundle?) {
         musicSource.whenReady {
-            val itemToPlay: MediaMetadataCompat? = musicSource.find { item ->
-                Timber.i("checking ${item.id}")
-                item.id == mediaId
-            }
-            if (itemToPlay == null) {
-                Timber.w("Content not found: MediaID=$mediaId")
+            coroutineScope.launch {
+                val itemToPlay: MediaMetadataCompat? = musicSource.find { item ->
+                    Timber.i("checking ${item.id}")
+                    item.id == mediaId
+                }
+                if (itemToPlay == null) {
+                    Timber.w("Content not found: MediaID=$mediaId")
 
-                // TODO: Notify caller of the error.
-            } else {
-                val metadataList = buildPlaylist(itemToPlay)
-                val mediaSource = metadataList.toMediaSource(dataSourceFactory)
+                    // TODO: Notify caller of the error.
+                } else {
+                    val metadataList = buildPlaylist(itemToPlay)
+                    val mediaSource = metadataList.toMediaSource(dataSourceFactory)
 
-                // Since the playlist was probably based on some ordering (such as tracks
-                // on an album), find which window index to play first so that the song the
-                // user actually wants to hear plays first.
-                val initialWindowIndex = metadataList.indexOf(itemToPlay)
+                    // Since the playlist was probably based on some ordering (such as tracks
+                    // on an album), find which window index to play first so that the song the
+                    // user actually wants to hear plays first.
+                    val initialWindowIndex = metadataList.indexOf(itemToPlay)
 
-                exoPlayer.prepare(mediaSource)
-                exoPlayer.seekTo(initialWindowIndex, 0)
+                    exoPlayer.prepare(mediaSource)
+                    exoPlayer.seekTo(initialWindowIndex, 0)
+                }
             }
         }
     }
@@ -97,18 +102,22 @@ class UampPlaybackPreparer(
      * (See above for details.)
      *
      * This method is used by the Google Assistant to respond to requests such as:
-     * - Play Geisha from Wake Up on UAMP
-     * - Play electronic music on UAMP
-     * - Play music on UAMP
+     * - Play Geisha from Wake Up on Podex
+     * - Play electronic music on Podex
+     * - Play music on Podex
+     *
+     * TODO probably need something more phonetic than PodX
      *
      * For details on how search is handled, see [AbstractMusicSource.search].
      */
     override fun onPrepareFromSearch(query: String?, playWhenReady: Boolean, extras: Bundle?) {
         musicSource.whenReady {
-            val metadataList = musicSource.search(query ?: "", extras ?: Bundle.EMPTY)
-            if (metadataList.isNotEmpty()) {
-                val mediaSource = metadataList.toMediaSource(dataSourceFactory)
-                exoPlayer.prepare(mediaSource)
+            coroutineScope.launch {
+                val metadataList = musicSource.search(query ?: "", extras ?: Bundle.EMPTY)
+                if (metadataList.isNotEmpty()) {
+                    val mediaSource = metadataList.toMediaSource(dataSourceFactory)
+                    exoPlayer.prepare(mediaSource)
+                }
             }
         }
     }
@@ -131,7 +140,7 @@ class UampPlaybackPreparer(
      * @param item Item to base the playlist on.
      * @return a [List] of [MediaMetadataCompat] objects representing a playlist.
      */
-    private fun buildPlaylist(item: MediaMetadataCompat): List<MediaMetadataCompat> =
+    private suspend fun buildPlaylist(item: MediaMetadataCompat): List<MediaMetadataCompat> =
             musicSource.filter { it.album == item.album }.sortedBy { it.trackNumber }
 }
 

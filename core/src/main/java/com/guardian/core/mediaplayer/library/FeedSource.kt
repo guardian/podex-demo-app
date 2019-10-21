@@ -2,7 +2,15 @@ package com.guardian.core.mediaplayer.library
 
 import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
+import androidx.room.EmptyResultSetException
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.guardian.core.mediametadata.MediaMetadataRepository
+import com.guardian.core.mediaplayer.extensions.albumArt
+import com.guardian.core.mediaplayer.extensions.albumArtUri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class FeedSource
@@ -13,10 +21,9 @@ class FeedSource
         state = STATE_INITIALIZING
     }
 
-    private lateinit var context: Context
-
+    private lateinit var glide: RequestManager
     fun setupGlide(context: Context) {
-        this.context = context
+        this.glide = Glide.with(context)
     }
 
     override suspend fun load() {
@@ -24,15 +31,49 @@ class FeedSource
         state = STATE_INITIALIZED
     }
 
-    override fun find(predicate: (MediaMetadataCompat) -> Boolean): MediaMetadataCompat? {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    override suspend fun find(predicate: (MediaMetadataCompat) -> Boolean): MediaMetadataCompat? =
+        withContext(Dispatchers.IO) {
+            try {
+                mediaMetadataRepository.getStoredMetadata()
+                    .blockingFirst()
+                    .firstOrNull(predicate)
+            } catch (e: EmptyResultSetException) {
+                Timber.e(e)
+                null
+            }
+        }
+
+    override suspend fun findById(id: String): MediaMetadataCompat? =
+        withContext(Dispatchers.IO) {
+            try {
+                mediaMetadataRepository.getMetadataForId(id)
+                    .blockingFirst()
+                    .addArt()
+            } catch (e: EmptyResultSetException) {
+                Timber.e(e)
+                null
+            }
+        }
+
+    override suspend fun filter(predicate: (MediaMetadataCompat) -> Boolean): List<MediaMetadataCompat> {
+        // todo stub
+        return listOf()
     }
 
-    override fun filter(predicate: (MediaMetadataCompat) -> Boolean): List<MediaMetadataCompat> {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun shuffled(): List<MediaMetadataCompat> {
+    override suspend fun shuffled(): List<MediaMetadataCompat> {
         TODO("remove this")
+    }
+
+    private fun MediaMetadataCompat.addArt(): MediaMetadataCompat {
+        val artUri = this.albumArtUri
+
+        return MediaMetadataCompat.Builder(this)
+            .apply {
+                albumArt = glide.asBitmap()
+                    .load(artUri)
+                    .submit()
+                    .get()
+            }
+            .build()
     }
 }

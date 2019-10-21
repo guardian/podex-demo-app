@@ -1,6 +1,6 @@
 package com.guardian.core.feed
 
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Flowable
 
 interface FeedRepository {
     /**

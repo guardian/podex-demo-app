@@ -1,7 +1,7 @@
 package com.guardian.core.feeditem
 
 import com.guardian.core.feed.Feed
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Flowable
 
 interface FeedItemRepository {
     /**

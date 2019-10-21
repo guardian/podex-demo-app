@@ -5,8 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guardian.core.feed.Feed
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Completable
+import io.reactivex.Flowable
 
 @Dao
 interface FeedDao {

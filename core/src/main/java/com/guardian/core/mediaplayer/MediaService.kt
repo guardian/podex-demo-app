@@ -100,6 +100,8 @@ open class MediaService : MediaBrowserServiceCompat() {
     private val exoPlayer: ExoPlayer by lazy {
         ExoPlayerFactory.newSimpleInstance(this).apply {
             setAudioAttributes(uAmpAudioAttributes, true)
+
+            playWhenReady = false
         }
     }
 
@@ -166,7 +168,8 @@ open class MediaService : MediaBrowserServiceCompat() {
             val playbackPreparer = UampPlaybackPreparer(
                 mediaSource,
                 exoPlayer,
-                dataSourceFactory
+                dataSourceFactory,
+                serviceScope
             )
 
             connector.setPlayer(exoPlayer)
@@ -307,12 +310,14 @@ open class MediaService : MediaBrowserServiceCompat() {
 
         val resultsSent = mediaSource.whenReady { successfullyInitialized ->
             if (successfullyInitialized) {
-                val resultsList = mediaSource.search(query, extras ?: Bundle.EMPTY)
-                    .map { mediaMetadata ->
-                        MediaItem(mediaMetadata.description, mediaMetadata.flag)
-                    }
-                Timber.i("sending resultsList")
-                result.sendResult(resultsList)
+                serviceScope.launch {
+                    val resultsList = mediaSource.search(query, extras ?: Bundle.EMPTY)
+                        .map { mediaMetadata ->
+                            MediaItem(mediaMetadata.description, mediaMetadata.flag)
+                        }
+                    Timber.i("sending resultsList")
+                    result.sendResult(resultsList)
+                }
             }
         }
 

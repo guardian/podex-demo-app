@@ -2,7 +2,7 @@ package com.guardian.core.feeditem
 
 import com.guardian.core.feed.Feed
 import com.guardian.core.feeditem.dao.FeedItemDao
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 class FeedItemRepositoryImpl @Inject constructor(
