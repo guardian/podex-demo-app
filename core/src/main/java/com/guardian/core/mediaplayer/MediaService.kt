@@ -101,7 +101,7 @@ open class MediaService : MediaBrowserServiceCompat() {
         ExoPlayerFactory.newSimpleInstance(this).apply {
             setAudioAttributes(uAmpAudioAttributes, true)
 
-            playWhenReady = false
+            //playWhenReady = false
         }
     }
 

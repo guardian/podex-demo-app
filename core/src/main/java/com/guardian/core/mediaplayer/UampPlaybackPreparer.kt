@@ -28,7 +28,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.upstream.DataSource
 import com.guardian.core.mediaplayer.extensions.album
-import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.toMediaSource
 import com.guardian.core.mediaplayer.extensions.trackNumber
 import com.guardian.core.mediaplayer.library.MusicSource
@@ -72,14 +71,13 @@ class UampPlaybackPreparer(
     override fun onPrepareFromMediaId(mediaId: String?, playWhenReady: Boolean, extras: Bundle?) {
         musicSource.whenReady {
             coroutineScope.launch {
-                val itemToPlay: MediaMetadataCompat? = musicSource.find { item ->
-                    Timber.i("checking ${item.id}")
-                    item.id == mediaId
+                val itemToPlay: MediaMetadataCompat? = if (mediaId != null) {
+                    musicSource.findById(mediaId)
+                } else {
+                    null
                 }
                 if (itemToPlay == null) {
                     Timber.w("Content not found: MediaID=$mediaId")
-
-                    // TODO: Notify caller of the error.
                 } else {
                     val metadataList = buildPlaylist(itemToPlay)
                     val mediaSource = metadataList.toMediaSource(dataSourceFactory)
@@ -90,7 +88,7 @@ class UampPlaybackPreparer(
                     val initialWindowIndex = metadataList.indexOf(itemToPlay)
 
                     exoPlayer.prepare(mediaSource)
-                    exoPlayer.seekTo(initialWindowIndex, 0)
+                    //exoPlayer.seekTo(initialWindowIndex, 0)
                 }
             }
         }

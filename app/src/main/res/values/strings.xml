@@ -6,4 +6,5 @@
     <string name="title_podcastplayer">Podcast Player</string>
     <string name="search">search</string>
     <string name="searchfragment_default_term">guardian</string>
+    <string name="playerfragment_album_art_alt">Album Art</string>
 </resources>

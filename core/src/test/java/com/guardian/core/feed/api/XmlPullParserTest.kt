@@ -1,7 +1,6 @@
-package com.guardian.core
+package com.guardian.core.feed.api
 
 import com.guardian.core.dagger.xml.XmlPullParserAdapterImpl
-import com.guardian.core.feed.api.RootXmlDataObject
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -27,7 +26,7 @@ class XmlPullParserTest {
 
     @Test
     fun testPullParserOnPodXSample() {
-        val inputStream = this.javaClass.classLoader!!.getResourceAsStream("sampleFeedPodex.xml")
+        val inputStream = this.javaClass.classLoader!!.getResourceAsStream("sample_feed_podex.xml")
 
         runBlocking {
             val testStream = XmlPullParserAdapterImpl(
@@ -42,7 +41,7 @@ class XmlPullParserTest {
 
     @Test
     fun testPullParserOnItunesXmlSample() {
-        val inputStream = this.javaClass.classLoader!!.getResourceAsStream("sampleFeedItunes.xml")
+        val inputStream = this.javaClass.classLoader!!.getResourceAsStream("sample_feed_itunes.xml")
 
         runBlocking {
             val testStream = XmlPullParserAdapterImpl(

@@ -5,12 +5,15 @@ import android.support.v4.media.MediaMetadataCompat
 import androidx.room.EmptyResultSetException
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.guardian.core.R
 import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediaplayer.extensions.albumArt
 import com.guardian.core.mediaplayer.extensions.albumArtUri
+import com.guardian.core.mediaplayer.extensions.title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.concurrent.ExecutionException
 import javax.inject.Inject
 
 class FeedSource
@@ -69,10 +72,17 @@ class FeedSource
 
         return MediaMetadataCompat.Builder(this)
             .apply {
-                albumArt = glide.asBitmap()
-                    .load(artUri)
-                    .submit()
-                    .get()
+                title = "title"
+                try {
+                    albumArt = glide.asBitmap()
+                        .load(artUri)
+                        .error(R.drawable.image_placeholder)
+                        .placeholder(R.drawable.image_placeholder)
+                        .submit()
+                        .get()
+                } catch (e: ExecutionException) {
+                    Timber.e(e)
+                }
             }
             .build()
     }

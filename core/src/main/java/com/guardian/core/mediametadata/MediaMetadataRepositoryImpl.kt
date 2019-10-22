@@ -5,6 +5,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
+import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.extensions.album
@@ -27,36 +28,24 @@ import javax.inject.Inject
 
 class MediaMetadataRepositoryImpl
 @Inject constructor(
+    private val feedDao: FeedDao,
     private val feedRepository: FeedRepository,
     private val feedItemRepository: FeedItemRepository
 ) :
     MediaMetadataRepository {
     override fun getStoredMetadata(): Flowable<List<MediaMetadataCompat>> {
-        // todo make this not terrible
-        return feedRepository.getFeeds()
-            .flatMap { feedList ->
-                // every time the feed repo is updated
+        return feedDao.getCachedFeedsWithFeedItems()
+            .map { feedWithItemList ->
+                feedWithItemList.flatMap {feedWithItems ->
+                    val currentFeed = feedWithItems.feed
 
-                // merge together a list of queries for feed item lists mapped to metadata
-                Flowable.amb(
-                    feedList.map { feed ->
-                        // for every feed
-
-                        feedItemRepository.getFeedItemsForFeed(feed)
-                            .map { feedItemList ->
-                                // get the associated feed items
-
-                                feedItemList.map { feedItem ->
-                                    // for every feed item
-
-                                    // return a MediaMetadataCompat with that feed items data
-                                    MediaMetadataCompat.Builder()
-                                        .from(feedItem, feed, feedItemList.size)
-                                        .build()
-                                }
-                            }
-                    }
-                )
+                    feedWithItems.feedItem
+                        .map { feedItem ->
+                            MediaMetadataCompat.Builder()
+                                .from(feedItem, currentFeed, feedWithItems.feedItem.size)
+                                .build()
+                        }
+                }
             }
     }
 
