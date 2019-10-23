@@ -9,7 +9,6 @@ import com.guardian.core.R
 import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediaplayer.extensions.albumArt
 import com.guardian.core.mediaplayer.extensions.albumArtUri
-import com.guardian.core.mediaplayer.extensions.title
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -72,7 +71,6 @@ class FeedSource
 
         return MediaMetadataCompat.Builder(this)
             .apply {
-                title = "title"
                 try {
                     albumArt = glide.asBitmap()
                         .load(artUri.toString())

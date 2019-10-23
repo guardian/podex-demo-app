@@ -28,6 +28,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.upstream.DataSource
 import com.guardian.core.mediaplayer.extensions.album
+import com.guardian.core.mediaplayer.extensions.title
 import com.guardian.core.mediaplayer.extensions.toMediaSource
 import com.guardian.core.mediaplayer.extensions.trackNumber
 import com.guardian.core.mediaplayer.library.MusicSource
@@ -79,7 +80,9 @@ class UampPlaybackPreparer(
                 if (itemToPlay == null) {
                     Timber.w("Content not found: MediaID=$mediaId")
                 } else {
-                    val metadataList = buildPlaylist(itemToPlay)
+                    Timber.i("Content fount: MediaTitle=${itemToPlay.title}")
+                    //val metadataList = buildPlaylist(itemToPlay)
+                    val metadataList = listOf(itemToPlay)
                     val mediaSource = metadataList.toMediaSource(dataSourceFactory)
 
                     // Since the playlist was probably based on some ordering (such as tracks
@@ -88,7 +91,7 @@ class UampPlaybackPreparer(
                     val initialWindowIndex = metadataList.indexOf(itemToPlay)
 
                     exoPlayer.prepare(mediaSource)
-                    //exoPlayer.seekTo(initialWindowIndex, 0)
+                    exoPlayer.seekTo(initialWindowIndex, 0)
                 }
             }
         }
