@@ -75,13 +75,13 @@ class FeedSource
                 title = "title"
                 try {
                     albumArt = glide.asBitmap()
-                        .load(artUri)
+                        .load(artUri.toString())
                         .error(R.drawable.image_placeholder)
                         .placeholder(R.drawable.image_placeholder)
                         .submit()
                         .get()
                 } catch (e: ExecutionException) {
-                    Timber.e(e)
+                    Timber.e(e.cause)
                 }
             }
             .build()

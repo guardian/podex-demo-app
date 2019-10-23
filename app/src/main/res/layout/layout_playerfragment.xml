@@ -2,8 +2,24 @@
 <layout>
     <data>
         <variable
-            name="feedItem"
-            type="com.guardian.core.feeditem.FeedItem" />
+            name="artUrlString"
+            type="String"/>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+        <variable
+            name="playbackPosition"
+            type="String"/>
+
+        <variable
+            name="duration"
+            type="String"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +37,7 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/playerfragment_album_art_alt"
             app:srcCompat="@android:color/transparent"
-            imageUrl="@{feedItem.imageUrlString}"/>
+            imageUrl="@{artUrlString}"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/divider"
@@ -60,7 +76,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintLeft_toRightOf="@id/media_button"
             app:layout_constraintRight_toLeftOf="@id/textview_play_position"
-            tools:text="@{feedItem.title}" />
+            tools:text="@{title}" />
 
         <TextView
             android:id="@+id/textview_play_subtitle"
@@ -73,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
             app:layout_constraintLeft_toRightOf="@id/media_button"
             app:layout_constraintRight_toLeftOf="@id/textview_play_position"
-            tools:text="@{feedItem.description}" />
+            tools:text="@{description}" />
 
         <TextView
             android:id="@+id/textview_play_position"
@@ -86,7 +102,7 @@
             android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintRight_toRightOf="parent"
-            tools:text="0:00" />
+            tools:text="@{playbackPosition}" />
 
         <TextView
             android:id="@+id/textview_play_duration"
@@ -98,7 +114,7 @@
             android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@id/textview_play_position"
             app:layout_constraintRight_toRightOf="parent"
-            tools:text="0:00" />
+            tools:text="@{duration}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

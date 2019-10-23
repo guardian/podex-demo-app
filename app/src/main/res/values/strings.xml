@@ -7,4 +7,6 @@
     <string name="search">search</string>
     <string name="searchfragment_default_term">guardian</string>
     <string name="playerfragment_album_art_alt">Album Art</string>
+    <string name="duration_unknown">--:--</string>
+    <string name="duration_format">%d:%02d</string>
 </resources>
