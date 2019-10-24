@@ -1,7 +1,6 @@
 package com.guardian.core.dagger
 
 import android.content.Context
-import com.guardian.core.dagger.search.SearchDataModule
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediametadata.MediaMetadataRepository

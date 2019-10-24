@@ -1,11 +1,14 @@
 package com.guardian.core.feed
 
-import com.guardian.core.base.BaseRepository
-import com.guardian.core.feed.api.FeedXmlDataObject
 import com.guardian.core.feed.api.GeneralFeedApi
+import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
 import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.dao.FeedItemDao
+import com.guardian.core.library.BaseRepository
+import com.guardian.core.podxevent.PodXEvent
+import com.guardian.core.podxevent.PodxType
+import com.guardian.core.podxevent.dao.PodXEventDao
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
 import kotlinx.coroutines.launch
@@ -24,14 +27,17 @@ import javax.inject.Inject
  * therefore be treated as a foreign key.
  *
  * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXEvent].
- * These can be acessed through their own repositories.
+ * These can be accessed through their own repositories.
+ * //todo might be best to inject the FeedItem and podX repositories to do the mapping and saving
  */
+
 
 class FeedRepositoryImpl
 @Inject constructor(
     private val generalFeedApi: GeneralFeedApi,
     private val feedDao: FeedDao,
-    private val feedItemDao: FeedItemDao
+    private val feedItemDao: FeedItemDao,
+    private val podXEventDao: PodXEventDao
 ) :
     FeedRepository, BaseRepository() {
     override fun getFeeds(): Flowable<List<Feed>> {
@@ -62,6 +68,22 @@ class FeedRepositoryImpl
                 val feedItemImage: String = feedItemXmlDataObject.itunesImage.attributes["href"]?.value
                     ?: feedItemXmlDataObject.image.url
 
+                feedItemXmlDataObject.podxImages.filter {podXEventXmlDataObject ->
+                    podXEventXmlDataObject.start.toLongOrNull() != null
+                }.map { podXEventXmlDataObject ->
+                    PodXEvent (
+                        type = PodxType.IMAGE,
+                        urlString = podXEventXmlDataObject.attributes["href"]?.value ?: "",
+                        timeStart = podXEventXmlDataObject.start.toLong(),
+                        timeEnd = podXEventXmlDataObject.end.toLongOrNull()
+                            ?: podXEventXmlDataObject.start.toLong(),
+                        caption = podXEventXmlDataObject.caption,
+                        notification = podXEventXmlDataObject.notification
+                    )
+                }.also {
+                    //todo put in the podx event repo
+                }
+
                 FeedItem(
                     title = feedItemXmlDataObject.title,
                     description = feedItemXmlDataObject.description,
@@ -74,8 +96,8 @@ class FeedRepositoryImpl
                     episodeNumber = index.toLong(),
                     lengthMs = feedItemXmlDataObject.enclosureXmlDataObject.attributes["length"]?.value?.toLong() ?: 0
                 )
-            }.also {
-                feedItems -> feedItemDao.addFeedList(feedItems)
+            }.also { feedItems ->
+                feedItemDao.addFeedList(feedItems)
                 Timber.i("Caching feed items ${feedItems.size}")
             }
 
@@ -84,8 +106,8 @@ class FeedRepositoryImpl
             description = feedXmlDataObject.description,
             feedUrlString = feedUrl,
             feedImageUrlString = feedImage
-        ).also {
-            feed -> feedDao.addFeedToCache(feed)
+        ).also { feed ->
+            feedDao.addFeedToCache(feed)
         }
     }
 }

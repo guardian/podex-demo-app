@@ -1,8 +1,8 @@
-package com.guardian.core.feed.api
+package com.guardian.core.feed.api.xmldataobjects
 
-import com.guardian.core.dagger.xml.ValueContainer
-import com.guardian.core.dagger.xml.XmlDataObject
-import com.guardian.core.dagger.xml.XmlDataObjectFactory
+import com.guardian.core.library.xml.ValueContainer
+import com.guardian.core.library.xml.XmlDataObject
+import com.guardian.core.library.xml.XmlDataObjectFactory
 
 data class FeedItemXmlDataObject(
     val title: String = "",
@@ -12,7 +12,8 @@ data class FeedItemXmlDataObject(
     val pubDate: String = "",
     val enclosureXmlDataObject: FeedItemEnclosureXmlDataObject = FeedItemEnclosureXmlDataObject(),
     val author: String = "",
-    val keywords: String = ""
+    val keywords: String = "",
+    val podxImages: List<PodxEventXmlDataObject> = listOf(PodxEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
 
@@ -28,7 +29,8 @@ data class FeedItemXmlDataObject(
                 "pubDate" to ValueContainer(""),
                 "enclosure" to ValueContainer(FeedItemEnclosureXmlDataObject()),
                 "itunes:author" to ValueContainer(""),
-                "itunes:keywords" to ValueContainer("")
+                "itunes:keywords" to ValueContainer(""),
+                "podx:image" to ValueContainer(listOf(PodxEventXmlDataObject()))
             )
         }
 
@@ -43,7 +45,8 @@ data class FeedItemXmlDataObject(
                 enclosureXmlDataObject = xmlParserElementMap["enclosure"]?.value
                     as FeedItemEnclosureXmlDataObject,
                 author = xmlParserElementMap["itunes:author"]?.value as String,
-                keywords = xmlParserElementMap["itunes:keywords"]?.value as String
+                keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
+                podxImages = xmlParserElementMap["podx:image"]?.value as List<PodxEventXmlDataObject>
             )
         }
     }

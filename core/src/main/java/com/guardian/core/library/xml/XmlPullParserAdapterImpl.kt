@@ -1,4 +1,4 @@
-package com.guardian.core.dagger.xml
+package com.guardian.core.library.xml
 
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParser.END_DOCUMENT

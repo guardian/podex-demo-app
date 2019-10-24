@@ -1,10 +1,10 @@
-package com.guardian.core.dagger.xml
+package com.guardian.core.library.xml
 
 import java.io.InvalidClassException
 import kotlin.reflect.full.companionObjectInstance
 
 /**
- * The general form of out Xml Data Objects set up for easy de-serialization
+ * The general form of out Xml Data Objects set up for easy de-serialization.
  */
 interface XmlDataObject {
     val attributes: Map<String, ValueContainer<String>>
@@ -20,7 +20,8 @@ val XmlDataObject.factory: XmlDataObjectFactory
             this::class.companionObjectInstance as XmlDataObjectFactory
         } else {
             throw InvalidClassException(
-                "Xml Data objects need a XmlDataObjectFactory companion object ")
+                "Xml Data objects need a XmlDataObjectFactory companion object "
+            )
         }
 
 /**
@@ -28,7 +29,11 @@ val XmlDataObject.factory: XmlDataObjectFactory
  */
 interface XmlDataObjectFactory {
     /**
-     * Returns a map of strings representing xml tag names and a mutable container with the
+     * The [getXmlParserElementMap] is hard coded to match the constructor of a given data object
+     * and manually passed to the [instantiateFromXmlParserElementMap] method by the
+     * [XmlPullParserAdapter]. If it is not correctly formed it will crash at runtime.
+     *
+     * @return A map of strings representing xml tag names and a mutable container with the
      * corresponding value
      */
     fun getXmlParserElementMap(): Map<String, ValueContainer<*>>

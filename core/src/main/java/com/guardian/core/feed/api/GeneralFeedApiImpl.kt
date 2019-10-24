@@ -1,6 +1,8 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.dagger.xml.XmlPullParserAdapter
+import com.guardian.core.library.xml.XmlPullParserAdapter
+import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
+import com.guardian.core.feed.api.xmldataobjects.RootXmlDataObject
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException

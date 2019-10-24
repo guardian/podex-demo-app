@@ -1,8 +1,8 @@
-package com.guardian.core.feed.api
+package com.guardian.core.feed.api.xmldataobjects
 
-import com.guardian.core.dagger.xml.ValueContainer
-import com.guardian.core.dagger.xml.XmlDataObject
-import com.guardian.core.dagger.xml.XmlDataObjectFactory
+import com.guardian.core.library.xml.ValueContainer
+import com.guardian.core.library.xml.XmlDataObject
+import com.guardian.core.library.xml.XmlDataObjectFactory
 
 data class FeedItunesOwnerXmlDataObject(
     val name: String = "",

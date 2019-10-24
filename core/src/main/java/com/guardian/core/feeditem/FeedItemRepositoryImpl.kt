@@ -11,10 +11,14 @@ class FeedItemRepositoryImpl @Inject constructor(
     : FeedItemRepository {
 
     override fun getFeedItemsForFeed(feed: Feed): Flowable<List<FeedItem>> {
+        //todo fire off feed api update
+
         return feedItemDao.getFeedItemsForFeedUrl(feed.feedUrlString)
     }
 
     override fun getFeedItemForUrlString(feedItemUrlString: String): Flowable<FeedItem> {
+        //todo fire off feed api update
+
         return feedItemDao.getFeedItemForUrlString(feedItemUrlString)
     }
 }

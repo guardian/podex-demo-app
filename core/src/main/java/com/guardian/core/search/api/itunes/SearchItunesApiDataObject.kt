@@ -1,4 +1,4 @@
-package com.guardian.core.search.api
+package com.guardian.core.search.api.itunes
 
 import com.google.gson.annotations.SerializedName
 

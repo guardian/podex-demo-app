@@ -1,8 +1,8 @@
-package com.guardian.core.feed.api
+package com.guardian.core.feed.api.xmldataobjects
 
-import com.guardian.core.dagger.xml.ValueContainer
-import com.guardian.core.dagger.xml.XmlDataObject
-import com.guardian.core.dagger.xml.XmlDataObjectFactory
+import com.guardian.core.library.xml.ValueContainer
+import com.guardian.core.library.xml.XmlDataObject
+import com.guardian.core.library.xml.XmlDataObjectFactory
 
 data class FeedXmlDataObject(
     val title: String = "",
@@ -10,7 +10,9 @@ data class FeedXmlDataObject(
     val description: String = "",
     val image: FeedImageXmlDataObject = FeedImageXmlDataObject(),
     val itunesImage: FeedItunesImageXmlDataObject = FeedItunesImageXmlDataObject(),
-    val feedItems: List<FeedItemXmlDataObject> = listOf(FeedItemXmlDataObject()),
+    val feedItems: List<FeedItemXmlDataObject> = listOf(
+        FeedItemXmlDataObject()
+    ),
     val author: String = "",
     val owner: FeedItunesOwnerXmlDataObject = FeedItunesOwnerXmlDataObject()
 ) : XmlDataObject {

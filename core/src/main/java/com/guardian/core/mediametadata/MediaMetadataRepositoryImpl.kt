@@ -76,7 +76,7 @@ private fun MediaMetadataCompat.Builder.from(feedItem: FeedItem, feed: Feed, epi
     trackCount = episodeCount.toLong()
     flag = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 
-    // todo move to metadata getalbumArt = art
+    // todo move to metadata getAlbumArt = art
 
     // To make things easier for *displaying* these, set the display properties as well.
     displayTitle = feedItem.title

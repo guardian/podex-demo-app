@@ -1,4 +1,4 @@
-package com.guardian.core.dagger.xml
+package com.guardian.core.library.xml
 
 import java.io.InputStream
 

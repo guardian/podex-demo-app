@@ -1,6 +1,6 @@
-package com.guardian.core.search.api
+package com.guardian.core.search.api.itunes
 
-import retrofit2.Call
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,7 +10,7 @@ interface ItunesSearchApi {
     fun search(
         @Query("term") searchTerm: String,
         @Query("media") media: String = MEDIA_PODCAST
-    ): Call<SearchResultSetApiObject>
+    ): Single<SearchResultSetApiObject>
 
     companion object {
         val ENDPOINT = "https://itunes.apple.com/"

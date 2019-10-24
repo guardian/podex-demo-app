@@ -21,8 +21,11 @@ class SearchViewModel
         )
     }
 
-    fun doSearch(search: String) = viewModelScope.launch {
-        searchResults.postValue(searchRepository.doSearch(search))
+    fun doSearch(search: String) {
+        searchRepository.doSearch(search)
+            .subscribe {
+                searchResults.postValue(it)
+            }
     }
 }
 

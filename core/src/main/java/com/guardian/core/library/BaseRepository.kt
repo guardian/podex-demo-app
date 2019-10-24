@@ -1,4 +1,4 @@
-package com.guardian.core.base
+package com.guardian.core.library
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
