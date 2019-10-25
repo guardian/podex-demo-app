@@ -7,7 +7,7 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.dao.FeedItemDao
 import com.guardian.core.library.BaseRepository
 import com.guardian.core.podxevent.PodXEvent
-import com.guardian.core.podxevent.PodxType
+import com.guardian.core.podxevent.PodXType
 import com.guardian.core.podxevent.dao.PodXEventDao
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
@@ -82,7 +82,7 @@ class FeedRepositoryImpl
                     podXEventXmlDataObject.start.toLongOrNull() != null
                 }.map { podXEventXmlDataObject ->
                     PodXEvent (
-                        type = PodxType.IMAGE,
+                        type = PodXType.IMAGE,
                         urlString = podXEventXmlDataObject.attributes["href"]?.value ?: "",
                         timeStart = podXEventXmlDataObject.start.toLong(),
                         timeEnd = podXEventXmlDataObject.end.toLongOrNull()
@@ -92,7 +92,7 @@ class FeedRepositoryImpl
                         feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
                     )
                 }.also {podXEventList ->
-                    if (podXEventList.size > 0) {
+                    if (podXEventList.isNotEmpty()) {
                         podXEventDao.putPodxEventList(podXEventList)
                         Timber.i("Caching PodxEvents ${podXEventList.size}")
                     }

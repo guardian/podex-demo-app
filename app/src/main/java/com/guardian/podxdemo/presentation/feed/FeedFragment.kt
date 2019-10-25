@@ -1,7 +1,6 @@
 package com.guardian.podxdemo.presentation.feed
 
 import android.os.Bundle
-import android.support.v4.media.MediaBrowserCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import com.guardian.core.feeditem.FeedItem
-import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
@@ -25,17 +23,10 @@ import javax.inject.Inject
 class FeedFragment
 @Inject constructor(
     viewModelProviderFactory: ViewModelProvider.Factory,
-    private val executor: Executor,
-    mediaSessionConnection: MediaSessionConnection
+    private val executor: Executor
 ) :
     Fragment() {
 
-    init {
-        mediaSessionConnection.subscribe("unused",
-            object : MediaBrowserCompat.SubscriptionCallback() {
-            }
-            )
-    }
 
     private val feedViewModel: FeedViewModel by viewModels {
         viewModelProviderFactory

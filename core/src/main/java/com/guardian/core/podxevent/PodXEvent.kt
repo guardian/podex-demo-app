@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName="podx_events",
     indices = [Index(value = ["feedItemUrlString"], unique = false)])
 data class PodXEvent (
-    val type: PodxType,
+    val type: PodXType,
     val timeStart: Long,
     val timeEnd: Long,
     val urlString: String,
@@ -19,7 +19,7 @@ data class PodXEvent (
     val id: Int = 0
 )
 
-enum class PodxType {
+enum class PodXType {
     IMAGE,
     DONATION,
     WEB

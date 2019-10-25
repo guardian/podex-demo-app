@@ -13,6 +13,12 @@ import com.guardian.podxdemo.R
 import timber.log.Timber
 import javax.inject.Inject
 
+data class PlayerUiModel(
+    val mediaMetadata: LiveData<MediaMetadataCompat>,
+    val mediaButtonRes: LiveData<Int>,
+    val mediaPlaybackPosition: LiveData<Long>
+)
+
 class PlayerViewModel
 @Inject constructor(private val mediaSessionConnection: MediaSessionConnection) :
     ViewModel() {
@@ -67,9 +73,3 @@ class PlayerViewModel
         }
     }
 }
-
-data class PlayerUiModel(
-    val mediaMetadata: LiveData<MediaMetadataCompat>,
-    val mediaButtonRes: LiveData<Int>,
-    val mediaPlaybackPosition: LiveData<Long>
-)

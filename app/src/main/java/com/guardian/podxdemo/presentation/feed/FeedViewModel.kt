@@ -1,5 +1,6 @@
 package com.guardian.podxdemo.presentation.feed
 
+import android.support.v4.media.MediaBrowserCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,17 +8,31 @@ import com.guardian.core.feed.Feed
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
+import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.search.SearchResult
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
+data class FeedUiModel(
+    val feedData: LiveData<Feed>,
+    val feedItemData: LiveData<List<FeedItem>>
+)
+
 class FeedViewModel
 @Inject constructor(
     private val feedRepository: FeedRepository,
-    private val feedItemRepository: FeedItemRepository
+    private val feedItemRepository: FeedItemRepository,
+    mediaSessionConnection: MediaSessionConnection
 ) :
     ViewModel() {
+
+    init {
+        mediaSessionConnection.subscribe("unused",
+            object : MediaBrowserCompat.SubscriptionCallback() {
+            }
+        )
+    }
 
     val uiModel by lazy {
         FeedUiModel(
@@ -68,8 +83,3 @@ class FeedViewModel
         compositeDisposable.clear()
     }
 }
-
-data class FeedUiModel(
-    val feedData: LiveData<Feed>,
-    val feedItemData: LiveData<List<FeedItem>>
-)
