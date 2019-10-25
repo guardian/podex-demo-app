@@ -11,7 +11,7 @@ import com.guardian.core.podxevent.PodXEvent
 import com.guardian.core.podxevent.dao.PodXEventDao
 
 @Database(entities = [Feed::class, FeedItem::class, PodXEvent::class], version = PodXRoomDatabase.VERSION)
-@TypeConverters(DateTypeConverters::class)
+@TypeConverters(RoomTypeConverters::class)
 abstract class PodXRoomDatabase : RoomDatabase() {
     abstract fun getFeedDao(): FeedDao
     abstract fun getFeedItemDao(): FeedItemDao

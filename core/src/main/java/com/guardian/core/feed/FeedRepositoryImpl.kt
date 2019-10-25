@@ -29,6 +29,7 @@ import javax.inject.Inject
  * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXEvent].
  * These can be accessed through their own repositories.
  * //todo might be best to inject the FeedItem and podX repositories to do the mapping and saving
+ * //todo rather make abstract remote and local data sources
  */
 
 
@@ -62,6 +63,15 @@ class FeedRepositoryImpl
 
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
 
+        Feed(
+            title = feedXmlDataObject.title,
+            description = feedXmlDataObject.description,
+            feedUrlString = feedUrl,
+            feedImageUrlString = feedImage
+        ).also { feed ->
+            feedDao.addFeedToCache(feed)
+        }
+
         feedXmlDataObject.feedItems
             .sortedBy { dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()) }
             .mapIndexed { index, feedItemXmlDataObject ->
@@ -78,10 +88,14 @@ class FeedRepositoryImpl
                         timeEnd = podXEventXmlDataObject.end.toLongOrNull()
                             ?: podXEventXmlDataObject.start.toLong(),
                         caption = podXEventXmlDataObject.caption,
-                        notification = podXEventXmlDataObject.notification
+                        notification = podXEventXmlDataObject.notification,
+                        feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
                     )
-                }.also {
-                    //todo put in the podx event repo
+                }.also {podXEventList ->
+                    if (podXEventList.size > 0) {
+                        podXEventDao.putPodxEventList(podXEventList)
+                        Timber.i("Caching PodxEvents ${podXEventList.size}")
+                    }
                 }
 
                 FeedItem(
@@ -100,14 +114,5 @@ class FeedRepositoryImpl
                 feedItemDao.addFeedList(feedItems)
                 Timber.i("Caching feed items ${feedItems.size}")
             }
-
-        Feed(
-            title = feedXmlDataObject.title,
-            description = feedXmlDataObject.description,
-            feedUrlString = feedUrl,
-            feedImageUrlString = feedImage
-        ).also { feed ->
-            feedDao.addFeedToCache(feed)
-        }
     }
 }

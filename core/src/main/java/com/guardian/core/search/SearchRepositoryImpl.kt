@@ -1,5 +1,6 @@
 package com.guardian.core.search
 
+import com.guardian.core.library.subscribeOnIoObserveOnMain
 import com.guardian.core.search.api.itunes.ItunesSearchApi
 import com.guardian.core.search.api.itunes.SearchResultSetApiObject
 import com.guardian.core.search.api.spoofedtestfeed.SpoofedTestFeedApi
@@ -27,5 +28,6 @@ constructor(private val itunesSearchApi: ItunesSearchApi,
                     )
                 }
             }.toFlowable()
+            .subscribeOnIoObserveOnMain()
     }
 }

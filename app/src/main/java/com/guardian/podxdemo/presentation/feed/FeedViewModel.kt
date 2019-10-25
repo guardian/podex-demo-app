@@ -1,6 +1,5 @@
 package com.guardian.podxdemo.presentation.feed
 
-import android.support.v4.media.MediaBrowserCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.search.SearchResult
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,6 +29,8 @@ class FeedViewModel
     private val mutableFeedData: MutableLiveData<Feed> = MutableLiveData()
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
 
+    private val compositeDisposable = CompositeDisposable()
+
     fun setPlaceholderData(searchResult: SearchResult) {
         mutableFeedData.postValue(
             Feed(
@@ -41,7 +43,7 @@ class FeedViewModel
     }
 
     fun getFeedAndItems(feedUrl: String) {
-        feedRepository.getFeed(feedUrl)
+        compositeDisposable.add(feedRepository.getFeed(feedUrl)
             .subscribe { feed ->
                 Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
                 if (feed != null) {
@@ -49,25 +51,21 @@ class FeedViewModel
                     getFeedItems(feed)
                 }
             }
+        )
     }
 
     private fun getFeedItems(feed: Feed) {
-
-        feedItemRepository.getFeedItemsForFeed(feed)
+        compositeDisposable.add(feedItemRepository.getFeedItemsForFeed(feed)
             .subscribe { feedItemList ->
                 Timber.i("list from repo ${feedItemList.size}")
                 mutableFeedItemData.postValue(feedItemList)
             }
+        )
     }
 
-    object subscriptionCallback : MediaBrowserCompat.SubscriptionCallback() {
-        override fun onChildrenLoaded(
-            parentId: String,
-            children: MutableList<MediaBrowserCompat.MediaItem>
-        ) {
-            children.forEach { Timber.i(it.mediaId) }
-            super.onChildrenLoaded(parentId, children)
-        }
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }
 
