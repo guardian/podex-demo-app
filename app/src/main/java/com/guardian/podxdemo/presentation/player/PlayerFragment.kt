@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.guardian.core.mediaplayer.extensions.albumArtUri
 import com.guardian.core.mediaplayer.extensions.duration
 import com.guardian.core.mediaplayer.extensions.title
+import com.guardian.core.podxevent.PodXType
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPlayerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
@@ -84,5 +87,20 @@ class PlayerFragment
         }
 
         playerViewModel.playFromUri(args.feedItem.feedItemAudioUrl)
+
+        playerViewModel
+            .podXeventMutableLiveData
+            .observe(this) { podXEvent ->
+                if (podXEvent != null) {
+                    when (podXEvent.type) {
+                        PodXType.IMAGE -> {
+                            val action = PlayerFragmentDirections.actionPlayerFragmentToPodXImageFragment(podXEvent)
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+            }
+
+        playerViewModel.registerFeedItem(args.feedItem)
     }
 }

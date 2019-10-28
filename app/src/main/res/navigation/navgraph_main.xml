@@ -10,6 +10,9 @@
         <action
             android:id="@+id/action_search_fragment_to_feedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_podXImageFragment"
+            app:destination="@id/podXImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
@@ -21,6 +24,9 @@
         <action
             android:id="@+id/action_feedFragment_to_playerFragment"
             app:destination="@id/playerFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_podXImageFragment"
+            app:destination="@id/podXImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
@@ -29,5 +35,17 @@
         <argument
             android:name="feedItem"
             app:argType="com.guardian.core.feeditem.FeedItem" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXImageFragment"
+            app:destination="@id/podXImageFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/podXImageFragment"
+        android:name="com.guardian.podxdemo.presentation.podximage.PodXImageFragment"
+        android:label="PodXImageFragment">
+        <argument
+            android:name="podXEvent"
+            app:argType="com.guardian.core.podxevent.PodXEvent" />
+    </fragment>
+
 </navigation>

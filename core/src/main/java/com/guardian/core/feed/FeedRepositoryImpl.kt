@@ -2,6 +2,8 @@ package com.guardian.core.feed
 
 import com.guardian.core.feed.api.GeneralFeedApi
 import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
+import com.guardian.core.feed.api.xmldataobjects.parseNormalPlayTimeToMillis
+import com.guardian.core.feed.api.xmldataobjects.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.dao.FeedItemDao
@@ -79,14 +81,15 @@ class FeedRepositoryImpl
                     ?: feedItemXmlDataObject.image.url
 
                 feedItemXmlDataObject.podxImages.filter {podXEventXmlDataObject ->
-                    podXEventXmlDataObject.start.toLongOrNull() != null
+                    Timber.i("Filtering podxevent ${podXEventXmlDataObject.attributes["href"]} and ${podXEventXmlDataObject.start} as ${podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull()}")
+                    podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
                 }.map { podXEventXmlDataObject ->
                     PodXEvent (
                         type = PodXType.IMAGE,
                         urlString = podXEventXmlDataObject.attributes["href"]?.value ?: "",
-                        timeStart = podXEventXmlDataObject.start.toLong(),
-                        timeEnd = podXEventXmlDataObject.end.toLongOrNull()
-                            ?: podXEventXmlDataObject.start.toLong(),
+                        timeStart = podXEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                        timeEnd = podXEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                            ?: podXEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                         caption = podXEventXmlDataObject.caption,
                         notification = podXEventXmlDataObject.notification,
                         feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
