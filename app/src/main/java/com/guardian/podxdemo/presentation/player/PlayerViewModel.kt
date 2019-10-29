@@ -20,7 +20,7 @@ data class PlayerUiModel(
     val mediaMetadataLiveData: LiveData<MediaMetadataCompat>,
     val mediaButtonRes: LiveData<Int>,
     val mediaPlaybackPositionLiveData: LiveData<Long>,
-    val podXEventLiveData: LiveData<PodXEvent>
+    val podXEventLiveData: LiveData<PodXEvent?>
 )
 
 class PlayerViewModel

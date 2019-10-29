@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.util.concurrent.atomic.AtomicBoolean
 
 // TODO maybe rather than generic podx events for everything extend the base podx event with a few fields for specific events
 @Entity(tableName = "podx_events",
@@ -19,7 +20,8 @@ data class PodXEvent(
     val notification: String,
     val feedItemUrlString: String,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    val id: Int = 0,
+    val handled: AtomicBoolean = AtomicBoolean(false)
 ) : Parcelable
 
 enum class PodXType {

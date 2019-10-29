@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentFactory
 import com.guardian.podxdemo.dagger.keys.FragmentKey
 import com.guardian.podxdemo.presentation.feed.FeedFragment
 import com.guardian.podxdemo.presentation.player.PlayerFragment
+import com.guardian.podxdemo.presentation.podximage.PodXImageFragment
 import com.guardian.podxdemo.presentation.search.SearchFragment
 import dagger.Binds
 import dagger.Module
@@ -26,6 +27,11 @@ abstract class PodcastFragmentsModule {
     @IntoMap
     @FragmentKey(PlayerFragment::class)
     abstract fun bindsPlayerFragment(playerFragment: PlayerFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(PodXImageFragment::class)
+    abstract fun bindsPodXImageFragment(PodXImageFragment: PodXImageFragment): Fragment
 
     @Binds
     abstract fun bindsFragmentInjectionFactory(fragmentInjectionFactory: FragmentInjectionFactory):

@@ -3,7 +3,6 @@ package com.guardian.core.feed.api.xmldataobjects
 import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
-import timber.log.Timber
 
 data class PodxEventXmlDataObject(
     val start: String = "",
@@ -75,7 +74,6 @@ fun String.parseNormalPlayTimeToMillisOrNull(): Long? {
     return try {
         parseNormalPlayTimeToMillis()
     } catch (e: Exception) {
-        Timber.e(e)
         null
     }
 }

@@ -23,6 +23,7 @@ class MediaSessionConnectionModule {
     }
 
     @Provides
+    @Singleton
     fun providePodXEventEmitter(
         mediaSessionConnection: MediaSessionConnection,
         podXEventDao: PodXEventDao

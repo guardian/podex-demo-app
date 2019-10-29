@@ -3,6 +3,7 @@ package com.guardian.core.room
 import androidx.room.TypeConverter
 import com.guardian.core.podxevent.PodXType
 import java.util.Date
+import java.util.concurrent.atomic.AtomicBoolean
 
 class RoomTypeConverters {
     @TypeConverter
@@ -16,4 +17,10 @@ class RoomTypeConverters {
 
     @TypeConverter
     fun dateToLong(value: Date): Long = value.getTime()
+
+    @TypeConverter
+    fun atomicBooleanToBoolean(value: AtomicBoolean): Boolean = value.get()
+
+    @TypeConverter
+    fun booleanToAtomicBoolean(value: Boolean): AtomicBoolean = AtomicBoolean(value)
 }

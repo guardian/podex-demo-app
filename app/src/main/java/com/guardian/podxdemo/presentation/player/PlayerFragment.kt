@@ -16,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.guardian.core.mediaplayer.extensions.albumArtUri
 import com.guardian.core.mediaplayer.extensions.duration
 import com.guardian.core.mediaplayer.extensions.title
+import com.guardian.core.podxevent.PodXEvent
 import com.guardian.core.podxevent.PodXType
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPlayerfragmentBinding
@@ -87,19 +88,23 @@ class PlayerFragment
             playerViewModel.playFromUri(args.feedItem.feedItemAudioUrl)
         }
 
-        playerViewModel.playFromUri(args.feedItem.feedItemAudioUrl)
-
         playerViewModel.setFeedItem(args.feedItem)
 
         playerViewModel
             .playerUiModel
             .podXEventLiveData
-            .observe(this) { podXEvent ->
+            .observe(this) { podXEvent: PodXEvent? ->
                 if (podXEvent != null) {
                     when (podXEvent.type) {
                         PodXType.IMAGE -> {
-                            val action = PlayerFragmentDirections.actionPlayerFragmentToPodXImageFragment(podXEvent)
-                            findNavController().navigate(action)
+                            Timber.i("action on podXEvent image")
+                            if (findNavController().currentDestination?.id != R.id.podXImageFragment) {
+                                val action =
+                                    PlayerFragmentDirections.actionPlayerFragmentToPodXImageFragment(
+                                        podXEvent
+                                    )
+                                findNavController().navigate(action)
+                            }
                         }
                         else -> {
                             Timber.i("Reached unsupported podX event")

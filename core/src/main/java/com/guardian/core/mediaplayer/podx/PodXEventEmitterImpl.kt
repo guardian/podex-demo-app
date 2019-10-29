@@ -5,7 +5,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feeditem.FeedItem
-import com.guardian.core.library.subscribeOnIoObserveOnIo
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.common.NOTHING_PLAYING
 import com.guardian.core.podxevent.PodXEvent
@@ -37,18 +36,26 @@ class PodXEventEmitterImpl
         }
     }
 
-    private val podXEventMutableLiveData = MutableLiveData<PodXEvent>()
-    override val podXEventLiveData: LiveData<PodXEvent> = podXEventMutableLiveData
+    private val podXEventMutableLiveData = MutableLiveData<PodXEvent?>()
+        .apply {
+            this.observeForever { Timber.i("Mutable change ${it?.urlString}") }
+        }
+    override val podXEventLiveData: LiveData<PodXEvent?> = podXEventMutableLiveData
+        .apply {
+            this.observeForever { Timber.i("Livedata change ${it?.urlString}") }
+        }
 
     private val podXEventQueue: PriorityQueue<PodXEvent> = PriorityQueue(30) { o1, o2 ->
             (o1.timeStart - o2.timeStart).toInt()
         }
 
+    // todo move over to the observable being a list of currently showing events
+    private val currentPodXEvents: List<PodXEvent> = listOf()
+
     private var currentFeedDisposable = Disposables.empty()
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.dispose()
         currentFeedDisposable = podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
-            .subscribeOnIoObserveOnIo()
             .subscribe({ feedPodXEventList ->
                 podXEventQueue.clear()
                 podXEventQueue.addAll(feedPodXEventList)
@@ -68,7 +75,7 @@ class PodXEventEmitterImpl
 
     private fun registerPlaybackTimerObservable(): Disposable {
         val timerObservable = Observable.interval(
-            100, TimeUnit.MILLISECONDS
+            200, TimeUnit.MILLISECONDS
         ).map {
             mediaSessionConnection.playbackState.value.let { playbackState ->
                 if (playbackState != null) {
@@ -79,11 +86,19 @@ class PodXEventEmitterImpl
             }
         }
 
-        return timerObservable.subscribe({ timeMillis ->
+        return timerObservable
+            .subscribe({ timeMillis ->
             val nextEvent = podXEventQueue.peek()
             if (nextEvent != null &&
                 nextEvent.timeStart < timeMillis) {
                 podXEventMutableLiveData.postValue(podXEventQueue.poll())
+            }
+
+            val liveDataValue = podXEventMutableLiveData.value
+            if (liveDataValue != null &&
+                liveDataValue.timeEnd < timeMillis) {
+                Timber.i("posting null")
+                podXEventMutableLiveData.postValue(null)
             }
         },
             { e: Throwable? -> Timber.e(e) }

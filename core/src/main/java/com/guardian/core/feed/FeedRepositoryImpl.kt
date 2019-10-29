@@ -80,7 +80,6 @@ class FeedRepositoryImpl
                     ?: feedItemXmlDataObject.image.url
 
                 feedItemXmlDataObject.podxImages.filter { podXEventXmlDataObject ->
-                    Timber.i("Filtering podxevent ${podXEventXmlDataObject.attributes["href"]} and ${podXEventXmlDataObject.start} as ${podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull()}")
                     podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
                 }.map { podXEventXmlDataObject ->
                     PodXEvent(
