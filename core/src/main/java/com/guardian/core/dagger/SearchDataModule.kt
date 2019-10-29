@@ -14,7 +14,7 @@ import javax.inject.Named
 @Module
 class SearchDataModule {
     @Provides
-    fun provideItunesSearchApi (
+    fun provideItunesSearchApi(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory,
         @Named("rxjava") rxJavaCallAdapterFactory: CallAdapter.Factory
@@ -26,10 +26,9 @@ class SearchDataModule {
             .build()
             .create(ItunesSearchApi::class.java)
 
-    //TODO Delete this
+    // TODO Delete this
     @Provides
     fun provideSpoofedTestFeed(): SpoofedTestFeedApi = SpoofedTestFeedApiImpl()
-
 
     // todo some sort of LRU disk cache for recent search results
 }

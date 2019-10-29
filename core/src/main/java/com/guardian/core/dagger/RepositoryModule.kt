@@ -24,12 +24,12 @@ abstract class RepositoryModule {
     abstract fun bindFeedRepository(feedRepositoryImpl: FeedRepositoryImpl): FeedRepository
 
     @Binds
-    abstract fun bindFeedItemRepository(feedItemRepositoryImpl: FeedItemRepositoryImpl)
-        : FeedItemRepository
+    abstract fun bindFeedItemRepository(feedItemRepositoryImpl: FeedItemRepositoryImpl):
+        FeedItemRepository
 
     @Binds
-    abstract fun bindPodXEventRepository(podXEventRepositoryImpl: PodXEventRepositoryImpl)
-        : PodXEventRepository
+    abstract fun bindPodXEventRepository(podXEventRepositoryImpl: PodXEventRepositoryImpl):
+        PodXEventRepository
 
     @Binds
     abstract fun bindGeneralFeedApi(generalFeedApiImpl: GeneralFeedApiImpl): GeneralFeedApi

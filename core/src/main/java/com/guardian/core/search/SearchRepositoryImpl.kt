@@ -9,13 +9,15 @@ import javax.inject.Inject
 
 class SearchRepositoryImpl
 @Inject
-constructor(private val itunesSearchApi: ItunesSearchApi,
-            private val spoofedTestFeedApi: SpoofedTestFeedApi)
-    : SearchRepository {
+constructor(
+    private val itunesSearchApi: ItunesSearchApi,
+    private val spoofedTestFeedApi: SpoofedTestFeedApi
+) :
+    SearchRepository {
 
     override fun doSearch(term: String): Flowable<List<SearchResult>> {
         return itunesSearchApi.search(term)
-            .map {searchResultSetApiObject: SearchResultSetApiObject ->
+            .map { searchResultSetApiObject: SearchResultSetApiObject ->
                 spoofedTestFeedApi.search() + searchResultSetApiObject.results
                     .filter {
                     it.feedUrlString != null && it.feedUrlString.isNotEmpty()

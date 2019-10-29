@@ -48,7 +48,7 @@ data class PodxEventXmlDataObject(
 fun String.parseNormalPlayTimeToMillis(): Long {
     trim().split(Regex(":"), 3)
         .apply {
-            return when(size) {
+            return when (size) {
                 1 -> {
                     // expect the format is SS.mmm
                     (this[0].toDouble() * 1000).toLong()
@@ -59,7 +59,7 @@ fun String.parseNormalPlayTimeToMillis(): Long {
                 }
 
                 3 -> {
-                    //expect the format HH:MM:SS.mmm
+                    // expect the format HH:MM:SS.mmm
                     this[0].toLong() * 3600000 + this[1].toLong() * 60000
                     + (this[2].toDouble() * 1000).toLong()
                 }

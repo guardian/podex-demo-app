@@ -8,8 +8,8 @@ import javax.inject.Inject
 class PodXEventRepositoryImpl
     @Inject constructor(
         private val podXEventDao: PodXEventDao
-    )
-    : PodXEventRepository {
+    ) :
+    PodXEventRepository {
 
     override fun getEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXEvent>> {
         return podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)

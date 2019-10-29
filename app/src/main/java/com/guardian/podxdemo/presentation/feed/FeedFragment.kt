@@ -27,7 +27,6 @@ class FeedFragment
 ) :
     Fragment() {
 
-
     private val feedViewModel: FeedViewModel by viewModels {
         viewModelProviderFactory
     }

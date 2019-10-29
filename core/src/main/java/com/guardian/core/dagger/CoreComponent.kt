@@ -5,6 +5,7 @@ import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.search.SearchRepository
 import dagger.BindsInstance
@@ -35,4 +36,5 @@ interface CoreComponent {
     fun providePodXEventRepository(): PodXEventRepository
     fun provideMediaMetadataRepository(): MediaMetadataRepository
     fun provideMediaSessionConnection(): MediaSessionConnection
+    fun providePodXEventEmitter(): PodXEventEmitter
 }

@@ -36,7 +36,7 @@ class MediaMetadataRepositoryImpl
     override fun getStoredMetadata(): Flowable<List<MediaMetadataCompat>> {
         return feedDao.getCachedFeedsWithFeedItems()
             .map { feedWithItemList ->
-                feedWithItemList.flatMap {feedWithItems ->
+                feedWithItemList.flatMap { feedWithItems ->
                     val currentFeed = feedWithItems.feed
 
                     feedWithItems.feedItem

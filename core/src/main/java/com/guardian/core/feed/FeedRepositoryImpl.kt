@@ -34,7 +34,6 @@ import javax.inject.Inject
  * //todo rather make abstract remote and local data sources
  */
 
-
 class FeedRepositoryImpl
 @Inject constructor(
     private val generalFeedApi: GeneralFeedApi,
@@ -80,11 +79,11 @@ class FeedRepositoryImpl
                 val feedItemImage: String = feedItemXmlDataObject.itunesImage.attributes["href"]?.value
                     ?: feedItemXmlDataObject.image.url
 
-                feedItemXmlDataObject.podxImages.filter {podXEventXmlDataObject ->
+                feedItemXmlDataObject.podxImages.filter { podXEventXmlDataObject ->
                     Timber.i("Filtering podxevent ${podXEventXmlDataObject.attributes["href"]} and ${podXEventXmlDataObject.start} as ${podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull()}")
                     podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
                 }.map { podXEventXmlDataObject ->
-                    PodXEvent (
+                    PodXEvent(
                         type = PodXType.IMAGE,
                         urlString = podXEventXmlDataObject.attributes["href"]?.value ?: "",
                         timeStart = podXEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
@@ -94,7 +93,7 @@ class FeedRepositoryImpl
                         notification = podXEventXmlDataObject.notification,
                         feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
                     )
-                }.also {podXEventList ->
+                }.also { podXEventList ->
                     if (podXEventList.isNotEmpty()) {
                         podXEventDao.putPodxEventList(podXEventList)
                         Timber.i("Caching PodxEvents ${podXEventList.size}")

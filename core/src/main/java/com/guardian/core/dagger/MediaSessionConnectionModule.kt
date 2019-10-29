@@ -4,6 +4,9 @@ import android.content.ComponentName
 import android.content.Context
 import com.guardian.core.mediaplayer.MediaService
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.mediaplayer.podx.PodXEventEmitter
+import com.guardian.core.mediaplayer.podx.PodXEventEmitterImpl
+import com.guardian.core.podxevent.dao.PodXEventDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -17,5 +20,13 @@ class MediaSessionConnectionModule {
             context,
             ComponentName(context, MediaService::class.java)
         )
+    }
+
+    @Provides
+    fun providePodXEventEmitter(
+        mediaSessionConnection: MediaSessionConnection,
+        podXEventDao: PodXEventDao
+    ): PodXEventEmitter {
+        return PodXEventEmitterImpl(mediaSessionConnection, podXEventDao)
     }
 }

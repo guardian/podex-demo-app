@@ -39,4 +39,3 @@ class SearchViewModel
         compositeDisposable.clear()
     }
 }
-

@@ -11,11 +11,11 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodximagefragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 
-class PodXImageFragment
-    : Fragment() {
+class PodXImageFragment :
+    Fragment() {
 
     private var binding: LayoutPodximagefragmentBinding by lifecycleAwareVar()
-    
+
     private val podXImageEvent: PodXImageFragmentArgs by navArgs()
 
     override fun onCreateView(

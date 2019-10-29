@@ -103,7 +103,7 @@ open class MediaService : MediaBrowserServiceCompat() {
         ExoPlayerFactory.newSimpleInstance(this).apply {
             setAudioAttributes(uAmpAudioAttributes, true)
 
-            //playWhenReady = false
+            // playWhenReady = false
         }
     }
 
@@ -424,7 +424,7 @@ open class MediaService : MediaBrowserServiceCompat() {
         }
     }
 
-    private inner class PodXCustomActionProvider: MediaSessionConnector.CommandReceiver {
+    private inner class PodXCustomActionProvider : MediaSessionConnector.CommandReceiver {
         override fun onCommand(
             player: Player?,
             controlDispatcher: ControlDispatcher?,
@@ -432,7 +432,7 @@ open class MediaService : MediaBrowserServiceCompat() {
             extras: Bundle?,
             cb: ResultReceiver?
         ): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
         }
     }
 }

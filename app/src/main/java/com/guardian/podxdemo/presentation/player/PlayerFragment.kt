@@ -21,6 +21,7 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPlayerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import com.guardian.podxdemo.utils.toTimestampMSS
+import timber.log.Timber
 import javax.inject.Inject
 
 class PlayerFragment
@@ -55,7 +56,7 @@ class PlayerFragment
 
         playerViewModel
             .playerUiModel
-            .mediaMetadata
+            .mediaMetadataLiveData
             .observe(
                 this,
                 Observer<MediaMetadataCompat> { mediaItem ->
@@ -76,9 +77,9 @@ class PlayerFragment
 
         playerViewModel
             .playerUiModel
-            .mediaPlaybackPosition.observe(
+            .mediaPlaybackPositionLiveData.observe(
             this,
-            Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(context!!)}
+            Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(context!!) }
         )
 
         // Setup UI handlers for buttons
@@ -88,8 +89,11 @@ class PlayerFragment
 
         playerViewModel.playFromUri(args.feedItem.feedItemAudioUrl)
 
+        playerViewModel.setFeedItem(args.feedItem)
+
         playerViewModel
-            .podXeventMutableLiveData
+            .playerUiModel
+            .podXEventLiveData
             .observe(this) { podXEvent ->
                 if (podXEvent != null) {
                     when (podXEvent.type) {
@@ -97,10 +101,11 @@ class PlayerFragment
                             val action = PlayerFragmentDirections.actionPlayerFragmentToPodXImageFragment(podXEvent)
                             findNavController().navigate(action)
                         }
+                        else -> {
+                            Timber.i("Reached unsupported podX event")
+                        }
                     }
                 }
             }
-
-        playerViewModel.registerFeedItem(args.feedItem)
     }
 }

@@ -30,3 +30,7 @@ fun <T> Flowable<T>.subscribeOnIoObserveOnMain(): Flowable<T> {
         .observeOn(AndroidSchedulers.mainThread())
 }
 
+fun <T> Flowable<T>.subscribeOnIoObserveOnIo(): Flowable<T> {
+    return this.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+}
