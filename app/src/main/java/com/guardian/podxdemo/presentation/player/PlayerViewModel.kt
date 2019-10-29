@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.guardian.core.feeditem.FeedItem
+import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
@@ -13,6 +14,7 @@ import com.guardian.core.mediaplayer.extensions.isPrepared
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXEvent
 import com.guardian.podxdemo.R
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,16 +28,21 @@ data class PlayerUiModel(
 class PlayerViewModel
 @Inject constructor(
     private val mediaSessionConnection: MediaSessionConnection,
-    private val podXEventEmitter: PodXEventEmitter
+    private val podXEventEmitter: PodXEventEmitter,
+    private val mediaMetadataRepository: MediaMetadataRepository
 ) :
     ViewModel() {
 
     val playerUiModel by lazy {
-        PlayerUiModel(mediaSessionConnection.nowPlaying,
+        PlayerUiModel(mediaMetadataMutableLiveData,
             mutableMediaButtonRes,
             mutableMediaPlaybackPosition,
             podXEventEmitter.podXEventLiveData)
     }
+
+    private val mediaMetadataMutableLiveData = MutableLiveData<MediaMetadataCompat>()
+    private val compositeDisposable = CompositeDisposable()
+
 
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
         mediaSessionConnection.playbackState.observeForever {
@@ -54,6 +61,8 @@ class PlayerViewModel
             )
         }
     }
+
+
 
     /**
      * Registers the current feed item uri with the mediaSessionConnection to begin playback
@@ -80,7 +89,26 @@ class PlayerViewModel
         }
     }
 
+    fun preparePlayer(mediaUri: String) {
+        compositeDisposable.add(mediaMetadataRepository.getMetadataForId(mediaUri)
+            .subscribe ({ mediaMetadataCompat ->
+                mediaMetadataMutableLiveData.postValue(mediaMetadataCompat) },
+                {e: Throwable ->
+                    Timber.e(e)
+                }))
+
+        mediaSessionConnection
+            .transportControls
+            .playFromMediaId(mediaUri, null)
+    }
+
     fun setFeedItem(feedItem: FeedItem) {
         podXEventEmitter.registerCurrentFeedItem(feedItem)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        compositeDisposable.clear()
     }
 }

@@ -76,8 +76,16 @@ class FeedRepositoryImpl
         feedXmlDataObject.feedItems
             .sortedBy { dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()) }
             .mapIndexed { index, feedItemXmlDataObject ->
-                val feedItemImage: String = feedItemXmlDataObject.itunesImage.attributes["href"]?.value
-                    ?: feedItemXmlDataObject.image.url
+                val feedItemImage: String =
+                    if (feedItemXmlDataObject.itunesImage.attributes["href"]?.value.isNullOrEmpty()) {
+                        if (feedItemXmlDataObject.image.url.isEmpty()) {
+                            feedImage
+                        } else {
+                            feedItemXmlDataObject.image.url
+                        }
+                } else {
+                    feedItemXmlDataObject.itunesImage.attributes["href"]?.value!!
+                }
 
                 feedItemXmlDataObject.podxImages.filter { podXEventXmlDataObject ->
                     podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
@@ -99,6 +107,7 @@ class FeedRepositoryImpl
                     }
                 }
 
+                //todo get duration from audio file
                 FeedItem(
                     title = feedItemXmlDataObject.title,
                     description = feedItemXmlDataObject.description,
@@ -109,7 +118,7 @@ class FeedRepositoryImpl
                     feedUrlString = feedUrl,
                     author = feedItemXmlDataObject.author,
                     episodeNumber = index.toLong(),
-                    lengthMs = feedItemXmlDataObject.enclosureXmlDataObject.attributes["length"]?.value?.toLong() ?: 0
+                    lengthMs = feedItemXmlDataObject.duration.parseNormalPlayTimeToMillisOrNull() ?: 0L
                 )
             }.also { feedItems ->
                 feedItemDao.addFeedList(feedItems)

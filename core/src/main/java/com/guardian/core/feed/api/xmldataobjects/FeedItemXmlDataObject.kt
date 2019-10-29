@@ -11,6 +11,7 @@ data class FeedItemXmlDataObject(
     val image: FeedImageXmlDataObject = FeedImageXmlDataObject(),
     val pubDate: String = "",
     val enclosureXmlDataObject: FeedItemEnclosureXmlDataObject = FeedItemEnclosureXmlDataObject(),
+    val duration: String = "",
     val author: String = "",
     val keywords: String = "",
     val podxImages: List<PodxEventXmlDataObject> = listOf(PodxEventXmlDataObject())
@@ -28,6 +29,7 @@ data class FeedItemXmlDataObject(
                 "image" to ValueContainer(FeedImageXmlDataObject()),
                 "pubDate" to ValueContainer(""),
                 "enclosure" to ValueContainer(FeedItemEnclosureXmlDataObject()),
+                "itunes:duration" to ValueContainer(""),
                 "itunes:author" to ValueContainer(""),
                 "itunes:keywords" to ValueContainer(""),
                 "podx:image" to ValueContainer(listOf(PodxEventXmlDataObject()))
@@ -44,6 +46,7 @@ data class FeedItemXmlDataObject(
                 pubDate = xmlParserElementMap["pubDate"]?.value as String,
                 enclosureXmlDataObject = xmlParserElementMap["enclosure"]?.value
                     as FeedItemEnclosureXmlDataObject,
+                duration = xmlParserElementMap["itunes:duration"]?.value as String,
                 author = xmlParserElementMap["itunes:author"]?.value as String,
                 keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
                 podxImages = xmlParserElementMap["podx:image"]?.value as List<PodxEventXmlDataObject>
