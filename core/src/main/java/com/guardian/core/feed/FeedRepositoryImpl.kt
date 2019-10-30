@@ -64,15 +64,6 @@ class FeedRepositoryImpl
 
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
 
-        Feed(
-            title = feedXmlDataObject.title,
-            description = feedXmlDataObject.description,
-            feedUrlString = feedUrl,
-            feedImageUrlString = feedImage
-        ).also { feed ->
-            feedDao.addFeedToCache(feed)
-        }
-
         feedXmlDataObject.feedItems
             .sortedBy { dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()) }
             .mapIndexed { index, feedItemXmlDataObject ->
@@ -123,6 +114,15 @@ class FeedRepositoryImpl
             }.also { feedItems ->
                 feedItemDao.addFeedList(feedItems)
                 Timber.i("Caching feed items ${feedItems.size}")
+            }
+
+            Feed(
+                title = feedXmlDataObject.title,
+                description = feedXmlDataObject.description,
+                feedUrlString = feedUrl,
+                feedImageUrlString = feedImage
+            ).also { feed ->
+                feedDao.addFeedToCache(feed)
             }
     }
 }
