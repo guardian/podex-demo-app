@@ -58,6 +58,7 @@ class FeedViewModel
     }
 
     fun getFeedAndItems(feedUrl: String) {
+        compositeDisposable.clear()
         compositeDisposable.add(feedRepository.getFeed(feedUrl)
             .subscribe { feed ->
                 Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
