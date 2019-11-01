@@ -1,7 +1,6 @@
-package com.guardian.core
+package com.guardian.core.mediaplayer.daggermocks
 
 import android.app.Application
-import com.guardian.core.dagger.DaggerCoreComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -25,11 +24,7 @@ class CoreComponentTestApplication: Application(), TestLifecycleApplication, Has
 
     override fun prepareTest(test: Any?) {
         DaggerTestCoreComponent.builder()
-            .coreComponent(
-                DaggerCoreComponent.builder()
-                    .bindContext(context = baseContext)
-                    .build()
-            )
+            .bindContext(applicationContext)
             .build()
             .inject(this)
     }

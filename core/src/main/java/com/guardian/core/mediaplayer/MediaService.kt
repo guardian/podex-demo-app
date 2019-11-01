@@ -31,7 +31,6 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.guardian.core.R
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.library.BrowseTree
 import com.guardian.core.mediaplayer.library.FeedSource
@@ -69,8 +68,7 @@ open class MediaService : MediaBrowserServiceCompat() {
     private lateinit var mediaSource: MusicSource
 
     @Inject lateinit var feedSource: FeedSource
-
-    private lateinit var packageValidator: PackageValidator
+    @Inject lateinit var packageValidator: PackageValidator
 
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
@@ -182,11 +180,6 @@ open class MediaService : MediaBrowserServiceCompat() {
                 )
             )
         }
-
-        packageValidator = PackageValidator(
-            this,
-            R.xml.allowed_media_browser_callers
-        )
 
         mediaSessionConnector.setCustomActionProviders()
     }

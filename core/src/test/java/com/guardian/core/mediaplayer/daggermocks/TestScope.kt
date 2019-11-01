@@ -1,4 +1,4 @@
-package com.guardian.core
+package com.guardian.core.mediaplayer.daggermocks
 
 import javax.inject.Scope
 

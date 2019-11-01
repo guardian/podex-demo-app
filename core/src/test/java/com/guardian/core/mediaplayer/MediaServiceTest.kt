@@ -1,7 +1,7 @@
 package com.guardian.core.mediaplayer
 
 import android.os.Build
-import com.guardian.core.CoreComponentTestApplication
+import com.guardian.core.mediaplayer.daggermocks.CoreComponentTestApplication
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

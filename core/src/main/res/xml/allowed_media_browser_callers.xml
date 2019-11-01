@@ -49,7 +49,7 @@ Format (v1 : legacy support only/deprecated):
 Adding New Keys:
 
   If you want to add a new signature to allowed_callers and you don't know its signature,
-  PackageValidator will print the caller's package name and signature to logcat (INFO level).
+  PackageValidatorImpl will print the caller's package name and signature to logcat (INFO level).
 
   Spaces and newlines are ignored.
 -->
