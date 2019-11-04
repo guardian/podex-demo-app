@@ -88,6 +88,7 @@ class FeedFragment
             },
             executor = executor
         ) { feedItem ->
+            feedViewModel.prepareFeedItemForPlayback(feedItem)
             val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment(feedItem)
             findNavController()
                 .navigate(action)
