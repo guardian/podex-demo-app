@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="image_margin">32dp</dimen>
+    <dimen name="podx_image_margin">32dp</dimen>
+    <dimen name="collapsed_player_margin">16dp</dimen>
+    <dimen name="collapsed_player_image">64dp</dimen>
 </resources>

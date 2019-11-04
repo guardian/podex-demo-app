@@ -89,6 +89,28 @@ class PlayerViewModel
         }
     }
 
+    /**
+     * Registers the current feed item uri with the mediaSessionConnection to begin playback
+     */
+    fun playpause() {
+        val transportControls = mediaSessionConnection.transportControls
+
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (isPrepared) {
+            mediaSessionConnection.playbackState.value?.let { playbackState ->
+                when {
+                    playbackState.isPlaying -> transportControls.pause()
+                    playbackState.isPlayEnabled -> transportControls.play()
+                    else -> {
+                        Timber.w("%s%s", "Playable item clicked but neither play ",
+                            "nor pause are enabled!"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     fun preparePlayer(mediaUri: String) {
         compositeDisposable.add(mediaMetadataRepository.getMetadataForId(mediaUri)
             .subscribe ({ mediaMetadataCompat ->
