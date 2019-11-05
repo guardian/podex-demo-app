@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodximagefragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
@@ -23,7 +22,7 @@ class PodXImageFragment
 
     private var binding: LayoutPodximagefragmentBinding by lifecycleAwareVar()
 
-    private val podXImageEvent: PodXImageFragmentArgs by navArgs()
+    //private val podXImageEvent: PodXImageFragmentArgs by navArgs()
 
     private val podXImageViewModel: PodXImageViewModel by viewModels {
         viewModelProviderFactory
@@ -47,16 +46,16 @@ class PodXImageFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.podxImage = podXImageEvent.podXEvent
+        //binding.podxImage = podXImageEvent.podXEvent
 
         podXImageViewModel
             .podXImageUiModel
             .podXEventLiveData
             .observe(this, Observer { podXEvent ->
                 Timber.i("podXEvent changed ${podXEvent?.timeEnd}")
-                if (podXEvent != podXImageEvent.podXEvent) {
+//                if (podXEvent != podXImageEvent.podXEvent) {
                     findNavController().navigateUp()
-                }
+//                }
             })
     }
 }

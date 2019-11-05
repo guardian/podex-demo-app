@@ -10,9 +10,6 @@
         <action
             android:id="@+id/action_search_fragment_to_feedFragment"
             app:destination="@id/feedFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_podXImageFragment"
-            app:destination="@id/podXImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
@@ -22,30 +19,12 @@
             android:name="searchResult"
             app:argType="com.guardian.core.search.SearchResult" />
         <action
-            android:id="@+id/action_feedFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
-        <action
-            android:id="@+id/action_feedFragment_to_podXImageFragment"
-            app:destination="@id/podXImageFragment" />
+            android:id="@+id/action_feedFragment_to_playerActivity"
+            app:destination="@id/playerActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/playerFragment"
-        android:name="com.guardian.podxdemo.presentation.player.PlayerFragment"
-        android:label="PlayerFragment" >
-        <argument
-            android:name="feedItem"
-            app:argType="com.guardian.core.feeditem.FeedItem" />
-        <action
-            android:id="@+id/action_playerFragment_to_podXImageFragment"
-            app:destination="@id/podXImageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/podXImageFragment"
-        android:name="com.guardian.podxdemo.presentation.podximage.PodXImageFragment"
-        android:label="PodXImageFragment">
-        <argument
-            android:name="podXEvent"
-            app:argType="com.guardian.core.podxevent.PodXEvent" />
-    </fragment>
+    <activity
+        android:id="@+id/playerActivity"
+        android:name="com.guardian.podxdemo.presentation.player.PlayerActivity"
+        android:label="PlayerActivity" />
 
 </navigation>

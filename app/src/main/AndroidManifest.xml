@@ -20,6 +20,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".presentation.player.PlayerActivity"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
         <service
             android:name="com.guardian.core.mediaplayer.MediaService"
             android:enabled="true"

@@ -8,7 +8,7 @@ import dagger.android.AndroidInjectionModule
 
 @FeatureScope
 @Component(modules = [AndroidInjectionModule::class,
-    MainActivityModule::class,
+    ActivityModule::class,
     ServiceModule::class,
     PodcastFragmentsModule::class,
     PodcastViewModelsModule::class,

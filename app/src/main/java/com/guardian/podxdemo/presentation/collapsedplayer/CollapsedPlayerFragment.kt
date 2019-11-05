@@ -64,9 +64,19 @@ class CollapsedPlayerFragment
         binding
             .imagebuttonCollapsedPlayerPlaypause
             .setOnClickListener {
-                playerViewModel.playpause()
+                playerViewModel.playPause()
             }
 
+        playerViewModel
+            .playerUiModel
+            .isPreparedLiveData
+            .observe(this, Observer {isPlaying ->
+                binding.constraintlayoutCollapsedPlayerRoot.visibility = if(isPlaying) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
 
+            })
     }
 }
