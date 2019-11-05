@@ -56,9 +56,6 @@ class PlayerFragment
         super.onViewCreated(view, savedInstanceState)
 
         playerViewModel
-            .preparePlayer(args.feedItem.feedItemAudioUrl)
-
-        playerViewModel
             .playerUiModel
             .mediaMetadataLiveData
             .observe(

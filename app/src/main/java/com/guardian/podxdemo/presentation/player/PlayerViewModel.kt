@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.guardian.core.feeditem.FeedItem
-import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
@@ -28,8 +27,7 @@ data class PlayerUiModel(
 class PlayerViewModel
 @Inject constructor(
     private val mediaSessionConnection: MediaSessionConnection,
-    private val podXEventEmitter: PodXEventEmitter,
-    private val mediaMetadataRepository: MediaMetadataRepository
+    private val podXEventEmitter: PodXEventEmitter
 ) :
     ViewModel() {
 
@@ -40,9 +38,14 @@ class PlayerViewModel
             podXEventEmitter.podXEventLiveData)
     }
 
-    private val mediaMetadataMutableLiveData = MutableLiveData<MediaMetadataCompat>()
     private val compositeDisposable = CompositeDisposable()
 
+    private val mediaMetadataMutableLiveData = MutableLiveData<MediaMetadataCompat>().apply {
+        mediaSessionConnection.nowPlaying
+            .observeForever { nowPlayingMetadata ->
+                this.postValue(nowPlayingMetadata)
+            }
+    }
 
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
         mediaSessionConnection.playbackState.observeForever {
@@ -90,7 +93,7 @@ class PlayerViewModel
     }
 
     /**
-     * Registers the current feed item uri with the mediaSessionConnection to begin playback
+     * changes the playback status without checking the current media uri
      */
     fun playpause() {
         val transportControls = mediaSessionConnection.transportControls
@@ -109,19 +112,6 @@ class PlayerViewModel
                 }
             }
         }
-    }
-
-    fun preparePlayer(mediaUri: String) {
-        compositeDisposable.add(mediaMetadataRepository.getMetadataForId(mediaUri)
-            .subscribe ({ mediaMetadataCompat ->
-                mediaMetadataMutableLiveData.postValue(mediaMetadataCompat) },
-                {e: Throwable ->
-                    Timber.e(e)
-                }))
-
-        mediaSessionConnection
-            .transportControls
-            .playFromMediaId(mediaUri, null)
     }
 
     fun setFeedItem(feedItem: FeedItem) {

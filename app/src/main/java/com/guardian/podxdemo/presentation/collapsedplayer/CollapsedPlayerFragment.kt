@@ -14,17 +14,18 @@ import com.guardian.core.mediaplayer.extensions.title
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutCollapsedplayerfragmentBinding
 import com.guardian.podxdemo.presentation.player.PlayerViewModel
+import com.guardian.podxdemo.utils.lifecycleAwareVar
 import javax.inject.Inject
 
 class CollapsedPlayerFragment
 @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
     : Fragment() {
 
-    val playerViewModel: PlayerViewModel by viewModels {
+    private val playerViewModel: PlayerViewModel by viewModels {
         viewModelProviderFactory
     }
 
-    lateinit var binding: LayoutCollapsedplayerfragmentBinding
+    private var binding: LayoutCollapsedplayerfragmentBinding by lifecycleAwareVar()
 
 
     override fun onCreateView(
