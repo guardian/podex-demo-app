@@ -6,6 +6,7 @@ import com.guardian.podxdemo.dagger.keys.FragmentKey
 import com.guardian.podxdemo.presentation.collapsedplayer.CollapsedPlayerFragment
 import com.guardian.podxdemo.presentation.feed.FeedFragment
 import com.guardian.podxdemo.presentation.player.PlayerFragment
+import com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment
 import com.guardian.podxdemo.presentation.podximage.PodXImageFragment
 import com.guardian.podxdemo.presentation.search.SearchFragment
 import dagger.Binds
@@ -32,13 +33,19 @@ abstract class PodcastFragmentsModule {
     @Binds
     @IntoMap
     @FragmentKey(CollapsedPlayerFragment::class)
-    abstract fun bindsCollapsedPlayerFragment(collapsedPlayerFragment: CollapsedPlayerFragment)
-        : Fragment
+    abstract fun bindsCollapsedPlayerFragment(collapsedPlayerFragment: CollapsedPlayerFragment):
+        Fragment
 
     @Binds
     @IntoMap
     @FragmentKey(PodXImageFragment::class)
     abstract fun bindsPodXImageFragment(PodXImageFragment: PodXImageFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(PodXEventsContainerFragment::class)
+    abstract fun bindsPodXEventsContainterFragment
+            (podXEventsContainerFragment: PodXEventsContainerFragment): Fragment
 
     @Binds
     abstract fun bindsFragmentInjectionFactory(fragmentInjectionFactory: FragmentInjectionFactory):

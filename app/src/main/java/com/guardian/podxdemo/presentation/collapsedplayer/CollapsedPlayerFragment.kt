@@ -18,15 +18,14 @@ import com.guardian.podxdemo.utils.lifecycleAwareVar
 import javax.inject.Inject
 
 class CollapsedPlayerFragment
-@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
-    : Fragment() {
+@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
+    Fragment() {
 
     private val playerViewModel: PlayerViewModel by viewModels {
         viewModelProviderFactory
     }
 
     private var binding: LayoutCollapsedplayerfragmentBinding by lifecycleAwareVar()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,13 +69,12 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .isPreparedLiveData
-            .observe(this, Observer {isPlaying ->
-                binding.constraintlayoutCollapsedPlayerRoot.visibility = if(isPlaying) {
+            .observe(this, Observer { isPlaying ->
+                binding.constraintlayoutCollapsedPlayerRoot.visibility = if (isPlaying) {
                     View.VISIBLE
                 } else {
                     View.GONE
                 }
-
             })
     }
 }

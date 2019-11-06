@@ -98,7 +98,7 @@ class FeedRepositoryImpl
                     }
                 }
 
-                //todo get duration from audio file
+                // todo get duration from audio file
                 FeedItem(
                     title = feedItemXmlDataObject.title,
                     description = feedItemXmlDataObject.description,

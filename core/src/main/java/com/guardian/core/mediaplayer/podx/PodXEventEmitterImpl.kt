@@ -36,21 +36,16 @@ class PodXEventEmitterImpl
         }
     }
 
-    private val podXEventMutableLiveData = MutableLiveData<PodXEvent?>()
+    private val podXEventMutableLiveData = MutableLiveData<List<PodXEvent>>()
         .apply {
-            this.observeForever { Timber.i("Mutable change ${it?.urlString}") }
+            value = listOf()
         }
-    override val podXEventLiveData: LiveData<PodXEvent?> = podXEventMutableLiveData
-        .apply {
-            this.observeForever { Timber.i("Livedata change ${it?.urlString}") }
-        }
+
+    override val podXEventLiveData: LiveData<List<PodXEvent>> = podXEventMutableLiveData
 
     private val podXEventQueue: PriorityQueue<PodXEvent> = PriorityQueue(30) { o1, o2 ->
             (o1.timeStart - o2.timeStart).toInt()
         }
-
-    // todo move over to the observable being a list of currently showing events
-    private val currentPodXEvents: List<PodXEvent> = listOf()
 
     private var currentFeedDisposable = Disposables.empty()
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
@@ -75,7 +70,7 @@ class PodXEventEmitterImpl
 
     private fun registerPlaybackTimerObservable(): Disposable {
         val timerObservable = Observable.interval(
-            200, TimeUnit.MILLISECONDS
+            500, TimeUnit.MILLISECONDS
         ).map {
             mediaSessionConnection.playbackState.value.let { playbackState ->
                 if (playbackState != null) {
@@ -88,21 +83,20 @@ class PodXEventEmitterImpl
 
         return timerObservable
             .subscribe({ timeMillis ->
-            val nextEvent = podXEventQueue.peek()
-            if (nextEvent != null &&
-                nextEvent.timeStart < timeMillis) {
-                podXEventMutableLiveData.postValue(podXEventQueue.poll())
-            }
+                val nextEvent = podXEventQueue.peek()
+                // this livedata is initialised, encapsulated, and never has null values posted
+                val currentEventList = podXEventMutableLiveData.value?.toMutableList()!!
 
-            val liveDataValue = podXEventMutableLiveData.value
-            if (liveDataValue != null &&
-                liveDataValue.timeEnd < timeMillis) {
-                Timber.i("posting null")
-                podXEventMutableLiveData.postValue(null)
-            }
-        },
-            { e: Throwable? -> Timber.e(e) }
-        )
+                if (nextEvent != null &&
+                    nextEvent.timeStart < timeMillis) {
+                    currentEventList.add(podXEventQueue.poll()!!)
+                }
+
+                currentEventList.removeAll { it.timeEnd < timeMillis }
+
+                podXEventMutableLiveData.postValue(currentEventList)
+            }, { e: Throwable? -> Timber.e(e) }
+            )
     }
 
     private fun getPlaybackPositionFromState(playbackStateCompat: PlaybackStateCompat): Long {

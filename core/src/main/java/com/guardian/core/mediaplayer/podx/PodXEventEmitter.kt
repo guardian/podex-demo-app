@@ -5,6 +5,6 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.podxevent.PodXEvent
 
 interface PodXEventEmitter {
-    val podXEventLiveData: LiveData<PodXEvent?>
+    val podXEventLiveData: LiveData<List<PodXEvent>>
     fun registerCurrentFeedItem(feedItem: FeedItem)
 }

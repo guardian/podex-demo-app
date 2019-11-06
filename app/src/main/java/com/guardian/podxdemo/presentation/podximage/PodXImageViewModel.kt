@@ -2,6 +2,7 @@ package com.guardian.podxdemo.presentation.podximage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXEvent
 import javax.inject.Inject
@@ -13,5 +14,5 @@ data class PodXImageUiModel(
 class PodXImageViewModel
 @Inject constructor(podXEventEmitter: PodXEventEmitter) :
     ViewModel() {
-    val podXImageUiModel = PodXImageUiModel(podXEventEmitter.podXEventLiveData)
+    val podXImageUiModel = PodXImageUiModel(podXEventEmitter.podXEventLiveData.map { list: List<PodXEvent> -> list[0] })
 }

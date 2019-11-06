@@ -94,6 +94,5 @@ class FeedViewModel
         if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
             transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
         }
-
     }
 }

@@ -199,7 +199,7 @@ class PackageValidatorImpl(context: Context, @XmlRes xmlResId: Int) : PackageVal
      * If the app is not found, or if the app does not have exactly one signature, this method
      * returns `null` as the signature.
      */
-    //todo not valid for versions of andoid before p
+    // todo not valid for versions of andoid before p
     private fun getSignature(packageInfo: PackageInfo): String? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (packageInfo.signingInfo?.apkContentsSigners == null || packageInfo.signingInfo?.apkContentsSigners?.size != 1) {
