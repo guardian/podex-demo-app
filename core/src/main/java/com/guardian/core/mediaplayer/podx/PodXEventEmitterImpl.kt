@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
-import com.guardian.core.mediaplayer.common.NOTHING_PLAYING
 import com.guardian.core.podxevent.PodXEvent
 import com.guardian.core.podxevent.dao.PodXEventDao
 import io.reactivex.Observable
@@ -24,17 +23,9 @@ class PodXEventEmitterImpl
 ) :
     PodXEventEmitter {
 
+    // playback timer is started after we have gotten a valid podx event list from the repo so that
+    // a concurrent modification exception can be avoided
     private var playbackTimerDisposable = Disposables.empty()
-    init {
-        mediaSessionConnection.nowPlaying.observeForever { mediaMetadataCompat ->
-            playbackTimerDisposable.dispose()
-            if (mediaMetadataCompat != null &&
-                mediaMetadataCompat != NOTHING_PLAYING) {
-                // something is playing
-                playbackTimerDisposable = registerPlaybackTimerObservable()
-            }
-        }
-    }
 
     private val podXEventMutableLiveData = MutableLiveData<List<PodXEvent>>()
         .apply {
@@ -52,10 +43,12 @@ class PodXEventEmitterImpl
         currentFeedDisposable.dispose()
         currentFeedDisposable = podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
             .subscribe({ feedPodXEventList ->
+                playbackTimerDisposable.dispose()
                 podXEventQueue.clear()
                 podXEventQueue.addAll(feedPodXEventList)
 
-                // trim events that have already been shown
+                // trim events that have already been shown in case we are registering a feed item
+                // that is already part way through playback.
                 val currentState = mediaSessionConnection.playbackState.value
                 if (currentState != null) {
                     val currentTime = getPlaybackPositionFromState(currentState)
@@ -63,9 +56,13 @@ class PodXEventEmitterImpl
                         podXEventQueue.poll()
                     }
                 }
+                podXEventMutableLiveData.postValue(listOf())
+                playbackTimerDisposable = registerPlaybackTimerObservable()
             }, { e: Throwable ->
                 Timber.e(e)
             })
+
+
     }
 
     private fun registerPlaybackTimerObservable(): Disposable {
@@ -83,14 +80,16 @@ class PodXEventEmitterImpl
 
         return timerObservable
             .subscribe({ timeMillis ->
-                val nextEvent = podXEventQueue.peek()
                 // this livedata is initialised, encapsulated, and never has null values posted
                 val currentEventList = podXEventMutableLiveData.value?.toMutableList()!!
+                    .apply {
+                        // assume no concurrent modification maybe wrongly
+                        while(podXEventQueue.peek() != null
+                            && podXEventQueue.peek()!!.timeStart < timeMillis) {
+                            add(podXEventQueue.poll()!!)
+                        }
 
-                if (nextEvent != null &&
-                    nextEvent.timeStart < timeMillis) {
-                    currentEventList.add(podXEventQueue.poll()!!)
-                }
+                    }
 
                 currentEventList.removeAll { it.timeEnd < timeMillis }
 

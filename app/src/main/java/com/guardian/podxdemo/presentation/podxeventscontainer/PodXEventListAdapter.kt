@@ -10,9 +10,6 @@ import com.guardian.podxdemo.databinding.ViewholderPodxeventadapterImageBinding
 import com.guardian.podxdemo.presentation.common.DataBoundListAdapter
 import java.util.concurrent.Executor
 
-/**
- * A custom list adapter that handles the different PodXEvent types and
- */
 class PodXEventListAdapter(
     callback: DiffUtil.ItemCallback<PodXEvent>,
     executor: Executor,

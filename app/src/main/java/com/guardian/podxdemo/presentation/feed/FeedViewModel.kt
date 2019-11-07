@@ -11,6 +11,7 @@ import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.isPrepared
+import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.search.SearchResult
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
@@ -25,7 +26,8 @@ class FeedViewModel
 @Inject constructor(
     private val feedRepository: FeedRepository,
     private val feedItemRepository: FeedItemRepository,
-    private val mediaSessionConnection: MediaSessionConnection
+    private val mediaSessionConnection: MediaSessionConnection,
+    private val podXEventEmitter: PodXEventEmitter
 ) :
     ViewModel() {
 
@@ -93,6 +95,7 @@ class FeedViewModel
         val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
         if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
             transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
+            podXEventEmitter.registerCurrentFeedItem(feedItem)
         }
     }
 }
