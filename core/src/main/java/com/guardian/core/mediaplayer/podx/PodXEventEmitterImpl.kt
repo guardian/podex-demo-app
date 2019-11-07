@@ -41,6 +41,7 @@ class PodXEventEmitterImpl
     private var currentFeedDisposable = Disposables.empty()
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.dispose()
+        podXEventMutableLiveData.postValue(listOf())
         currentFeedDisposable = podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
             .subscribe({ feedPodXEventList ->
                 playbackTimerDisposable.dispose()
