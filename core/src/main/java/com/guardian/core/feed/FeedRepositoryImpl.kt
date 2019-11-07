@@ -6,11 +6,11 @@ import com.guardian.core.feed.api.xmldataobjects.parseNormalPlayTimeToMillis
 import com.guardian.core.feed.api.xmldataobjects.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
-import com.guardian.core.feeditem.dao.FeedItemDao
+import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.library.BaseRepository
 import com.guardian.core.podxevent.PodXEvent
+import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXType
-import com.guardian.core.podxevent.dao.PodXEventDao
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
 import kotlinx.coroutines.launch
@@ -30,17 +30,15 @@ import javax.inject.Inject
  *
  * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXEvent].
  * These can be accessed through their own repositories.
- * //todo might be best to inject the FeedItem and podX repositories to do the mapping and saving
- * //todo rather make abstract remote and local data sources
  */
 
 class FeedRepositoryImpl
 @Inject constructor(
     private val generalFeedApi: GeneralFeedApi,
     private val feedDao: FeedDao,
-    private val feedItemDao: FeedItemDao,
-    private val podXEventDao: PodXEventDao
-) :
+    private val feedItemRepository: FeedItemRepository,
+    private val podXEventRepository: PodXEventRepository
+    ) :
     FeedRepository, BaseRepository() {
     override fun getFeeds(): Flowable<List<Feed>> {
         return feedDao.getCachedFeeds()
@@ -78,6 +76,21 @@ class FeedRepositoryImpl
                     feedItemXmlDataObject.itunesImage.attributes["href"]?.value!!
                 }
 
+                // todo get duration from audio file
+
+                val currentFeedItem = FeedItem(
+                        title = feedItemXmlDataObject.title,
+                        description = feedItemXmlDataObject.description,
+                        imageUrlString = feedItemImage,
+                        pubDate = dateFormatter.parse(feedItemXmlDataObject.pubDate) ?: Date(System.currentTimeMillis()),
+                        feedItemAudioEncoding = feedItemXmlDataObject.enclosureXmlDataObject.attributes["type"]?.value ?: "",
+                        feedItemAudioUrl = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                        feedUrlString = feedUrl,
+                        author = feedItemXmlDataObject.author,
+                        episodeNumber = index.toLong(),
+                        lengthMs = feedItemXmlDataObject.duration.parseNormalPlayTimeToMillisOrNull() ?: 0L
+                    )
+
                 feedItemXmlDataObject.podxImages.filter { podXEventXmlDataObject ->
                     podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
                 }.map { podXEventXmlDataObject ->
@@ -93,26 +106,16 @@ class FeedRepositoryImpl
                     )
                 }.also { podXEventList ->
                     if (podXEventList.isNotEmpty()) {
-                        podXEventDao.putPodxEventList(podXEventList)
+                        // prevent duplicate podX events from being added
+                        podXEventRepository.deletePodXEventsForFeedItem(currentFeedItem)
+                        podXEventRepository.addPodXEvents(podXEventList)
                         Timber.i("Caching PodxEvents ${podXEventList.size}")
                     }
                 }
 
-                // todo get duration from audio file
-                FeedItem(
-                    title = feedItemXmlDataObject.title,
-                    description = feedItemXmlDataObject.description,
-                    imageUrlString = feedItemImage,
-                    pubDate = dateFormatter.parse(feedItemXmlDataObject.pubDate) ?: Date(System.currentTimeMillis()),
-                    feedItemAudioEncoding = feedItemXmlDataObject.enclosureXmlDataObject.attributes["type"]?.value ?: "",
-                    feedItemAudioUrl = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                    feedUrlString = feedUrl,
-                    author = feedItemXmlDataObject.author,
-                    episodeNumber = index.toLong(),
-                    lengthMs = feedItemXmlDataObject.duration.parseNormalPlayTimeToMillisOrNull() ?: 0L
-                )
+                currentFeedItem
             }.also { feedItems ->
-                feedItemDao.addFeedList(feedItems)
+                feedItemRepository.addFeedItems(feedItems)
                 Timber.i("Caching feed items ${feedItems.size}")
             }
 

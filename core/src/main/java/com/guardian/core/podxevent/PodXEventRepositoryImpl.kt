@@ -10,6 +10,13 @@ class PodXEventRepositoryImpl
         private val podXEventDao: PodXEventDao
     ) :
     PodXEventRepository {
+    override fun deletePodXEventsForFeedItem(feedItem: FeedItem) {
+        podXEventDao.removePodXEventList(feedItem.feedItemAudioUrl)
+    }
+
+    override fun addPodXEvents(podXEvents: List<PodXEvent>) {
+        podXEventDao.putPodxEventList(podXEvents)
+    }
 
     override fun getEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXEvent>> {
         return podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)

@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 import java.util.concurrent.atomic.AtomicBoolean
 
-// TODO maybe rather than generic podx events for everything extend the base podx event with a few fields for specific events
 @Entity(tableName = "podx_events",
     indices = [Index(value = ["feedItemUrlString"], unique = false)])
 @Parcelize

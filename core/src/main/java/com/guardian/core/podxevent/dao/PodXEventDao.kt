@@ -3,6 +3,7 @@ package com.guardian.core.podxevent.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.guardian.core.podxevent.PodXEvent
 import io.reactivex.Flowable
 
@@ -19,4 +20,8 @@ interface PodXEventDao {
 
     @Insert
     fun putPodxEventList(podXEvent: List<PodXEvent>)
+
+    @Transaction
+    @Query("DELETE from podx_events where feedItemUrlString = :feedItemAudioUrl")
+    fun removePodXEventList(feedItemAudioUrl: String)
 }
