@@ -13,24 +13,24 @@ import kotlin.reflect.KProperty
  * Accessing this variable in a destroyed fragment will throw NPE.
  */
 class LifecycleAwareLazy <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
-    private var _value: T? = null
+    private var value: T? = null
 
     init {
         fragment.lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                _value = null
+                value = null
             }
         })
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-        return _value ?: throw IllegalStateException(
+        return value ?: throw IllegalStateException(
         )
     }
 
     override fun setValue(thisRef: Fragment, property: KProperty<*>, value: T) {
-        _value = value
+        this.value = value
     }
 }
 
