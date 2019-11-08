@@ -1,2 +1,2 @@
-include ':app', ':mediaplayer', ':core'
+include ':app', ':core'
 rootProject.name='PodXDemo'

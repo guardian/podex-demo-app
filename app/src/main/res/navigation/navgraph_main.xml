@@ -2,8 +2,32 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navgraph_main.xml"
-    app:startDestination="@id/search_fragment">
+    app:startDestination="@id/searchFragment">
 
-    <fragment android:id="@+id/search_fragment"
-        android:name="com.guardian.podxdemo.presentation.search.SearchFragment"/>
+    <fragment android:id="@+id/searchFragment"
+        android:name="com.guardian.podxdemo.presentation.search.SearchFragment"
+        android:label="SearchFragment">
+        <action
+            android:id="@+id/action_search_fragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.guardian.podxdemo.presentation.feed.FeedFragment"
+        android:label="FeedFragment" >
+        <argument
+            android:name="searchResult"
+            app:argType="com.guardian.core.search.SearchResult" />
+        <action
+            android:id="@+id/action_feedFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.guardian.podxdemo.presentation.player.PlayerFragment"
+        android:label="PlayerFragment" >
+        <argument
+            android:name="feedItem"
+            app:argType="com.guardian.core.feeditem.FeedItem" />
+    </fragment>
 </navigation>

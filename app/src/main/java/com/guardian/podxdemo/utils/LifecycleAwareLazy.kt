@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty
 /**
  * A lazy property that gets cleaned up when the fragment is destroyed.
  *
- * Accessing this variable in a destroyed fragment will throw NPE.
+ * Accessing this variable in a destroyed fragment will throw an exception.
  */
 class LifecycleAwareLazy <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
     private var _value: T? = null
@@ -37,4 +37,4 @@ class LifecycleAwareLazy <T : Any>(val fragment: Fragment) : ReadWriteProperty<F
 /**
  * Creates an [LifecycleAwareLazy] associated with this fragment.
  */
-fun <T : Any> Fragment.lifecycleAwareLazy() = LifecycleAwareLazy<T>(this)
+fun <T : Any> Fragment.lifecycleAwareVar() = LifecycleAwareVar<T>(this)

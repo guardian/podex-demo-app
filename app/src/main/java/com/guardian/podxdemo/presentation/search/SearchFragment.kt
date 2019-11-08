@@ -18,19 +18,23 @@ import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
 import com.guardian.podxdemo.databinding.ViewholderSearchadapterResultBinding
 import com.guardian.core.search.SearchResult
 import com.guardian.podxdemo.R
-import com.guardian.podxdemo.utils.lifecycleAwareLazy
+import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
+import com.guardian.podxdemo.presentation.common.hideKeyboard
+import com.guardian.podxdemo.utils.lifecycleAwareVar
 import timber.log.Timber
 import javax.inject.Inject
 
 class SearchFragment
-    @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
-    : Fragment() {
+    @Inject constructor(
+        viewModelProviderFactory: ViewModelProvider.Factory,
+        private val executor: Executor
+    ) :
+    Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels {
         viewModelProviderFactory
     }
-
-    private var binding: LayoutSearchfragmentBinding by lifecycleAwareLazy()
+    private var binding: LayoutSearchfragmentBinding by lifecycleAwareVar()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,14 +53,23 @@ class SearchFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.recyclerviewSearchResults.layoutManager = GridLayoutManager(context, 2)
-        binding.recyclerviewSearchResults.adapter = SearchAdapter()
-            .apply {
-                searchViewModel.searchResults
-                    .observe(viewLifecycleOwner, Observer { results ->
-                        this.submitList(results)
-                        Timber.i("${this.itemCount} SearchResults added")
-                    })
+
+        setupRecyclerView()
+        setupEditText()
+
+        if (savedInstanceState == null) {
+            binding.search = getString(R.string.searchfragment_default_term)
+            searchViewModel.doSearch(getString(R.string.searchfragment_default_term))
+        }
+    }
+
+    private fun setupEditText() {
+        binding.edittextSearchTerm.setOnEditorActionListener { _, eventId, _ ->
+            if (eventId == EditorInfo.IME_ACTION_DONE) {
+                val searchTerm: String = binding.search
+                    ?: getString(R.string.searchfragment_default_term)
+                searchViewModel.doSearch(searchTerm)
+                hideKeyboard()
             }
     }
 }
@@ -85,9 +98,25 @@ class SearchAdapter
         return DataBoundViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: DataBoundViewHolder<ViewholderSearchadapterResultBinding>, position: Int) {
-        holder.binding.searchResult = getItem(position)
-        Timber.i("${getItem(position).title} being bound")
+                override fun areContentsTheSame(
+                    oldItem: SearchResult,
+                    newItem: SearchResult
+                ): Boolean {
+                    return oldItem.feedUrlString == newItem.feedUrlString
+                }
+            },
+            executor = executor
+        ) { searchResult ->
+            val action = SearchFragmentDirections.actionSearchFragmentToFeedFragment(searchResult)
+            findNavController()
+                .navigate(action)
+        }.apply {
+            searchViewModel.uiModel.results
+                .observe(viewLifecycleOwner, Observer { results ->
+                    this.submitList(results)
+                    Timber.i("${this.itemCount} SearchResults added")
+                })
+        }
     }
 
     class DataBoundViewHolder<out T : ViewDataBinding> constructor(val binding: T) :

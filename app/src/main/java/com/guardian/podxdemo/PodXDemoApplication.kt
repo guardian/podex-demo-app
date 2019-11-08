@@ -18,6 +18,7 @@ class PodXDemoApplication : Application(), HasAndroidInjector {
         DaggerAppComponent.builder()
             .coreComponent(
                 DaggerCoreComponent.builder()
+                    .bindContext(applicationContext)
                     .build()
             )
             .build()

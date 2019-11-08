@@ -1,7 +1,13 @@
 package com.guardian.core.feed
 
-data class Feed (
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "feeds")
+data class Feed(
+    @PrimaryKey
+    val feedUrlString: String,
     val title: String,
-    val description: String,
-    val feedItems: List<FeedItem>
+    val feedImageUrlString: String,
+    val description: String
 )

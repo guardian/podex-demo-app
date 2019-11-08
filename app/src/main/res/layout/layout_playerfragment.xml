@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="artUrlString"
+            type="String"/>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+        <variable
+            name="playbackPosition"
+            type="String"/>
+
+        <variable
+            name="duration"
+            type="String"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp">
+
+        <ImageView
+            android:id="@+id/imageview_play_album_art"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/playerfragment_album_art_alt"
+            app:srcCompat="@android:color/transparent"
+            imageUrl="@{artUrlString}"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="64dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="-24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageview_play_album_art"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <ImageButton
+            android:id="@+id/media_button"
+            android:layout_width="@dimen/exo_media_button_width"
+            android:layout_height="@dimen/exo_media_button_height"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:srcCompat="@drawable/baseline_play_arrow_24"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textview_play_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintLeft_toRightOf="@id/media_button"
+            app:layout_constraintRight_toLeftOf="@id/textview_play_position"
+            tools:text="@{title}" />
+
+        <TextView
+            android:id="@+id/textview_play_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
+            app:layout_constraintLeft_toRightOf="@id/media_button"
+            app:layout_constraintRight_toLeftOf="@id/textview_play_position"
+            tools:text="@{description}" />
+
+        <TextView
+            android:id="@+id/textview_play_position"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="@{playbackPosition}" />
+
+        <TextView
+            android:id="@+id/textview_play_duration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/textview_play_position"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="@{duration}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
