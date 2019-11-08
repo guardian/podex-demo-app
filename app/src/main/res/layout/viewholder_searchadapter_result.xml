@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:animateLayoutChanges="true">
+        android:padding="10dp">
         <ImageView
             android:id="@+id/imageview_search"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,8 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{searchResult.title}"
-            tools:text="PodX Podcast"
-            android:maxLines="4"
-            android:ellipsize="end"/>
+            tools:text="Podex Podcast"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
