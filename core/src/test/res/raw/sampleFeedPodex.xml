@@ -1,0 +1,53 @@
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podx="http://www.theguardian.com/au">
+    <channel>
+        <itunes:new-feed-url>https://www.theguardian.com/australia-news/series/australian-politics-live/podcast.xml</itunes:new-feed-url>
+        <title>Australian politics live podcast</title>
+        <link>https://www.theguardian.com/australia-news/series/australian-politics-live</link>
+        <description>Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you.</description>
+        <language>en-gb</language>
+        <copyright>The Guardian ©2019</copyright>
+        <lastBuildDate>
+            Tue, 24 Sep 2019 03:50:18 GMT
+        </lastBuildDate>
+        <ttl>15</ttl>
+
+        <itunes:owner>
+            <itunes:email>userhelp@theguardian.com</itunes:email>
+            <itunes:name>The Guardian</itunes:name>
+        </itunes:owner>
+        <itunes:image href="https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg"/>
+        <itunes:author>The Guardian</itunes:author>
+
+        <itunes:keywords/>
+        <itunes:summary>Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you.</itunes:summary>
+        <image>
+            <title>Australian politics live podcast</title>
+            <url>https://static.guim.co.uk/sitecrumbs/Guardian.gif</url>
+            <link>https://www.theguardian.com</link>
+        </image>
+        <itunes:category text="News &amp; Politics">
+
+        </itunes:category>
+        <item>
+            <title> Will Labor keep its climate promises? – Australian politics live podcast </title>
+            <description> The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says </description>
+            <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/09/19-03050-APLMarkButler.mp3" length="31123329" type="audio/mpeg"/>
+            <pubDate>Fri, 20 Sep 2019 20:00:14 GMT</pubDate>
+            <guid>5d82cf728f08f30dc5bbe107</guid>
+            <itunes:duration>00:32:25</itunes:duration>
+            <itunes:author>The Guardian</itunes:author>
+            <itunes:explicit>clean</itunes:explicit>
+            <itunes:keywords>Australia news, Australian politics, Climate change, Environment, Labor party, Liberal party, Greta Thunberg</itunes:keywords>
+            <itunes:subtitle>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says</itunes:subtitle>
+            <itunes:summary>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says</itunes:summary>
+
+            <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+                <podx:start>0:05</podx:start>
+                <podx:end>0:25</podx:end>
+                <podx:caption>This is a funny dog caption</podx:caption>
+                <podx:notification>This is a funny dog notification</podx:notification>
+            </podx:image>
+
+        </item>
+    </channel>
+</rss>

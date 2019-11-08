@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.guardian.core.search.SearchResult
@@ -18,6 +19,7 @@ import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
 import com.guardian.podxdemo.presentation.common.hideKeyboard
 import com.guardian.podxdemo.utils.lifecycleAwareLazy
 import timber.log.Timber
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 /**
@@ -25,8 +27,11 @@ import javax.inject.Inject
  */
 
 class SearchFragment
-    @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory)
-    : Fragment() {
+    @Inject constructor(
+        viewModelProviderFactory: ViewModelProvider.Factory,
+        val executor: Executor
+    ) :
+    Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels {
         viewModelProviderFactory
@@ -92,8 +97,13 @@ class SearchFragment
                 ): Boolean {
                     return oldItem.feedUrlString == newItem.feedUrlString
                 }
-            }
-        ).apply {
+            },
+            executor = executor
+        ) { searchResult ->
+            val action = SearchFragmentDirections.actionSearchFragmentToFeedFragment(searchResult)
+            findNavController()
+                .navigate(action)
+        }.apply {
             searchViewModel.uiModel.results
                 .observe(viewLifecycleOwner, Observer { results ->
                     this.submitList(results)
@@ -102,4 +112,3 @@ class SearchFragment
         }
     }
 }
-

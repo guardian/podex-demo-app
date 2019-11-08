@@ -25,7 +25,6 @@ import android.util.Log
 import com.guardian.common.media.MusicService
 import com.guardian.common.media.extensions.*
 
-
 /**
  * Interface used by [MusicService] for looking up [MediaMetadataCompat] objects.
  *
@@ -156,8 +155,8 @@ abstract class AbstractMusicSource : MusicSource {
                 val artist = extras[MediaStore.EXTRA_MEDIA_ARTIST]
                 Log.d(TAG, "Focused media search: title='$title' album='$album' artist='$artist")
                 filter { song ->
-                    (song.artist == artist || song.albumArtist == artist) && song.album == album
-                            && song.title == title
+                    (song.artist == artist || song.albumArtist == artist) && song.album == album &&
+                            song.title == title
                 }
             }
             else -> {
@@ -175,8 +174,8 @@ abstract class AbstractMusicSource : MusicSource {
             return if (query.isNotBlank()) {
                 Log.d(TAG, "Unfocused search for '$query'")
                 filter { song ->
-                    song.title.containsCaseInsensitive(query)
-                            || song.genre.containsCaseInsensitive(query)
+                    song.title.containsCaseInsensitive(query) ||
+                            song.genre.containsCaseInsensitive(query)
                 }
             } else {
                 // If the user asked to "play music", or something similar, the query will also

@@ -3,11 +3,10 @@ package com.guardian.podxdemo.dagger
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.guardian.podxdemo.dagger.keys.ViewModelKey
+import com.guardian.podxdemo.presentation.feed.FeedViewModel
 import com.guardian.podxdemo.presentation.search.SearchViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module
@@ -18,5 +17,11 @@ abstract class PodcastViewModelsModule {
     abstract fun bindsSearchFragment(searchViewModel: SearchViewModel): ViewModel
 
     @Binds
-    abstract fun bindViewModelFactory(factory: ViewModelInjectionFactory): ViewModelProvider.Factory
+    @IntoMap
+    @ViewModelKey(FeedViewModel::class)
+    abstract fun bindsFeedFragment(feedViewModel: FeedViewModel): ViewModel
+
+    @Binds
+    abstract fun bindsViewModelFactory(factory: ViewModelInjectionFactory):
+        ViewModelProvider.Factory
 }

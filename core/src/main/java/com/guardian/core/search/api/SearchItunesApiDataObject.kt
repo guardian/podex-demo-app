@@ -2,7 +2,7 @@ package com.guardian.core.search.api
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchItunesApiDataObject (
+data class SearchItunesApiDataObject(
     @SerializedName("collectionName") val name: String?,
     @SerializedName("feedUrl") val feedUrlString: String?,
     @SerializedName("artworkUrl30") val atworkUrl30String: String?,

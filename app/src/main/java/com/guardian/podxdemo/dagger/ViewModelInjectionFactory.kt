@@ -6,9 +6,11 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ViewModelInjectionFactory
-@Inject constructor(val viewmodelMultibinding: Map<Class<out ViewModel>,
-        @JvmSuppressWildcards Provider<ViewModel>>)
-    : ViewModelProvider.Factory {
+@Inject constructor(
+    val viewmodelMultibinding: Map<Class<out ViewModel>,
+@JvmSuppressWildcards Provider<ViewModel>>
+) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val creator = viewmodelMultibinding[modelClass]
             ?: viewmodelMultibinding.entries.firstOrNull { modelClass.isAssignableFrom(it.key) }?.value
@@ -19,6 +21,5 @@ class ViewModelInjectionFactory
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
-
     }
 }
