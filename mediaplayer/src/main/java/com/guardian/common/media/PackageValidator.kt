@@ -137,7 +137,7 @@ class PackageValidator(context: Context, @XmlRes xmlResId: Int) {
         }
 
         if (!isCallerKnown) {
-            // todo log unknown caller
+            //todo log unknown caller
         }
 
         // Save our work for next time.

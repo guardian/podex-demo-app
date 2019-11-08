@@ -5,17 +5,5 @@
     app:startDestination="@id/search_fragment">
 
     <fragment android:id="@+id/search_fragment"
-        android:name="com.guardian.podxdemo.presentation.search.SearchFragment">
-        <action
-            android:id="@+id/action_search_fragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/feedFragment"
-        android:name="com.guardian.podxdemo.presentation.feed.FeedFragment"
-        android:label="FeedFragment" >
-        <argument
-            android:name="searchResult"
-            app:argType="com.guardian.core.search.SearchResult" />
-    </fragment>
+        android:name="com.guardian.podxdemo.presentation.search.SearchFragment"/>
 </navigation>

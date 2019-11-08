@@ -4,13 +4,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import javax.inject.Inject
 import javax.inject.Provider
+import kotlin.reflect.KClass
 
 class FragmentInjectionFactory
-@Inject constructor(
-    val fragmentMultibinding: Map<Class<out Fragment>,
-@JvmSuppressWildcards Provider<Fragment>>
-) :
-    FragmentFactory() {
+@Inject constructor(val fragmentMultibinding: Map<Class<out Fragment>,
+        @JvmSuppressWildcards Provider<Fragment>>)
+    : FragmentFactory() {
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         val fragmentProvider = fragmentMultibinding[loadFragmentClass(classLoader, className)]

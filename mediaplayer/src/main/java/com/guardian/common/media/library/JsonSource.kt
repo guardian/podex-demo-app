@@ -107,6 +107,7 @@ class JsonSource(context: Context, private val source: Uri) : AbstractMusicSourc
         }
     }
 
+
     /**
      * Attempts to download a catalog from a given Uri.
      *

@@ -48,6 +48,7 @@ class NotificationBuilder(private val context: Context) {
     private val platformNotificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
+
     private val skipToPreviousAction = NotificationCompat.Action(
             R.drawable.exo_controls_previous,
             context.getString(R.string.notification_skip_to_previous),
@@ -129,3 +130,4 @@ class NotificationBuilder(private val context: Context) {
         platformNotificationManager.createNotificationChannel(notificationChannel)
     }
 }
+
