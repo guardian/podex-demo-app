@@ -34,6 +34,7 @@ class PodXEventEmitterImpl
 
     override val podXEventLiveData: LiveData<List<PodXEvent>> = podXEventMutableLiveData
 
+    // todo it doesn't make sense to use a PriQueue here
     private val podXEventQueue: PriorityQueue<PodXEvent> = PriorityQueue(30) { o1, o2 ->
             (o1.timeStart - o2.timeStart).toInt()
         }
