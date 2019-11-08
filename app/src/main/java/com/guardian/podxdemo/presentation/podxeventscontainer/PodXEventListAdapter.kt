@@ -26,5 +26,6 @@ class PodXEventListAdapter(
 
     override fun bind(holder: ViewholderPodxeventadapterImageBinding, item: PodXEvent) {
         holder.podXEvent = item
+        holder.root.setOnClickListener { handleSelection(item) }
     }
 }

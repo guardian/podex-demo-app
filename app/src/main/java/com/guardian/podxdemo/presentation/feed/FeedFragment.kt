@@ -46,7 +46,6 @@ class FeedFragment
             container,
             false
         )
-
         return binding.root
     }
 
@@ -89,7 +88,7 @@ class FeedFragment
             executor = executor
         ) { feedItem ->
             feedViewModel.prepareFeedItemForPlayback(feedItem)
-            val action = FeedFragmentDirections.actionFeedFragmentToPlayerActivity()
+            val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
             findNavController()
                 .navigate(action)
         }.apply {

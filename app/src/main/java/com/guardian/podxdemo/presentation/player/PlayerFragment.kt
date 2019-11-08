@@ -29,8 +29,6 @@ class PlayerFragment
 
     private var binding: LayoutPlayerfragmentBinding by lifecycleAwareVar()
 
-    // private val args: PlayerFragmentArgs by navArgs()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -80,9 +78,6 @@ class PlayerFragment
         // Setup UI handlers for buttons
         binding.mediaButton.setOnClickListener {
             playerViewModel.playPause()
-            // playerViewModel.playFromUri(args.feedItem.feedItemAudioUrl)
         }
-
-        // playerViewModel.setFeedItem(args.feedItem)
     }
 }

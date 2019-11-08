@@ -96,8 +96,9 @@ class PodXEventEmitterImpl
                 currentEventList.removeAll { it.timeEnd < timeMillis }
 
                 podXEventMutableLiveData.postValue(currentEventList)
-            }, { e: Throwable? -> Timber.e(e) }
-            )
+            }, { e: Throwable? ->
+                Timber.e(e)
+            })
     }
 
     private fun getPlaybackPositionFromState(playbackStateCompat: PlaybackStateCompat): Long {
