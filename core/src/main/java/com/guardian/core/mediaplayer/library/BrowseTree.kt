@@ -74,7 +74,7 @@ class BrowseTree(musicSource: MusicSource) {
 
         val recommendedMetadata = MediaMetadataCompat.Builder().apply {
             id = UAMP_RECOMMENDED_ROOT
-            // todo get proper defaults
+            //todo get proper defaults
             title = "todo"
             albumArtUri = "todo"
             flag = MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
@@ -122,7 +122,7 @@ class BrowseTree(musicSource: MusicSource) {
      * marking the item as [MediaItem.FLAG_BROWSABLE], since it will have child
      * node(s) AKA at least 1 song.
      */
-    private fun buildAlbumRoot(mediaItem: MediaMetadataCompat): MutableList<MediaMetadataCompat> {
+    private fun buildAlbumRoot(mediaItem: MediaMetadataCompat) : MutableList<MediaMetadataCompat> {
         val albumMetadata = MediaMetadataCompat.Builder().apply {
             id = mediaItem.album.urlEncoded
             title = mediaItem.album

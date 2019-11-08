@@ -11,8 +11,7 @@ import dagger.android.AndroidInjectionModule
     MainActivityModule::class,
     ServiceModule::class,
     PodcastFragmentsModule::class,
-    PodcastViewModelsModule::class,
-    AppExecutorsModule::class],
+    PodcastViewModelsModule::class],
     dependencies = [CoreComponent::class])
 interface AppComponent {
     @Component.Builder

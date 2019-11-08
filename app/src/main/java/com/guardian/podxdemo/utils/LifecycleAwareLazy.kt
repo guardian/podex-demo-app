@@ -8,32 +8,33 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- * A property that gets cleaned up when the fragment is destroyed.
+ * A lazy property that gets cleaned up when the fragment is destroyed.
  *
  * Accessing this variable in a destroyed fragment will throw an exception.
  */
-class LifecycleAwareVar <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
-    private var value: T? = null
+class LifecycleAwareLazy <T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
+    private var _value: T? = null
 
     init {
         fragment.lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                value = null
+                _value = null
             }
         })
     }
 
     override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-        return value ?: throw IllegalStateException()
+        return _value ?: throw IllegalStateException(
+        )
     }
 
     override fun setValue(thisRef: Fragment, property: KProperty<*>, value: T) {
-        this.value = value
+        _value = value
     }
 }
 
 /**
- * Creates an [LifecycleAwareVar] associated with this fragment.
+ * Creates an [LifecycleAwareLazy] associated with this fragment.
  */
 fun <T : Any> Fragment.lifecycleAwareVar() = LifecycleAwareVar<T>(this)

@@ -8,6 +8,7 @@ import com.guardian.podxdemo.presentation.player.PlayerFragment
 import com.guardian.podxdemo.presentation.search.SearchFragment
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 @Module

@@ -21,5 +21,6 @@ class ViewModelInjectionFactory
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+
     }
 }
