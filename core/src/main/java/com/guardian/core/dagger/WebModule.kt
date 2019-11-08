@@ -1,15 +1,15 @@
+@file:Suppress("DEPRECATION")
+
 package com.guardian.core.dagger
 
 import com.google.gson.Gson
 import com.guardian.core.BuildConfig
-import com.guardian.core.dagger.xml.XmlPullParserAdapter
-import com.guardian.core.dagger.xml.XmlPullParserAdapterImpl
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.xmlpull.v1.XmlPullParserFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 @Module
 class WebModule {
@@ -34,15 +34,12 @@ class WebModule {
     @Provides
     fun provideGson(): Gson = Gson()
 
+    @Suppress("DEPRECATION")
+    @Provides
+    fun provideSimpleXml(): SimpleXmlConverterFactory =
+        SimpleXmlConverterFactory.create()
+
     @Provides
     fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory =
         GsonConverterFactory.create(gson)
-
-    @Provides
-    fun provideXMLPullParserFactory(): XmlPullParserFactory =
-        XmlPullParserFactory.newInstance()
-
-    @Provides
-    fun provideXMLPullParserAdapter(xmlPullParserFactory: XmlPullParserFactory):
-            XmlPullParserAdapter = XmlPullParserAdapterImpl(xmlPullParserFactory)
 }
