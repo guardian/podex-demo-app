@@ -35,13 +35,23 @@
             android:name="podXEvent"
             app:argType="com.guardian.core.podxevent.PodXEvent"/>
     </fragment>
-
+    <fragment
+        android:id="@+id/podXWebFragment"
+        android:name="com.guardian.podxdemo.presentation.podxweb.PodXWebFragment"
+        android:label="PodXWebFragment" >
+        <argument
+            android:name="podXEvent"
+            app:argType="com.guardian.core.podxevent.PodXEvent" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_podXImageFragment"
         app:destination="@id/podXImageFragment" />
-
-    <action android:id="@+id/action_global_playerFragment"
+    <action
+        android:id="@+id/action_global_playerFragment"
         app:destination="@id/playerFragment"/>
+    <action
+        android:id="@+id/action_global_podXWebFragment"
+        app:destination="@id/podXWebFragment" />
 
 </navigation>

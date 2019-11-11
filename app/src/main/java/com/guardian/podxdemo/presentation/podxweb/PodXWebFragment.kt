@@ -1,4 +1,4 @@
-package com.guardian.podxdemo.presentation.podximage
+package com.guardian.podxdemo.presentation.podxweb
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,17 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.guardian.podxdemo.R
-import com.guardian.podxdemo.databinding.LayoutPodximagefragmentBinding
+import com.guardian.podxdemo.databinding.LayoutPodxwebfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import javax.inject.Inject
 
-class PodXImageFragment
+class PodXWebFragment
 @Inject constructor() :
     Fragment() {
 
-    private var binding: LayoutPodximagefragmentBinding by lifecycleAwareVar()
+    private var binding: LayoutPodxwebfragmentBinding by lifecycleAwareVar()
 
-    private val podXImageEvent: PodXImageFragmentArgs by navArgs()
+    private val podXImageEvent: PodXWebFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +27,7 @@ class PodXImageFragment
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.layout_podximagefragment,
+            R.layout.layout_podxwebfragment,
             container,
             false
         )
@@ -38,6 +38,12 @@ class PodXImageFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.podxImage = podXImageEvent.podXEvent
+        setupWebView()
+
+        binding.podXWeb = podXImageEvent.podXEvent
+    }
+
+    private fun setupWebView() {
+
     }
 }
