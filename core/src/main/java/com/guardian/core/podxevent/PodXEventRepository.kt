@@ -42,5 +42,12 @@ interface PodXEventRepository {
      *
      * @param podXImageEvents the list of events to be added
      */
-    fun addPodXEvents(podXImageEvents: List<PodXImageEvent>)
+    fun addPodXImageEvents(podXImageEvents: List<PodXImageEvent>)
+
+    /**
+     * Add a list of [PodXWebEvent]s to the repository
+     *
+     * @param podXWebEvents the list of events to be added
+     */
+    fun addPodXWebEvents(podXWebEvents: List<PodXWebEvent>)
 }

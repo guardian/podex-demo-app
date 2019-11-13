@@ -78,14 +78,11 @@ class CollapsedPlayerFragment
                 }
             })
 
-
         binding
             .imageviewCollapsedPlayerCover
             .setOnClickListener {
                 findNavController()
                     .navigate(R.id.action_global_playerFragment)
             }
-
     }
-
 }

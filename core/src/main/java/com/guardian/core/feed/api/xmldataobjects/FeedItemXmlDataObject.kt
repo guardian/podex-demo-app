@@ -3,6 +3,7 @@ package com.guardian.core.feed.api.xmldataobjects
 import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
+import timber.log.Timber
 
 data class FeedItemXmlDataObject(
     val title: String = "",
@@ -39,6 +40,11 @@ data class FeedItemXmlDataObject(
         }
 
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
+            if ((xmlParserElementMap["podx:web"]?.value as List<*>).isNotEmpty())
+            {
+                Timber.i((xmlParserElementMap["podx:web"]?.value as List<*>)[0]!!::class.simpleName)
+            }
+
             return FeedItemXmlDataObject(
                 title = xmlParserElementMap["title"]?.value as String,
                 description = xmlParserElementMap["description"]?.value as String,

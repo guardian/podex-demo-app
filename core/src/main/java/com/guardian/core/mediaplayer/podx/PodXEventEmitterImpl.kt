@@ -63,8 +63,6 @@ class PodXEventEmitterImpl
             }, { e: Throwable ->
                 Timber.e(e)
             })
-
-
     }
 
     private fun registerPlaybackTimerObservable(): Disposable {
@@ -86,11 +84,10 @@ class PodXEventEmitterImpl
                 val currentEventList = podXEventMutableLiveData.value?.toMutableList()!!
                     .apply {
                         // assume no concurrent modification maybe wrongly
-                        while(podXImageEventQueue.peek() != null
-                            && podXImageEventQueue.peek()!!.timeStart < timeMillis) {
+                        while (podXImageEventQueue.peek() != null &&
+                            podXImageEventQueue.peek()!!.timeStart < timeMillis) {
                             add(podXImageEventQueue.poll()!!)
                         }
-
                     }
 
                 currentEventList.removeAll { it.timeEnd < timeMillis }

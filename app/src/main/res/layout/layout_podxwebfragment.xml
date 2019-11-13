@@ -5,7 +5,7 @@
     <data>
         <variable
             name="podXWeb"
-            type="com.guardian.core.podxevent.PodXImageEvent" />
+            type="com.guardian.core.podxevent.PodXWebEvent" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

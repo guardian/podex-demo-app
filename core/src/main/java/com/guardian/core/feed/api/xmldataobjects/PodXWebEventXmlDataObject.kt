@@ -16,7 +16,7 @@ data class PodXWebEventXmlDataObject(
             .reduce { acc, b -> acc && b }
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf(
-        "href" to ValueContainer("")
+        "url" to ValueContainer("")
     )
 
     companion object : XmlDataObjectFactory {
@@ -31,7 +31,7 @@ data class PodXWebEventXmlDataObject(
 
         @Suppress("UNCHECKED_CAST")
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            return PodXImageEventXmlDataObject(
+            return PodXWebEventXmlDataObject(
                 xmlParserElementMap["podx:start"]?.value as String,
                 xmlParserElementMap["podx:end"]?.value as String,
                 xmlParserElementMap["podx:caption"]?.value as String,

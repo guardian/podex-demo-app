@@ -18,7 +18,7 @@ class PodXWebFragment
 
     private var binding: LayoutPodxwebfragmentBinding by lifecycleAwareVar()
 
-    private val podXImageEvent: PodXWebFragmentArgs by navArgs()
+    private val fragmentArgs: PodXWebFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,10 +40,9 @@ class PodXWebFragment
 
         setupWebView()
 
-        binding.podXWeb = podXImageEvent.podXImageEvent
+        binding.podXWeb = fragmentArgs.podXWebEvent
     }
 
     private fun setupWebView() {
-
     }
 }

@@ -50,7 +50,6 @@ class PodXEventsContainerFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXImageEventsListLiveData
@@ -65,7 +64,6 @@ class PodXEventsContainerFragment
                             }
                 })
 
-
         binding
             .recyclerviewPodxeventscontainerEvents
             .layoutManager = LinearLayoutManager(
@@ -75,16 +73,15 @@ class PodXEventsContainerFragment
         binding
             .recyclerviewPodxeventscontainerEvents
             .adapter = PodXEventListAdapter(
-            callback = object: DiffUtil.ItemCallback<PodXImageEvent>() {
+            callback = object : DiffUtil.ItemCallback<PodXImageEvent>() {
                 override fun areItemsTheSame(oldItem: PodXImageEvent, newItem: PodXImageEvent): Boolean =
                     oldItem == newItem
 
                 override fun areContentsTheSame(oldItem: PodXImageEvent, newItem: PodXImageEvent): Boolean =
-                    oldItem.timeStart == newItem.timeStart
-                        && oldItem.timeEnd == newItem.timeEnd
-                        && oldItem.urlString == newItem.urlString
-                        && oldItem.type == newItem.type
-                        && oldItem.caption == newItem.caption
+                    oldItem.timeStart == newItem.timeStart &&
+                        oldItem.timeEnd == newItem.timeEnd &&
+                        oldItem.urlString == newItem.urlString &&
+                        oldItem.caption == newItem.caption
             },
             executor = executor
         ) { podXEvent ->
@@ -104,5 +101,4 @@ class PodXEventsContainerFragment
                         Observer { this.submitList(it) })
             }
     }
-
 }

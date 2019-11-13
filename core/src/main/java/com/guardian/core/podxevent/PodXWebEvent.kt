@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "podx_web_events",
     indices = [Index(value = ["feedItemUrlString"], unique = false)])
 @Parcelize
-data class PodXWebEvent (
+data class PodXWebEvent(
     val timeStart: Long,
     val timeEnd: Long,
     val urlString: String,
@@ -18,4 +18,4 @@ data class PodXWebEvent (
     val feedItemUrlString: String,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
-): Parcelable
+) : Parcelable

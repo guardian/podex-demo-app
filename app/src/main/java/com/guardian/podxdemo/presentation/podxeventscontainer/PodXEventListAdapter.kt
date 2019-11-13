@@ -14,7 +14,7 @@ class PodXEventListAdapter(
     callback: DiffUtil.ItemCallback<PodXImageEvent>,
     executor: Executor,
     val handleSelection: (PodXImageEvent) -> Unit
-)  : DataBoundListAdapter<PodXImageEvent, ViewholderPodxeventadapterImageBinding>(callback, executor) {
+) : DataBoundListAdapter<PodXImageEvent, ViewholderPodxeventadapterImageBinding>(callback, executor) {
     override fun createBinding(parent: ViewGroup): ViewholderPodxeventadapterImageBinding {
         return DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
