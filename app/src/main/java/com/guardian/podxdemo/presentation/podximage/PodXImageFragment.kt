@@ -38,6 +38,6 @@ class PodXImageFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.podxImage = podXImageEvent.podXEvent
+        binding.podxImage = podXImageEvent.podXImageEvent
     }
 }

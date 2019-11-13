@@ -10,27 +10,37 @@ import io.reactivex.Flowable
  */
 interface PodXEventRepository {
     /**
-     * Returns a [Flowable] that emits a list of all [PodXEvent]s that are to be shown during the
-     * playback of a [FeedItem] ordered by [PodXEvent.timeStart]
+     * Returns a [Flowable] that emits a list of all [PodXImageEvent]s that are to be shown during the
+     * playback of a [FeedItem] ordered by [PodXImageEvent.timeStart]
      *
-     * @param feedItem feed item with to be associated with [PodXEvent] by it's
+     * @param feedItem feed item with to be associated with [PodXImageEvent] by it's
      * [FeedItem.feedUrlString]
-     * @return a [Flowable] which emits the list of [PodXEvent]s and any updates to that list
+     * @return a [Flowable] which emits the list of [PodXImageEvent]s and any updates to that list
      */
-    fun getEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXEvent>>
+    fun getImageEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXImageEvent>>
 
     /**
-     * Clear all [PodXEvent]s associated with a [FeedItem]
+     * Returns a [Flowable] that emits a list of all [PodXWebEvent]s that are to be shown during the
+     * playback of a [FeedItem] ordered by [PodXWebEvent.timeStart]
      *
-     * @param feedItem feed item with to be associated with [PodXEvent] by it's
+     * @param feedItem feed item with to be associated with [PodXWebEvent] by it's
+     * [FeedItem.feedUrlString]
+     * @return a [Flowable] which emits the list of [PodXWebEvent]s and any updates to that list
+     */
+    fun getWebEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXWebEvent>>
+
+    /**
+     * Clear all [PodXImageEvent]s associated with a [FeedItem]
+     *
+     * @param feedItem feed item with to be associated with [PodXImageEvent] by it's
      * [FeedItem.feedUrlString]
      */
     fun deletePodXEventsForFeedItem(feedItem: FeedItem)
 
     /**
-     * Add a list of [PodXEvent]s to the repository
+     * Add a list of [PodXImageEvent]s to the repository
      *
-     * @param podXEvents the list of events to be added
+     * @param podXImageEvents the list of events to be added
      */
-    fun addPodXEvents(podXEvents: List<PodXEvent>)
+    fun addPodXEvents(podXImageEvents: List<PodXImageEvent>)
 }

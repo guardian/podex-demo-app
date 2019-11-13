@@ -14,7 +14,8 @@ data class FeedItemXmlDataObject(
     val duration: String = "",
     val author: String = "",
     val keywords: String = "",
-    val podxImages: List<PodxEventXmlDataObject> = listOf(PodxEventXmlDataObject())
+    val podxImages: List<PodXImageEventXmlDataObject> = listOf(PodXImageEventXmlDataObject()),
+    val podxWeb: List<PodXWebEventXmlDataObject> = listOf(PodXWebEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
 
@@ -32,7 +33,8 @@ data class FeedItemXmlDataObject(
                 "itunes:duration" to ValueContainer(""),
                 "itunes:author" to ValueContainer(""),
                 "itunes:keywords" to ValueContainer(""),
-                "podx:image" to ValueContainer(listOf(PodxEventXmlDataObject()))
+                "podx:image" to ValueContainer(listOf(PodXImageEventXmlDataObject())),
+                "podx:web" to ValueContainer(listOf(PodXWebEventXmlDataObject()))
             )
         }
 
@@ -49,7 +51,8 @@ data class FeedItemXmlDataObject(
                 duration = xmlParserElementMap["itunes:duration"]?.value as String,
                 author = xmlParserElementMap["itunes:author"]?.value as String,
                 keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
-                podxImages = xmlParserElementMap["podx:image"]?.value as List<PodxEventXmlDataObject>
+                podxImages = xmlParserElementMap["podx:image"]?.value as List<PodXImageEventXmlDataObject>,
+                podxWeb = xmlParserElementMap["podx:web"]?.value as List<PodXWebEventXmlDataObject>
             )
         }
     }

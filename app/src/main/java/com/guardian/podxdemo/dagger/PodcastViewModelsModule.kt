@@ -6,7 +6,6 @@ import com.guardian.podxdemo.dagger.keys.ViewModelKey
 import com.guardian.podxdemo.presentation.feed.FeedViewModel
 import com.guardian.podxdemo.presentation.player.PlayerViewModel
 import com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerViewModel
-import com.guardian.podxdemo.presentation.podximage.PodXImageViewModel
 import com.guardian.podxdemo.presentation.search.SearchViewModel
 import dagger.Binds
 import dagger.Module
@@ -28,11 +27,6 @@ abstract class PodcastViewModelsModule {
     @IntoMap
     @ViewModelKey(PlayerViewModel::class)
     abstract fun bindsPlayerViewModel(playerViewModel: PlayerViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(PodXImageViewModel::class)
-    abstract fun bindsPodXImageViewModel(podXImageViewModel: PodXImageViewModel): ViewModel
 
     @Binds
     @IntoMap

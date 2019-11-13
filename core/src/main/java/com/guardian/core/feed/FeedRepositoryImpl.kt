@@ -2,15 +2,14 @@ package com.guardian.core.feed
 
 import com.guardian.core.feed.api.GeneralFeedApi
 import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
-import com.guardian.core.feed.api.xmldataobjects.parseNormalPlayTimeToMillis
-import com.guardian.core.feed.api.xmldataobjects.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.library.BaseRepository
-import com.guardian.core.podxevent.PodXEvent
+import com.guardian.core.library.parseNormalPlayTimeToMillis
+import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.podxevent.PodXEventRepository
-import com.guardian.core.podxevent.PodXType
+import com.guardian.core.podxevent.PodXImageEvent
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ import javax.inject.Inject
  * [Feed.feedUrlString]. The feedUrl string corresponds to the [SearchResult.feedUrlString] and can
  * therefore be treated as a foreign key.
  *
- * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXEvent].
+ * Individual episodes are mapped to the [FeedItem] class which in turn has associated [PodXImageEvent].
  * These can be accessed through their own repositories.
  */
 
@@ -93,15 +92,14 @@ class FeedRepositoryImpl
 
                 feedItemXmlDataObject.podxImages.filter { podXEventXmlDataObject ->
                     podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
-                }.map { podXEventXmlDataObject ->
-                    PodXEvent(
-                        type = PodXType.IMAGE,
-                        urlString = podXEventXmlDataObject.attributes["href"]?.value ?: "",
-                        timeStart = podXEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-                        timeEnd = podXEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
-                            ?: podXEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-                        caption = podXEventXmlDataObject.caption,
-                        notification = podXEventXmlDataObject.notification,
+                }.map { podXImageEventXmlDataObject ->
+                    PodXImageEvent(
+                        urlString = podXImageEventXmlDataObject.attributes["href"]?.value ?: "",
+                        timeStart = podXImageEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                        timeEnd = podXImageEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                            ?: podXImageEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                        caption = podXImageEventXmlDataObject.caption,
+                        notification = podXImageEventXmlDataObject.notification,
                         feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
                     )
                 }.also { podXEventList ->

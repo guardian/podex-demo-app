@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
-import com.guardian.core.podxevent.PodXEvent
-import com.guardian.core.podxevent.dao.PodXEventDao
+import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.dao.PodXImageEventDao
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class PodXEventEmitterImpl
 @Inject constructor(
     private val mediaSessionConnection: MediaSessionConnection,
-    private val podXEventDao: PodXEventDao
+    private val podXImageEventDao: PodXImageEventDao
 ) :
     PodXEventEmitter {
 
@@ -27,15 +27,15 @@ class PodXEventEmitterImpl
     // a concurrent modification exception can be avoided
     private var playbackTimerDisposable = Disposables.empty()
 
-    private val podXEventMutableLiveData = MutableLiveData<List<PodXEvent>>()
+    private val podXEventMutableLiveData = MutableLiveData<List<PodXImageEvent>>()
         .apply {
             value = listOf()
         }
 
-    override val podXEventLiveData: LiveData<List<PodXEvent>> = podXEventMutableLiveData
+    override val podXImageEventLiveData: LiveData<List<PodXImageEvent>> = podXEventMutableLiveData
 
     // todo it doesn't make sense to use a PriQueue here
-    private val podXEventQueue: PriorityQueue<PodXEvent> = PriorityQueue(30) { o1, o2 ->
+    private val podXImageEventQueue: PriorityQueue<PodXImageEvent> = PriorityQueue(30) { o1, o2 ->
             (o1.timeStart - o2.timeStart).toInt()
         }
 
@@ -43,19 +43,19 @@ class PodXEventEmitterImpl
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.dispose()
         podXEventMutableLiveData.postValue(listOf())
-        currentFeedDisposable = podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
+        currentFeedDisposable = podXImageEventDao.getPodXImageEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
             .subscribe({ feedPodXEventList ->
                 playbackTimerDisposable.dispose()
-                podXEventQueue.clear()
-                podXEventQueue.addAll(feedPodXEventList)
+                podXImageEventQueue.clear()
+                podXImageEventQueue.addAll(feedPodXEventList)
 
                 // trim events that have already been shown in case we are registering a feed item
                 // that is already part way through playback.
                 val currentState = mediaSessionConnection.playbackState.value
                 if (currentState != null) {
                     val currentTime = getPlaybackPositionFromState(currentState)
-                    while (podXEventQueue.peek()?.timeStart ?: -1 < currentTime) {
-                        podXEventQueue.poll()
+                    while (podXImageEventQueue.peek()?.timeStart ?: -1 < currentTime) {
+                        podXImageEventQueue.poll()
                     }
                 }
                 podXEventMutableLiveData.postValue(listOf())
@@ -86,9 +86,9 @@ class PodXEventEmitterImpl
                 val currentEventList = podXEventMutableLiveData.value?.toMutableList()!!
                     .apply {
                         // assume no concurrent modification maybe wrongly
-                        while(podXEventQueue.peek() != null
-                            && podXEventQueue.peek()!!.timeStart < timeMillis) {
-                            add(podXEventQueue.poll()!!)
+                        while(podXImageEventQueue.peek() != null
+                            && podXImageEventQueue.peek()!!.timeStart < timeMillis) {
+                            add(podXImageEventQueue.poll()!!)
                         }
 
                     }

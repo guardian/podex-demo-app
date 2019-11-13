@@ -40,7 +40,7 @@ class PodXWebFragment
 
         setupWebView()
 
-        binding.podXWeb = podXImageEvent.podXEvent
+        binding.podXWeb = podXImageEvent.podXImageEvent
     }
 
     private fun setupWebView() {

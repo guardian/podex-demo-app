@@ -2,8 +2,8 @@
 <layout>
     <data>
         <variable
-            name="podXEvent"
-            type="com.guardian.core.podxevent.PodXEvent" />
+            name="podXImageEvent"
+            type="com.guardian.core.podxevent.PodXImageEvent" />
     </data>
     
     <LinearLayout
@@ -16,7 +16,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="@dimen/podx_image_margin"
-            imageUrl="@{podXEvent.urlString}"
+            imageUrl="@{podXImageEvent.urlString}"
             />
 
     </LinearLayout>

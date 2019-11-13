@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.guardian.core.podxevent.PodXEvent
+import com.guardian.core.podxevent.PodXImageEvent
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodxeventscontainerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
@@ -53,7 +53,7 @@ class PodXEventsContainerFragment
 
         podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXEventsListLiveData
+            .podXImageEventsListLiveData
             .observe(viewLifecycleOwner,
                 Observer {
                     binding
@@ -75,11 +75,11 @@ class PodXEventsContainerFragment
         binding
             .recyclerviewPodxeventscontainerEvents
             .adapter = PodXEventListAdapter(
-            callback = object: DiffUtil.ItemCallback<PodXEvent>() {
-                override fun areItemsTheSame(oldItem: PodXEvent, newItem: PodXEvent): Boolean =
+            callback = object: DiffUtil.ItemCallback<PodXImageEvent>() {
+                override fun areItemsTheSame(oldItem: PodXImageEvent, newItem: PodXImageEvent): Boolean =
                     oldItem == newItem
 
-                override fun areContentsTheSame(oldItem: PodXEvent, newItem: PodXEvent): Boolean =
+                override fun areContentsTheSame(oldItem: PodXImageEvent, newItem: PodXImageEvent): Boolean =
                     oldItem.timeStart == newItem.timeStart
                         && oldItem.timeEnd == newItem.timeEnd
                         && oldItem.urlString == newItem.urlString
@@ -90,7 +90,7 @@ class PodXEventsContainerFragment
         ) { podXEvent ->
             val argsBundle = Bundle()
                 .apply {
-                    putParcelable("podXEvent", podXEvent)
+                    putParcelable("podXImageEvent", podXEvent)
                 }
 
             findNavController()
@@ -99,7 +99,7 @@ class PodXEventsContainerFragment
             .apply {
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
-                    .podXEventsListLiveData
+                    .podXImageEventsListLiveData
                     .observe(viewLifecycleOwner,
                         Observer { this.submitList(it) })
             }

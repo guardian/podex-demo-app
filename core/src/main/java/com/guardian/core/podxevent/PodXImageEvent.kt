@@ -5,13 +5,11 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.util.concurrent.atomic.AtomicBoolean
 
-@Entity(tableName = "podx_events",
+@Entity(tableName = "podx_image_events",
     indices = [Index(value = ["feedItemUrlString"], unique = false)])
 @Parcelize
-data class PodXEvent(
-    val type: PodXType,
+data class PodXImageEvent(
     val timeStart: Long,
     val timeEnd: Long,
     val urlString: String,
@@ -19,12 +17,5 @@ data class PodXEvent(
     val notification: String,
     val feedItemUrlString: String,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val handled: AtomicBoolean = AtomicBoolean(false)
+    val id: Int = 0
 ) : Parcelable
-
-enum class PodXType {
-    IMAGE,
-    DONATION,
-    WEB
-}

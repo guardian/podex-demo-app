@@ -32,16 +32,13 @@
         android:name="com.guardian.podxdemo.presentation.podximage.PodXImageFragment"
         android:label="PodXImageFragment" >
         <argument
-            android:name="podXEvent"
-            app:argType="com.guardian.core.podxevent.PodXEvent"/>
+            android:name="podXImageEvent"
+            app:argType="com.guardian.core.podxevent.PodXImageEvent"/>
     </fragment>
     <fragment
         android:id="@+id/podXWebFragment"
         android:name="com.guardian.podxdemo.presentation.podxweb.PodXWebFragment"
         android:label="PodXWebFragment" >
-        <argument
-            android:name="podXEvent"
-            app:argType="com.guardian.core.podxevent.PodXEvent" />
     </fragment>
 
     <action
