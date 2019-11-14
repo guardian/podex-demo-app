@@ -11,6 +11,7 @@ import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
 import kotlinx.coroutines.launch
@@ -93,14 +94,14 @@ class FeedRepositoryImpl
                 // todo get duration from audio file
 
                 val currentFeedItem = FeedItem(
-                    title = feedItemXmlDataObject.title,
-                    description = feedItemXmlDataObject.description,
+                    title = feedItemXmlDataObject.title.trim(),
+                    description = feedItemXmlDataObject.description.trim(),
                     imageUrlString = feedItemImage,
                     pubDate = dateFormatter.parse(feedItemXmlDataObject.pubDate) ?: Date(System.currentTimeMillis()),
                     feedItemAudioEncoding = feedItemXmlDataObject.enclosureXmlDataObject.attributes["type"]?.value ?: "",
                     feedItemAudioUrl = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
                     feedUrlString = feedUrl,
-                    author = feedItemXmlDataObject.author,
+                    author = feedItemXmlDataObject.author.trim(),
                     episodeNumber = index.toLong(),
                     lengthMs = feedItemXmlDataObject.duration.parseNormalPlayTimeToMillisOrNull() ?: 0L
                 )
@@ -118,26 +119,24 @@ class FeedRepositoryImpl
     }
 
     private fun mapPodXWebLinks(feedItemXmlDataObject: FeedItemXmlDataObject) {
-        if (feedItemXmlDataObject.podxWeb.isNotEmpty())  {Timber.i(feedItemXmlDataObject.podxWeb[0].caption)}
-
-        //     .filter { podXEventXmlDataObject ->
-        //     podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
-        // }.map { podXWebEventXmlDataObject ->
-        //     PodXWebEvent(
-        //         urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: "",
-        //         timeStart = podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-        //         timeEnd = podXWebEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
-        //             ?: podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-        //         caption = podXWebEventXmlDataObject.caption,
-        //         notification = podXWebEventXmlDataObject.notification,
-        //         feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
-        //     )
-        // }.also { podXEventList ->
-        //     if (podXEventList.isNotEmpty()) {
-        //         podXEventRepository.addPodXWebEvents(podXEventList)
-        //         Timber.i("Caching PodxWebEvents ${podXEventList.size}")
-        //     }
-        // }
+        feedItemXmlDataObject.podxWeb.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXWebEventXmlDataObject ->
+            PodXWebEvent(
+                urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: "",
+                timeStart = podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXWebEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXWebEventXmlDataObject.caption.trim(),
+                notification = podXWebEventXmlDataObject.notification.trim(),
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXWebEvents(podXEventList)
+                Timber.i("Caching PodxWebEvents ${podXEventList.size}")
+            }
+        }
     }
 
     private fun mapPodXImages(feedItemXmlDataObject: FeedItemXmlDataObject) {
@@ -149,8 +148,8 @@ class FeedRepositoryImpl
                 timeStart = podXImageEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 timeEnd = podXImageEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
                     ?: podXImageEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-                caption = podXImageEventXmlDataObject.caption,
-                notification = podXImageEventXmlDataObject.notification,
+                caption = podXImageEventXmlDataObject.caption.trim(),
+                notification = podXImageEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
             )
         }.also { podXEventList ->
