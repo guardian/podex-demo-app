@@ -59,8 +59,6 @@ class ShadowMediaBrowserCompat {
             return copyOfMediaItemChildren
         }
 
-
-
     @Implementation
     protected fun __constructor__(
         context: Context,
@@ -111,7 +109,9 @@ class ShadowMediaBrowserCompat {
 
     @Implementation
     protected fun subscribe(
-        @NonNull parentId: String, @Nullable options: Bundle?, @NonNull callback: MediaBrowserCompat.SubscriptionCallback
+        @NonNull parentId: String,
+        @Nullable options: Bundle?,
+        @NonNull callback: MediaBrowserCompat.SubscriptionCallback
     ) {
         if (isConnected) {
             val parentItem = mediaItems[parentId]
@@ -156,7 +156,9 @@ class ShadowMediaBrowserCompat {
      */
     @Implementation
     protected fun search(
-        @NonNull query: String, extras: Bundle, @NonNull callback: MediaBrowserCompat.SearchCallback
+        @NonNull query: String,
+        extras: Bundle,
+        @NonNull callback: MediaBrowserCompat.SearchCallback
     ) {
         if (isConnected) {
             val searchResults = ArrayList<MediaItem>()

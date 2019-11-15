@@ -63,7 +63,7 @@ class PodXEventsContainerFragment
 
         feedThumnailLiveData()
         bindVisibilitySwitch()
-        setupRecyclerview()
+        setupRecyclerView()
     }
 
     private fun feedThumnailLiveData() {
@@ -130,7 +130,7 @@ class PodXEventsContainerFragment
             .navigate(R.id.action_global_podXImageFragment, argsBundle)
     }
 
-    private fun setupRecyclerview() {
+    private fun setupRecyclerView() {
         binding
             .recyclerviewPodxeventscontainerEvents
             .layoutManager = LinearLayoutManager(

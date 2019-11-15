@@ -100,8 +100,7 @@ open class MediaService : MediaBrowserServiceCompat() {
     private val exoPlayer: ExoPlayer by lazy {
         ExoPlayerFactory.newSimpleInstance(this).apply {
             setAudioAttributes(uAmpAudioAttributes, true)
-
-             playWhenReady = true
+            playWhenReady = true
         }
     }
 
