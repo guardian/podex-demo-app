@@ -62,8 +62,6 @@ class PodXEventsContainerFragment
         feedThumnailLiveData()
         bindVisibilitySwitch()
         setupRecyclerview()
-
-        thumbnailMutableLiveData.observe(viewLifecycleOwner, Observer { Timber.i("${it.size} thumbnails")})
     }
 
     private fun feedThumnailLiveData() {
@@ -71,7 +69,6 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXImageEventsListLiveData
             .map { imageList ->
-                Timber.i("image list length fed to fumbnails ${imageList.size}")
                 imageList.map { image ->
                     image.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
@@ -85,7 +82,6 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXWebEventsListLiveData
             .map { webList ->
-                Timber.i("web list length fed to fumbnails ${webList.size}")
                 webList.map { web ->
                     web.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
@@ -170,10 +166,8 @@ class PodXEventsContainerFragment
                     binding
                         .constraintlayoutPodxeventscontainerRoot
                         .visibility = if (it.isEmpty()) {
-                        Timber.i("GONE")
                         View.GONE
                     } else {
-                        Timber.i("VISIBLE")
                         View.VISIBLE
                     }
                 })

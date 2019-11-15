@@ -104,14 +104,24 @@ class PodXEventEmitterImpl
                         pendingImageEvent.timeStart < timeMillis
                             && pendingImageEvent.timeEnd > timeMillis
                     }
-                    podXImageEventMutableLiveData.postValue(currentImageEventList)
+                    //only post if there are new values
+                    if (currentImageEventList
+                            .intersect(podXImageEventMutableLiveData.value ?: listOf())
+                            .size != currentImageEventList.size) {
+                        podXImageEventMutableLiveData.postValue(currentImageEventList)
+                    }
 
                     val currentWebEventList = pendingPodXWebEvents.filter {pendingWebEvent ->
                         pendingWebEvent.timeStart < timeMillis
                             && pendingWebEvent.timeEnd > timeMillis
                     }
 
-                    podXWebEventMutableLiveData.postValue(currentWebEventList)
+                    //only post if there are new values
+                    if (currentWebEventList
+                            .intersect(podXWebEventMutableLiveData.value ?: listOf())
+                            .size != currentWebEventList.size) {
+                        podXWebEventMutableLiveData.postValue(currentWebEventList)
+                    }
                 }, { e: Throwable? ->
                     Timber.e(e)
                 })
