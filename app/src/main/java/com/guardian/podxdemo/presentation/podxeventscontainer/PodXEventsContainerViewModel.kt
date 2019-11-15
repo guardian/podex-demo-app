@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXWebEvent
 import javax.inject.Inject
 
 data class PodXEventsContainerUiModel(
-    val podXImageEventsListLiveData: LiveData<List<PodXImageEvent>>
+    val podXImageEventsListLiveData: LiveData<List<PodXImageEvent>>,
+    val podXWebEventsListLiveData: LiveData<List<PodXWebEvent>>
 )
 
 class PodXEventsContainerViewModel
@@ -17,7 +19,8 @@ class PodXEventsContainerViewModel
     ViewModel() {
     val podXEventsContainerUiModel by lazy {
         PodXEventsContainerUiModel(
-            podXEventEmitter.podXImageEventLiveData
+            podXEventEmitter.podXImageEventLiveData,
+            podXEventEmitter.podXWebEventLiveData
         )
     }
 }

@@ -61,7 +61,6 @@ class FeedRepositoryImpl
         val feedImage: String = feedXmlDataObject.itunesImage.attributes["href"]?.value
             ?: feedXmlDataObject.image.url
 
-
         Feed(
             title = feedXmlDataObject.title,
             description = feedXmlDataObject.description,
