@@ -1,5 +1,7 @@
 package com.guardian.podxdemo.presentation.podxeventscontainer
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -111,13 +113,11 @@ class PodXEventsContainerFragment
     }
 
     private fun navigateToWeb(podXWebEvent: PodXWebEvent) {
-        val argsBundle = Bundle()
-            .apply {
-                putParcelable("podXWebEvent", podXWebEvent)
-            }
-
-        findNavController()
-            .navigate(R.id.action_global_podXWebFragment, argsBundle)
+        if (podXWebEvent.urlString.isNotBlank()) {
+            val webPage: Uri = Uri.parse(podXWebEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
     }
 
     private fun navigateToImage(podXImageEvent: PodXImageEvent) {

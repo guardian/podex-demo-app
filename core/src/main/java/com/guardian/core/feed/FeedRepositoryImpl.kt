@@ -122,7 +122,7 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXWebEventXmlDataObject ->
             PodXWebEvent(
-                urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: "",
+                urlString = podXWebEventXmlDataObject.attributes["href"]?.value ?: "",
                 timeStart = podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 timeEnd = podXWebEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
                     ?: podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),

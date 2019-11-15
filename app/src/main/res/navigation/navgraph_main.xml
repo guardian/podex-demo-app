@@ -35,14 +35,6 @@
             android:name="podXImageEvent"
             app:argType="com.guardian.core.podxevent.PodXImageEvent"/>
     </fragment>
-    <fragment
-        android:id="@+id/podXWebFragment"
-        android:name="com.guardian.podxdemo.presentation.podxweb.PodXWebFragment"
-        android:label="PodXWebFragment" >
-        <argument
-            android:name="podXWebEvent"
-            app:argType="com.guardian.core.podxevent.PodXWebEvent"/>
-    </fragment>
 
     <action
         android:id="@+id/action_global_podXImageFragment"
@@ -50,8 +42,5 @@
     <action
         android:id="@+id/action_global_playerFragment"
         app:destination="@id/playerFragment"/>
-    <action
-        android:id="@+id/action_global_podXWebFragment"
-        app:destination="@id/podXWebFragment" />
 
 </navigation>
