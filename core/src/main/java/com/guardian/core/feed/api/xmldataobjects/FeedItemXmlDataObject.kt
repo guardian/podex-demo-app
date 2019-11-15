@@ -40,8 +40,7 @@ data class FeedItemXmlDataObject(
         }
 
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            if ((xmlParserElementMap["podx:web"]?.value as List<*>).isNotEmpty())
-            {
+            if ((xmlParserElementMap["podx:web"]?.value as List<*>).isNotEmpty()) {
                 Timber.i((xmlParserElementMap["podx:web"]?.value as List<*>)[0]!!::class.simpleName)
             }
 

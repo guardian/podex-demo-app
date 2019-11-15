@@ -32,8 +32,8 @@ class PodXEventEmitterImpl
         .apply {
             value = listOf()
         }
-    override val podXImageEventLiveData: LiveData<List<PodXImageEvent>>
-        = podXImageEventMutableLiveData
+    override val podXImageEventLiveData: LiveData<List<PodXImageEvent>> =
+        podXImageEventMutableLiveData
 
     private val podXWebEventMutableLiveData = MutableLiveData<List<PodXWebEvent>>()
         .apply {
@@ -54,7 +54,6 @@ class PodXEventEmitterImpl
         registerImageEvents(feedItem)
         registerWebEvents(feedItem)
         registerPlaybackTimerObservable()
-
     }
 
     private fun registerWebEvents(feedItem: FeedItem) {
@@ -100,23 +99,23 @@ class PodXEventEmitterImpl
             timerObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ timeMillis ->
-                    val currentImageEventList = pendingPodXImageEvents.filter {pendingImageEvent ->
-                        pendingImageEvent.timeStart < timeMillis
-                            && pendingImageEvent.timeEnd > timeMillis
+                    val currentImageEventList = pendingPodXImageEvents.filter { pendingImageEvent ->
+                        pendingImageEvent.timeStart < timeMillis &&
+                            pendingImageEvent.timeEnd > timeMillis
                     }
-                    //only post if there are new values
+                    // only post if there are new values
                     if (currentImageEventList
                             .intersect(podXImageEventMutableLiveData.value ?: listOf())
                             .size != currentImageEventList.size) {
                         podXImageEventMutableLiveData.postValue(currentImageEventList)
                     }
 
-                    val currentWebEventList = pendingPodXWebEvents.filter {pendingWebEvent ->
-                        pendingWebEvent.timeStart < timeMillis
-                            && pendingWebEvent.timeEnd > timeMillis
+                    val currentWebEventList = pendingPodXWebEvents.filter { pendingWebEvent ->
+                        pendingWebEvent.timeStart < timeMillis &&
+                            pendingWebEvent.timeEnd > timeMillis
                     }
 
-                    //only post if there are new values
+                    // only post if there are new values
                     if (currentWebEventList
                             .intersect(podXWebEventMutableLiveData.value ?: listOf())
                             .size != currentWebEventList.size) {

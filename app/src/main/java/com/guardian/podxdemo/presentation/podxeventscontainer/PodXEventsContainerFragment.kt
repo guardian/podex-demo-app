@@ -40,8 +40,8 @@ class PodXEventsContainerFragment
 
     private var binding: LayoutPodxeventscontainerfragmentBinding by lifecycleAwareVar()
 
-    private val thumbnailMutableLiveData: MutableLiveData<List<PodXEventThumbnailData>>
-        = MutableLiveData(listOf())
+    private val thumbnailMutableLiveData: MutableLiveData<List<PodXEventThumbnailData>> =
+        MutableLiveData(listOf())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -145,8 +145,8 @@ class PodXEventsContainerFragment
                     oldItem == newItem
 
                 override fun areContentsTheSame(oldItem: PodXEventThumbnailData, newItem: PodXEventThumbnailData): Boolean =
-                    oldItem.captionString == newItem.captionString
-                        && oldItem.imageUrlString == newItem.imageUrlString
+                    oldItem.captionString == newItem.captionString &&
+                        oldItem.imageUrlString == newItem.imageUrlString
             },
             executor = executor
         )

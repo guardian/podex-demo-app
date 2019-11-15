@@ -10,16 +10,16 @@ data class PodXEventThumbnailData(
     val onClickListener: View.OnClickListener
 )
 
-fun PodXWebEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener)
-    : PodXEventThumbnailData =
+fun PodXWebEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener):
+    PodXEventThumbnailData =
     PodXEventThumbnailData(
         imageUrlString = "https://i.stack.imgur.com/jB2pV.png",
         captionString = this.caption,
         onClickListener = onClickListener
     )
 
-fun PodXImageEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener)
-    : PodXEventThumbnailData =
+fun PodXImageEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener):
+    PodXEventThumbnailData =
     PodXEventThumbnailData(
         imageUrlString = this.urlString,
         captionString = this.caption,

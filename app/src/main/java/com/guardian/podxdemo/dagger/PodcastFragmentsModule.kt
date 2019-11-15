@@ -8,7 +8,6 @@ import com.guardian.podxdemo.presentation.feed.FeedFragment
 import com.guardian.podxdemo.presentation.player.PlayerFragment
 import com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment
 import com.guardian.podxdemo.presentation.podximage.PodXImageFragment
-import com.guardian.podxdemo.presentation.podxweb.PodXWebFragment
 import com.guardian.podxdemo.presentation.search.SearchFragment
 import dagger.Binds
 import dagger.Module
@@ -41,11 +40,6 @@ abstract class PodcastFragmentsModule {
     @IntoMap
     @FragmentKey(PodXImageFragment::class)
     abstract fun bindsPodXImageFragment(podXImageFragment: PodXImageFragment): Fragment
-
-    @Binds
-    @IntoMap
-    @FragmentKey(PodXWebFragment::class)
-    abstract fun bindsPodXWebFragment(podXWebFragment: PodXWebFragment): Fragment
 
     @Binds
     @IntoMap
