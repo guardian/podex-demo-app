@@ -11,12 +11,13 @@ data class PodXEventThumbnailData(
 )
 
 fun PodXWebEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener):
-    PodXEventThumbnailData =
-    PodXEventThumbnailData(
-        imageUrlString = "https://i.stack.imgur.com/jB2pV.png",
+    PodXEventThumbnailData {
+    return PodXEventThumbnailData(
+        imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
         onClickListener = onClickListener
     )
+}
 
 fun PodXImageEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener):
     PodXEventThumbnailData =

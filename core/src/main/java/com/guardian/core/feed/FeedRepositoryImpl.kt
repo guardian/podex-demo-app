@@ -9,6 +9,7 @@ import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.library.BaseRepository
 import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
+import com.guardian.core.podxevent.OGMetadata
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXImageEvent
 import com.guardian.core.podxevent.PodXWebEvent
@@ -121,14 +122,26 @@ class FeedRepositoryImpl
         feedItemXmlDataObject.podxWeb.filter { podXEventXmlDataObject ->
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXWebEventXmlDataObject ->
+            //set a placeholder as we will scrape metadata afterwards
+            //todo fetch asynchronously
+            val urlString = podXWebEventXmlDataObject.attributes["href"]?.value ?: ""
+            val placeholderMetadata = try {
+                OGMetadata
+                    .extractOGMetadataFromUrlString(urlString)
+            } catch (exception: IllegalArgumentException) {
+                Timber.w("could not extract og data for $urlString")
+                OGMetadata( "", "", "", "")
+            }
+
             PodXWebEvent(
-                urlString = podXWebEventXmlDataObject.attributes["href"]?.value ?: "",
+                urlString = urlString,
                 timeStart = podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 timeEnd = podXWebEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
                     ?: podXWebEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 caption = podXWebEventXmlDataObject.caption.trim(),
                 notification = podXWebEventXmlDataObject.notification.trim(),
-                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                ogMetadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
