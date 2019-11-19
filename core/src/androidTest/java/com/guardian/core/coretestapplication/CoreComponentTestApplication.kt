@@ -1,34 +1,29 @@
-package com.guardian.core.mediaplayer.daggermocks
+package com.guardian.core.coretestapplication
 
 import android.app.Application
+import com.guardian.core.mediaplayer.daggermocks.DaggerTestCoreComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import org.robolectric.TestLifecycleApplication
-import java.lang.reflect.Method
 import javax.inject.Inject
 
 /**
  * An Application to allow robolectric to inject members to Services contained in the core module
  * using the CoreComponent dependency of the [TestCoreComponent].
  */
-class CoreComponentTestApplication : Application(), TestLifecycleApplication, HasAndroidInjector {
+class CoreComponentTestApplication : Application(), HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
-    override fun beforeTest(method: Method?) {
-    }
+    override fun onCreate() {
+        super.onCreate()
 
-    override fun prepareTest(test: Any?) {
         DaggerTestCoreComponent.builder()
             .bindContext(applicationContext)
             .build()
             .inject(this)
-    }
-
-    override fun afterTest(method: Method?) {
     }
 }

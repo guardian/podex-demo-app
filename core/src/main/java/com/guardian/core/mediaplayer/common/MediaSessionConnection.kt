@@ -30,7 +30,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.media.MediaBrowserServiceCompat
 import com.guardian.core.mediaplayer.NETWORK_FAILURE
 import com.guardian.core.mediaplayer.common.MediaSessionConnection.MediaBrowserConnectionCallback
-import com.guardian.core.podxevent.PodXImageEvent
 import timber.log.Timber
 
 /**
@@ -64,7 +63,6 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
         .apply { postValue(EMPTY_PLAYBACK_STATE) }
     val nowPlaying = MutableLiveData<MediaMetadataCompat>()
         .apply { postValue(NOTHING_PLAYING) }
-    val podXEvent = MutableLiveData<PodXImageEvent>()
 
     val transportControls: MediaControllerCompat.TransportControls
         get() = mediaController.transportControls
@@ -73,7 +71,8 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
     private val mediaBrowser = MediaBrowserCompat(
         context,
         serviceComponent,
-        mediaBrowserConnectionCallback, null
+        mediaBrowserConnectionCallback,
+        null
     ).apply { connect() }
     private lateinit var mediaController: MediaControllerCompat
 
