@@ -73,6 +73,9 @@ open class MediaService : MediaBrowserServiceCompat() {
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
+    val service: Service
+        get() = this
+
     protected lateinit var mediaSession: MediaSessionCompat
     protected lateinit var mediaController: MediaControllerCompat
     protected lateinit var mediaSessionConnector: MediaSessionConnector
