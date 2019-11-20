@@ -1,6 +1,5 @@
 package com.guardian.podxdemo.presentation.feed
 
-import android.support.v4.media.MediaBrowserCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,16 +27,7 @@ class FeedViewModel
     private val feedItemRepository: FeedItemRepository,
     private val mediaSessionConnection: MediaSessionConnection,
     private val podXEventEmitter: PodXEventEmitter
-) :
-    ViewModel() {
-
-    init {
-        mediaSessionConnection.subscribe("unused",
-            object : MediaBrowserCompat.SubscriptionCallback() {
-            }
-        )
-    }
-
+) : ViewModel() {
     val uiModel by lazy {
         FeedUiModel(
             mutableFeedData,
@@ -49,7 +39,7 @@ class FeedViewModel
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
 
     private val compositeDisposable = CompositeDisposable()
-
+y
     fun setPlaceholderData(searchResult: SearchResult) {
         mutableFeedData.postValue(
             Feed(

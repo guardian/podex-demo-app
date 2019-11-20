@@ -1,10 +1,13 @@
 package com.guardian.podxdemo.presentation.player
 
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.media.MediaMetadataCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.mediaplayer.extensions.currentPlayBackPosition
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
@@ -34,6 +37,7 @@ class PlayerViewModel
     }
 
     private val compositeDisposable = CompositeDisposable()
+    private val playbackCheckHandler = Handler(Looper.getMainLooper())
 
     private val mediaMetadataMutableLiveData = MutableLiveData<MediaMetadataCompat>().apply {
         mediaSessionConnection.nowPlaying
@@ -44,8 +48,11 @@ class PlayerViewModel
 
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
         mediaSessionConnection.playbackState.observeForever {
+
+            checkPlaybackPosition()
+
             this.postValue(
-                it.position
+                it.currentPlayBackPosition
             )
         }
     }
@@ -87,6 +94,14 @@ class PlayerViewModel
             }
         }
     }
+
+    private fun checkPlaybackPosition(): Boolean = playbackCheckHandler.postDelayed({
+        val currPosition = mediaSessionConnection.playbackState.value?.currentPlayBackPosition
+        if (mutableMediaPlaybackPosition.value != currPosition && currPosition != null)
+            mutableMediaPlaybackPosition.postValue(currPosition)
+        if (mediaSessionConnection.playbackState.value?.isPlaying == true)
+            checkPlaybackPosition()
+    }, 500)
 
     override fun onCleared() {
         super.onCleared()
