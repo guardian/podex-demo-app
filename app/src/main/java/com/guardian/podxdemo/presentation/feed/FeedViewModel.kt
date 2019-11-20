@@ -39,7 +39,7 @@ class FeedViewModel
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
 
     private val compositeDisposable = CompositeDisposable()
-y
+
     fun setPlaceholderData(searchResult: SearchResult) {
         mutableFeedData.postValue(
             Feed(
