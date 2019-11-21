@@ -101,7 +101,7 @@ class PlayerViewModel
             mutableMediaPlaybackPosition.postValue(currPosition)
         if (mediaSessionConnection.playbackState.value?.isPlaying == true)
             checkPlaybackPosition()
-    }, 500)
+    }, 250)
 
     override fun onCleared() {
         super.onCleared()

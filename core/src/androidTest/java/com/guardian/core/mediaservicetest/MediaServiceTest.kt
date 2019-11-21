@@ -2,7 +2,6 @@ package com.guardian.core.mediaservicetest
 
 import android.content.ComponentName
 import android.content.Context
-import android.support.v4.media.MediaBrowserCompat
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -22,24 +21,22 @@ class MediaServiceTest {
     @Test
     @UiThreadTest
     @Throws(TimeoutException::class)
-    fun testWithBoundService() {
+    fun testPlaybackOfLocalMedia() {
+        val connection = getMediaSessionConnection()
+    }
 
+    /**
+     * needs to be run on the Main looper or any other prepared looper.
+     */
+    fun getMediaSessionConnection(): MediaSessionConnection {
         val testApplicationContext = ApplicationProvider.getApplicationContext<Context>()
 
-        val connection = MediaSessionConnection (
+        return MediaSessionConnection (
             testApplicationContext,
             ComponentName(
                 testApplicationContext,
                 MediaService::class.java
             )
         )
-
-        connection.subscribe("unused",
-            object : MediaBrowserCompat.SubscriptionCallback() {
-            }
-        )
-
-
-        println(connection.isConnected)
     }
 }

@@ -54,7 +54,7 @@ import com.guardian.core.mediaplayer.extensions.urlEncoded
  *  `browseTree["Album_A"]` would return "Song_1" and "Song_2". Since those are leaf nodes,
  *  requesting `browseTree["Song_1"]` would return null (there aren't any children of it).
  */
-class BrowseTree(musicSource: MusicSource) {
+class BrowseTree {
     private val mediaIdToChildren = mutableMapOf<String, MutableList<MediaMetadataCompat>>()
 
     /**

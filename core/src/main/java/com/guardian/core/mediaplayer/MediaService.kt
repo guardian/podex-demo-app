@@ -20,17 +20,13 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
-import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ControlDispatcher
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Timeline
-import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+import com.google.android.exoplayer2.upstream.DataSource
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.library.BrowseTree
 import com.guardian.core.mediaplayer.library.FeedSource
@@ -69,16 +65,15 @@ open class MediaService : MediaBrowserServiceCompat() {
 
     @Inject lateinit var feedSource: FeedSource
     @Inject lateinit var packageValidator: PackageValidator
+    @Inject lateinit var dataSourceFactory: DataSource.Factory
+    @Inject lateinit var exoPlayer: ExoPlayer
 
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
-    val service: Service
-        get() = this
-
     protected lateinit var mediaSession: MediaSessionCompat
     protected lateinit var mediaController: MediaControllerCompat
-    protected lateinit var mediaSessionConnector: MediaSessionConnector
+    private lateinit var mediaSessionConnector: MediaSessionConnector
 
     /**
      * This must be `by lazy` because the source won't initially be ready.
@@ -86,26 +81,10 @@ open class MediaService : MediaBrowserServiceCompat() {
      * constructed).
      */
     private val browseTree: BrowseTree by lazy {
-        BrowseTree(mediaSource)
+        BrowseTree()
     }
 
     private var isForegroundService = false
-
-    private val uAmpAudioAttributes = AudioAttributes.Builder()
-        .setContentType(C.CONTENT_TYPE_MUSIC)
-        .setUsage(C.USAGE_MEDIA)
-        .build()
-
-    /**
-     * Configure ExoPlayer to handle audio focus for us.
-     * See [Player.AudioComponent.setAudioAttributes] for details.
-     */
-    private val exoPlayer: ExoPlayer by lazy {
-        ExoPlayerFactory.newSimpleInstance(this).apply {
-            setAudioAttributes(uAmpAudioAttributes, true)
-            playWhenReady = true
-        }
-    }
 
     @ExperimentalCoroutinesApi
     override fun onCreate() {
@@ -162,9 +141,6 @@ open class MediaService : MediaBrowserServiceCompat() {
         // ExoPlayer will manage the MediaSession for us.
         mediaSessionConnector = MediaSessionConnector(mediaSession).also { connector ->
             // Produces DataSource instances through which media data is loaded.
-            val dataSourceFactory = DefaultDataSourceFactory(
-                this, Util.getUserAgent(this, UAMP_USER_AGENT), null
-            )
 
             // Create the PlaybackPreparer of the media session connector.
             val playbackPreparer = UampPlaybackPreparer(
@@ -491,5 +467,3 @@ private const val CONTENT_STYLE_PLAYABLE_HINT = "android.media.browse.CONTENT_ST
 private const val CONTENT_STYLE_SUPPORTED = "android.media.browse.CONTENT_STYLE_SUPPORTED"
 private const val CONTENT_STYLE_LIST = 1
 private const val CONTENT_STYLE_GRID = 2
-
-private const val UAMP_USER_AGENT = "uamp.next"
