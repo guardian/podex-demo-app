@@ -34,6 +34,10 @@ android {
         test{
             resources.srcDirs += ["src/test/res/raw"]
         }
+
+        androidTest{
+            resources.srcDirs += ["src/androidTest/res/raw"]
+        }
     }
 
     compileOptions {

@@ -48,7 +48,7 @@ object MockedFeedDataSources {
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
         feedItemAudioUrl = "https://flex.acast.com/audio.guim.co.uk/2019/09/19-03050-APLMarkButler.mp3",
         feedItemAudioEncoding = "audio/mpeg",
-        pubDate = Date.from(Instant.now()),
+        pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 31123329,
         episodeNumber = 1
@@ -61,7 +61,7 @@ object MockedFeedDataSources {
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
         feedItemAudioUrl = "https://flex.acast.com/audio.guim.co.uk/2019/10/17-63694-gnl.sci.20191018.ms.stuart_russel_superintelligent_ai.mp3",
         feedItemAudioEncoding = "audio/mpeg",
-        pubDate = Date.from(Instant.now()),
+        pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 36459909,
         episodeNumber = 2

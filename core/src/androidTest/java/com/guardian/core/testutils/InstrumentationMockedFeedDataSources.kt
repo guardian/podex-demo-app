@@ -6,7 +6,6 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
 import io.reactivex.Flowable
 import org.mockito.Mockito
-import java.time.Instant
 import java.util.Date
 
 object InstrumentationMockedFeedDataSources {
@@ -25,7 +24,7 @@ object InstrumentationMockedFeedDataSources {
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
         feedItemAudioUrl = "https://flex.acast.com/audio.guim.co.uk/2019/09/19-03050-APLMarkButler.mp3",
         feedItemAudioEncoding = "audio/mpeg",
-        pubDate = Date.from(Instant.now()),
+        pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 1945000,
         episodeNumber = 1
@@ -36,9 +35,9 @@ object InstrumentationMockedFeedDataSources {
         description = "Prof Stuart Russell wrote the book on artificial intelligence. Literally. But that was back in 1995, when the next few decades of AI were uncertain, and, according to him, distinctly less threatening. Sitting down with Ian Sample, Russell talks about his latest book, Human Compatible, which warns of a dystopian future in which humans are outsmarted by machines. But how did we get here? And what can we do to make sure these machines benefit humankind?\n",
         imageUrlString = "https://interactive.guim.co.uk/podx/Puli_600.jpg",
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
-        feedItemAudioUrl = "https://flex.acast.com/audio.guim.co.uk/2019/10/17-63694-gnl.sci.20191018.ms.stuart_russel_superintelligent_ai.mp3",
+        feedItemAudioUrl = "test_music_1.mp3",
         feedItemAudioEncoding = "audio/mpeg",
-        pubDate = Date.from(Instant.now()),
+        pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 36459909,
         episodeNumber = 2

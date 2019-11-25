@@ -66,7 +66,6 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
          */
         override fun onConnected() {
             // Get a MediaController for the MediaSession.
-            Timber.i("meadiaController is instantiated")
             mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken).apply {
                 registerCallback(MediaControllerCallback())
             }
