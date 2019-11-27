@@ -122,15 +122,15 @@ class FeedRepositoryImpl
         feedItemXmlDataObject.podxWeb.filter { podXEventXmlDataObject ->
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXWebEventXmlDataObject ->
-            //set a placeholder as we will scrape metadata afterwards
-            //todo fetch asynchronously
+            // set a placeholder as we will scrape metadata afterwards
+            // todo fetch asynchronously
             val urlString = podXWebEventXmlDataObject.attributes["href"]?.value ?: ""
             val placeholderMetadata = try {
                 OGMetadata
                     .extractOGMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata( "", "", "", "")
+                OGMetadata("", "", "", "")
             }
 
             PodXWebEvent(

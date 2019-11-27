@@ -6,21 +6,21 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 @Parcelize
-data class OGMetadata (
+data class OGMetadata(
     val OGImage: String,
     val OGTitle: String,
     val OGUrl: String,
     val OGType: String
-): Parcelable {
+) : Parcelable {
     companion object OGMetadataFactory {
         @Throws(IllegalArgumentException::class)
-        fun extractOGMetadataFromUrlString (urlString: String): OGMetadata {
+        fun extractOGMetadataFromUrlString(urlString: String): OGMetadata {
             val document: Document = Jsoup.connect(urlString)
                 .get()
 
             val argMap = mutableMapOf<String, String>()
 
-            //select only og meta elements
+            // select only og meta elements
             document.select("meta[property]")
                 .forEach { element ->
                     if (element.attributes()["property"] in listOf(

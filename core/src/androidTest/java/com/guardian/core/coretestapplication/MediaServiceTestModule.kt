@@ -15,7 +15,7 @@ import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediametadata.MediaMetadataRepositoryImpl
 import com.guardian.core.mediaplayer.MediaService
 import com.guardian.core.mediaplayer.PackageValidator
-import com.guardian.core.mediaplayer.daggermocks.TestPackageValidator
+import com.guardian.core.mediaplayer.library.FeedSource
 import com.guardian.core.testutils.InstrumentationMockedFeedDataSources
 import dagger.Module
 import dagger.Provides
@@ -54,7 +54,7 @@ class MediaServiceTestModule {
 
     @Provides
     fun provideExoplayer(context: Context): ExoPlayer {
-        //todo mock exoplayer
+        // todo mock exoplayer
         val uAmpAudioAttributes = AudioAttributes.Builder()
             .setContentType(C.CONTENT_TYPE_MUSIC)
             .setUsage(C.USAGE_MEDIA)
@@ -66,10 +66,9 @@ class MediaServiceTestModule {
         }
     }
 
-    //todo get the user agent application name from application
     @Provides
     fun provideDataSourceFactory(context: Context): DataSource.Factory = FileDataSourceFactory(
-        object: TransferListener {
+        object : TransferListener {
             override fun onTransferInitializing(
                 source: DataSource?,
                 dataSpec: DataSpec?,
@@ -116,4 +115,10 @@ class MediaServiceTestModule {
             }
         }
     )
+
+    @Provides
+    fun provideFeedSource(mediaMetadataRepository: MediaMetadataRepository): FeedSource {
+        // bind test feed source instance to graph
+        return FeedSource(mediaMetadataRepository)
+    }
 }

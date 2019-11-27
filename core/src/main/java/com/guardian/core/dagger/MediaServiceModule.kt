@@ -21,7 +21,7 @@ class MediaServiceModule {
     fun providePackageValidator(context: Context): PackageValidator =
         PackageValidatorImpl(context, R.xml.allowed_media_browser_callers)
 
-    //todo get the user agent application name from application
+    // todo get the user agent application name from application
     @Provides
     fun provideDataSourceFactory(context: Context): DataSource.Factory = DefaultDataSourceFactory(
             context, Util.getUserAgent(context, "podx"), null

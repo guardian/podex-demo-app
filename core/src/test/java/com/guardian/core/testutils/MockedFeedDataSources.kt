@@ -6,7 +6,6 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
 import io.reactivex.Flowable
 import org.mockito.Mockito
-import java.time.Instant
 import java.util.Date
 
 object MockedFeedDataSources {

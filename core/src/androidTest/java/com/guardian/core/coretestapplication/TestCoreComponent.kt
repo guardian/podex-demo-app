@@ -1,9 +1,6 @@
-package com.guardian.core.mediaplayer.daggermocks
+package com.guardian.core.coretestapplication
 
 import android.content.Context
-import com.guardian.core.coretestapplication.AbstractMediaServiceTestModule
-import com.guardian.core.coretestapplication.CoreComponentTestApplication
-import com.guardian.core.coretestapplication.MediaServiceTestModule
 import com.guardian.core.dagger.RoomModule
 import dagger.BindsInstance
 import dagger.Component
