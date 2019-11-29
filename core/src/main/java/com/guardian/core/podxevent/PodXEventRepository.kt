@@ -30,6 +30,16 @@ interface PodXEventRepository {
     fun getWebEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXWebEvent>>
 
     /**
+     * Returns a [Flowable] that emits a list of all [PodXSupportEvent]s that are to be shown during the
+     * playback of a [FeedItem] ordered by [PodXSupportEvent.timeStart]
+     *
+     * @param feedItem feed item with to be associated with [PodXWebEvent] by it's
+     * [FeedItem.feedUrlString]
+     * @return a [Flowable] which emits the list of [PodXSupportEvent]s and any updates to that list
+     */
+    fun getSupportEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXSupportEvent>>
+
+    /**
      * Clear all [PodXImageEvent]s associated with a [FeedItem]
      *
      * @param feedItem feed item with to be associated with [PodXImageEvent] by it's
@@ -50,4 +60,11 @@ interface PodXEventRepository {
      * @param podXWebEvents the list of events to be added
      */
     fun addPodXWebEvents(podXWebEvents: List<PodXWebEvent>)
+
+    /**
+     * Add a list of [PodXSupportEvent]s to the repository
+     *
+     * @param podXWebEvents the list of events to be added
+     */
+    fun addPodXSupportEvents(podXSupportEvents: List<PodXSupportEvent>)
 }

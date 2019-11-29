@@ -8,6 +8,7 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,8 +42,16 @@ class PodXEventEmitterImpl
         }
     override val podXWebEventLiveData: LiveData<List<PodXWebEvent>> = podXWebEventMutableLiveData
 
+    private val podXSupportEventMutableLiveData = MutableLiveData<List<PodXSupportEvent>>()
+        .apply {
+            value = listOf()
+        }
+    override val podXSupportEventLiveData: LiveData<List<PodXSupportEvent>> =
+        podXSupportEventMutableLiveData
+
     private val pendingPodXImageEvents: MutableList<PodXImageEvent> = mutableListOf()
     private val pendingPodXWebEvents: MutableList<PodXWebEvent> = mutableListOf()
+    private val pendingPodXSupportEvents: MutableList<PodXSupportEvent> = mutableListOf()
 
     private val currentFeedDisposable = CompositeDisposable()
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
@@ -50,9 +59,11 @@ class PodXEventEmitterImpl
 
         podXImageEventMutableLiveData.postValue(listOf())
         podXWebEventMutableLiveData.postValue(listOf())
+        podXSupportEventMutableLiveData.postValue(listOf())
 
         registerImageEvents(feedItem)
         registerWebEvents(feedItem)
+        registerSupportEvents(feedItem)
         registerPlaybackTimerObservable()
     }
 
@@ -80,6 +91,18 @@ class PodXEventEmitterImpl
         )
     }
 
+    private fun registerSupportEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getSupportEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXSupportEvents.clear()
+                    pendingPodXSupportEvents.addAll(feedPodXEventList)
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
     private fun registerPlaybackTimerObservable() {
         val timerObservable = Observable.interval(
             500, TimeUnit.MILLISECONDS
@@ -99,10 +122,11 @@ class PodXEventEmitterImpl
             timerObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ timeMillis ->
-                    val currentImageEventList = pendingPodXImageEvents.filter { pendingImageEvent ->
-                        pendingImageEvent.timeStart < timeMillis &&
-                            pendingImageEvent.timeEnd > timeMillis
-                    }
+                    val currentImageEventList = pendingPodXImageEvents
+                        .filter { pendingImageEvent ->
+                            pendingImageEvent.timeStart < timeMillis &&
+                                pendingImageEvent.timeEnd > timeMillis
+                        }
                     // only post if there are new values
                     if (currentImageEventList
                             .intersect(podXImageEventMutableLiveData.value ?: listOf())
@@ -110,16 +134,26 @@ class PodXEventEmitterImpl
                         podXImageEventMutableLiveData.postValue(currentImageEventList)
                     }
 
-                    val currentWebEventList = pendingPodXWebEvents.filter { pendingWebEvent ->
-                        pendingWebEvent.timeStart < timeMillis &&
-                            pendingWebEvent.timeEnd > timeMillis
-                    }
-
-                    // only post if there are new values
+                    val currentWebEventList = pendingPodXWebEvents
+                        .filter { pendingWebEvent ->
+                            pendingWebEvent.timeStart < timeMillis &&
+                                pendingWebEvent.timeEnd > timeMillis
+                        }
                     if (currentWebEventList
                             .intersect(podXWebEventMutableLiveData.value ?: listOf())
                             .size != currentWebEventList.size) {
                         podXWebEventMutableLiveData.postValue(currentWebEventList)
+                    }
+
+                    val currentSupportEventList = pendingPodXSupportEvents
+                        .filter { pendingSupportEvent ->
+                            pendingSupportEvent.timeStart < timeMillis &&
+                                pendingSupportEvent.timeEnd > timeMillis
+                        }
+                    if (currentSupportEventList
+                            .intersect(podXSupportEventMutableLiveData.value ?: listOf())
+                            .size != currentSupportEventList.size) {
+                        podXSupportEventMutableLiveData.postValue(currentSupportEventList)
                     }
                 }, { e: Throwable? ->
                     Timber.e(e)

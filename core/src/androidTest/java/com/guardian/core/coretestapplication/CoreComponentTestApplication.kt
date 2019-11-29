@@ -8,7 +8,7 @@ import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
- * An Application to allow robolectric to inject members to Services contained in the core module
+ * An Application to allow android test to inject members to Services contained in the core module
  * using the CoreComponent dependency of the [TestCoreComponent].
  */
 class CoreComponentTestApplication : Application(), HasAndroidInjector {

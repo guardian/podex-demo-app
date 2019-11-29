@@ -3,6 +3,7 @@ package com.guardian.core.mediaplayer.podx
 import androidx.lifecycle.LiveData
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXWebEvent
 
 /**
@@ -21,6 +22,11 @@ interface PodXEventEmitter {
      * A LiveData which contains a list of currently showing [PodXWebEvent]s
      */
     val podXWebEventLiveData: LiveData<List<PodXWebEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXSupportEvent]s
+     */
+    val podXSupportEventLiveData: LiveData<List<PodXSupportEvent>>
 
     /**
      * Register a [FeedItem] with the emitter. Events associated with the feed item will fire
