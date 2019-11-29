@@ -39,7 +39,6 @@ class RoomModule {
         return podXRoomDatabase.getPodXWebEventDao()
     }
 
-
     @Provides
     fun providePodXSupportEventDao(podXRoomDatabase: PodXRoomDatabase): PodXSupportEventDao {
         return podXRoomDatabase.getPodXSupportEventDao()

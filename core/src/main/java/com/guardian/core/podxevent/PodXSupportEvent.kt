@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "podx_support_events",
     indices = [Index(value = ["feedItemUrlString"], unique = false)])
 @Parcelize
-data class PodXSupportEvent (
+data class PodXSupportEvent(
     val timeStart: Long,
     val timeEnd: Long,
     val googlePayId: String,
@@ -20,4 +20,4 @@ data class PodXSupportEvent (
     val feedItemUrlString: String,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
-    ) : Parcelable
+) : Parcelable

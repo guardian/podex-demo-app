@@ -13,7 +13,6 @@ import com.guardian.core.podxevent.PodXWebEvent
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposables
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -24,10 +23,6 @@ class PodXEventEmitterImpl
     private val podXEventRepository: PodXEventRepository
 ) :
     PodXEventEmitter {
-
-    // playback timer is started after we have gotten a valid podx event list from the repo so that
-    // a concurrent modification exception can be avoided
-    private var playbackTimerDisposable = Disposables.empty()
 
     private val podXImageEventMutableLiveData = MutableLiveData<List<PodXImageEvent>>()
         .apply {

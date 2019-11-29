@@ -12,7 +12,7 @@ data class PodXSupportEventXmlDataObject(
     val end: String = "",
     val caption: String = "",
     val notification: String = ""
-): XmlDataObject {
+) : XmlDataObject {
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 
     override fun isEmpty(): Boolean =
@@ -20,8 +20,7 @@ data class PodXSupportEventXmlDataObject(
             paypalId.isEmpty() &&
             patreonUrlString.isEmpty()
 
-
-    companion object: XmlDataObjectFactory {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mapOf(
                 "podx:googlepay" to ValueContainer(""),
