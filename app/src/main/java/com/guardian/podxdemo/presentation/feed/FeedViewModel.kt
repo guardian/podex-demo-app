@@ -38,7 +38,8 @@ class FeedViewModel
     private val mutableFeedData: MutableLiveData<Feed> = MutableLiveData()
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
 
-    private val compositeDisposable = CompositeDisposable()
+    private val feedDisposable = CompositeDisposable()
+    private val feedItemDisposable = CompositeDisposable()
 
     fun setPlaceholderData(searchResult: SearchResult) {
         mutableFeedData.postValue(
@@ -52,8 +53,8 @@ class FeedViewModel
     }
 
     fun getFeedAndItems(feedUrl: String) {
-        compositeDisposable.clear()
-        compositeDisposable.add(feedRepository.getFeed(feedUrl)
+        feedDisposable.clear()
+        feedDisposable.add(feedRepository.getFeed(feedUrl)
             .subscribe { feed ->
                 Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
                 if (feed != null) {
@@ -65,7 +66,8 @@ class FeedViewModel
     }
 
     private fun getFeedItems(feed: Feed) {
-        compositeDisposable.add(feedItemRepository.getFeedItemsForFeed(feed)
+        feedItemDisposable.clear()
+        feedItemDisposable.add(feedItemRepository.getFeedItemsForFeed(feed)
             .subscribe { feedItemList ->
                 Timber.i("list from repo ${feedItemList.size}")
                 mutableFeedItemData.postValue(feedItemList)
@@ -75,7 +77,8 @@ class FeedViewModel
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+        feedDisposable.clear()
+        feedItemDisposable.clear()
     }
 
     fun prepareFeedItemForPlayback(feedItem: FeedItem) {

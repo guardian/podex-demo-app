@@ -70,9 +70,9 @@ class FeedRepositoryImpl
             feedImageUrlString = feedImage
         ).also { feed ->
             feedDao.addFeedToCache(feed)
+            mapFeedItems(feedXmlDataObject, feedImage, feedUrl)
+            feedDao.addFeedToCache(feed)
         }
-
-        mapFeedItems(feedXmlDataObject, feedImage, feedUrl)
     }
 
     private fun mapFeedItems(feedXmlDataObject: FeedXmlDataObject, feedImage: String, feedUrl: String) {
