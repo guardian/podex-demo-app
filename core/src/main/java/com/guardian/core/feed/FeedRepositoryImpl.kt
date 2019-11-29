@@ -12,6 +12,7 @@ import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.podxevent.OGMetadata
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
@@ -110,6 +111,7 @@ class FeedRepositoryImpl
                 podXEventRepository.deletePodXEventsForFeedItem(currentFeedItem)
                 mapPodXImages(feedItemXmlDataObject)
                 mapPodXWebLinks(feedItemXmlDataObject)
+                mapPodXSupport(feedItemXmlDataObject)
 
                 currentFeedItem
             }.also { feedItems ->
@@ -168,6 +170,29 @@ class FeedRepositoryImpl
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXImageEvents(podXEventList)
                 Timber.i("Caching PodxImageEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXSupport(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podxSupport.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXSupportEventXmlDataObject ->
+            PodXSupportEvent(
+                googlePayId = podXSupportEventXmlDataObject.googlePayId.trim(),
+                paypalId = podXSupportEventXmlDataObject.paypalId.trim(),
+                patreonUrlString = podXSupportEventXmlDataObject.patreonUrlString.trim(),
+                timeStart = podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXSupportEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXSupportEventXmlDataObject.caption.trim(),
+                notification = podXSupportEventXmlDataObject.notification.trim(),
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXSupportEvents(podXEventList)
+                Timber.i("Caching PodxSupportEvents ${podXEventList.size}")
             }
         }
     }
