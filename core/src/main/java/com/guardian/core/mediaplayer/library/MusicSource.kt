@@ -30,7 +30,6 @@ import com.guardian.core.mediaplayer.extensions.genre
 import com.guardian.core.mediaplayer.extensions.title
 import timber.log.Timber
 
-
 /**
  * Interface used by [MediaService] for looking up [MediaMetadataCompat] objects.
  *
@@ -188,8 +187,8 @@ abstract class AbstractMusicSource : MusicSource {
                 val artist = extras[MediaStore.EXTRA_MEDIA_ARTIST]
                 Timber.d("Focused media search: title='$title' album='$album' artist='$artist")
                 filter { song ->
-                    (song.artist == artist || song.albumArtist == artist) && song.album == album
-                            && song.title == title
+                    (song.artist == artist || song.albumArtist == artist) && song.album == album &&
+                            song.title == title
                 }
             }
             else -> {
@@ -207,8 +206,8 @@ abstract class AbstractMusicSource : MusicSource {
             return if (query.isNotBlank()) {
                 Timber.d("Unfocused search for '$query'")
                 filter { song ->
-                    song.title.containsCaseInsensitive(query)
-                            || song.genre.containsCaseInsensitive(query)
+                    song.title.containsCaseInsensitive(query) ||
+                            song.genre.containsCaseInsensitive(query)
                 }
             } else {
                 // If the user asked to "play music", or something similar, the query will also

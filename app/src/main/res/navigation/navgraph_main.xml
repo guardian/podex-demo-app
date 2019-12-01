@@ -26,8 +26,22 @@
         android:id="@+id/playerFragment"
         android:name="com.guardian.podxdemo.presentation.player.PlayerFragment"
         android:label="PlayerFragment" >
-        <argument
-            android:name="feedItem"
-            app:argType="com.guardian.core.feeditem.FeedItem" />
     </fragment>
+    <fragment
+        android:id="@+id/podXImageFragment"
+        android:name="com.guardian.podxdemo.presentation.podximage.PodXImageFragment"
+        android:label="PodXImageFragment" >
+        <argument
+            android:name="podXEvent"
+            app:argType="com.guardian.core.podxevent.PodXEvent"/>
+    </fragment>
+
+
+    <action
+        android:id="@+id/action_global_podXImageFragment"
+        app:destination="@id/podXImageFragment" />
+
+    <action android:id="@+id/action_global_playerFragment"
+        app:destination="@id/playerFragment"/>
+
 </navigation>

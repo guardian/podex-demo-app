@@ -19,4 +19,11 @@ interface FeedItemRepository {
      * @return a [Flowable] that emits the most current version of the [FeedItem] and updates
      */
     fun getFeedItemForUrlString(feedItemUrlString: String): Flowable<FeedItem>
+
+    /**
+     * Add list of [FeedItem]s to the repository
+     *
+     * @param feedItems
+     */
+    fun addFeedItems(feedItems: List<FeedItem>)
 }

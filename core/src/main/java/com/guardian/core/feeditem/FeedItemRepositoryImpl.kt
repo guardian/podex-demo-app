@@ -9,6 +9,9 @@ class FeedItemRepositoryImpl @Inject constructor(
     private val feedItemDao: FeedItemDao
 )
     : FeedItemRepository {
+    override fun addFeedItems(feedItems: List<FeedItem>) {
+        feedItemDao.addFeedList(feedItems)
+    }
 
     override fun getFeedItemsForFeed(feed: Feed): Flowable<List<FeedItem>> {
         return feedItemDao.getFeedItemsForFeedUrl(feed.feedUrlString)

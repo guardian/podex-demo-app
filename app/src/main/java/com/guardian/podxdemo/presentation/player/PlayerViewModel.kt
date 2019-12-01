@@ -5,36 +5,54 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
-import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
 import com.guardian.podxdemo.R
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
+data class PlayerUiModel(
+    val mediaMetadataLiveData: LiveData<MediaMetadataCompat>,
+    val mediaButtonRes: LiveData<Int>,
+    val mediaPlaybackPositionLiveData: LiveData<Long>,
+    val isPreparedLiveData: LiveData<Boolean>
+)
+
 class PlayerViewModel
-@Inject constructor(private val mediaSessionConnection: MediaSessionConnection) :
+@Inject constructor(
+    private val mediaSessionConnection: MediaSessionConnection
+) :
     ViewModel() {
 
     val playerUiModel by lazy {
-        PlayerUiModel(mutableMediaMetadata,
+        PlayerUiModel(mediaMetadataMutableLiveData,
             mutableMediaButtonRes,
-            mutableMediaPlaybackPosition)
+            mutableMediaPlaybackPosition,
+            mutableIsPreparedLiveData)
     }
 
-    private val mutableMediaMetadata = mediaSessionConnection.nowPlaying
+    private val compositeDisposable = CompositeDisposable()
+
+    private val mediaMetadataMutableLiveData = MutableLiveData<MediaMetadataCompat>().apply {
+        mediaSessionConnection.nowPlaying
+            .observeForever { nowPlayingMetadata ->
+                this.postValue(nowPlayingMetadata)
+            }
+    }
+
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
-        mediaSessionConnection.playbackState.observeForever{
+        mediaSessionConnection.playbackState.observeForever {
             this.postValue(
                 it.position
             )
         }
     }
     private val mutableMediaButtonRes = MutableLiveData<Int>().apply {
-        mediaSessionConnection.playbackState.observeForever {
+        mediaSessionConnection.playbackState.observeForever { playbackState ->
             this.postValue(
-                when (it.isPlaying) {
+                when (playbackState.isPlaying) {
                     true -> R.drawable.baseline_pause_24
                     else -> R.drawable.baseline_play_arrow_24
                 }
@@ -42,34 +60,37 @@ class PlayerViewModel
         }
     }
 
+    private val mutableIsPreparedLiveData = MutableLiveData<Boolean>().apply {
+        mediaSessionConnection.playbackState.observeForever { playbackState ->
+            this.postValue(playbackState.isPrepared)
+        }
+    }
+
     /**
-     * Registers the current feed item uri with the mediaSessionConnection to begin playback
+     * changes the playback status
      */
-    fun playFromUri(mediaUri: String) {
-        val nowPlaying = mediaSessionConnection.nowPlaying.value
+    fun playPause() {
         val transportControls = mediaSessionConnection.transportControls
 
         val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
-        if (isPrepared && mediaUri == nowPlaying?.id) {
+        if (isPrepared) {
             mediaSessionConnection.playbackState.value?.let { playbackState ->
                 when {
                     playbackState.isPlaying -> transportControls.pause()
                     playbackState.isPlayEnabled -> transportControls.play()
                     else -> {
                         Timber.w("%s%s", "Playable item clicked but neither play ",
-                            "nor pause are enabled! (mediaId=$mediaUri)"
+                            "nor pause are enabled!"
                         )
                     }
                 }
             }
-        } else {
-            transportControls.playFromMediaId(mediaUri, null)
         }
     }
-}
 
-data class PlayerUiModel(
-    val mediaMetadata: LiveData<MediaMetadataCompat>,
-    val mediaButtonRes: LiveData<Int>,
-    val mediaPlaybackPosition: LiveData<Long>
-)
+    override fun onCleared() {
+        super.onCleared()
+
+        compositeDisposable.clear()
+    }
+}

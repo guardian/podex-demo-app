@@ -1,11 +1,13 @@
 package com.guardian.core.dagger
 
 import android.content.Context
-import com.guardian.core.dagger.search.SearchDataModule
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediametadata.MediaMetadataRepository
+import com.guardian.core.mediaplayer.PackageValidator
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.mediaplayer.podx.PodXEventEmitter
+import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.search.SearchRepository
 import dagger.BindsInstance
 import dagger.Component
@@ -19,6 +21,7 @@ import javax.inject.Singleton
     SearchDataModule::class,
     RepositoryModule::class,
     MediaSessionConnectionModule::class,
+    MediaServiceModule::class,
     RoomModule::class])
 interface CoreComponent {
 
@@ -32,6 +35,9 @@ interface CoreComponent {
     fun provideSearchRepository(): SearchRepository
     fun provideFeedRepository(): FeedRepository
     fun provideFeedItemRepository(): FeedItemRepository
+    fun providePodXEventRepository(): PodXEventRepository
     fun provideMediaMetadataRepository(): MediaMetadataRepository
     fun provideMediaSessionConnection(): MediaSessionConnection
+    fun providePodXEventEmitter(): PodXEventEmitter
+    fun providePackageValidator(): PackageValidator
 }

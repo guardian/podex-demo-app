@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaDescriptionCompat
@@ -20,6 +21,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.ControlDispatcher
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
@@ -29,7 +31,6 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.guardian.core.R
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.library.BrowseTree
 import com.guardian.core.mediaplayer.library.FeedSource
@@ -67,8 +68,7 @@ open class MediaService : MediaBrowserServiceCompat() {
     private lateinit var mediaSource: MusicSource
 
     @Inject lateinit var feedSource: FeedSource
-
-    private lateinit var packageValidator: PackageValidator
+    @Inject lateinit var packageValidator: PackageValidator
 
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
@@ -101,7 +101,7 @@ open class MediaService : MediaBrowserServiceCompat() {
         ExoPlayerFactory.newSimpleInstance(this).apply {
             setAudioAttributes(uAmpAudioAttributes, true)
 
-            //playWhenReady = false
+             playWhenReady = true
         }
     }
 
@@ -181,10 +181,7 @@ open class MediaService : MediaBrowserServiceCompat() {
             )
         }
 
-        packageValidator = PackageValidator(
-            this,
-            R.xml.allowed_media_browser_callers
-        )
+        mediaSessionConnector.setCustomActionProviders()
     }
 
     /**
@@ -367,8 +364,8 @@ open class MediaService : MediaBrowserServiceCompat() {
             val updatedState = state.state
 
             // Skip building a notification when state is "none" and metadata is null.
-            val notification = if (mediaController.metadata != null
-                && updatedState != PlaybackStateCompat.STATE_NONE) {
+            val notification = if (mediaController.metadata != null &&
+                updatedState != PlaybackStateCompat.STATE_NONE) {
                 notificationBuilder.buildNotification(mediaSession.sessionToken)
             } else {
                 null
@@ -417,6 +414,18 @@ open class MediaService : MediaBrowserServiceCompat() {
                     }
                 }
             }
+        }
+    }
+
+    private inner class PodXCustomActionProvider : MediaSessionConnector.CommandReceiver {
+        override fun onCommand(
+            player: Player?,
+            controlDispatcher: ControlDispatcher?,
+            command: String?,
+            extras: Bundle?,
+            cb: ResultReceiver?
+        ): Boolean {
+            TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
         }
     }
 }

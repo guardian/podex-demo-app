@@ -8,10 +8,11 @@ import dagger.android.AndroidInjectionModule
 
 @FeatureScope
 @Component(modules = [AndroidInjectionModule::class,
-    MainActivityModule::class,
+    ActivityModule::class,
     ServiceModule::class,
     PodcastFragmentsModule::class,
-    PodcastViewModelsModule::class],
+    PodcastViewModelsModule::class,
+    AppExecutorsModule::class],
     dependencies = [CoreComponent::class])
 interface AppComponent {
     @Component.Builder

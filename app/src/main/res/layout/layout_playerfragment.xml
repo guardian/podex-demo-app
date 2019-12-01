@@ -30,6 +30,7 @@
         android:layout_height="match_parent"
         android:layout_margin="2dp">
 
+
         <ImageView
             android:id="@+id/imageview_play_album_art"
             android:layout_width="match_parent"
@@ -38,6 +39,13 @@
             android:contentDescription="@string/playerfragment_album_art_alt"
             app:srcCompat="@android:color/transparent"
             imageUrl="@{artUrlString}"/>
+
+        <fragment
+            android:id="@+id/fragment_player_podx_events_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/divider"
@@ -49,7 +57,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="96dp"
-            android:layout_marginTop="-24dp"
+            android:layout_marginTop="-48dp"
+            android:background="@drawable/drawable_gradient_bottomwhite_toptransparent"
             app:layout_constraintBottom_toBottomOf="@+id/imageview_play_album_art"
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
@@ -113,7 +122,6 @@
             app:layout_constraintTop_toBottomOf="@id/textview_play_position"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="@{duration}" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

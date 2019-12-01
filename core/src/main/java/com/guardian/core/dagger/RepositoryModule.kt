@@ -8,6 +8,8 @@ import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.feeditem.FeedItemRepositoryImpl
 import com.guardian.core.mediametadata.MediaMetadataRepository
 import com.guardian.core.mediametadata.MediaMetadataRepositoryImpl
+import com.guardian.core.podxevent.PodXEventRepository
+import com.guardian.core.podxevent.PodXEventRepositoryImpl
 import com.guardian.core.search.SearchRepository
 import com.guardian.core.search.SearchRepositoryImpl
 import dagger.Binds
@@ -24,6 +26,10 @@ abstract class RepositoryModule {
     @Binds
     abstract fun bindFeedItemRepository(feedItemRepositoryImpl: FeedItemRepositoryImpl):
         FeedItemRepository
+
+    @Binds
+    abstract fun bindPodXEventRepository(podXEventRepositoryImpl: PodXEventRepositoryImpl):
+        PodXEventRepository
 
     @Binds
     abstract fun bindGeneralFeedApi(generalFeedApiImpl: GeneralFeedApiImpl): GeneralFeedApi

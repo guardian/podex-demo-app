@@ -1,6 +1,7 @@
 package com.guardian.core.feed.api
 
 import androidx.annotation.WorkerThread
+import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
 
 interface GeneralFeedApi {
     /**

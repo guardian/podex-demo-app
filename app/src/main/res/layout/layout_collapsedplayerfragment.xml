@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="artUrlString"
+            type="String"/>
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintlayout_collapsed_player_root"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:animateLayoutChanges="true">
+
+        <ImageView
+            android:id="@+id/imageview_collapsed_player_cover"
+            android:layout_width="@dimen/collapsed_player_image"
+            android:layout_height="@dimen/collapsed_player_image"
+            android:layout_margin="@dimen/collapsed_player_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            imageUrl="@{artUrlString}"/>
+
+        <TextView
+            android:id="@+id/textview_collapsed_player_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            app:layout_constraintStart_toEndOf="@id/imageview_collapsed_player_cover"
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_playpause"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@{title}"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="10000"
+            android:singleLine="true" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_collapsed_player_playpause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

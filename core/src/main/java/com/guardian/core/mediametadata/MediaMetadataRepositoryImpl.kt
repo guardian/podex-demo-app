@@ -36,7 +36,7 @@ class MediaMetadataRepositoryImpl
     override fun getStoredMetadata(): Flowable<List<MediaMetadataCompat>> {
         return feedDao.getCachedFeedsWithFeedItems()
             .map { feedWithItemList ->
-                feedWithItemList.flatMap {feedWithItems ->
+                feedWithItemList.flatMap { feedWithItems ->
                     val currentFeed = feedWithItems.feed
 
                     feedWithItems.feedItem
@@ -76,7 +76,7 @@ private fun MediaMetadataCompat.Builder.from(feedItem: FeedItem, feed: Feed, epi
     trackCount = episodeCount.toLong()
     flag = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 
-    // todo move to metadata getalbumArt = art
+    // todo move to metadata getAlbumArt = art
 
     // To make things easier for *displaying* these, set the display properties as well.
     displayTitle = feedItem.title

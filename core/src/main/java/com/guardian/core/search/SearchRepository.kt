@@ -1,6 +1,7 @@
 package com.guardian.core.search
 
+import io.reactivex.Flowable
 
 interface SearchRepository {
-    suspend fun doSearch(term: String): List<SearchResult>
+    fun doSearch(term: String): Flowable<List<SearchResult>>
 }
