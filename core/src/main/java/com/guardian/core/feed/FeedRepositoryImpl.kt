@@ -18,6 +18,7 @@ import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -79,7 +80,14 @@ class FeedRepositoryImpl
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
 
         feedXmlDataObject.feedItems
-            .sortedBy { dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis()) }
+            .sortedBy {
+                try {
+                    dateFormatter.parse(it.pubDate) ?: Date(System.currentTimeMillis())
+                } catch (parseException: ParseException) {
+                    Timber.e(parseException.localizedMessage)
+                    Date(System.currentTimeMillis())
+                }
+            }
             .mapIndexed { index, feedItemXmlDataObject ->
                 val feedItemImage: String =
                     if (feedItemXmlDataObject.itunesImage.attributes["href"]?.value.isNullOrEmpty()) {
@@ -93,12 +101,17 @@ class FeedRepositoryImpl
                     }
 
                 // todo get duration from audio file
+                val pubDate = try {
+                    dateFormatter.parse(feedItemXmlDataObject.pubDate) ?: Date(System.currentTimeMillis())
+                } catch (parseException: ParseException) {
+                    Date(System.currentTimeMillis())
+                }
 
                 val currentFeedItem = FeedItem(
                     title = feedItemXmlDataObject.title.trim(),
                     description = feedItemXmlDataObject.description.trim(),
                     imageUrlString = feedItemImage,
-                    pubDate = dateFormatter.parse(feedItemXmlDataObject.pubDate) ?: Date(System.currentTimeMillis()),
+                    pubDate = pubDate,
                     feedItemAudioEncoding = feedItemXmlDataObject.enclosureXmlDataObject.attributes["type"]?.value ?: "",
                     feedItemAudioUrl = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
                     feedUrlString = feedUrl,
