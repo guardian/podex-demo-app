@@ -1,8 +1,8 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.library.xml.XmlPullParserAdapter
 import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
 import com.guardian.core.feed.api.xmldataobjects.RootXmlDataObject
+import com.guardian.core.library.xml.XmlPullParserAdapter
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
@@ -25,10 +25,11 @@ class GeneralFeedApiImpl
             .addHeader("Accept", "application/xml;q=0.9")
             .build()
 
-            okHttpClient.newCall(xmlRequest).execute().use {
+        okHttpClient.newCall(xmlRequest).execute().use {
             if (it.isSuccessful) {
                 val body = it.body
                 if (body != null) {
+                    //todo add atom support
                     val xmlDataObject = xmlPullParserAdapter
                         .deSerialiseXml(body.byteStream()) { RootXmlDataObject() }
                     if (xmlDataObject is RootXmlDataObject) {
