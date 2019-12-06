@@ -23,12 +23,30 @@
                 any event is expected to be the child of an item field in a podcast RSS feed.
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="start" type="podx:timeNpt"/>
             <xs:element name="end" type="podx:timeNpt"/>
             <xs:element name="caption" type="xs:string"/>
             <xs:element name="notification" type="xs:string"/>
-        </xs:sequence>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="socialLink">
+        <xs:all>
+            <xs:element name="socialUrl" type="xs:anyURI"/>
+            <xs:element name="socialType" >
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="facebook"/>
+                        <xs:enumeration value="twitter"/>
+                        <xs:enumeration value="linkedin"/>
+                        <xs:enumeration value="snapchat"/>
+                        <xs:enumeration value="tiktok"/>
+                        <xs:enumeration value="other"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:all>
     </xs:complexType>
 
     <xs:element name="image">
@@ -69,11 +87,11 @@
             </xs:annotation>
             <xs:complexContent>
                 <xs:extension base="podx:baseEvent">
-                    <xs:sequence>
+                    <xs:all>
                         <xs:element name="googlePay" type="xs:string"/>
                         <xs:element name="payPal" type="xs:string"/>
                         <xs:element name="patreon" type="xs:string"/>
-                    </xs:sequence>
+                    </xs:all>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -111,7 +129,9 @@
             </xs:annotation>
             <xs:complexContent>
                 <xs:extension base="podx:baseEvent">
-
+                    <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element name="socialLink" type="podx:socialLink"/>
+                    </xs:choice>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
