@@ -4,17 +4,15 @@ import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
 
-data class PodXTextEventXmlDataObject (
-    val start: String,
-    val end: String,
-    val caption: String,
-    val notification: String
+data class PodXSocialLinkXmlDataObject (
+    val socialUrl: String,
+    val social: String
 ) : XmlDataObject {
     override val attributes: Map<String, ValueContainer<String>> =
         mapOf()
 
     override fun isEmpty(): Boolean =
-        caption.isBlank()
+        socialUrl.isBlank()
 
     companion object: XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {

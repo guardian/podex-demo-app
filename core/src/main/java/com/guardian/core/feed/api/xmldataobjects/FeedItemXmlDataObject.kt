@@ -37,7 +37,7 @@ data class FeedItemXmlDataObject(
                 "itunes:author" to ValueContainer(""),
                 "itunes:keywords" to ValueContainer(""),
                 "podx:image" to ValueContainer(listOf(PodXImageEventXmlDataObject())),
-                "podx:web" to ValueContainer(listOf(PodXWebEventXmlDataObject())),
+                "podx:webLink" to ValueContainer(listOf(PodXWebEventXmlDataObject())),
                 "podx:support" to ValueContainer(listOf(PodXSupportEventXmlDataObject()))
             )
         }
