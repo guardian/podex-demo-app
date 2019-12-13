@@ -2,9 +2,13 @@ package com.guardian.podxdemo.presentation.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -59,10 +63,33 @@ class SearchFragment
         setupRecyclerView()
         setupEditText()
 
+        // setup action bar
+        (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
+        setHasOptionsMenu(true)
+        
+        //initialise search
         if (savedInstanceState == null) {
-            binding.search = getString(R.string.searchfragment_default_term)
             searchViewModel.doSearch(getString(R.string.searchfragment_default_term))
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_searchfragment, menu)
+        Timber.i("Inflating")
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.item_searchfragment_search) {
+            binding.edittextSearchTerm.visibility = when(binding.edittextSearchTerm.visibility) {
+                View.VISIBLE -> {
+                    hideKeyboard()
+                    View.GONE
+                }
+                else -> View.VISIBLE
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupEditText() {
@@ -79,7 +106,7 @@ class SearchFragment
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerviewSearchResults.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerviewSearchResults.layoutManager = GridLayoutManager(context, 3)
 
         binding.recyclerviewSearchResults.adapter = SearchListAdapter(
             callback = object : DiffUtil.ItemCallback<SearchResult>() {

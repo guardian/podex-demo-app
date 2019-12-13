@@ -3,7 +3,6 @@ package com.guardian.core.feed.api.xmldataobjects
 import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
-import timber.log.Timber
 
 @Suppress("UNCHECKED_CAST")
 data class FeedItemXmlDataObject(
@@ -43,10 +42,6 @@ data class FeedItemXmlDataObject(
         }
 
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            if ((xmlParserElementMap["podx:web"]?.value as List<*>).isNotEmpty()) {
-                Timber.i((xmlParserElementMap["podx:web"]?.value as List<*>)[0]!!::class.simpleName)
-            }
-
             return FeedItemXmlDataObject(
                 title = xmlParserElementMap["title"]?.value as String,
                 description = xmlParserElementMap["description"]?.value as String,
@@ -60,7 +55,7 @@ data class FeedItemXmlDataObject(
                 author = xmlParserElementMap["itunes:author"]?.value as String,
                 keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
                 podxImages = xmlParserElementMap["podx:image"]?.value as List<PodXImageEventXmlDataObject>,
-                podxWeb = xmlParserElementMap["podx:web"]?.value as List<PodXWebEventXmlDataObject>,
+                podxWeb = xmlParserElementMap["podx:webLink"]?.value as List<PodXWebEventXmlDataObject>,
                 podxSupport = xmlParserElementMap["podx:support"]?.value as List<PodXSupportEventXmlDataObject>
             )
         }

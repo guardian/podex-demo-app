@@ -35,22 +35,25 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <Toolbar
+                        android:orientation="vertical"
+                        android:animateLayoutChanges="true">
+                        <androidx.appcompat.widget.Toolbar
+                            android:id="@+id/toolbar_search"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:title="@string/app_name"/>
+                            app:title="@string/title_searchfragment"/>
 
                         <EditText
                             android:id="@+id/edittext_search_term"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/search"
+                            android:hint="@string/suggestion_search"
                             android:inputType="textFilter"
                             android:importantForAutofill="no"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:text="@={search}" />
+                            android:text="@={search}"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
