@@ -17,6 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.ChangeBounds
+import androidx.transition.Scene
+import androidx.transition.TransitionManager
 import com.guardian.core.search.SearchResult
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutSearchfragmentBinding
@@ -62,6 +65,7 @@ class SearchFragment
 
         setupRecyclerView()
         setupEditText()
+        setupTransitions()
 
         // setup action bar
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
@@ -73,11 +77,17 @@ class SearchFragment
         }
     }
 
+    private fun setupTransitions() {
+        rootScene = Scene(binding.coordinatorSearch)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_searchfragment, menu)
         Timber.i("Inflating")
     }
 
+    private var rootScene: Scene by lifecycleAwareVar()
+    private val changeBounds = ChangeBounds()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.item_searchfragment_search) {
             binding.edittextSearchTerm.visibility = when(binding.edittextSearchTerm.visibility) {
@@ -85,8 +95,11 @@ class SearchFragment
                     hideKeyboard()
                     View.GONE
                 }
-                else -> View.VISIBLE
+                else -> {
+                    View.VISIBLE
+                }
             }
+            TransitionManager.go(rootScene, changeBounds)
         }
 
         return super.onOptionsItemSelected(item)

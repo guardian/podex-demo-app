@@ -33,10 +33,10 @@
                     app:layout_scrollFlags="scroll|enterAlways">
 
                     <LinearLayout
+                        android:id="@+id/toolbar_search_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:animateLayoutChanges="true">
+                        android:orientation="vertical">
                         <androidx.appcompat.widget.Toolbar
                             android:id="@+id/toolbar_search"
                             android:layout_width="match_parent"
@@ -46,14 +46,14 @@
                         <EditText
                             android:id="@+id/edittext_search_term"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:hint="@string/suggestion_search"
                             android:inputType="textFilter"
                             android:importantForAutofill="no"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
                             android:text="@={search}"
-                            android:visibility="gone" />
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -63,6 +63,8 @@
                     android:id="@+id/recyclerview_search_results"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     tools:listitem="@layout/viewholder_searchadapter_result"
                     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
