@@ -18,10 +18,13 @@ data class FeedItemXmlDataObject(
     val podxImages: List<PodXImageEventXmlDataObject> = listOf(PodXImageEventXmlDataObject()),
     val podxWeb: List<PodXWebEventXmlDataObject> = listOf(PodXWebEventXmlDataObject()),
     val podxSupport: List<PodXSupportEventXmlDataObject> = listOf(PodXSupportEventXmlDataObject()),
-    val podxSocialLinkEventXmlDataObject: List<PodXSocialLinkEventXmlDataObject> = listOf(PodXSocialLinkEventXmlDataObject()),
-    val podXTextEventXmlDataObject: List<PodXTextEventXmlDataObject> = listOf(PodXTextEventXmlDataObject()),
-    val podXFeedLinkEventXmlDataObject: List<PodXFeedLinkEventXmlDataObject> = listOf(PodXFeedLinkEventXmlDataObject()),
-    val podXCallPromptEventXmlDataObject: List<PodXCallPromptEventXmlDataObject> = listOf(PodXCallPromptEventXmlDataObject())
+    val podxSocialLink: List<PodXSocialLinkEventXmlDataObject> = listOf(PodXSocialLinkEventXmlDataObject()),
+    val podXText: List<PodXTextEventXmlDataObject> = listOf(PodXTextEventXmlDataObject()),
+    val podXFeedLink: List<PodXFeedLinkEventXmlDataObject> = listOf(PodXFeedLinkEventXmlDataObject()),
+    val podXCallPrompt: List<PodXCallPromptEventXmlDataObject> = listOf(PodXCallPromptEventXmlDataObject()),
+    val podXNewsletterSignup: List<PodXNewsletterSignupEventXmlDataObject> = listOf(PodXNewsletterSignupEventXmlDataObject()),
+    val podXFeedback: List<PodXFeedbackEventXmlDataObject> = listOf(PodXFeedbackEventXmlDataObject()),
+    val podXPoll: List<PodXPollEventXmlDataObject> = listOf(PodXPollEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
 
@@ -45,7 +48,10 @@ data class FeedItemXmlDataObject(
                 "podx:socialPrompt" to ValueContainer(listOf(PodXSocialLinkEventXmlDataObject())),
                 "podx:text" to ValueContainer(listOf(PodXTextEventXmlDataObject())),
                 "podx:feedLink" to ValueContainer(listOf(PodXFeedLinkEventXmlDataObject())),
-                "podx:callPrompt" to ValueContainer(listOf(PodXCallPromptEventXmlDataObject()))
+                "podx:callPrompt" to ValueContainer(listOf(PodXCallPromptEventXmlDataObject())),
+                "podx:newsletterSignup" to ValueContainer(listOf(PodXNewsletterSignupEventXmlDataObject())),
+                "podx:feedback" to ValueContainer(listOf(PodXFeedbackEventXmlDataObject())),
+                "podx:poll" to ValueContainer(listOf(PodXPollEventXmlDataObject()))
             )
         }
 
@@ -65,10 +71,13 @@ data class FeedItemXmlDataObject(
                 podxImages = xmlParserElementMap["podx:image"]?.value as List<PodXImageEventXmlDataObject>,
                 podxWeb = xmlParserElementMap["podx:webLink"]?.value as List<PodXWebEventXmlDataObject>,
                 podxSupport = xmlParserElementMap["podx:support"]?.value as List<PodXSupportEventXmlDataObject>,
-                podxSocialLinkEventXmlDataObject = xmlParserElementMap["podx:socialPrompt"]?.value as List<PodXSocialLinkEventXmlDataObject>,
-                podXTextEventXmlDataObject = xmlParserElementMap["podx:text"]?.value as List<PodXTextEventXmlDataObject>,
-                podXFeedLinkEventXmlDataObject = xmlParserElementMap["podx:feedLink"]?.value as List<PodXFeedLinkEventXmlDataObject>,
-                podXCallPromptEventXmlDataObject = xmlParserElementMap["podx:callPrompt"]?.value as List<PodXCallPromptEventXmlDataObject>
+                podxSocialLink = xmlParserElementMap["podx:socialPrompt"]?.value as List<PodXSocialLinkEventXmlDataObject>,
+                podXText = xmlParserElementMap["podx:text"]?.value as List<PodXTextEventXmlDataObject>,
+                podXFeedLink = xmlParserElementMap["podx:feedLink"]?.value as List<PodXFeedLinkEventXmlDataObject>,
+                podXCallPrompt = xmlParserElementMap["podx:callPrompt"]?.value as List<PodXCallPromptEventXmlDataObject>,
+                podXNewsletterSignup = xmlParserElementMap["podx:newsletterSignup"]?.value as List<PodXNewsletterSignupEventXmlDataObject>,
+                podXFeedback = xmlParserElementMap["podx:feedback"]?.value as List<PodXFeedbackEventXmlDataObject>,
+                podXPoll = xmlParserElementMap["podx:poll"]?.value as List<PodXPollEventXmlDataObject>
             )
         }
     }

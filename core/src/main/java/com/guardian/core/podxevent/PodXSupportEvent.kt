@@ -12,9 +12,6 @@ import kotlinx.android.parcel.Parcelize
 data class PodXSupportEvent(
     val timeStart: Long,
     val timeEnd: Long,
-    val googlePayId: String,
-    val paypalId: String,
-    val patreonUrlString: String,
     val caption: String,
     val notification: String,
     val feedItemUrlString: String,

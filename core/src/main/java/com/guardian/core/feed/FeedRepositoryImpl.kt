@@ -139,7 +139,7 @@ class FeedRepositoryImpl
         }.map { podXWebEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
             // todo fetch asynchronously
-            val urlString = podXWebEventXmlDataObject.attributes["href"]?.value ?: ""
+            val urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
                 OGMetadata
                     .extractOGMetadataFromUrlString(urlString)
@@ -192,9 +192,6 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXSupportEventXmlDataObject ->
             PodXSupportEvent(
-                googlePayId = podXSupportEventXmlDataObject.googlePayId.trim(),
-                paypalId = podXSupportEventXmlDataObject.paypalId.trim(),
-                patreonUrlString = podXSupportEventXmlDataObject.patreonUrlString.trim(),
                 timeStart = podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 timeEnd = podXSupportEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
                     ?: podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),

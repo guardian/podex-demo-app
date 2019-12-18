@@ -4,7 +4,7 @@ import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
 
-data class PodXWebEventXmlDataObject(
+data class PodXFeedbackEventXmlDataObject(
     val start: String = "",
     val end: String = "",
     val caption: String = "",
@@ -31,7 +31,7 @@ data class PodXWebEventXmlDataObject(
 
         @Suppress("UNCHECKED_CAST")
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            return PodXWebEventXmlDataObject(
+            return PodXFeedbackEventXmlDataObject(
                 xmlParserElementMap["podx:start"]?.value as String,
                 xmlParserElementMap["podx:end"]?.value as String,
                 xmlParserElementMap["podx:caption"]?.value as String,
