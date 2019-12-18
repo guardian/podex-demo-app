@@ -17,7 +17,11 @@ data class FeedItemXmlDataObject(
     val keywords: String = "",
     val podxImages: List<PodXImageEventXmlDataObject> = listOf(PodXImageEventXmlDataObject()),
     val podxWeb: List<PodXWebEventXmlDataObject> = listOf(PodXWebEventXmlDataObject()),
-    val podxSupport: List<PodXSupportEventXmlDataObject> = listOf(PodXSupportEventXmlDataObject())
+    val podxSupport: List<PodXSupportEventXmlDataObject> = listOf(PodXSupportEventXmlDataObject()),
+    val podxSocialLinkEventXmlDataObject: List<PodXSocialLinkEventXmlDataObject> = listOf(PodXSocialLinkEventXmlDataObject()),
+    val podXTextEventXmlDataObject: List<PodXTextEventXmlDataObject> = listOf(PodXTextEventXmlDataObject()),
+    val podXFeedLinkEventXmlDataObject: List<PodXFeedLinkEventXmlDataObject> = listOf(PodXFeedLinkEventXmlDataObject()),
+    val podXCallPromptEventXmlDataObject: List<PodXCallPromptEventXmlDataObject> = listOf(PodXCallPromptEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
 
@@ -37,7 +41,11 @@ data class FeedItemXmlDataObject(
                 "itunes:keywords" to ValueContainer(""),
                 "podx:image" to ValueContainer(listOf(PodXImageEventXmlDataObject())),
                 "podx:webLink" to ValueContainer(listOf(PodXWebEventXmlDataObject())),
-                "podx:support" to ValueContainer(listOf(PodXSupportEventXmlDataObject()))
+                "podx:support" to ValueContainer(listOf(PodXSupportEventXmlDataObject())),
+                "podx:socialPrompt" to ValueContainer(listOf(PodXSocialLinkEventXmlDataObject())),
+                "podx:text" to ValueContainer(listOf(PodXTextEventXmlDataObject())),
+                "podx:feedLink" to ValueContainer(listOf(PodXFeedLinkEventXmlDataObject())),
+                "podx:callPrompt" to ValueContainer(listOf(PodXCallPromptEventXmlDataObject()))
             )
         }
 
@@ -56,7 +64,11 @@ data class FeedItemXmlDataObject(
                 keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
                 podxImages = xmlParserElementMap["podx:image"]?.value as List<PodXImageEventXmlDataObject>,
                 podxWeb = xmlParserElementMap["podx:webLink"]?.value as List<PodXWebEventXmlDataObject>,
-                podxSupport = xmlParserElementMap["podx:support"]?.value as List<PodXSupportEventXmlDataObject>
+                podxSupport = xmlParserElementMap["podx:support"]?.value as List<PodXSupportEventXmlDataObject>,
+                podxSocialLinkEventXmlDataObject = xmlParserElementMap["podx:socialPrompt"]?.value as List<PodXSocialLinkEventXmlDataObject>,
+                podXTextEventXmlDataObject = xmlParserElementMap["podx:text"]?.value as List<PodXTextEventXmlDataObject>,
+                podXFeedLinkEventXmlDataObject = xmlParserElementMap["podx:feedLink"]?.value as List<PodXFeedLinkEventXmlDataObject>,
+                podXCallPromptEventXmlDataObject = xmlParserElementMap["podx:callPrompt"]?.value as List<PodXCallPromptEventXmlDataObject>
             )
         }
     }

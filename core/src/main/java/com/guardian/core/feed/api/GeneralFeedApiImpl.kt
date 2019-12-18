@@ -29,7 +29,7 @@ class GeneralFeedApiImpl
             if (it.isSuccessful) {
                 val body = it.body
                 if (body != null) {
-                    //todo add atom support
+                    // todo add atom support
                     val xmlDataObject = xmlPullParserAdapter
                         .deSerialiseXml(body.byteStream()) { RootXmlDataObject() }
                     if (xmlDataObject is RootXmlDataObject) {

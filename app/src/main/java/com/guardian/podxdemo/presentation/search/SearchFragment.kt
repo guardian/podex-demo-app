@@ -70,8 +70,8 @@ class SearchFragment
         // setup action bar
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
         setHasOptionsMenu(true)
-        
-        //initialise search
+
+        // initialise search
         if (savedInstanceState == null) {
             searchViewModel.doSearch(getString(R.string.searchfragment_default_term))
         }
@@ -90,7 +90,7 @@ class SearchFragment
     private val changeBounds = ChangeBounds()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.item_searchfragment_search) {
-            binding.edittextSearchTerm.visibility = when(binding.edittextSearchTerm.visibility) {
+            binding.edittextSearchTerm.visibility = when (binding.edittextSearchTerm.visibility) {
                 View.VISIBLE -> {
                     hideKeyboard()
                     View.GONE

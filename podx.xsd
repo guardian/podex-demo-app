@@ -32,21 +32,7 @@
     </xs:complexType>
 
     <xs:complexType name="socialLink">
-        <xs:all>
-            <xs:element name="socialUrl" type="xs:anyURI"/>
-            <xs:element name="socialType" >
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:enumeration value="facebook"/>
-                        <xs:enumeration value="twitter"/>
-                        <xs:enumeration value="linkedin"/>
-                        <xs:enumeration value="snapchat"/>
-                        <xs:enumeration value="tiktok"/>
-                        <xs:enumeration value="other"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-        </xs:all>
+        <xs:attribute name="url" type="xs:anyURI"/>
     </xs:complexType>
 
     <xs:element name="image">
@@ -78,7 +64,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="supporter">
+    <xs:element name="support">
         <xs:complexType>
             <xs:annotation>
                 <xs:documentation>
@@ -88,7 +74,6 @@
             <xs:complexContent>
                 <xs:extension base="podx:baseEvent">
                     <xs:all>
-                        <xs:element name="googlePay" type="xs:string"/>
                         <xs:element name="payPal" type="xs:string"/>
                         <xs:element name="patreon" type="xs:string"/>
                     </xs:all>
@@ -113,13 +98,14 @@
                         <xs:element name="feedItemPubDate" type="xs:dateTime"/>
                         <xs:element name="feedItemGuid" type="xs:string"/>
                         <xs:element name="feedItemEnclosureUrl" type="xs:anyURI"/>
+                        <xs:element name="feedItemAudioTimeStamp" type="podx:timeNpt"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="socialLink">
+    <xs:element name="socialPrompt">
         <xs:complexType>
             <xs:annotation>
                 <xs:documentation>

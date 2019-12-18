@@ -4,11 +4,11 @@ import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
 
-data class PodXTextEventXmlDataObject (
-    val start: String,
-    val end: String,
-    val caption: String,
-    val notification: String
+data class PodXTextEventXmlDataObject(
+    val start: String = "",
+    val end: String = "",
+    val caption: String = "",
+    val notification: String = ""
 ) : XmlDataObject {
     override val attributes: Map<String, ValueContainer<String>> =
         mapOf()
@@ -16,7 +16,7 @@ data class PodXTextEventXmlDataObject (
     override fun isEmpty(): Boolean =
         caption.isBlank()
 
-    companion object: XmlDataObjectFactory {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
             return mapOf<String, ValueContainer<*>>(
                 "podx:start" to ValueContainer(""),
