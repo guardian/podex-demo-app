@@ -3,7 +3,9 @@ package com.guardian.core.feed.api.xmldataobjects
 import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
+import timber.log.Timber
 
+@Suppress("UNCHECKED_CAST")
 data class FeedItemXmlDataObject(
     val title: String = "",
     val description: String = "",
@@ -14,7 +16,9 @@ data class FeedItemXmlDataObject(
     val duration: String = "",
     val author: String = "",
     val keywords: String = "",
-    val podxImages: List<PodxEventXmlDataObject> = listOf(PodxEventXmlDataObject())
+    val podxImages: List<PodXImageEventXmlDataObject> = listOf(PodXImageEventXmlDataObject()),
+    val podxWeb: List<PodXWebEventXmlDataObject> = listOf(PodXWebEventXmlDataObject()),
+    val podxSupport: List<PodXSupportEventXmlDataObject> = listOf(PodXSupportEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
 
@@ -22,7 +26,7 @@ data class FeedItemXmlDataObject(
 
     companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
-            return mutableMapOf(
+            return mapOf(
                 "title" to ValueContainer(""),
                 "description" to ValueContainer(""),
                 "itunes:image" to ValueContainer(FeedItunesImageXmlDataObject()),
@@ -32,11 +36,17 @@ data class FeedItemXmlDataObject(
                 "itunes:duration" to ValueContainer(""),
                 "itunes:author" to ValueContainer(""),
                 "itunes:keywords" to ValueContainer(""),
-                "podx:image" to ValueContainer(listOf(PodxEventXmlDataObject()))
+                "podx:image" to ValueContainer(listOf(PodXImageEventXmlDataObject())),
+                "podx:web" to ValueContainer(listOf(PodXWebEventXmlDataObject())),
+                "podx:support" to ValueContainer(listOf(PodXSupportEventXmlDataObject()))
             )
         }
 
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
+            if ((xmlParserElementMap["podx:web"]?.value as List<*>).isNotEmpty()) {
+                Timber.i((xmlParserElementMap["podx:web"]?.value as List<*>)[0]!!::class.simpleName)
+            }
+
             return FeedItemXmlDataObject(
                 title = xmlParserElementMap["title"]?.value as String,
                 description = xmlParserElementMap["description"]?.value as String,
@@ -49,7 +59,9 @@ data class FeedItemXmlDataObject(
                 duration = xmlParserElementMap["itunes:duration"]?.value as String,
                 author = xmlParserElementMap["itunes:author"]?.value as String,
                 keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
-                podxImages = xmlParserElementMap["podx:image"]?.value as List<PodxEventXmlDataObject>
+                podxImages = xmlParserElementMap["podx:image"]?.value as List<PodXImageEventXmlDataObject>,
+                podxWeb = xmlParserElementMap["podx:web"]?.value as List<PodXWebEventXmlDataObject>,
+                podxSupport = xmlParserElementMap["podx:support"]?.value as List<PodXSupportEventXmlDataObject>
             )
         }
     }

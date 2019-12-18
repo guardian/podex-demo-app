@@ -9,7 +9,7 @@ import com.guardian.podxdemo.R
 fun bindImageUrlString(imageView: ImageView, imageUrlString: String?) {
     Glide.with(imageView.context)
         .load(imageUrlString)
+        .placeholder(imageView.drawable)
         .error(R.drawable.image_placeholder)
-        .placeholder(R.drawable.image_placeholder)
         .into(imageView)
 }

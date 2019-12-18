@@ -39,7 +39,7 @@ abstract class PodcastFragmentsModule {
     @Binds
     @IntoMap
     @FragmentKey(PodXImageFragment::class)
-    abstract fun bindsPodXImageFragment(PodXImageFragment: PodXImageFragment): Fragment
+    abstract fun bindsPodXImageFragment(podXImageFragment: PodXImageFragment): Fragment
 
     @Binds
     @IntoMap

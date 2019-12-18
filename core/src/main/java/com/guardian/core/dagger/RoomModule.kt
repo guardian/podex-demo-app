@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.guardian.core.feed.dao.FeedDao
 import com.guardian.core.feeditem.dao.FeedItemDao
-import com.guardian.core.podxevent.dao.PodXEventDao
+import com.guardian.core.podxevent.dao.PodXImageEventDao
+import com.guardian.core.podxevent.dao.PodXSupportEventDao
+import com.guardian.core.podxevent.dao.PodXWebEventDao
 import com.guardian.core.room.PodXRoomDatabase
 import dagger.Module
 import dagger.Provides
@@ -28,7 +30,17 @@ class RoomModule {
     }
 
     @Provides
-    fun providePodXEventDao(podXRoomDatabase: PodXRoomDatabase): PodXEventDao {
-        return podXRoomDatabase.getPodXEventDao()
+    fun providePodXImageEventDao(podXRoomDatabase: PodXRoomDatabase): PodXImageEventDao {
+        return podXRoomDatabase.getPodXImageEventDao()
+    }
+
+    @Provides
+    fun providePodXWebEventDao(podXRoomDatabase: PodXRoomDatabase): PodXWebEventDao {
+        return podXRoomDatabase.getPodXWebEventDao()
+    }
+
+    @Provides
+    fun providePodXSupportEventDao(podXRoomDatabase: PodXRoomDatabase): PodXSupportEventDao {
+        return podXRoomDatabase.getPodXSupportEventDao()
     }
 }

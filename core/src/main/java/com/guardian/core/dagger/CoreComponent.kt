@@ -1,6 +1,8 @@
 package com.guardian.core.dagger
 
 import android.content.Context
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.upstream.DataSource
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediametadata.MediaMetadataRepository
@@ -39,5 +41,8 @@ interface CoreComponent {
     fun provideMediaMetadataRepository(): MediaMetadataRepository
     fun provideMediaSessionConnection(): MediaSessionConnection
     fun providePodXEventEmitter(): PodXEventEmitter
+
     fun providePackageValidator(): PackageValidator
+    fun provideDataSourceFactory(): DataSource.Factory
+    fun provideExoPlayer(): ExoPlayer
 }

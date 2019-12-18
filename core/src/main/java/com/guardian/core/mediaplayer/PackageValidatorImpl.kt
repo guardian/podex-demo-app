@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.guardian.core.mediaplayer
 
 import android.Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE
@@ -53,7 +55,7 @@ class PackageValidatorImpl(context: Context, @XmlRes xmlResId: Int) : PackageVal
     private val packageManager: PackageManager
 
     private val certificateWhitelist: Map<String, KnownCallerInfo>
-    private val platformSignature: String
+    private val platformSignature: String?
 
     private val callerChecked = mutableMapOf<String, Pair<Int, Boolean>>()
 
@@ -156,6 +158,7 @@ class PackageValidatorImpl(context: Context, @XmlRes xmlResId: Int) : PackageVal
 
         val appName = packageInfo.applicationInfo.loadLabel(packageManager).toString()
         val uid = packageInfo.applicationInfo.uid
+
         val signature = getSignature(packageInfo)
 
         val requestedPermissions = packageInfo.requestedPermissions
@@ -185,10 +188,17 @@ class PackageValidatorImpl(context: Context, @XmlRes xmlResId: Int) : PackageVal
      */
     @SuppressLint("PackageManagerGetSignatures")
     private fun getPackageInfo(callingPackage: String): PackageInfo? =
-        packageManager.getPackageInfo(
-            callingPackage,
-            PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_PERMISSIONS
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageManager.getPackageInfo(
+                callingPackage,
+                PackageManager.GET_SIGNING_CERTIFICATES or PackageManager.GET_PERMISSIONS
+            )
+        } else {
+            packageManager.getPackageInfo(
+                callingPackage,
+                PackageManager.GET_SIGNATURES or PackageManager.GET_PERMISSIONS
+            )
+        }
 
     /**
      * Gets the signature of a given package's [PackageInfo].
@@ -199,7 +209,6 @@ class PackageValidatorImpl(context: Context, @XmlRes xmlResId: Int) : PackageVal
      * If the app is not found, or if the app does not have exactly one signature, this method
      * returns `null` as the signature.
      */
-    // todo not valid for versions of andoid before p
     private fun getSignature(packageInfo: PackageInfo): String? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (packageInfo.signingInfo?.apkContentsSigners == null || packageInfo.signingInfo?.apkContentsSigners?.size != 1) {
@@ -211,7 +220,14 @@ class PackageValidatorImpl(context: Context, @XmlRes xmlResId: Int) : PackageVal
                 getSignatureSha256(certificate)
             }
         } else {
-            null
+            if (packageInfo.signatures == null || packageInfo.signatures.size != 1) {
+                // Security best practices dictate that an app should be signed with exactly one (1)
+                // signature. Because of this, if there are multiple signatures, reject it.
+                null
+            } else {
+                val certificate = packageInfo.signatures[0].toByteArray()
+                getSignatureSha256(certificate)
+            }
         }
 
     private fun buildCertificateWhitelist(parser: XmlResourceParser): Map<String, KnownCallerInfo> {

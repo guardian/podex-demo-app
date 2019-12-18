@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:podx="podx"
+    targetNamespace="podx"
+    elementFormDefault="qualified">
+
+    <xs:simpleType name="timeNpt">
+        <xs:annotation>
+            <xs:documentation>
+                A time for display relative to the beginning of playback expressed in Normal Play
+                Time, see section 4.4.2 of RFC7826
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:complexType name="baseEvent" abstract="true">
+        <xs:annotation>
+            <xs:documentation>
+                Any generic event with a start and end time relative to the start of an audio file.
+                any event is expected to be the child of an item field in a podcast RSS feed.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="start" type="podx:timeNpt"/>
+            <xs:element name="end" type="podx:timeNpt"/>
+            <xs:element name="caption" type="xs:string"/>
+            <xs:element name="notification" type="xs:string"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="socialLink">
+        <xs:all>
+            <xs:element name="socialUrl" type="xs:anyURI"/>
+            <xs:element name="socialType" >
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="facebook"/>
+                        <xs:enumeration value="twitter"/>
+                        <xs:enumeration value="linkedin"/>
+                        <xs:enumeration value="snapchat"/>
+                        <xs:enumeration value="tiktok"/>
+                        <xs:enumeration value="other"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="image">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event with an image url (href) specified as an attribute.
+                </xs:documentation>
+            </xs:annotation>
+
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:attribute name="href" type="xs:anyURI"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="text">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event to show only text in the event types caption field
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="supporter">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event that contains information for prompting support for content creators
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:all>
+                        <xs:element name="googlePay" type="xs:string"/>
+                        <xs:element name="payPal" type="xs:string"/>
+                        <xs:element name="patreon" type="xs:string"/>
+                    </xs:all>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="feedLink">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event that contains information for linking to another podcast feed episode
+                    Identifying information is based on RSS
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:sequence>
+                        <xs:element name="feedUrl" type="xs:anyURI"/>
+                        <xs:element name="feedItemTitle" type="xs:string"/>
+                        <xs:element name="feedItemPubDate" type="xs:dateTime"/>
+                        <xs:element name="feedItemGuid" type="xs:string"/>
+                        <xs:element name="feedItemEnclosureUrl" type="xs:anyURI"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="socialLink">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event that contains information for linking to another podcast feed episode
+                    Identifying information is based on RSS
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element name="socialLink" type="podx:socialLink"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="callPrompt">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event that prompts a user to call a phone number.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:attribute name="number" type="xs:string"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="webLink">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    An event with a web link (url) specified as an attribute.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:attribute name="url" type="xs:anyURI"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="newsletterSignup">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    A web link event to be presented as a newsletter sign up prompt
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:attribute name="url" type="xs:anyURI"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="feedback">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    A web link event to be presented as a feedback prompt
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:attribute name="url" type="xs:anyURI"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="poll">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>
+                    A web link event to be presented as an invitation to participate in a poll
+                </xs:documentation>
+            </xs:annotation>
+            <xs:complexContent>
+                <xs:extension base="podx:baseEvent">
+                    <xs:attribute name="url" type="xs:anyURI"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

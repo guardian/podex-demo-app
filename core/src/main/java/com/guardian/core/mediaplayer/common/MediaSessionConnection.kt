@@ -19,8 +19,6 @@ package com.guardian.core.mediaplayer.common
 import android.content.ComponentName
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -29,27 +27,10 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.media.MediaBrowserServiceCompat
 import com.guardian.core.mediaplayer.NETWORK_FAILURE
-import com.guardian.core.mediaplayer.common.MediaSessionConnection.MediaBrowserConnectionCallback
-import com.guardian.core.podxevent.PodXEvent
 import timber.log.Timber
 
 /**
  * Class that manages a connection to a [MediaBrowserServiceCompat] instance.
- *
- * Typically it's best to construct/inject dependencies either using DI or, as UAMP does,
- * using [InjectorUtils] in the app module. There are a few difficulties for that here:
- * - [MediaBrowserCompat] is a final class, so mocking it directly is difficult.
- * - A [MediaBrowserConnectionCallback] is a parameter into the construction of
- *   a [MediaBrowserCompat], and provides callbacks to this class.
- * - [MediaBrowserCompat.ConnectionCallback.onConnected] is the best place to construct
- *   a [MediaControllerCompat] that will be used to control the [MediaSessionCompat].
- *
- *  Because of these reasons, rather than constructing additional classes, this is treated as
- *  a black box (which is why there's very little logic here).
- *
- *  This is also why the parameters to construct a [MediaSessionConnection] are simple
- *  parameters, rather than private properties. They're only required to build the
- *  [MediaBrowserConnectionCallback] and [MediaBrowserCompat] objects.
  */
 class MediaSessionConnection(context: Context, serviceComponent: ComponentName) {
     init {
@@ -64,7 +45,6 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
         .apply { postValue(EMPTY_PLAYBACK_STATE) }
     val nowPlaying = MutableLiveData<MediaMetadataCompat>()
         .apply { postValue(NOTHING_PLAYING) }
-    val podXEvent = MutableLiveData<PodXEvent>()
 
     val transportControls: MediaControllerCompat.TransportControls
         get() = mediaController.transportControls
@@ -73,35 +53,10 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
     private val mediaBrowser = MediaBrowserCompat(
         context,
         serviceComponent,
-        mediaBrowserConnectionCallback, null
+        mediaBrowserConnectionCallback,
+        null
     ).apply { connect() }
     private lateinit var mediaController: MediaControllerCompat
-
-    fun subscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
-        mediaBrowser.subscribe(parentId, callback)
-    }
-
-    fun unsubscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
-        mediaBrowser.unsubscribe(parentId, callback)
-    }
-
-    fun sendCommand(command: String, parameters: Bundle?) =
-            sendCommand(command, parameters) { _, _ -> }
-
-    fun sendCommand(
-        command: String,
-        parameters: Bundle?,
-        resultCallback: ((Int, Bundle?) -> Unit)
-    ) = if (mediaBrowser.isConnected) {
-        mediaController.sendCommand(command, parameters, object : ResultReceiver(Handler()) {
-            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-                resultCallback(resultCode, resultData)
-            }
-        })
-        true
-    } else {
-        false
-    }
 
     private inner class MediaBrowserConnectionCallback(private val context: Context) :
         MediaBrowserCompat.ConnectionCallback() {
@@ -111,7 +66,6 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
          */
         override fun onConnected() {
             // Get a MediaController for the MediaSession.
-            Timber.i("meadiaController is instantiated")
             mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken).apply {
                 registerCallback(MediaControllerCallback())
             }

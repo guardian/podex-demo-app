@@ -1,6 +1,5 @@
 package com.guardian.podxdemo.presentation.feed
 
-import android.support.v4.media.MediaBrowserCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,16 +27,7 @@ class FeedViewModel
     private val feedItemRepository: FeedItemRepository,
     private val mediaSessionConnection: MediaSessionConnection,
     private val podXEventEmitter: PodXEventEmitter
-) :
-    ViewModel() {
-
-    init {
-        mediaSessionConnection.subscribe("unused",
-            object : MediaBrowserCompat.SubscriptionCallback() {
-            }
-        )
-    }
-
+) : ViewModel() {
     val uiModel by lazy {
         FeedUiModel(
             mutableFeedData,
@@ -48,7 +38,8 @@ class FeedViewModel
     private val mutableFeedData: MutableLiveData<Feed> = MutableLiveData()
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
 
-    private val compositeDisposable = CompositeDisposable()
+    private val feedDisposable = CompositeDisposable()
+    private val feedItemDisposable = CompositeDisposable()
 
     fun setPlaceholderData(searchResult: SearchResult) {
         mutableFeedData.postValue(
@@ -62,8 +53,8 @@ class FeedViewModel
     }
 
     fun getFeedAndItems(feedUrl: String) {
-        compositeDisposable.clear()
-        compositeDisposable.add(feedRepository.getFeed(feedUrl)
+        feedDisposable.clear()
+        feedDisposable.add(feedRepository.getFeed(feedUrl)
             .subscribe { feed ->
                 Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
                 if (feed != null) {
@@ -75,7 +66,8 @@ class FeedViewModel
     }
 
     private fun getFeedItems(feed: Feed) {
-        compositeDisposable.add(feedItemRepository.getFeedItemsForFeed(feed)
+        feedItemDisposable.clear()
+        feedItemDisposable.add(feedItemRepository.getFeedItemsForFeed(feed)
             .subscribe { feedItemList ->
                 Timber.i("list from repo ${feedItemList.size}")
                 mutableFeedItemData.postValue(feedItemList)
@@ -85,7 +77,8 @@ class FeedViewModel
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+        feedDisposable.clear()
+        feedItemDisposable.clear()
     }
 
     fun prepareFeedItemForPlayback(feedItem: FeedItem) {

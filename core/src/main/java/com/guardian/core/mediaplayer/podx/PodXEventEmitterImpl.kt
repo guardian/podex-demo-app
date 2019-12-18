@@ -6,71 +6,104 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
-import com.guardian.core.podxevent.PodXEvent
-import com.guardian.core.podxevent.dao.PodXEventDao
+import com.guardian.core.podxevent.PodXEventRepository
+import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXSupportEvent
+import com.guardian.core.podxevent.PodXWebEvent
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.disposables.Disposables
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
-import java.util.PriorityQueue
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PodXEventEmitterImpl
 @Inject constructor(
     private val mediaSessionConnection: MediaSessionConnection,
-    private val podXEventDao: PodXEventDao
+    private val podXEventRepository: PodXEventRepository
 ) :
     PodXEventEmitter {
 
-    // playback timer is started after we have gotten a valid podx event list from the repo so that
-    // a concurrent modification exception can be avoided
-    private var playbackTimerDisposable = Disposables.empty()
-
-    private val podXEventMutableLiveData = MutableLiveData<List<PodXEvent>>()
+    private val podXImageEventMutableLiveData = MutableLiveData<List<PodXImageEvent>>()
         .apply {
             value = listOf()
         }
+    override val podXImageEventLiveData: LiveData<List<PodXImageEvent>> =
+        podXImageEventMutableLiveData
 
-    override val podXEventLiveData: LiveData<List<PodXEvent>> = podXEventMutableLiveData
-
-    // todo it doesn't make sense to use a PriQueue here
-    private val podXEventQueue: PriorityQueue<PodXEvent> = PriorityQueue(30) { o1, o2 ->
-            (o1.timeStart - o2.timeStart).toInt()
+    private val podXWebEventMutableLiveData = MutableLiveData<List<PodXWebEvent>>()
+        .apply {
+            value = listOf()
         }
+    override val podXWebEventLiveData: LiveData<List<PodXWebEvent>> = podXWebEventMutableLiveData
 
-    private var currentFeedDisposable = Disposables.empty()
+    private val podXSupportEventMutableLiveData = MutableLiveData<List<PodXSupportEvent>>()
+        .apply {
+            value = listOf()
+        }
+    override val podXSupportEventLiveData: LiveData<List<PodXSupportEvent>> =
+        podXSupportEventMutableLiveData
+
+    private val pendingPodXImageEvents: MutableList<PodXImageEvent> = mutableListOf()
+    private val pendingPodXWebEvents: MutableList<PodXWebEvent> = mutableListOf()
+    private val pendingPodXSupportEvents: MutableList<PodXSupportEvent> = mutableListOf()
+
+    private val currentFeedDisposable = CompositeDisposable()
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
-        currentFeedDisposable.dispose()
-        podXEventMutableLiveData.postValue(listOf())
-        currentFeedDisposable = podXEventDao.getPodXEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
-            .subscribe({ feedPodXEventList ->
-                playbackTimerDisposable.dispose()
-                podXEventQueue.clear()
-                podXEventQueue.addAll(feedPodXEventList)
+        currentFeedDisposable.clear()
 
-                // trim events that have already been shown in case we are registering a feed item
-                // that is already part way through playback.
-                val currentState = mediaSessionConnection.playbackState.value
-                if (currentState != null) {
-                    val currentTime = getPlaybackPositionFromState(currentState)
-                    while (podXEventQueue.peek()?.timeStart ?: -1 < currentTime) {
-                        podXEventQueue.poll()
-                    }
-                }
-                podXEventMutableLiveData.postValue(listOf())
-                playbackTimerDisposable = registerPlaybackTimerObservable()
-            }, { e: Throwable ->
-                Timber.e(e)
-            })
+        podXImageEventMutableLiveData.postValue(listOf())
+        podXWebEventMutableLiveData.postValue(listOf())
+        podXSupportEventMutableLiveData.postValue(listOf())
 
-
+        registerImageEvents(feedItem)
+        registerWebEvents(feedItem)
+        registerSupportEvents(feedItem)
+        registerPlaybackTimerObservable()
     }
 
-    private fun registerPlaybackTimerObservable(): Disposable {
+    private fun registerWebEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getWebEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXWebEvents.clear()
+                    pendingPodXWebEvents.addAll(feedPodXEventList)
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerImageEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getImageEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXImageEvents.clear()
+                    pendingPodXImageEvents.addAll(feedPodXEventList)
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerSupportEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getSupportEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXSupportEvents.clear()
+                    pendingPodXSupportEvents.addAll(feedPodXEventList)
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerPlaybackTimerObservable() {
         val timerObservable = Observable.interval(
             500, TimeUnit.MILLISECONDS
-        ).map {
+        ).filter { mediaSessionConnection.playbackState.value != null &&
+            mediaSessionConnection.playbackState.value?.state == PlaybackStateCompat.STATE_PLAYING
+        }.map {
             mediaSessionConnection.playbackState.value.let { playbackState ->
                 if (playbackState != null) {
                     getPlaybackPositionFromState(playbackState)
@@ -80,25 +113,47 @@ class PodXEventEmitterImpl
             }
         }
 
-        return timerObservable
-            .subscribe({ timeMillis ->
-                // this livedata is initialised, encapsulated, and never has null values posted
-                val currentEventList = podXEventMutableLiveData.value?.toMutableList()!!
-                    .apply {
-                        // assume no concurrent modification maybe wrongly
-                        while(podXEventQueue.peek() != null
-                            && podXEventQueue.peek()!!.timeStart < timeMillis) {
-                            add(podXEventQueue.poll()!!)
+        currentFeedDisposable.add(
+            timerObservable
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ timeMillis ->
+                    val currentImageEventList = pendingPodXImageEvents
+                        .filter { pendingImageEvent ->
+                            pendingImageEvent.timeStart < timeMillis &&
+                                pendingImageEvent.timeEnd > timeMillis
                         }
-
+                    // only post if there are new values
+                    if (currentImageEventList
+                            .intersect(podXImageEventMutableLiveData.value ?: listOf())
+                            .size != currentImageEventList.size) {
+                        podXImageEventMutableLiveData.postValue(currentImageEventList)
                     }
 
-                currentEventList.removeAll { it.timeEnd < timeMillis }
+                    val currentWebEventList = pendingPodXWebEvents
+                        .filter { pendingWebEvent ->
+                            pendingWebEvent.timeStart < timeMillis &&
+                                pendingWebEvent.timeEnd > timeMillis
+                        }
+                    if (currentWebEventList
+                            .intersect(podXWebEventMutableLiveData.value ?: listOf())
+                            .size != currentWebEventList.size) {
+                        podXWebEventMutableLiveData.postValue(currentWebEventList)
+                    }
 
-                podXEventMutableLiveData.postValue(currentEventList)
-            }, { e: Throwable? ->
-                Timber.e(e)
-            })
+                    val currentSupportEventList = pendingPodXSupportEvents
+                        .filter { pendingSupportEvent ->
+                            pendingSupportEvent.timeStart < timeMillis &&
+                                pendingSupportEvent.timeEnd > timeMillis
+                        }
+                    if (currentSupportEventList
+                            .intersect(podXSupportEventMutableLiveData.value ?: listOf())
+                            .size != currentSupportEventList.size) {
+                        podXSupportEventMutableLiveData.postValue(currentSupportEventList)
+                    }
+                }, { e: Throwable? ->
+                    Timber.e(e)
+                })
+        )
     }
 
     private fun getPlaybackPositionFromState(playbackStateCompat: PlaybackStateCompat): Long {

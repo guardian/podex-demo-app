@@ -9,7 +9,6 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaDescriptionCompat
@@ -20,22 +19,16 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
-import com.google.android.exoplayer2.C
-import com.google.android.exoplayer2.ControlDispatcher
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Timeline
-import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+import com.google.android.exoplayer2.upstream.DataSource
 import com.guardian.core.mediaplayer.extensions.flag
 import com.guardian.core.mediaplayer.library.BrowseTree
 import com.guardian.core.mediaplayer.library.FeedSource
 import com.guardian.core.mediaplayer.library.MEDIA_SEARCH_SUPPORTED
-import com.guardian.core.mediaplayer.library.MusicSource
 import com.guardian.core.mediaplayer.library.UAMP_BROWSABLE_ROOT
 import com.guardian.core.mediaplayer.library.UAMP_EMPTY_ROOT
 import dagger.android.AndroidInjection
@@ -65,17 +58,18 @@ open class MediaService : MediaBrowserServiceCompat() {
     private lateinit var becomingNoisyReceiver: BecomingNoisyReceiver
     private lateinit var notificationManager: NotificationManagerCompat
     private lateinit var notificationBuilder: NotificationBuilder
-    private lateinit var mediaSource: MusicSource
 
     @Inject lateinit var feedSource: FeedSource
     @Inject lateinit var packageValidator: PackageValidator
+    @Inject lateinit var dataSourceFactory: DataSource.Factory
+    @Inject lateinit var exoPlayer: ExoPlayer
 
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
     protected lateinit var mediaSession: MediaSessionCompat
     protected lateinit var mediaController: MediaControllerCompat
-    protected lateinit var mediaSessionConnector: MediaSessionConnector
+    private lateinit var mediaSessionConnector: MediaSessionConnector
 
     /**
      * This must be `by lazy` because the source won't initially be ready.
@@ -83,27 +77,10 @@ open class MediaService : MediaBrowserServiceCompat() {
      * constructed).
      */
     private val browseTree: BrowseTree by lazy {
-        BrowseTree(mediaSource)
+        BrowseTree()
     }
 
     private var isForegroundService = false
-
-    private val uAmpAudioAttributes = AudioAttributes.Builder()
-        .setContentType(C.CONTENT_TYPE_MUSIC)
-        .setUsage(C.USAGE_MEDIA)
-        .build()
-
-    /**
-     * Configure ExoPlayer to handle audio focus for us.
-     * See [Player.AudioComponent.setAudioAttributes] for details.
-     */
-    private val exoPlayer: ExoPlayer by lazy {
-        ExoPlayerFactory.newSimpleInstance(this).apply {
-            setAudioAttributes(uAmpAudioAttributes, true)
-
-             playWhenReady = true
-        }
-    }
 
     @ExperimentalCoroutinesApi
     override fun onCreate() {
@@ -151,22 +128,17 @@ open class MediaService : MediaBrowserServiceCompat() {
                 sessionToken = mediaSession.sessionToken
             )
 
-        mediaSource = feedSource
-
         serviceScope.launch {
-            mediaSource.load()
+            feedSource.load()
         }
 
         // ExoPlayer will manage the MediaSession for us.
         mediaSessionConnector = MediaSessionConnector(mediaSession).also { connector ->
             // Produces DataSource instances through which media data is loaded.
-            val dataSourceFactory = DefaultDataSourceFactory(
-                this, Util.getUserAgent(this, UAMP_USER_AGENT), null
-            )
 
             // Create the PlaybackPreparer of the media session connector.
             val playbackPreparer = UampPlaybackPreparer(
-                mediaSource,
+                feedSource,
                 exoPlayer,
                 dataSourceFactory,
                 serviceScope
@@ -271,7 +243,7 @@ open class MediaService : MediaBrowserServiceCompat() {
     ) {
 
         // If the media source is ready, the results will be set synchronously here.
-        val resultsSent = mediaSource.whenReady { successfullyInitialized ->
+        val resultsSent = feedSource.whenReady { successfullyInitialized ->
             if (successfullyInitialized) {
                 val children = browseTree[parentMediaId]?.map { item ->
                     MediaItem(item.description, item.flag)
@@ -305,10 +277,10 @@ open class MediaService : MediaBrowserServiceCompat() {
         result: Result<List<MediaItem>>
     ) {
 
-        val resultsSent = mediaSource.whenReady { successfullyInitialized ->
+        val resultsSent = feedSource.whenReady { successfullyInitialized ->
             if (successfullyInitialized) {
                 serviceScope.launch {
-                    val resultsList = mediaSource.search(query, extras ?: Bundle.EMPTY)
+                    val resultsList = feedSource.search(query, extras ?: Bundle.EMPTY)
                         .map { mediaMetadata ->
                             MediaItem(mediaMetadata.description, mediaMetadata.flag)
                         }
@@ -416,18 +388,6 @@ open class MediaService : MediaBrowserServiceCompat() {
             }
         }
     }
-
-    private inner class PodXCustomActionProvider : MediaSessionConnector.CommandReceiver {
-        override fun onCommand(
-            player: Player?,
-            controlDispatcher: ControlDispatcher?,
-            command: String?,
-            extras: Bundle?,
-            cb: ResultReceiver?
-        ): Boolean {
-            TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
-        }
-    }
 }
 
 /**
@@ -489,5 +449,3 @@ private const val CONTENT_STYLE_PLAYABLE_HINT = "android.media.browse.CONTENT_ST
 private const val CONTENT_STYLE_SUPPORTED = "android.media.browse.CONTENT_STYLE_SUPPORTED"
 private const val CONTENT_STYLE_LIST = 1
 private const val CONTENT_STYLE_GRID = 2
-
-private const val UAMP_USER_AGENT = "uamp.next"

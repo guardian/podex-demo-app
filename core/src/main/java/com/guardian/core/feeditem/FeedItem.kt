@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.guardian.core.podxevent.PodXEvent
+import com.guardian.core.podxevent.PodXImageEvent
 import kotlinx.android.parcel.Parcelize
 import java.util.Date
 
 @Parcelize
 @Entity(tableName = "feed_items",
     indices = [Index(value = ["feedUrlString"], unique = false)])
-@ForeignKey(entity = PodXEvent::class,
+@ForeignKey(entity = PodXImageEvent::class,
     parentColumns = ["feedItemAudioUrl"],
     childColumns = ["feedItemUrlString"],
     onDelete = ForeignKey.CASCADE)

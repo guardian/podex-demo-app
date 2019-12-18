@@ -2,21 +2,22 @@
 <layout>
     <data>
         <variable
-            name="podXEvent"
-            type="com.guardian.core.podxevent.PodXEvent" />
+            name="podXThumbnailData"
+            type="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventThumbnailData" />
     </data>
     
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{podXThumbnailData.onClickListener}">
 
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="@dimen/podx_image_margin"
-            imageUrl="@{podXEvent.urlString}"
+            imageUrl="@{podXThumbnailData.imageUrlString}"
             />
 
     </LinearLayout>

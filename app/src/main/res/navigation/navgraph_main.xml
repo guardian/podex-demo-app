@@ -32,16 +32,15 @@
         android:name="com.guardian.podxdemo.presentation.podximage.PodXImageFragment"
         android:label="PodXImageFragment" >
         <argument
-            android:name="podXEvent"
-            app:argType="com.guardian.core.podxevent.PodXEvent"/>
+            android:name="podXImageEvent"
+            app:argType="com.guardian.core.podxevent.PodXImageEvent"/>
     </fragment>
-
 
     <action
         android:id="@+id/action_global_podXImageFragment"
         app:destination="@id/podXImageFragment" />
-
-    <action android:id="@+id/action_global_playerFragment"
+    <action
+        android:id="@+id/action_global_playerFragment"
         app:destination="@id/playerFragment"/>
 
 </navigation>

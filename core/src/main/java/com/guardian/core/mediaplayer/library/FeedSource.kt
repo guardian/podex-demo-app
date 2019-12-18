@@ -29,7 +29,6 @@ class FeedSource
     }
 
     override suspend fun load() {
-        // todo don't even really need to load given our architechture
         state = STATE_INITIALIZED
     }
 
@@ -52,6 +51,9 @@ class FeedSource
                     .blockingFirst()
                     .addArt()
             } catch (e: EmptyResultSetException) {
+                Timber.e(e)
+                null
+            } catch (e: NullPointerException) {
                 Timber.e(e)
                 null
             }

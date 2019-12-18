@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.guardian.core.CoreInstrumentationTestRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -34,6 +34,15 @@ android {
         test{
             resources.srcDirs += ["src/test/res/raw"]
         }
+
+        androidTest{
+            resources.srcDirs += ["src/androidTest/res/raw"]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     testOptions {
@@ -68,9 +77,31 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.3.1'
     testImplementation 'androidx.test:core:1.2.0'
 
+
+    // Core library
     androidTestImplementation 'androidx.test:core:1.2.0'
+
+    // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+
+    // Assertions
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:truth:1.2.0'
+    androidTestImplementation 'com.google.truth:truth:0.42'
+
+    // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.2.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+
+    androidTestImplementation 'org.mockito:mockito-core:2.28.2'
+    androidTestImplementation 'org.mockito:mockito-android:3.1.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
@@ -91,6 +122,10 @@ dependencies {
     testImplementation 'com.google.dagger:dagger-android-support:2.24'
     kaptTest 'com.google.dagger:dagger-android-processor:2.24'
 
+    androidTestImplementation 'com.google.dagger:dagger-android:2.24'
+    androidTestImplementation 'com.google.dagger:dagger-android-support:2.24'
+    kaptAndroidTest 'com.google.dagger:dagger-android-processor:2.24'
+
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
@@ -108,8 +143,11 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
 
     testImplementation "androidx.room:room-testing:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.11"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    implementation 'org.jsoup:jsoup:1.12.1'
 }
