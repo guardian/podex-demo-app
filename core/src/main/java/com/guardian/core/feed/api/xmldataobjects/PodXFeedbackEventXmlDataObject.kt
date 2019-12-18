@@ -4,23 +4,24 @@ import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
 
-data class PodXSupportEventXmlDataObject(
+data class PodXFeedbackEventXmlDataObject(
     val start: String = "",
     val end: String = "",
     val caption: String = "",
     val notification: String = ""
 ) : XmlDataObject {
-    override val attributes: Map<String, ValueContainer<String>> =
-        mapOf(
-            "url" to ValueContainer("")
-        )
+    override fun isEmpty(): Boolean = start.isEmpty() &&
+        attributes.values
+            .map { it.value.isEmpty() }
+            .reduce { acc, b -> acc && b }
 
-    override fun isEmpty(): Boolean =
-        (attributes["url"]?.value).isNullOrBlank()
+    override val attributes: Map<String, ValueContainer<String>> = mapOf(
+        "url" to ValueContainer("")
+    )
 
     companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
-            return mapOf(
+            return mutableMapOf(
                 "podx:start" to ValueContainer(""),
                 "podx:end" to ValueContainer(""),
                 "podx:caption" to ValueContainer(""),
@@ -28,8 +29,9 @@ data class PodXSupportEventXmlDataObject(
             )
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            return PodXSupportEventXmlDataObject(
+            return PodXFeedbackEventXmlDataObject(
                 xmlParserElementMap["podx:start"]?.value as String,
                 xmlParserElementMap["podx:end"]?.value as String,
                 xmlParserElementMap["podx:caption"]?.value as String,

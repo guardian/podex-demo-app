@@ -4,26 +4,35 @@ import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
 
-data class PodXTextEvent (
-    val start: String,
-    val end: String,
-    val caption: String,
-    val notification: String
+data class PodXTextEventXmlDataObject(
+    val start: String = "",
+    val end: String = "",
+    val caption: String = "",
+    val notification: String = ""
 ) : XmlDataObject {
     override val attributes: Map<String, ValueContainer<String>> =
         mapOf()
 
-    override fun isEmpty(): Boolean {
+    override fun isEmpty(): Boolean =
+        caption.isBlank()
 
-    }
-
-    companion object: XmlDataObjectFactory {
+    companion object : XmlDataObjectFactory {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return mapOf<String, ValueContainer<*>>(
+                "podx:start" to ValueContainer(""),
+                "podx:end" to ValueContainer(""),
+                "podx:caption" to ValueContainer(""),
+                "podx:notification" to ValueContainer("")
+            )
         }
 
         override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return PodXTextEventXmlDataObject(
+                xmlParserElementMap["podx:start"]?.value as String,
+                xmlParserElementMap["podx:end"]?.value as String,
+                xmlParserElementMap["podx:caption"]?.value as String,
+                xmlParserElementMap["podx:notification"]?.value as String
+            )
         }
     }
 }

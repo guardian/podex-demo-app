@@ -4,9 +4,11 @@
     <string name="title_feedrepository">Feed Repository</string>
     <string name="title_database">Local Database</string>
     <string name="title_podcastplayer">Podcast Player</string>
-    <string name="search">search</string>
+    <string name="suggestion_search">search</string>
     <string name="searchfragment_default_term">guardian</string>
     <string name="playerfragment_album_art_alt">Album Art</string>
     <string name="duration_unknown">--:--</string>
     <string name="duration_format">%d:%02d</string>
+    <string name="title_searchfragment">Podcasts</string>
+    <string name="menu_search">Search</string>
 </resources>

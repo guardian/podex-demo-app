@@ -1,53 +1,192 @@
-<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podx="http://www.theguardian.com/au">
-    <channel>
-        <itunes:new-feed-url>https://www.theguardian.com/australia-news/series/australian-politics-live/podcast.xml</itunes:new-feed-url>
-        <title>Australian politics live podcast</title>
-        <link>https://www.theguardian.com/australia-news/series/australian-politics-live</link>
-        <description>Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you.</description>
-        <language>en-gb</language>
-        <copyright>The Guardian ©2019</copyright>
-        <lastBuildDate>
-            Tue, 24 Sep 2019 03:50:18 GMT
-        </lastBuildDate>
-        <ttl>15</ttl>
+<rss version="2.0"
+    xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+    xmlns:podx="podx">
+  <channel>
+    <itunes:new-feed-url>https://interactive.guim.co.uk/podx/podcast.xml</itunes:new-feed-url>
+    <title>PodX Test Feed</title>
+    <link>https://www.theguardian.com/australia-news/series/australian-politics-live</link>
+    <description>This is a test feed using audio where Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you. There is additional data to show information about Mark Zuckerburg's dog while the episode plays back.</description>
+    <language>en-gb</language>
+    <copyright>The Guardian ©2019</copyright>
+    <lastBuildDate> Tue, 12 Nov 2019 01:29:02 GMT </lastBuildDate>
+    <ttl>15</ttl>
 
-        <itunes:owner>
-            <itunes:email>userhelp@theguardian.com</itunes:email>
-            <itunes:name>The Guardian</itunes:name>
-        </itunes:owner>
-        <itunes:image href="https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg"/>
+    <itunes:owner>
+      <itunes:email>userhelp@theguardian.com</itunes:email>
+      <itunes:name>The Guardian</itunes:name>
+    </itunes:owner>
+    <itunes:image href="https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg"/>
+    <itunes:author>The Guardian</itunes:author>
+
+    <itunes:keywords/>
+    <itunes:summary>This is a test feed using audio where Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you. There is additional data to show information about Mark Zuckerburg's dog while the episode plays back.</itunes:summary>
+    <image>
+      <title>PodX Test Feed</title>
+      <url>https://static.guim.co.uk/sitecrumbs/Guardian.gif</url>
+      <link>https://www.theguardian.com</link>
+    </image>
+    <itunes:category text="News &amp; Politics">
+
+    </itunes:category>
+    <item>
+      <title>
+        A whole lot of images
+      </title>
+      <description>
+      The official campaign post-mortem has been completed by Jay Weatherill and Craig Emerson, but with a whole lot of pictures of a dog? Katharine Murphy sits down with Weatherill to discuss the findings of the ‘warts-and-all’ review. Was Bill Shorten found untrustworthy by voters? Will the party continue to be overshadowed by the Rudd-Gillard-Rudd years? How will they combat disinformation in the future?
+      </description>
+      <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/11/08-18765-APLlaborreport.mp3" length="30345089" type="audio/mpeg"/>
+      <pubDate>Fri, 08 Nov 2019 19:00:43 GMT</pubDate>
+      <guid>5dc4f4838f08c2d1f80dbe45</guid>
+      <itunes:duration>00:31:36</itunes:duration>
+      <itunes:author>The Guardian</itunes:author>
+      <itunes:explicit>clean</itunes:explicit>
+      <itunes:keywords>
+      Jay Weatherill, Australian politics, Australia news, Bill Shorten, Scott Morrison, Malcolm Turnbull, Labor party, Liberal party
+      </itunes:keywords>
+      <itunes:subtitle>
+      The official campaign post-mortem has been completed by Jay Weatherill and Craig Emerson, but with a whole lot of pictures of a dog? Katharine Murphy sits down with Weatherill to discuss the findings of the ‘warts-and-all’ review. Was Bill Shorten found untrustworthy by voters? Will the party continue to be overshadowed by the Rudd-Gillard-Rudd years? How will they combat disinformation in the future?
+      </itunes:subtitle>
+      <itunes:summary>
+      The official campaign post-mortem has been completed by Jay Weatherill and Craig Emerson, but with a whole lot of pictures of a dog? Katharine Murphy sits down with Weatherill to discuss the findings of the ‘warts-and-all’ review. Was Bill Shorten found untrustworthy by voters? Will the party continue to be overshadowed by the Rudd-Gillard-Rudd years? How will they combat disinformation in the future?
+      </itunes:summary>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:05</podx:start>
+        <podx:end>0:25</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:05</podx:start>
+        <podx:end>0:25</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:05</podx:start>
+        <podx:end>0:25</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:01</podx:start>
+        <podx:end>0:21</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:01</podx:start>
+        <podx:end>0:21</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:01</podx:start>
+        <podx:end>0:21</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+    </item>
+
+    <item>
+      <title>
+      Some text
+      </title>
+      <description>
+      As Arthur Sinodinos takes over from Joe Hockey as ambassador to the US, Katharine Murphy talks through his 20-year career. From Scott Morrison’s work ethic and views on climate change to the future of working with Donald Trump, Sinodinos discusses the Coalition’s approach to the next term. Some text about dogs shows
+      </description>
+      <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/11/01-01613-APL_Sinodinos.mp3" length="26178872" type="audio/mpeg"/>
+      <pubDate>Fri, 01 Nov 2019 22:21:32 GMT</pubDate>
+      <guid>5dba5ab48f08d669cdab014e</guid>
+      <itunes:duration>00:27:16</itunes:duration>
+      <itunes:author>The Guardian</itunes:author>
+      <itunes:explicit>clean</itunes:explicit>
+      <itunes:keywords>
+      Arthur Sinodinos, Joe Hockey, Australia news, Australian politics, Scott Morrison, Bill Shorten, Donald Trump, US politics
+      </itunes:keywords>
+      <itunes:subtitle>
+      As Arthur Sinodinos takes over from Joe Hockey as ambassador to the US, Katharine Murphy talks through his 20-year career. From Scott Morrison’s work ethic and views on climate change to the future of working with Donald Trump, Sinodinos discusses the Coalition’s approach to the next term. Some text about dogs shows
+      </itunes:subtitle>
+      <itunes:summary>
+      As Arthur Sinodinos takes over from Joe Hockey as ambassador to the US, Katharine Murphy talks through his 20-year career. From Scott Morrison’s work ethic and views on climate change to the future of working with Donald Trump, Sinodinos discusses the Coalition’s approach to the next term. Some text about dogs shows
+      </itunes:summary>
+
+      <podx:text>
+        <podx:start>0:07</podx:start>
+        <podx:end>7:37</podx:end>
+        <podx:caption>About the Puli:
+          First, there are those dreadlocks, the instantly recognizable feature of the Puli (pronounced “Poo-lee”—”Pulik” is the plural). The coat’s naturally occurring cords are wooly, dense, and weatherproof. Either corded or brushed out, Puli coats require lots of attention. Under the dreads there’s a compact but powerful dog, standing 16 to 17 inches at the shoulder. Pulik are remarkably agile and light on their feet, earning a reputation as the “acrobat of the dog world.”</podx:caption>
+        <podx:notification>About the Puli</podx:notification>
+      </podx:text>
+
+    </item>
+    <item>
+        <title>
+        Support event
+        </title>
+        <description>
+        Katharine Murphy sits down with the president of the National Farmers’ Federation, Fiona Simson, to talk about their new drought policy. It looks at long-term objectives it thinks the Coalition should be considering to enhance resilience for farmers. But is the government likely to listen? What did Barnaby Joyce achieve as drought envoy? I ask for some money as this is discussed – Full Story podcast
+        </description>
+        <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/10/25-16521-APL_Fiona_Simson.mp3" length="29481168" type="audio/mpeg"/>
+        <pubDate>Fri, 25 Oct 2019 19:00:30 GMT</pubDate>
+        <guid>5db132ef8f08c78d1cb5011e</guid>
+        <itunes:duration>00:30:42</itunes:duration>
         <itunes:author>The Guardian</itunes:author>
+        <itunes:explicit>clean</itunes:explicit>
+        <itunes:keywords>
+        Drought, Australia news, Liberal party, Coalition, Australian politics, Farming, Environment
+        </itunes:keywords>
+        <itunes:subtitle>
+        Katharine Murphy sits down with the president of the National Farmers’ Federation, Fiona Simson, to talk about their new drought policy. It looks at long-term objectives it thinks the Coalition should be considering to enhance resilience for farmers. But is the government likely to listen? What did Barnaby Joyce achieve as drought envoy? I ask for some money as this is discussed  – Full Story podcast
+        </itunes:subtitle>
+        <itunes:summary>
+        Katharine Murphy sits down with the president of the National Farmers’ Federation, Fiona Simson, to talk about their new drought policy. It looks at long-term objectives it thinks the Coalition should be considering to enhance resilience for farmers. But is the government likely to listen? What did Barnaby Joyce achieve as drought envoy? I ask for some money as this is discussed  – Full Story podcast
+        </itunes:summary>
 
-        <itunes:keywords/>
-        <itunes:summary>Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you.</itunes:summary>
-        <image>
-            <title>Australian politics live podcast</title>
-            <url>https://static.guim.co.uk/sitecrumbs/Guardian.gif</url>
-            <link>https://www.theguardian.com</link>
-        </image>
-        <itunes:category text="News &amp; Politics">
+        <podx:support>
+          <podx:recipient>invalid id</podx:recipient>
+          <podx:paypal>invalid id</podx:paypal>
+          <podx:start>0:07</podx:start>
+          <podx:end>1:00</podx:end>
+          <podx:caption>Donate</podx:caption>
+          <podx:text>All donations go to support the wonderful work done by me</podx:text>
+        </podx:support>
 
-        </itunes:category>
-        <item>
-            <title> Will Labor keep its climate promises? – Australian politics live podcast </title>
-            <description> The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says </description>
-            <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/09/19-03050-APLMarkButler.mp3" length="31123329" type="audio/mpeg"/>
-            <pubDate>Fri, 20 Sep 2019 20:00:14 GMT</pubDate>
-            <guid>5d82cf728f08f30dc5bbe107</guid>
-            <itunes:duration>00:32:25</itunes:duration>
-            <itunes:author>The Guardian</itunes:author>
-            <itunes:explicit>clean</itunes:explicit>
-            <itunes:keywords>Australia news, Australian politics, Climate change, Environment, Labor party, Liberal party, Greta Thunberg</itunes:keywords>
-            <itunes:subtitle>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says</itunes:subtitle>
-            <itunes:summary>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says</itunes:summary>
+    </item>
 
-            <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
-                <podx:start>0:05</podx:start>
-                <podx:end>0:25</podx:end>
-                <podx:caption>This is a funny dog caption</podx:caption>
-                <podx:notification>This is a funny dog notification</podx:notification>
-            </podx:image>
+    <item>
+      <title> Web link and an image  </title>
 
-        </item>
-    </channel>
+      <description>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says. There is a picture of a Pulli dog, and a link to an article about a famous owner.</description>
+      <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/09/19-03050-APLMarkButler.mp3" length="31123329" type="audio/mpeg"/>
+      <pubDate>Fri, 20 Sep 2019 20:00:14 GMT</pubDate>
+      <guid>5d82cf728f08f30dc5bbe107</guid>
+      <itunes:duration>00:32:25</itunes:duration>
+      <itunes:author>The Guardian</itunes:author>
+      <itunes:explicit>clean</itunes:explicit>
+      <itunes:keywords>Australia news, Australian politics, Climate change, Environment, Labor party, Liberal party, Greta Thunberg</itunes:keywords>
+      <itunes:subtitle>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says. There is a picture of a Pulli dog, and a link to an article about a famous owner.</itunes:subtitle>
+      <itunes:summary>The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says. There is a picture of a Pulli dog, and a link to an article about a famous owner.</itunes:summary>
+
+      <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+        <podx:start>0:05</podx:start>
+        <podx:end>0:25</podx:end>
+        <podx:caption>This is a funny dog caption</podx:caption>
+        <podx:notification>This is a funny dog notification</podx:notification>
+      </podx:image>
+
+      <podx:web href="https://www.theguardian.com/technology/2015/jul/31/zuckerberg-baby-announcement-upstaged-by-their-dog">
+        <podx:start>0:03</podx:start>
+        <podx:end>0:20</podx:end>
+        <podx:caption>Dog article</podx:caption>
+        <podx:notification>This is an informative dog notification</podx:notification>
+      </podx:web>
+    </item>
+  </channel>
 </rss>

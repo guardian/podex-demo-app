@@ -60,8 +60,6 @@
                                 app:layout_constraintEnd_toStartOf="@id/imageview_feed_mainimage"
                                 android:text="@{feed.description}"/>
 
-
-
                             <ImageView
                                 android:id="@+id/imageview_feed_mainimage"
                                 android:layout_width="0dp"

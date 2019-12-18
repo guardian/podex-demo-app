@@ -20,12 +20,10 @@ class FeedItemEnclosureXmlDataObject : XmlDataObject {
     }
 
     companion object : XmlDataObjectFactory {
-        override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> {
-            return mapOf()
-        }
+        override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> = mapOf()
 
-        override fun instantiateFromXmlParserElementMap(xmlParserElementMap: Map<String, ValueContainer<*>>): XmlDataObject {
-            return FeedItemEnclosureXmlDataObject()
-        }
+        override fun instantiateFromXmlParserElementMap
+                (xmlParserElementMap: Map<String, ValueContainer<*>>):
+            XmlDataObject = FeedItemEnclosureXmlDataObject()
     }
 }

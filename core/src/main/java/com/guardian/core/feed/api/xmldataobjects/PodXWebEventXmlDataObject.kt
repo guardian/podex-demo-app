@@ -16,7 +16,7 @@ data class PodXWebEventXmlDataObject(
             .reduce { acc, b -> acc && b }
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf(
-        "href" to ValueContainer("")
+        "url" to ValueContainer("")
     )
 
     companion object : XmlDataObjectFactory {
