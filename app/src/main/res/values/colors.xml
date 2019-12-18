@@ -4,6 +4,7 @@
     <color name="primaryLightColor">#FFFFFF</color>
     <color name="primaryDarkColor">#000036</color>
     <color name="primaryTextColor">#FFFFFF</color>
+    <color name="darkTextColor">#000000</color>
     <color name="sixtyPercentWhite">#99FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="eightyPercentWhite">#CCFFFFFF</color>
