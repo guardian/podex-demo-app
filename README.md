@@ -31,20 +31,20 @@ All PodX event elements are expected to be children of item elements, where the 
    </td>
   </tr>
   <tr>
-   <td>webLink
+   <td>web
    </td>
-   <td>A weblink event contains a href attribute that points to a URL a user can choose to navigate to during the display of en event.
+   <td>A web link event contains a href attribute that points to a URL a user can choose to navigate to during the display of en event.
 <p>
 
 Example:
 
 ```
-<podx:webLink url=”https://www.example.com”>
+<podx:web url=”https://www.example.com”>
   <podx:start>1:01</podx:start>
   <podx:end>1:31</podx:end>
   <podx:caption>Check out this relevant web link</podx:caption>
   <podx:notification>Example link</podx:notification>
-</podx:webLink>
+</podx:web>
 ```
    </td>
   </tr>
@@ -105,7 +105,7 @@ Example:
   <tr>
    <td>support
    </td>
-   <td>A weblink event pointing to a site that allows a listener to support podcast producers. Identical to the weblink event in structure and function, but enables the podcast client application to differentiate for display.
+   <td>A web link event pointing to a site that allows a listener to support podcast producers. Identical to the web link event in structure and function, but enables the podcast client application to differentiate for display.
 <p>
 Example:
 
@@ -122,7 +122,7 @@ Example:
   <tr>
    <td>feedLink
    </td>
-   <td>A weblink event with an additional attribute to point to an item element or episode of a podcast feed pointed to by the URL. A third optional attribute specifies a point in normal play time from the start of playback to begin playing. This way the user can be taken to a specific point in a different podcast episode and begin playback at that point.
+   <td>A web link event with an additional attribute to point to an item element or episode of a podcast feed pointed to by the URL. A third optional attribute specifies a point in normal play time from the start of playback to begin playing. This way the user can be taken to a specific point in a different podcast episode and begin playback at that point.
 <p>
 Example:
 
@@ -162,7 +162,7 @@ Example:
   <tr>
    <td>newsletterSignup
    </td>
-   <td>A weblink event pointing to a form to enter details required to sign up to a newsletter. Identical to the weblink event in structure and function, but enables the podcast client application to differentiate for display.
+   <td>A web link event pointing to a form to enter details required to sign up to a newsletter. Identical to the web link event in structure and function, but enables the podcast client application to differentiate for display.
 <p>
 Example:
 
@@ -179,7 +179,7 @@ Example:
   <tr>
    <td>feedback
    </td>
-   <td>A weblink event pointing to a form to submit feedback to podcast producers. Identical to the weblink event in structure and function, but enables the podcast client application to differentiate for display.
+   <td>A web link event pointing to a form to submit feedback to podcast producers. Identical to the web link event in structure and function, but enables the podcast client application to differentiate for display.
 <p>
 Example:
 
@@ -196,7 +196,7 @@ Example:
   <tr>
    <td>poll
    </td>
-   <td>A weblink event pointing to a poll or survey. Identical to the weblink event in structure and function, but enables the podcast client application to differentiate for display.
+   <td>A web link event pointing to a poll or survey. Identical to the web link event in structure and function, but enables the podcast client application to differentiate for display.
 <p>
 Example:
 
@@ -282,7 +282,7 @@ Example
 
 
 
-## webLink attributes and elements
+## web attributes and elements
 
 
 ### Attributes
