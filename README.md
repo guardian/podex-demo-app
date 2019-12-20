@@ -245,7 +245,7 @@ Example:
    </td>
    <td>The point in playback of a podcast expressed in normal play time relative to the start of an audio file in the parent item. The expected format is the same as the <start> format.
 <p>
-Display of the parent event is to end at this timestamp. It is expected for the end time to a after the start time. The current implementation of the PodX client stops display at the end point or 10 seconds after the start time if the end is invalid or malformed.
+Display of the parent event is to end at this timestamp. It is expected for the end time to a after the start time.
 <p>
 Example:
 
