@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.guardian.core.mediaplayer.extensions.albumArtUri
-import com.guardian.core.mediaplayer.extensions.title
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutCollapsedplayerfragmentBinding
 import com.guardian.podxdemo.presentation.player.PlayerViewModel
@@ -51,7 +50,6 @@ class CollapsedPlayerFragment
             .mediaMetadataLiveData
             .observe(this, Observer { mediaMetadataCompat ->
                 binding.artUrlString = mediaMetadataCompat.albumArtUri.toString()
-                binding.title = mediaMetadataCompat.title
             })
 
         playerViewModel

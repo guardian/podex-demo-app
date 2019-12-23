@@ -60,8 +60,8 @@ class PlayerViewModel
         mediaSessionConnection.playbackState.observeForever { playbackState ->
             this.postValue(
                 when (playbackState.isPlaying) {
-                    true -> R.drawable.baseline_pause_24
-                    else -> R.drawable.baseline_play_arrow_24
+                    true -> R.drawable.baseline_pause_white_36
+                    else -> R.drawable.baseline_play_arrow_white_36
                 }
             )
         }

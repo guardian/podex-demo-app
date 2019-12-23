@@ -1,5 +1,7 @@
 package com.guardian.core.feed
 
+import android.os.Build
+import android.text.Html
 import com.guardian.core.feed.api.GeneralFeedApi
 import com.guardian.core.feed.api.xmldataobjects.FeedItemXmlDataObject
 import com.guardian.core.feed.api.xmldataobjects.FeedXmlDataObject
@@ -64,9 +66,15 @@ class FeedRepositoryImpl
         val feedImage: String = feedXmlDataObject.itunesImage.attributes["href"]?.value
             ?: feedXmlDataObject.image.url
 
+        val feedDescription = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(feedXmlDataObject.description, Html.FROM_HTML_MODE_COMPACT)
+        } else {
+            Html.fromHtml(feedXmlDataObject.description)
+        }
+
         Feed(
             title = feedXmlDataObject.title,
-            description = feedXmlDataObject.description,
+            description = feedDescription.toString(),
             feedUrlString = feedUrl,
             feedImageUrlString = feedImage
         ).also { feed ->
