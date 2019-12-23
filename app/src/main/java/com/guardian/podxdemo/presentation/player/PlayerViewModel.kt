@@ -108,4 +108,13 @@ class PlayerViewModel
 
         compositeDisposable.clear()
     }
+
+    fun seekToPosition(time: Long) {
+        val transportControls = mediaSessionConnection.transportControls
+
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (isPrepared) {
+            mediaSessionConnection.transportControls.seekTo(time)
+        }
+    }
 }
