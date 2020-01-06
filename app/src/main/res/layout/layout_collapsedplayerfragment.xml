@@ -10,29 +10,28 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintlayout_collapsed_player_root"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:animateLayoutChanges="true"
-        android:background="@color/primaryColor">
+        android:background="@color/primaryColor"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <SeekBar
-            android:id="@+id/seekbar_collapsed_player"
+        <ProgressBar
+            android:id="@+id/progressbar_collapsed_player"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            android:layout_height="4dp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/imageview_collapsed_player_cover"
+            imageUrl="@{artUrlString}"
             android:layout_width="@dimen/collapsed_player_image"
             android:layout_height="@dimen/collapsed_player_image"
             android:layout_margin="@dimen/collapsed_player_margin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/seekbar_collapsed_player"
             app:layout_constraintBottom_toBottomOf="parent"
-            imageUrl="@{artUrlString}"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_seekbackwards"
@@ -41,10 +40,10 @@
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:src="@drawable/baseline_replay_10_white_24"
-            app:layout_constraintStart_toEndOf="@id/imageview_collapsed_player_cover"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_playpause"
-            app:layout_constraintTop_toBottomOf="@id/seekbar_collapsed_player"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/imageview_collapsed_player_cover"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_playpause"
@@ -52,10 +51,10 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerInside"
-            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_seekbackwards"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_seekforwards"
-            app:layout_constraintTop_toBottomOf="@id/seekbar_collapsed_player"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_seekbackwards"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_seekforwards"
@@ -64,11 +63,10 @@
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:src="@drawable/baseline_forward_30_white_24"
-            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_playpause"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/seekbar_collapsed_player"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
+            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_playpause"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

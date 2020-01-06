@@ -49,6 +49,7 @@ class PlayerViewModel
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
         mediaSessionConnection.playbackState.observeForever {
 
+            Timber.i( "posting ${it.currentPlayBackPosition}")
             checkPlaybackPosition()
 
             this.postValue(

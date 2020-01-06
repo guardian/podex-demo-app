@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -46,30 +45,13 @@ class CollapsedPlayerFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRootView()
+        setupAlbumArt()
+        setupProgressBar()
+        setupPlayerControls()
+    }
 
-        playerViewModel
-            .playerUiModel
-            .mediaMetadataLiveData
-            .observe(this, Observer { mediaMetadataCompat ->
-                binding.artUrlString = mediaMetadataCompat.albumArtUri.toString()
-            })
-
-        playerViewModel
-            .playerUiModel
-            .mediaButtonRes
-            .observe(this, Observer { imageId ->
-                binding.imagebuttonCollapsedPlayerPlaypause.setImageResource(imageId)
-            })
-
-        playerViewModel.playerUiModel
-            .mediaPlaybackPositionLiveData
-            .observe(
-                this, Observer {
-                    setProgressBarPos(it)
-                }
-            )
-
-
+    private fun setupRootView() {
         playerViewModel
             .playerUiModel
             .isPreparedLiveData
@@ -81,33 +63,11 @@ class CollapsedPlayerFragment
                 }
             })
 
-        binding.seekbarCollapsedPlayer
-            .setOnSeekBarChangeListener (
-                object: SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(
-                        seekBar: SeekBar?,
-                        progress: Int,
-                        fromUser: Boolean
-                    ) {
-                        playerViewModel.seekToPosition(
-                            progress.toTimeInCurrentMedia()
-                        )
-                    }
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
-                    }
-
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-                    }
-                }
-            )
-
         binding
-            .imagebuttonCollapsedPlayerPlaypause
+            .progressbarCollapsedPlayer
             .setOnClickListener {
-                playerViewModel.playPause()
+                findNavController()
+                    .navigate(R.id.action_global_playerFragment)
             }
 
         binding
@@ -118,16 +78,78 @@ class CollapsedPlayerFragment
             }
     }
 
-    private fun setProgressBarPos(it: Long?) {
+    private fun setupAlbumArt() {
+        playerViewModel
+            .playerUiModel
+            .mediaMetadataLiveData
+            .observe(this, Observer { mediaMetadataCompat ->
+                binding.artUrlString = mediaMetadataCompat.albumArtUri.toString()
+            })
+
     }
 
-    @Throws(NullPointerException::class)
-    fun Int.toTimeInCurrentMedia(): Long {
+    private fun setupProgressBar() {
+        playerViewModel.playerUiModel
+            .mediaPlaybackPositionLiveData
+            .observe(
+                this, Observer {
+                    setProgressBarPos(it)
+                }
+            )
+
+        binding.progressbarCollapsedPlayer.max = PROGRESS_MAX
+    }
+
+    private fun setupPlayerControls() {
+        playerViewModel
+            .playerUiModel
+            .mediaButtonRes
+            .observe(this, Observer { imageId ->
+                binding.imagebuttonCollapsedPlayerPlaypause.setImageResource(imageId)
+            })
+
+        binding
+            .imagebuttonCollapsedPlayerPlaypause
+            .setOnClickListener {
+                playerViewModel.playPause()
+            }
+
+        binding
+            .imagebuttonCollapsedPlayerSeekforwards
+            .setOnClickListener {
+                val currentTime = playerViewModel.playerUiModel.mediaPlaybackPositionLiveData.value
+
+                if (currentTime != null) {
+                    playerViewModel.seekToPosition(currentTime + THIRTY_SECONDS)
+                }
+            }
+
+        binding
+            .imagebuttonCollapsedPlayerSeekbackwards
+            .setOnClickListener {
+                val currentTime = playerViewModel.playerUiModel.mediaPlaybackPositionLiveData.value
+
+                if (currentTime != null) {
+                    playerViewModel.seekToPosition(currentTime - TEN_SECONDS)
+                }
+            }
+
+    }
+
+    private fun setProgressBarPos(pos: Long) {
+        // if metadata is not set assume playback has not started
         val currentDuration = playerViewModel.playerUiModel
             .mediaMetadataLiveData
             .value
-            ?.duration!!
+            ?.duration ?: 0
 
-        return (this.toDouble() / 100  * currentDuration).toLong()
+        binding.progressbarCollapsedPlayer
+            .progress = (pos.toDouble() / currentDuration * PROGRESS_MAX).toInt()
+    }
+
+    private companion object {
+        private const val PROGRESS_MAX = 1000
+        private const val THIRTY_SECONDS = 30000
+        private const val TEN_SECONDS = 10000
     }
 }

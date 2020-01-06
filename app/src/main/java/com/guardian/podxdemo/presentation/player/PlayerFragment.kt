@@ -17,6 +17,7 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPlayerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import com.guardian.podxdemo.utils.toTimestampMSS
+import timber.log.Timber
 import javax.inject.Inject
 
 class PlayerFragment
@@ -79,5 +80,25 @@ class PlayerFragment
         binding.mediaButton.setOnClickListener {
             playerViewModel.playPause()
         }
+    }
+
+    private fun setProgressBarPos(pos: Long) {
+        val currentDuration = playerViewModel.playerUiModel
+            .mediaMetadataLiveData
+            .value
+            ?.duration!!
+
+        Timber.i("setting progress to ${(pos.toDouble() / currentDuration * 100).toInt()}")
+        //binding.seekbarCollapsedPlayer.progress = (pos.toDouble() / currentDuration * 100).toInt()
+    }
+
+    fun Int.toTimeInCurrentMedia(): Long {
+        //if the metadata isn't set we assume playback hasn't started
+        val currentDuration = playerViewModel.playerUiModel
+            .mediaMetadataLiveData
+            .value
+            ?.duration ?: 0
+
+        return (this.toDouble() / 100  * currentDuration).toLong()
     }
 }
