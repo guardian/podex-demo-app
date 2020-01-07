@@ -201,39 +201,32 @@ class PodXEventEmitterImpl
                     pendingImageEvent.timeEnd >= timeMillis
             }
 
-        podXImageEventMutableLiveData.postValue(currentImageEventList)
         // only post if there are new values
-        // if (currentImageEventList
-        //         .intersect(podXImageEventMutableLiveData.value ?: listOf())
-        //         .size != currentImageEventList.size) {
-        //     podXImageEventMutableLiveData.postValue(currentImageEventList)
-        // }
+        if (currentImageEventList
+                .size != (podXImageEventMutableLiveData.value ?: listOf()).size) {
+            podXImageEventMutableLiveData.postValue(currentImageEventList)
+        }
 
         val currentWebEventList = pendingPodXWebEvents
             .filter { pendingWebEvent ->
                 pendingWebEvent.timeStart <= timeMillis &&
                     pendingWebEvent.timeEnd >= timeMillis
             }
-
-        podXWebEventMutableLiveData.postValue(currentWebEventList)
-        // if (currentWebEventList
-        //         //.intersect(podXWebEventMutableLiveData.value ?: listOf())
-        //         .size != currentWebEventList.size) {
-        //     podXWebEventMutableLiveData.postValue(currentWebEventList)
-        // }
+        if (currentWebEventList
+                .size != (podXWebEventMutableLiveData.value ?: listOf()).size) {
+            podXWebEventMutableLiveData.postValue(currentWebEventList)
+        }
 
         val currentSupportEventList = pendingPodXSupportEvents
             .filter { pendingSupportEvent ->
                 pendingSupportEvent.timeStart <= timeMillis &&
                     pendingSupportEvent.timeEnd >= timeMillis
             }
-
         podXSupportEventMutableLiveData.postValue(currentSupportEventList)
-        // if (currentSupportEventList
-        //         //.intersect(podXSupportEventMutableLiveData.value ?: listOf())
-        //         .size != currentSupportEventList.size) {
-        //     podXSupportEventMutableLiveData.postValue(currentSupportEventList)
-        // }
+        if (currentSupportEventList
+                .size != (podXSupportEventMutableLiveData.value ?: listOf()).size) {
+            podXSupportEventMutableLiveData.postValue(currentSupportEventList)
+        }
 
     }
 
