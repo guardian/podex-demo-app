@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="artUrlString"
@@ -23,55 +25,27 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp">
 
+        <Toolbar
+            android:id="@+id/toolbar_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/imageview_play_album_art"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1"
+            android:scaleType="fitXY"
+            android:layout_margin="@dimen/podx_image_margin"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_player"
             android:contentDescription="@string/playerfragment_album_art_alt"
             app:srcCompat="@android:color/transparent"
             imageUrl="@{artUrlString}"/>
-
-        <fragment
-            android:id="@+id/fragment_player_podx_events_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="64dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginTop="-48dp"
-            android:background="@color/primaryColor"
-            app:layout_constraintBottom_toBottomOf="@+id/imageview_play_album_art"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
-
-        <ImageButton
-            android:id="@+id/media_button"
-            android:layout_width="@dimen/exo_media_button_width"
-            android:layout_height="@dimen/exo_media_button_height"
-            android:background="?attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:srcCompat="@drawable/baseline_play_arrow_24"
-            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/textview_play_title"
@@ -80,12 +54,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
+            android:textAlignment="center"
             android:ellipsize="end"
             android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintLeft_toRightOf="@id/media_button"
-            app:layout_constraintRight_toLeftOf="@id/textview_play_position"
-            tools:text="@{title}" />
+            app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@{title}"
+            android:textStyle="bold"
+            android:textColor="@color/darkTextColor"/>
 
         <TextView
             android:id="@+id/textview_play_subtitle"
@@ -93,35 +70,55 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
+            android:textAlignment="center"
             android:ellipsize="end"
             android:maxLines="1"
             app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
-            app:layout_constraintLeft_toRightOf="@id/media_button"
-            app:layout_constraintRight_toLeftOf="@id/textview_play_position"
-            tools:text="@{description}" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@{description}"
+            android:textColor="@color/darkTextColor" />
 
-        <TextView
-            android:id="@+id/textview_play_position"
+        <ImageButton
+            android:id="@+id/media_button"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:tint="@color/highlightColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_play_subtitle"
+            app:srcCompat="@drawable/baseline_play_circle_filled_black_48"
+            tools:ignore="ContentDescription" />
+
+        <SeekBar
+            android:id="@+id/seekbar_player_position"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
             android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="@{playbackPosition}" />
+            app:layout_constraintTop_toBottomOf="@id/media_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/textview_play_duration"
-            android:layout_width="0dp"
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/divider"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/textview_play_position"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="@{duration}" />
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="64dp" />
+
+        <fragment
+            android:id="@+id/fragment_player_podx_events_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

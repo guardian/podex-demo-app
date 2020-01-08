@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXImageEvent
 import com.guardian.core.podxevent.PodXSupportEvent
@@ -74,7 +75,6 @@ class PodXEventEmitterImpl
         currentFeedDisposable.add(
             podXEventRepository.getWebEventsForFeedItem(feedItem)
                 .subscribe({ feedPodXEventList ->
-                    Timber.i("adding ${feedPodXEventList.size} Webs")
                     pendingPodXWebEvents.clear()
                     pendingPodXWebEvents.addAll(feedPodXEventList)
                     registerPlaybackTimerObservable()
@@ -88,7 +88,6 @@ class PodXEventEmitterImpl
         currentFeedDisposable.add(
             podXEventRepository.getImageEventsForFeedItem(feedItem)
                 .subscribe({ feedPodXEventList ->
-                    Timber.i("adding ${feedPodXEventList.size} Images")
                     pendingPodXImageEvents.clear()
                     pendingPodXImageEvents.addAll(feedPodXEventList)
                     registerPlaybackTimerObservable()
@@ -102,7 +101,6 @@ class PodXEventEmitterImpl
         currentFeedDisposable.add(
             podXEventRepository.getSupportEventsForFeedItem(feedItem)
                 .subscribe({ feedPodXEventList ->
-                    Timber.i("adding ${feedPodXEventList.size} Supports")
                     pendingPodXSupportEvents.clear()
                     pendingPodXSupportEvents.addAll(feedPodXEventList)
                     registerPlaybackTimerObservable()
@@ -115,11 +113,10 @@ class PodXEventEmitterImpl
     private fun registerPlaybackTimerObservable() {
         currentFeedItemDisposable.clear()
         val playbackState = mediaSessionConnection.playbackState.value
-        Timber.i("checking playback state before registering observable")
-        if (playbackState != null) {
-            Timber.i("registering observable")
+        if (playbackState != null && playbackState.isPlaying) {
+            updateEmittedEvents(getPlaybackPositionFromState(playbackState))
+
             val nextEventTime = getNextEventTime(getPlaybackPositionFromState(playbackState))
-            Timber.i("next event time is ${nextEventTime}")
             val nextEventObservable = Observable.fromCallable {
                 mediaSessionConnection.playbackState.value.let { playbackState ->
                     if (playbackState != null) {
@@ -136,7 +133,6 @@ class PodXEventEmitterImpl
                 nextEventObservable
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ timeMillis ->
-                        Timber.i("firing observable")
                         updateEmittedEvents(timeMillis)
                         registerPlaybackTimerObservable()
                     }, { e: Throwable? ->
@@ -203,7 +199,7 @@ class PodXEventEmitterImpl
 
         // only post if there are new values
         if (currentImageEventList
-                .size != (podXImageEventMutableLiveData.value ?: listOf()).size) {
+                .size != (podXImageEventMutableLiveData.value)?.size ?: 0) {
             podXImageEventMutableLiveData.postValue(currentImageEventList)
         }
 
@@ -213,7 +209,8 @@ class PodXEventEmitterImpl
                     pendingWebEvent.timeEnd >= timeMillis
             }
         if (currentWebEventList
-                .size != (podXWebEventMutableLiveData.value ?: listOf()).size) {
+                .size != (podXWebEventMutableLiveData.value)?.size ?: 0) {
+            Timber.i("pushing out ${currentWebEventList.size} events")
             podXWebEventMutableLiveData.postValue(currentWebEventList)
         }
 
@@ -224,7 +221,7 @@ class PodXEventEmitterImpl
             }
         podXSupportEventMutableLiveData.postValue(currentSupportEventList)
         if (currentSupportEventList
-                .size != (podXSupportEventMutableLiveData.value ?: listOf()).size) {
+                .size != (podXSupportEventMutableLiveData.value)?.size ?: 0) {
             podXSupportEventMutableLiveData.postValue(currentSupportEventList)
         }
 

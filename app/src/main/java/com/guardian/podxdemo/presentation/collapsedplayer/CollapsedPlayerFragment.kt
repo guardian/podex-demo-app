@@ -103,9 +103,15 @@ class CollapsedPlayerFragment
     private fun setupPlayerControls() {
         playerViewModel
             .playerUiModel
-            .mediaButtonRes
-            .observe(this, Observer { imageId ->
-                binding.imagebuttonCollapsedPlayerPlaypause.setImageResource(imageId)
+            .mediaButtonIsPlaying
+            .observe(this, Observer { isPlaying ->
+                if (isPlaying) {
+                    binding.imagebuttonCollapsedPlayerPlaypause
+                        .setImageResource(R.drawable.baseline_pause_white_36)
+                } else {
+                    binding.imagebuttonCollapsedPlayerPlaypause
+                        .setImageResource(R.drawable.baseline_play_arrow_white_36)
+                }
             })
 
         binding

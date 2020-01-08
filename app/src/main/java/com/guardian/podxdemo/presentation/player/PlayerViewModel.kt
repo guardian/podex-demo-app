@@ -11,14 +11,13 @@ import com.guardian.core.mediaplayer.extensions.currentPlayBackPosition
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
-import com.guardian.podxdemo.R
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
 data class PlayerUiModel(
     val mediaMetadataLiveData: LiveData<MediaMetadataCompat>,
-    val mediaButtonRes: LiveData<Int>,
+    val mediaButtonIsPlaying: LiveData<Boolean>,
     val mediaPlaybackPositionLiveData: LiveData<Long>,
     val isPreparedLiveData: LiveData<Boolean>
 )
@@ -31,7 +30,7 @@ class PlayerViewModel
 
     val playerUiModel by lazy {
         PlayerUiModel(mediaMetadataMutableLiveData,
-            mutableMediaButtonRes,
+            mutableMediaButtonIsPlaying,
             mutableMediaPlaybackPosition,
             mutableIsPreparedLiveData)
     }
@@ -57,13 +56,10 @@ class PlayerViewModel
             )
         }
     }
-    private val mutableMediaButtonRes = MutableLiveData<Int>().apply {
+    private val mutableMediaButtonIsPlaying = MutableLiveData<Boolean>().apply {
         mediaSessionConnection.playbackState.observeForever { playbackState ->
             this.postValue(
-                when (playbackState.isPlaying) {
-                    true -> R.drawable.baseline_pause_white_36
-                    else -> R.drawable.baseline_play_arrow_white_36
-                }
+                playbackState.isPlaying
             )
         }
     }

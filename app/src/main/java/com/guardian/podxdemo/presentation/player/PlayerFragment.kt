@@ -5,6 +5,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +18,6 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPlayerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import com.guardian.podxdemo.utils.toTimestampMSS
-import timber.log.Timber
 import javax.inject.Inject
 
 class PlayerFragment
@@ -63,10 +63,18 @@ class PlayerFragment
 
         playerViewModel
             .playerUiModel
-            .mediaButtonRes
+            .mediaButtonIsPlaying
             .observe(
                 this,
-                Observer { res -> binding.mediaButton.setImageResource(res) }
+                Observer { isPlaying ->
+                    if (isPlaying) {
+                        binding.mediaButton
+                            .setImageResource(R.drawable.baseline_pause_circle_filled_black_48)
+                    } else {
+                        binding.mediaButton
+                            .setImageResource(R.drawable.baseline_play_circle_filled_black_48)
+                    }
+                }
             )
 
         playerViewModel
@@ -80,16 +88,49 @@ class PlayerFragment
         binding.mediaButton.setOnClickListener {
             playerViewModel.playPause()
         }
+
+        setupSeekBar()
     }
 
-    private fun setProgressBarPos(pos: Long) {
+    private fun setupSeekBar() {
+        binding.seekbarPlayerPosition
+            .max = PROGRESS_MAX
+
+        binding.seekbarPlayerPosition
+            .setOnSeekBarChangeListener (
+                object: SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(
+                        seekBar: SeekBar?,
+                        progress: Int,
+                        fromUser: Boolean
+                    ) {
+                        playerViewModel.seekToPosition(progress.toTimeInCurrentMedia())
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                }
+            )
+
+        playerViewModel
+            .playerUiModel
+            .mediaPlaybackPositionLiveData
+            .observe(this,
+                Observer{ playbackTime ->
+                    setSeekBarPos(playbackTime)
+                })
+    }
+
+    private fun setSeekBarPos(pos: Long) {
+        // if metadata is not set assume playback has not started
         val currentDuration = playerViewModel.playerUiModel
             .mediaMetadataLiveData
             .value
-            ?.duration!!
+            ?.duration ?: 0
 
-        Timber.i("setting progress to ${(pos.toDouble() / currentDuration * 100).toInt()}")
-        //binding.seekbarCollapsedPlayer.progress = (pos.toDouble() / currentDuration * 100).toInt()
+        binding.seekbarPlayerPosition
+            .progress = (pos.toDouble() / currentDuration * PROGRESS_MAX).toInt()
     }
 
     fun Int.toTimeInCurrentMedia(): Long {
@@ -99,6 +140,12 @@ class PlayerFragment
             .value
             ?.duration ?: 0
 
-        return (this.toDouble() / 100  * currentDuration).toLong()
+        return (this.toDouble() / PROGRESS_MAX  * currentDuration).toLong()
+    }
+
+    private companion object {
+        private const val PROGRESS_MAX = 1000
+        private const val THIRTY_SECONDS = 30000
+        private const val TEN_SECONDS = 10000
     }
 }

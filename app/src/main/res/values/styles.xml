@@ -8,6 +8,7 @@
         <item name="editTextStyle">@style/PodXEditText</item>
         <item name="android:textViewStyle">@style/PodXTextView</item>
         <item name="android:progressBarStyle">@style/PodXProgressBar</item>
+        <item name="seekBarStyle">@style/PodXSeekBar</item>
     </style>
 
     <style name="PodXTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
@@ -28,7 +29,9 @@
     </style>
 
     <style name="PodXSeekBar" parent="Widget.AppCompat.SeekBar">
-        <item name="android:thumb">@drawable/drawable_player_seek_bar_thumb</item>
+        <item name="android:progressTint">@color/highlightColor</item>
+        <item name="android:progressBackgroundTint">@color/seekbarBackground</item>
+        <item name="android:progressBackgroundTintMode">src_over</item>
     </style>
 
     <style name="PodXProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
