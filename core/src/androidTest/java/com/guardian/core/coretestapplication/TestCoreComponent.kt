@@ -10,7 +10,8 @@ import dagger.android.AndroidInjectionModule
 @Component(modules = [AndroidInjectionModule::class,
     MediaServiceTestModule::class,
     AbstractMediaServiceTestModule::class,
-    RoomModule::class])
+    RoomModule::class
+])
 interface TestCoreComponent {
     @Component.Builder
     interface Builder {
