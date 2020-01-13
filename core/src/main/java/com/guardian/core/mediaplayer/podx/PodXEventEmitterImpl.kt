@@ -133,7 +133,6 @@ class PodXEventEmitterImpl
                 nextEventObservable
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ timeMillis ->
-                        updateEmittedEvents(timeMillis)
                         registerPlaybackTimerObservable()
                     }, { e: Throwable? ->
                         Timber.e(e)
@@ -183,7 +182,6 @@ class PodXEventEmitterImpl
             }.min()
 
         val minEvent = listOf(imageMin, webMin, supportMin).minBy {
-            Timber.i("is null ${it == null}")
             it ?: Long.MAX_VALUE
         } ?: Long.MAX_VALUE
 
@@ -210,7 +208,6 @@ class PodXEventEmitterImpl
             }
         if (currentWebEventList
                 .size != (podXWebEventMutableLiveData.value)?.size ?: 0) {
-            Timber.i("pushing out ${currentWebEventList.size} events")
             podXWebEventMutableLiveData.postValue(currentWebEventList)
         }
 

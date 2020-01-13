@@ -62,7 +62,7 @@ class PodxEventEmitterTest {
     }
 
     @Test
-    fun testEmittingImageEvents() {
+    fun testEmittingImageEventsAfterSeek() {
         // aquire the lock to start the test that will run in the background
         testRunningMutex.tryLock()
 
@@ -74,15 +74,6 @@ class PodxEventEmitterTest {
 
             //instantiate an event emitter
             val podXEventEmitter = getPodXEventEmitter(connection)
-
-            //observe the events we want
-            podXEventEmitter.podXImageEventLiveData.observeForever {
-                Timber.i("updated podx images ${it.size}")
-            }
-
-            podXEventEmitter.podXWebEventLiveData.observeForever {
-                Timber.i("updated podx webs ${it.size}")
-            }
 
             // switch to the background with the media session
             mediaServiceTestScope.launch {
@@ -106,6 +97,60 @@ class PodxEventEmitterTest {
                 while (podXEventEmitter.podXImageEventLiveData.value?.size == 0) {}
 
                 assertThat(podXEventEmitter.podXImageEventLiveData.value?.size, `is`(2))
+
+
+                testRunningMutex.unlock()
+
+
+            }
+        }
+
+        // check if the test is still running in 10 seconds
+        mediaServiceTestScope.launch {
+            delay(10000)
+            assertThat(testRunningMutex.isLocked, `is`(false))
+        }
+
+        // wait until the test is completed before cleaning up
+        while (testRunningMutex.isLocked) {}
+    }
+
+    @Test
+    fun testEmittingWebEventsAfterSeek() {
+        // aquire the lock to start the test that will run in the background
+        testRunningMutex.tryLock()
+
+        // run on the main thread as transport controls cannot be created off a prepared thread
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+
+            // instantiate a local mediasessionconnection
+            val connection = getMediaSessionConnection()
+
+            //instantiate an event emitter
+            val podXEventEmitter = getPodXEventEmitter(connection)
+
+            // switch to the background with the media session
+            mediaServiceTestScope.launch {
+
+                // wait until the connection to the media browser is done
+                while (connection.isConnected.value != true) {}
+
+                connection.transportControls.playFromMediaId(
+                    InstrumentationMockedFeedDataSources.testFeedItem1.feedItemAudioUrl,
+                    null
+                )
+
+                podXEventEmitter.registerCurrentFeedItem(InstrumentationMockedFeedDataSources.testFeedItem1)
+
+                // until the play command is registered the player is still in its initial state
+                while (connection.playbackState.value?.state == PlaybackState.STATE_NONE) {}
+                while (connection.playbackState.value?.state == PlaybackState.STATE_BUFFERING) {}
+
+                //seek to a position in playback which has valid podXevents
+                connection.transportControls.seekTo(8000)
+                while (podXEventEmitter.podXWebEventLiveData.value?.size == 0) {}
+
+                assertThat(podXEventEmitter.podXWebEventLiveData.value?.size, `is`(2))
 
 
                 testRunningMutex.unlock()
