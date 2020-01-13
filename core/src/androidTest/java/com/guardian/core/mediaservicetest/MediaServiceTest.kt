@@ -47,7 +47,11 @@ class MediaServiceTest {
             .classLoader!!
             .getResourceAsStream("test_music_1.mp3")
 
-        InstrumentationMockedFeedDataSources.writeTestData(testMusic1)
+        val testMusic2 = this.javaClass
+            .classLoader!!
+            .getResourceAsStream("test_music_2.mp3")
+
+        InstrumentationMockedFeedDataSources.writeTestData(testMusic1, testMusic2)
     }
 
     @After

@@ -46,7 +46,11 @@ class PodxEventEmitterTest {
             .classLoader!!
             .getResourceAsStream("test_music_1.mp3")
 
-        InstrumentationMockedFeedDataSources.writeTestData(testMusic1)
+        val testMusic2 = this.javaClass
+            .classLoader!!
+            .getResourceAsStream("test_music_2.mp3")
+
+        InstrumentationMockedFeedDataSources.writeTestData(testMusic1, testMusic2)
     }
 
     @After
@@ -98,10 +102,10 @@ class PodxEventEmitterTest {
                 while (connection.playbackState.value?.state == PlaybackState.STATE_BUFFERING) {}
 
                 //seek to a position in playback which has valid podXevents
-                //connection.transportControls.seekTo(8000)
+                connection.transportControls.seekTo(8000)
                 while (podXEventEmitter.podXImageEventLiveData.value?.size == 0) {}
 
-                assertThat(podXEventEmitter.podXImageEventLiveData.value?.size, `is`(1))
+                assertThat(podXEventEmitter.podXImageEventLiveData.value?.size, `is`(2))
 
 
                 testRunningMutex.unlock()
