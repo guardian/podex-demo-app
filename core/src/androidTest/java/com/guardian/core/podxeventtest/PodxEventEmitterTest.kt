@@ -10,6 +10,8 @@ import com.guardian.core.mediaplayer.MediaService
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.mediaplayer.podx.PodXEventEmitterImpl
+import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.core.testutils.InstrumentationMockedEventDataSources
 import com.guardian.core.testutils.InstrumentationMockedFeedDataSources
 import kotlinx.coroutines.CoroutineScope
@@ -156,6 +158,77 @@ class PodxEventEmitterTest {
                 testRunningMutex.unlock()
 
 
+            }
+        }
+
+        // check if the test is still running in 10 seconds
+        mediaServiceTestScope.launch {
+            delay(10000)
+            assertThat(testRunningMutex.isLocked, `is`(false))
+        }
+
+        // wait until the test is completed before cleaning up
+        while (testRunningMutex.isLocked) {}
+    }
+
+    @Test
+    fun testEmittingImageAndWebEventsAfterSeekViaLiveData() {
+        // aquire the lock to start the test that will run in the background
+        testRunningMutex.tryLock()
+
+        //store observed changes to the emitter with these vars
+        var observedImageEvents = listOf<PodXImageEvent>()
+        var observedWebEvents = listOf<PodXWebEvent>()
+
+        // run on the main thread as transport controls cannot be created off a prepared thread
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+
+            // instantiate a local mediasessionconnection
+            val connection = getMediaSessionConnection()
+
+            //instantiate an event emitter
+            val podXEventEmitter = getPodXEventEmitter(connection)
+
+            //observe the emitter
+            podXEventEmitter.podXWebEventLiveData.observeForever {
+                observedWebEvents = it
+            }
+
+            podXEventEmitter.podXImageEventLiveData.observeForever {
+                observedImageEvents = it
+            }
+
+            // switch to the background with the media session
+            mediaServiceTestScope.launch {
+                // wait until the connection to the media browser is done
+                while (connection.isConnected.value != true) {}
+
+                connection.transportControls.playFromMediaId(
+                    InstrumentationMockedFeedDataSources.testFeedItem1.feedItemAudioUrl,
+                    null
+                )
+
+                podXEventEmitter.registerCurrentFeedItem(InstrumentationMockedFeedDataSources.testFeedItem1)
+
+                // until the play command is registered the player is still in its initial state
+                while (connection.playbackState.value?.state == PlaybackState.STATE_NONE) {}
+                while (connection.playbackState.value?.state == PlaybackState.STATE_BUFFERING) {}
+
+                //seek to a position in playback which has valid podXevents
+                connection.transportControls.seekTo(8000)
+
+                //todo: verify that the observed updates will be complete by the time this happens
+                while (connection.playbackState.value?.position != 8000L) {}
+
+                assert(observedImageEvents.containsAll(
+                    InstrumentationMockedEventDataSources.testFeedItem1ImageList
+                ))
+
+                assert(observedWebEvents.containsAll(
+                    InstrumentationMockedEventDataSources.testFeedItem1WebList
+                ))
+
+                testRunningMutex.unlock()
             }
         }
 
