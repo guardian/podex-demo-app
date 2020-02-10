@@ -1,5 +1,6 @@
 package com.guardian.podxdemo.presentation.player
 
+import android.media.session.PlaybackState
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.media.MediaMetadataCompat
@@ -51,9 +52,12 @@ class PlayerViewModel
             Timber.i( "posting ${it.currentPlayBackPosition}")
             checkPlaybackPosition()
 
-            this.postValue(
-                it.currentPlayBackPosition
-            )
+            if (it.playbackState == PlaybackState.STATE_PLAYING) {
+                this.postValue(
+                    it.currentPlayBackPosition
+                )
+            }
+
         }
     }
     private val mutableMediaButtonIsPlaying = MutableLiveData<Boolean>().apply {
@@ -107,8 +111,6 @@ class PlayerViewModel
     }
 
     fun seekToPosition(time: Long) {
-        val transportControls = mediaSessionConnection.transportControls
-
         val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
         if (isPrepared) {
             mediaSessionConnection.transportControls.seekTo(time)

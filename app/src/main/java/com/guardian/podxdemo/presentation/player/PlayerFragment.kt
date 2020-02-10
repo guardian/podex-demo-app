@@ -18,6 +18,7 @@ import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPlayerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import com.guardian.podxdemo.utils.toTimestampMSS
+import kotlinx.coroutines.sync.Mutex
 import javax.inject.Inject
 
 class PlayerFragment
@@ -96,20 +97,27 @@ class PlayerFragment
         binding.seekbarPlayerPosition
             .max = PROGRESS_MAX
 
+        val seekBarMutex = Mutex(false)
+
         binding.seekbarPlayerPosition
             .setOnSeekBarChangeListener (
                 object: SeekBar.OnSeekBarChangeListener {
+                    //ignore the scanning
                     override fun onProgressChanged(
                         seekBar: SeekBar?,
                         progress: Int,
                         fromUser: Boolean
-                    ) {
-                        playerViewModel.seekToPosition(progress.toTimeInCurrentMedia())
+                    ) {}
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {seekBarMutex.tryLock(this)}
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                        seekBarMutex.unlock(this)
+                        val seekToIndex = seekBar?.progress?.toTimeInCurrentMedia()
+                        if (seekToIndex != null) {
+                            playerViewModel.seekToPosition(seekToIndex)
+                        }
                     }
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
                 }
             )
 
@@ -118,7 +126,9 @@ class PlayerFragment
             .mediaPlaybackPositionLiveData
             .observe(this,
                 Observer{ playbackTime ->
-                    setSeekBarPos(playbackTime)
+                    if (!seekBarMutex.isLocked) {
+                        setSeekBarPos(playbackTime)
+                    }
                 })
     }
 
