@@ -2,6 +2,10 @@
 <resources>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="podx_image_margin">32dp</dimen>
-    <dimen name="collapsed_player_margin">16dp</dimen>
+    <dimen name="collapsed_player_margin">8dp</dimen>
     <dimen name="collapsed_player_image">64dp</dimen>
+    <dimen name="collapsed_player_control_size">32dp</dimen>
+    <dimen name="podxlist_image_size">64dp</dimen>
+    <dimen name="podxlist_image_margin">8dp</dimen>
+    <dimen name="player_control_size">32dp</dimen>
 </resources>

@@ -10,4 +10,5 @@
     <color name="eightyPercentWhite">#CCFFFFFF</color>
     <color name="highlightColor">#FFFFE600</color>
     <color name="seekbarBackground">#FFB7B7B7</color>
+    <color name="control_grey">#AA767676</color>
 </resources>

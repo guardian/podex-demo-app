@@ -23,102 +23,110 @@
             name="duration"
             type="String"/>
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="2dp">
-
-        <Toolbar
-            android:id="@+id/toolbar_player"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintlayout_player_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageview_play_album_art"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1"
-            android:scaleType="fitXY"
-            android:layout_margin="@dimen/podx_image_margin"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_player"
-            android:contentDescription="@string/playerfragment_album_art_alt"
-            app:srcCompat="@android:color/transparent"
-            imageUrl="@{artUrlString}"/>
+                <Toolbar
+                    android:id="@+id/toolbar_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/textview_play_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:textAlignment="center"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@{title}"
-            android:textStyle="bold"
-            android:textColor="@color/darkTextColor"/>
+                <ImageView
+                    android:id="@+id/imageview_play_album_art"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1"
+                    android:scaleType="fitXY"
+                    android:layout_margin="@dimen/podx_image_margin"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar_player"
+                    android:contentDescription="@string/playerfragment_album_art_alt"
+                    app:srcCompat="@android:color/transparent"
+                    imageUrl="@{artUrlString}"/>
 
-        <TextView
-            android:id="@+id/textview_play_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:textAlignment="center"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@{description}"
-            android:textColor="@color/darkTextColor" />
+                <TextView
+                    android:id="@+id/textview_play_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:textAlignment="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@{title}"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkTextColor"/>
 
-        <ImageButton
-            android:id="@+id/media_button"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginTop="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitCenter"
-            android:tint="@color/highlightColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview_play_subtitle"
-            app:srcCompat="@drawable/baseline_play_circle_filled_black_48"
-            tools:ignore="ContentDescription" />
+                <TextView
+                    android:id="@+id/textview_play_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:textAlignment="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@{description}"
+                    android:textColor="@color/darkTextColor" />
 
-        <SeekBar
-            android:id="@+id/seekbar_player_position"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/media_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+                <ImageButton
+                    android:id="@+id/media_button"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_marginTop="10dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/highlightColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textview_play_subtitle"
+                    app:srcCompat="@drawable/baseline_play_circle_filled_black_48"
+                    tools:ignore="ContentDescription" />
+
+                <SeekBar
+                    android:id="@+id/seekbar_player_position"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@id/media_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="64dp" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/divider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_end="64dp" />
 
-        <fragment
-            android:id="@+id/fragment_player_podx_events_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <fragment
+                android:id="@+id/fragment_player_podx_events_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
+                app:layout_constraintTop_toBottomOf="@id/constraintlayout_player_container"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

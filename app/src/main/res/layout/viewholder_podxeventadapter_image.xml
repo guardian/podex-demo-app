@@ -8,17 +8,37 @@
     
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{podXThumbnailData.onClickListener}">
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="@dimen/podx_image_margin"
+            android:layout_width="@dimen/podxlist_image_size"
+            android:layout_height="@dimen/podxlist_image_size"
+            android:layout_margin="@dimen/podxlist_image_margin"
             imageUrl="@{podXThumbnailData.imageUrlString}"
-            />
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+
+            android:text="@{podXThumbnailData.captionString}"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/button_podxeventviewholder_expand"
+            android:layout_width="@dimen/player_control_size"
+            android:layout_height="@dimen/player_control_size"
+            android:layout_margin="@dimen/podxlist_image_margin"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/baseline_keyboard_arrow_down_black_24"
+            android:tint="@color/control_grey"
+            android:background="?attr/selectableItemBackground"/>
+
 
     </LinearLayout>
 </layout>

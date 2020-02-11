@@ -134,7 +134,7 @@ class PodXEventsContainerFragment
         binding
             .recyclerviewPodxeventscontainerEvents
             .layoutManager = LinearLayoutManager(
-            context, LinearLayoutManager.HORIZONTAL, false
+            context, LinearLayoutManager.VERTICAL, false
         )
 
         binding

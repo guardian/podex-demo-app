@@ -35,10 +35,10 @@
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_seekbackwards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
             android:background="?attr/selectableItemBackground"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:src="@drawable/baseline_replay_10_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_playpause"
@@ -47,10 +47,10 @@
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_playpause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
             android:background="?attr/selectableItemBackground"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_seekforwards"
             app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_seekbackwards"
@@ -58,10 +58,10 @@
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_seekforwards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
             android:background="?attr/selectableItemBackground"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:src="@drawable/baseline_forward_30_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
