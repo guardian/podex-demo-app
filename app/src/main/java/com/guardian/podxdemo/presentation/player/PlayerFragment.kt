@@ -49,19 +49,12 @@ class PlayerFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playerViewModel
-            .playerUiModel
-            .mediaMetadataLiveData
-            .observe(
-                this,
-                Observer<MediaMetadataCompat> { mediaItem ->
-                    binding.title = mediaItem.title
-                    binding.description = mediaItem.description.description.toString()
-                    binding.artUrlString = mediaItem.albumArtUri.toString()
-                    binding.duration = mediaItem.duration.toTimestampMSS(context!!)
-                }
-            )
+        setupPlayerControls()
+        setupMediaInfo()
+        setupSeekBar()
+    }
 
+    private fun setupPlayerControls() {
         playerViewModel
             .playerUiModel
             .mediaButtonIsPlaying
@@ -78,19 +71,34 @@ class PlayerFragment
                 }
             )
 
+        // Setup UI handlers for buttons
+        binding.mediaButton.setOnClickListener {
+            playerViewModel.playPause()
+        }
+    }
+
+    private fun setupMediaInfo() {
+        playerViewModel
+            .playerUiModel
+            .mediaMetadataLiveData
+            .observe(
+                this,
+                Observer<MediaMetadataCompat> { mediaItem ->
+                    binding.title = mediaItem.title
+                    binding.description = mediaItem.description.description.toString()
+                    binding.artUrlString = mediaItem.albumArtUri.toString()
+                    binding.duration = mediaItem.duration.toTimestampMSS(context!!)
+                }
+            )
+
+
+
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData.observe(
             this,
             Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(context!!) }
         )
-
-        // Setup UI handlers for buttons
-        binding.mediaButton.setOnClickListener {
-            playerViewModel.playPause()
-        }
-
-        setupSeekBar()
     }
 
     private fun setupSeekBar() {

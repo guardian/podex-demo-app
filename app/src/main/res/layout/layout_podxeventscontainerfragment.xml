@@ -9,6 +9,15 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
+
+        <TextView
+            android:drawableStart="@drawable/baseline_info_black_24dp_modified_podxevent"
+            android:drawableTint="@color/highlightColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eventslist_title"
+            android:textColor="@style/PodXTitleTextAppearenceDark"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_podxeventscontainer_events"
             android:layout_width="match_parent"

@@ -23,11 +23,10 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-
             android:text="@{podXThumbnailData.captionString}"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/darkTextColor"/>
 
         <ImageButton
             android:id="@+id/button_podxeventviewholder_expand"

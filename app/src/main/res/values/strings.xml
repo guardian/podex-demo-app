@@ -11,4 +11,5 @@
     <string name="duration_format">%d:%02d</string>
     <string name="title_searchfragment">Podcasts</string>
     <string name="menu_search">Search</string>
+    <string name="eventslist_title">Events</string>
 </resources>

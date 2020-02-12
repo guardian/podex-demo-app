@@ -39,4 +39,10 @@
         <item name="android:progressBackgroundTint">@color/seekbarBackground</item>
         <item name="android:progressBackgroundTintMode">src_over</item>
     </style>
+
+    <style name="PodXTitleTextAppearenceDark">
+        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textSize">@dimen/podx_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

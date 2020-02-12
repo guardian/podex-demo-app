@@ -26,6 +26,9 @@ class PodXEventEmitterImpl
 ) :
     PodXEventEmitter {
 
+    private val currentFeedDisposable = CompositeDisposable()
+    private val currentFeedItemDisposable = CompositeDisposable()
+
     init {
         mediaSessionConnection.playbackState.observeForever {
             registerPlaybackTimerObservable()
@@ -55,9 +58,6 @@ class PodXEventEmitterImpl
     private val pendingPodXImageEvents: MutableList<PodXImageEvent> = mutableListOf()
     private val pendingPodXWebEvents: MutableList<PodXWebEvent> = mutableListOf()
     private val pendingPodXSupportEvents: MutableList<PodXSupportEvent> = mutableListOf()
-
-    private val currentFeedDisposable = CompositeDisposable()
-    private val currentFeedItemDisposable = CompositeDisposable()
 
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.clear()
