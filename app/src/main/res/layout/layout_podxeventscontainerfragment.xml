@@ -9,14 +9,24 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-
-        <TextView
-            android:drawableStart="@drawable/baseline_info_black_24dp_modified_podxevent"
-            android:drawableTint="@color/highlightColor"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/eventslist_title"
-            android:textColor="@style/PodXTitleTextAppearenceDark"/>
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="@dimen/podxlist_image_margin"
+                android:src="@drawable/baseline_info_black_24_modified"
+                android:tint="@color/highlightColor"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eventslist_title"
+                android:textAppearance="@style/PodXTitleTextAppearenceDark"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_podxeventscontainer_events"

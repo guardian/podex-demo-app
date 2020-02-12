@@ -64,9 +64,23 @@
             android:scaleType="fitXY"
             android:src="@drawable/baseline_forward_30_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_podxevents"
             app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_playpause"
             app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_collapsed_player_podxevents"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_info_black_24_modified"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_seekforwards"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player"
+            android:tint="@color/transparentPrimary"
+            android:tintMode="src_in"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

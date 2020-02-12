@@ -12,6 +12,7 @@ import com.guardian.core.mediaplayer.extensions.currentPlayBackPosition
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
+import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,12 +21,14 @@ data class PlayerUiModel(
     val mediaMetadataLiveData: LiveData<MediaMetadataCompat>,
     val mediaButtonIsPlaying: LiveData<Boolean>,
     val mediaPlaybackPositionLiveData: LiveData<Long>,
-    val isPreparedLiveData: LiveData<Boolean>
+    val isPreparedLiveData: LiveData<Boolean>,
+    val hasPodXEventsLiveData: LiveData<Boolean>
 )
 
 class PlayerViewModel
 @Inject constructor(
-    private val mediaSessionConnection: MediaSessionConnection
+    private val mediaSessionConnection: MediaSessionConnection,
+    private val podXEventEmitter: PodXEventEmitter
 ) :
     ViewModel() {
 
@@ -33,7 +36,8 @@ class PlayerViewModel
         PlayerUiModel(mediaMetadataMutableLiveData,
             mutableMediaButtonIsPlaying,
             mutableMediaPlaybackPosition,
-            mutableIsPreparedLiveData)
+            mutableIsPreparedLiveData,
+            mutableHasPodXEventsLiveData)
     }
 
     private val compositeDisposable = CompositeDisposable()
@@ -73,6 +77,27 @@ class PlayerViewModel
             this.postValue(playbackState.isPrepared)
         }
     }
+
+    private val mutableHasPodXEventsLiveData = MutableLiveData<Boolean>().apply{
+        podXEventEmitter.podXImageEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXWebEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXSupportEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+    }
+
+    private fun checkAllEvents(): Boolean {
+        return podXEventEmitter.podXImageEventLiveData.value?.isNotEmpty() == true &&
+            podXEventEmitter.podXWebEventLiveData.value?.isNotEmpty() == true &&
+            podXEventEmitter.podXSupportEventLiveData.value?.isNotEmpty() == true
+    }
+
 
     /**
      * changes the playback status
