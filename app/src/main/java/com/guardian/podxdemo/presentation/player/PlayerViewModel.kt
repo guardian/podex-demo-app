@@ -93,8 +93,8 @@ class PlayerViewModel
     }
 
     private fun checkAllEvents(): Boolean {
-        return podXEventEmitter.podXImageEventLiveData.value?.isNotEmpty() == true &&
-            podXEventEmitter.podXWebEventLiveData.value?.isNotEmpty() == true &&
+        return podXEventEmitter.podXImageEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXWebEventLiveData.value?.isNotEmpty() == true ||
             podXEventEmitter.podXSupportEventLiveData.value?.isNotEmpty() == true
     }
 

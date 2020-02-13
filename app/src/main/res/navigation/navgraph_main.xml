@@ -26,6 +26,10 @@
         android:id="@+id/playerFragment"
         android:name="com.guardian.podxdemo.presentation.player.PlayerFragment"
         android:label="PlayerFragment" >
+        <argument
+            android:name="scrollToEvents"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/podXImageFragment"

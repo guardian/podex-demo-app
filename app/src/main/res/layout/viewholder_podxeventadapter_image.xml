@@ -35,7 +35,7 @@
             android:layout_margin="@dimen/podxlist_image_margin"
             android:layout_gravity="center_vertical"
             android:src="@drawable/baseline_keyboard_arrow_down_black_24"
-            android:tint="@color/control_grey"
+            android:tint="@color/controlGrey"
             android:background="?attr/selectableItemBackground"/>
 
 

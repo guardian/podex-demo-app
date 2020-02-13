@@ -1,9 +1,11 @@
 package com.guardian.podxdemo.presentation.collapsedplayer
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -49,6 +51,7 @@ class CollapsedPlayerFragment
         setupAlbumArt()
         setupProgressBar()
         setupPlayerControls()
+        setupEventButton()
     }
 
     private fun setupRootView() {
@@ -140,6 +143,30 @@ class CollapsedPlayerFragment
                 }
             }
 
+    }
+
+    private fun setupEventButton() {
+        playerViewModel.playerUiModel
+            .hasPodXEventsLiveData
+            .observe(this, Observer{ hasPodXEvents: Boolean ->
+                if (hasPodXEvents) {
+                    binding.imagebuttonCollapsedPlayerPodxevents
+                        .imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(context!!, R.color.highlightColor)
+                    )
+                } else {
+                    binding.imagebuttonCollapsedPlayerPodxevents
+                        .imageTintList = ColorStateList.valueOf(
+                        ContextCompat.getColor(context!!, R.color.transparentPrimary)
+                    )
+                }
+            })
+
+        binding.imagebuttonCollapsedPlayerPodxevents
+            .setOnClickListener {
+                findNavController()
+                    .navigate(R.id.action_global_playerFragment)
+            }
     }
 
     private fun setProgressBarPos(pos: Long) {
