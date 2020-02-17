@@ -78,6 +78,22 @@ class PlayerFragment
         binding.mediaButton.setOnClickListener {
             playerViewModel.playPause()
         }
+
+        binding.buttonPlayerRewindTen.setOnClickListener {
+            val currentTime = playerViewModel.playerUiModel.mediaPlaybackPositionLiveData.value
+
+            if (currentTime != null) {
+                playerViewModel.seekToPosition(currentTime - TEN_SECONDS)
+            }
+        }
+
+        binding.buttonPlayerFastForwardThirty.setOnClickListener {
+            val currentTime = playerViewModel.playerUiModel.mediaPlaybackPositionLiveData.value
+
+            if (currentTime != null) {
+                playerViewModel.seekToPosition(currentTime + THIRTY_SECONDS)
+            }
+        }
     }
 
     private fun setupMediaInfo() {
