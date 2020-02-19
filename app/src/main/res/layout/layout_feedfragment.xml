@@ -46,10 +46,30 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
+                                android:layout_marginStart="10dp"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
                                 app:layout_constrainedWidth="true"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toStartOf="@id/imageview_feed_mainimage"
+                                app:layout_constraintStart_toEndOf="@id/imageview_feed_mainimage"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:text="@{feed.title}"/>
+
+                            <TextView
+                                android:id="@+id/textview_feed_creator"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginStart="10dp"
+                                android:ellipsize="end"
+                                android:textSize="18sp"
+                                app:layout_constrainedWidth="true"
+                                app:layout_constraintTop_toBottomOf="@id/textview_feed_title"
+                                app:layout_constraintStart_toEndOf="@id/imageview_feed_mainimage"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 android:text="@{feed.title}"/>
 
                             <TextView
@@ -58,9 +78,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginEnd="10dp"
-                                app:layout_constraintTop_toBottomOf="@id/textview_feed_title"
+                                app:layout_constraintTop_toBottomOf="@id/imageview_feed_mainimage"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toStartOf="@id/imageview_feed_mainimage"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:maxLines="4"
+                                android:ellipsize="marquee"
                                 android:text="@{feed.description}"/>
 
                             <ImageView
