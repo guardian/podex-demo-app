@@ -1,9 +1,9 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryLightColor</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/primaryDarkColor</item>
         <item name="android:textAppearance">@style/PodXTextAppearance</item>
         <item name="editTextStyle">@style/PodXEditText</item>
         <item name="android:textViewStyle">@style/PodXTextView</item>
@@ -12,7 +12,7 @@
     </style>
 
     <style name="PodXTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColor">@color/primaryDarkColor</item>
     </style>
 
     <style name="PodXTextAppearanceDark" parent="TextAppearance.MaterialComponents.Body1">
@@ -44,5 +44,10 @@
         <item name="android:textColor">@color/darkTextColor</item>
         <item name="android:textSize">@dimen/podx_title</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name = "PodXAppBarDark">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="android:textColorPrimary">@color/primaryLightColor</item>
     </style>
 </resources>

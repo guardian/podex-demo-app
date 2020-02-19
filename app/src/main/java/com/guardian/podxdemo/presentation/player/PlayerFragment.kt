@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -55,6 +56,11 @@ class PlayerFragment
         setupPlayerControls()
         setupMediaInfo()
         setupSeekBar()
+
+        (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPlayer)
+        (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
+        //setHasOptionsMenu(true)
     }
 
     private fun setupPlayerControls() {

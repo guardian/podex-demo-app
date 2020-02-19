@@ -30,7 +30,8 @@
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlways">
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:theme="@style/PodXAppBarDark">
 
                     <LinearLayout
                         android:id="@+id/toolbar_search_container"
@@ -41,7 +42,7 @@
                             android:id="@+id/toolbar_search"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:title="@string/title_searchfragment"/>
+                            app:title="@string/title_searchfragment" />
 
                         <EditText
                             android:id="@+id/edittext_search_term"
