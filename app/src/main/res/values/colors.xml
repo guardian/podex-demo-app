@@ -5,6 +5,7 @@
     <color name="primaryDarkColor">#000036</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="darkTextColor">#000000</color>
+    <color name="secondaryDarkTextColor">#5A5A5A</color>
     <color name="sixtyPercentWhite">#99FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="eightyPercentWhite">#CCFFFFFF</color>

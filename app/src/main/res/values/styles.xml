@@ -19,6 +19,18 @@
         <item name="android:textColor">@color/darkTextColor</item>
     </style>
 
+    <style name="PodXTextAppearanceFeedTime" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="PodXTextAppearanceFeedDate" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/secondaryDarkTextColor</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="PodXEditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/sixtyPercentWhite</item>
         <item name="android:backgroundTint">@color/sixtyPercentWhite</item>

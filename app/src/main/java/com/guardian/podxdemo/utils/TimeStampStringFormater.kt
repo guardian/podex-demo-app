@@ -24,8 +24,8 @@ fun Long.toFeedDisplayTime(): String {
     val minutes = floor(this / 1E3).toInt() / 60
     val seconds = floor(this / 1E3).toInt() - (minutes * 60)
     return if (minutes <= 0) {
-        "%dm".format(minutes)
-    } else {
         "%ds".format(seconds)
+    } else {
+        "%dm".format(minutes)
     }
 }

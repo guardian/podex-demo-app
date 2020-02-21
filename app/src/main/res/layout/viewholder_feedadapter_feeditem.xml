@@ -9,7 +9,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/textview_feeditem_date"
@@ -17,9 +17,12 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_feeditem_playpause"
+            android:layout_marginEnd="10dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            android:text="@{feedItem.pubDate.toString()}"/>
+            android:textAppearance="@style/PodXTextAppearanceFeedDate"
+            displayDate="@{feedItem.pubDate}"/>
 
         <TextView
             android:id="@+id/textview_feeditem_title"
@@ -28,7 +31,9 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/textview_feeditem_date"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_feeditem_playpause"
+            android:layout_marginEnd="10dp"
             android:textAppearance="@style/PodXTextAppearanceDark"
             android:text="@{feedItem.title}"/>
 
@@ -39,16 +44,34 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/textview_feeditem_title"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            timeStampMs="@{feedItem.lengthMs}"/>
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_feeditem_playpause"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="6dp"
+            android:textAppearance="@style/PodXTextAppearanceFeedTime"
+            timeStampMs="@{feedItem.lengthMs}" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:background="@color/controlGrey"/>
+
+        <ImageButton
+            android:id="@+id/imagebutton_feeditem_playpause"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/baseline_play_circle_filled_black_48"
+            android:tint="@color/highlightColor"
+            android:tintMode="src_in"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintDimensionRatio="1"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
