@@ -13,7 +13,8 @@ import java.util.concurrent.Executor
 class FeedListAdapter(
     callback: DiffUtil.ItemCallback<FeedItem>,
     executor: Executor,
-    val handleSelection: (FeedItem) -> Unit
+    val handleSelection: (FeedItem) -> Unit,
+    val handlePlayPause: (FeedItem) -> Unit
 ) :
     DataBoundListAdapter<FeedItem, ViewholderFeedadapterFeeditemBinding>(callback, executor) {
     override fun createBinding(parent: ViewGroup): ViewholderFeedadapterFeeditemBinding {
@@ -28,5 +29,6 @@ class FeedListAdapter(
     override fun bind(holder: ViewholderFeedadapterFeeditemBinding, item: FeedItem) {
         holder.feedItem = item
         holder.root.setOnClickListener { handleSelection(item) }
+        holder.imagebuttonFeeditemPlaypause.setOnClickListener { handlePlayPause(item) }
     }
 }

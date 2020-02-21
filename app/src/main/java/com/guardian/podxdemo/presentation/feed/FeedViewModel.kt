@@ -9,6 +9,8 @@ import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.id
+import com.guardian.core.mediaplayer.extensions.isPlayEnabled
+import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.search.SearchResult
@@ -89,6 +91,29 @@ class FeedViewModel
         if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
             transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
             podXEventEmitter.registerCurrentFeedItem(feedItem)
+        }
+    }
+
+    fun attemptPlaybackOrPause(feedItem: FeedItem) {
+        val nowPlaying = mediaSessionConnection.nowPlaying.value
+        val transportControls = mediaSessionConnection.transportControls
+
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
+            transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
+            podXEventEmitter.registerCurrentFeedItem(feedItem)
+        } else {
+            mediaSessionConnection.playbackState.value?.let { playbackState ->
+                when {
+                    playbackState.isPlaying -> transportControls.pause()
+                    playbackState.isPlayEnabled -> transportControls.play()
+                    else -> {
+                        Timber.w("%s%s", "Playable item clicked but neither play ",
+                            "nor pause are enabled!"
+                        )
+                    }
+                }
+            }
         }
     }
 }

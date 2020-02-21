@@ -90,20 +90,23 @@ class FeedFragment
                     return oldItem.title == newItem.title
                 }
             },
-            executor = executor
-        ) { feedItem ->
-            feedViewModel.prepareFeedItemForPlayback(feedItem)
-            val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
-            findNavController()
-                .navigate(action)
-        }.apply {
-            feedViewModel.uiModel.feedItemData.observe(
-                viewLifecycleOwner,
-                Observer { feedItemList ->
-                    Timber.i("returned items ${feedItemList.size}")
-                    submitList(feedItemList)
-                }
-            )
-        }
+            executor = executor,
+            handleSelection = { feedItem ->
+                feedViewModel.prepareFeedItemForPlayback(feedItem)
+                val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
+                findNavController()
+                    .navigate(action)
+            },
+            handlePlayPause = {feedItem ->
+                feedViewModel.attemptPlaybackOrPause(feedItem)
+            }).apply {
+                feedViewModel.uiModel.feedItemData.observe(
+                    viewLifecycleOwner,
+                    Observer { feedItemList ->
+                        Timber.i("returned items ${feedItemList.size}")
+                        submitList(feedItemList)
+                    }
+                )
+            }
     }
 }
