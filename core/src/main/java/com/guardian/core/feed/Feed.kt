@@ -15,6 +15,7 @@ data class Feed(
     @PrimaryKey
     val feedUrlString: String,
     val title: String,
+    val author: String,
     val feedImageUrlString: String,
     val description: String
 )

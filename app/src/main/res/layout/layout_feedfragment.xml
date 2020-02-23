@@ -70,7 +70,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/textview_feed_title"
                                 app:layout_constraintStart_toEndOf="@id/imageview_feed_mainimage"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                android:text="@{feed.title}"/>
+                                android:text="@{feed.author}"/>
 
                             <TextView
                                 android:id="@+id/textview_feed_description"

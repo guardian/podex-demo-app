@@ -48,6 +48,7 @@ class FeedViewModel
             Feed(
                 feedUrlString = searchResult.feedUrlString,
                 title = searchResult.title,
+                author = "",
                 feedImageUrlString = searchResult.imageUrlString,
                 description = ""
             )

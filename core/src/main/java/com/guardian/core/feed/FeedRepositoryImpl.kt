@@ -62,6 +62,7 @@ class FeedRepositoryImpl
         return feedDao.getFeedForUrlString(feedUrl)
     }
 
+    @Suppress("DEPRECATION")
     private fun mapFeedObjectFromXmlFeedObjectAndCache(feedXmlDataObject: FeedXmlDataObject, feedUrl: String) {
         val feedImage: String = feedXmlDataObject.itunesImage.attributes["href"]?.value
             ?: feedXmlDataObject.image.url
@@ -74,6 +75,7 @@ class FeedRepositoryImpl
 
         Feed(
             title = feedXmlDataObject.title,
+            author = feedXmlDataObject.author,
             description = feedDescription.toString(),
             feedUrlString = feedUrl,
             feedImageUrlString = feedImage

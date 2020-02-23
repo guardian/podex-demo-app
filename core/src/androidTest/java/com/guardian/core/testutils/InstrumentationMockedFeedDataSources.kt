@@ -22,6 +22,7 @@ object InstrumentationMockedFeedDataSources {
     val testFeed: Feed = Feed(
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
         title = "PodX Test Feed",
+        author = "The Guardian",
         feedImageUrlString = "https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg",
         description = "This is a test feed using audio where Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you. There is additional data to show information about Mark Zuckerburg's dog while the episode plays back."
     )
