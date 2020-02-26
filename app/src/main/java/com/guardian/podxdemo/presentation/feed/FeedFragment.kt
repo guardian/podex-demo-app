@@ -107,8 +107,19 @@ class FeedFragment
                     feedViewModel.uiModel.nowPlayingIdLiveData.observe(
                         this,
                         Observer { nowPlayingId ->
+                            val isPlaying = feedViewModel.uiModel.isPlayingLiveData.value ?: false
                             isItemPlayingLiveData
-                                .postValue(feedItem.feedItemAudioUrl == nowPlayingId)
+                                .postValue((feedItem.feedItemAudioUrl == nowPlayingId)
+                                    && isPlaying)
+                        })
+
+                    feedViewModel.uiModel.isPlayingLiveData.observe(
+                        this,
+                        Observer { isPlaying ->
+                            val nowPlayingId = feedViewModel.uiModel.nowPlayingIdLiveData.value
+                            isItemPlayingLiveData
+                                .postValue((feedItem.feedItemAudioUrl == nowPlayingId)
+                                    && isPlaying)
                         })
                 }
             }).apply {
