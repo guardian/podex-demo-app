@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -99,6 +100,17 @@ class FeedFragment
             },
             handlePlayPause = {feedItem ->
                 feedViewModel.attemptPlaybackOrPause(feedItem)
+
+            },
+            bindIsPlaying = {feedItem ->
+                MutableLiveData<Boolean>().also{ isItemPlayingLiveData ->
+                    feedViewModel.uiModel.nowPlayingIdLiveData.observe(
+                        this,
+                        Observer { nowPlayingId ->
+                            isItemPlayingLiveData
+                                .postValue(feedItem.feedItemAudioUrl == nowPlayingId)
+                        })
+                }
             }).apply {
                 feedViewModel.uiModel.feedItemData.observe(
                     viewLifecycleOwner,

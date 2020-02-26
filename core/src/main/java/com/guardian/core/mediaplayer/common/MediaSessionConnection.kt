@@ -97,7 +97,11 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            nowPlaying.postValue(metadata ?: NOTHING_PLAYING)
+            if (metadata?.size() != 0) {
+                nowPlaying.postValue(metadata)
+            } else {
+                nowPlaying.postValue(NOTHING_PLAYING)
+            }
         }
 
         override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {

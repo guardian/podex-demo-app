@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 data class FeedUiModel(
     val feedData: LiveData<Feed>,
-    val feedItemData: LiveData<List<FeedItem>>
+    val feedItemData: LiveData<List<FeedItem>>,
+    val nowPlayingIdLiveData: LiveData<String?>
 )
 
 class FeedViewModel
@@ -33,12 +34,19 @@ class FeedViewModel
     val uiModel by lazy {
         FeedUiModel(
             mutableFeedData,
-            mutableFeedItemData
+            mutableFeedItemData,
+            mutableNowPlayingIdLiveData
         )
     }
 
     private val mutableFeedData: MutableLiveData<Feed> = MutableLiveData()
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
+    private val mutableNowPlayingIdLiveData = MutableLiveData<String?>().apply{
+        mediaSessionConnection.nowPlaying
+            .observeForever {
+                this.postValue(it.id)
+            }
+    }
 
     private val feedDisposable = CompositeDisposable()
     private val feedItemDisposable = CompositeDisposable()
