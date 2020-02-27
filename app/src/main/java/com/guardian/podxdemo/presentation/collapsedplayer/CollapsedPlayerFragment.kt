@@ -58,7 +58,7 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .isPreparedLiveData
-            .observe(this, Observer { isPlaying ->
+            .observe(viewLifecycleOwner, Observer { isPlaying ->
                 binding.constraintlayoutCollapsedPlayerRoot.visibility = if (isPlaying) {
                     View.VISIBLE
                 } else {
@@ -85,7 +85,7 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .mediaMetadataLiveData
-            .observe(this, Observer { mediaMetadataCompat ->
+            .observe(viewLifecycleOwner, Observer { mediaMetadataCompat ->
                 binding.artUrlString = mediaMetadataCompat.albumArtUri.toString()
             })
 
@@ -95,7 +95,7 @@ class CollapsedPlayerFragment
         playerViewModel.playerUiModel
             .mediaPlaybackPositionLiveData
             .observe(
-                this, Observer {
+                viewLifecycleOwner, Observer {
                     setProgressBarPos(it)
                 }
             )
@@ -107,7 +107,7 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .mediaButtonIsPlaying
-            .observe(this, Observer { isPlaying ->
+            .observe(viewLifecycleOwner, Observer { isPlaying ->
                 if (isPlaying) {
                     binding.imagebuttonCollapsedPlayerPlaypause
                         .setImageResource(R.drawable.baseline_pause_white_36)
@@ -148,7 +148,7 @@ class CollapsedPlayerFragment
     private fun setupEventButton() {
         playerViewModel.playerUiModel
             .hasPodXEventsLiveData
-            .observe(this, Observer{ hasPodXEvents: Boolean ->
+            .observe(viewLifecycleOwner, Observer{ hasPodXEvents: Boolean ->
                 if (hasPodXEvents) {
                     binding.imagebuttonCollapsedPlayerPodxevents
                         .imageTintList = ColorStateList.valueOf(

@@ -105,7 +105,7 @@ class FeedFragment
             bindIsPlaying = {feedItem ->
                 MutableLiveData<Boolean>().also{ isItemPlayingLiveData ->
                     feedViewModel.uiModel.nowPlayingIdLiveData.observe(
-                        this,
+                        viewLifecycleOwner,
                         Observer { nowPlayingId ->
                             val isPlaying = feedViewModel.uiModel.isPlayingLiveData.value ?: false
                             isItemPlayingLiveData
@@ -114,7 +114,7 @@ class FeedFragment
                         })
 
                     feedViewModel.uiModel.isPlayingLiveData.observe(
-                        this,
+                        viewLifecycleOwner,
                         Observer { isPlaying ->
                             val nowPlayingId = feedViewModel.uiModel.nowPlayingIdLiveData.value
                             isItemPlayingLiveData

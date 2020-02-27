@@ -68,7 +68,7 @@ class PlayerFragment
             .playerUiModel
             .mediaButtonIsPlaying
             .observe(
-                this,
+                viewLifecycleOwner,
                 Observer { isPlaying ->
                     if (isPlaying) {
                         binding.mediaButton
@@ -107,7 +107,7 @@ class PlayerFragment
             .playerUiModel
             .mediaMetadataLiveData
             .observe(
-                this,
+                viewLifecycleOwner,
                 Observer<MediaMetadataCompat> { mediaItem ->
                     binding.title = mediaItem.title
                     binding.description = mediaItem.description.description.toString()
@@ -121,7 +121,7 @@ class PlayerFragment
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData.observe(
-            this,
+            viewLifecycleOwner,
             Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(context!!) }
         )
     }
@@ -157,7 +157,7 @@ class PlayerFragment
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData
-            .observe(this,
+            .observe(viewLifecycleOwner,
                 Observer{ playbackTime ->
                     if (!seekBarMutex.isLocked) {
                         setSeekBarPos(playbackTime)
