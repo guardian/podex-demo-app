@@ -9,7 +9,11 @@
         android:label="SearchFragment">
         <action
             android:id="@+id/action_search_fragment_to_feedFragment"
-            app:destination="@id/feedFragment" />
+            app:destination="@id/feedFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit"/>
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
@@ -20,12 +24,16 @@
             app:argType="com.guardian.core.search.SearchResult" />
         <action
             android:id="@+id/action_feedFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
+            app:destination="@id/playerFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"/>
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
         android:name="com.guardian.podxdemo.presentation.player.PlayerFragment"
-        android:label="PlayerFragment" >
+        android:label="PlayerFragment">
         <argument
             android:name="scrollToEvents"
             app:argType="boolean"
@@ -42,9 +50,17 @@
 
     <action
         android:id="@+id/action_global_podXImageFragment"
-        app:destination="@id/podXImageFragment" />
+        app:destination="@id/podXImageFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"/>
     <action
         android:id="@+id/action_global_playerFragment"
-        app:destination="@id/playerFragment"/>
+        app:destination="@id/playerFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"/>
 
 </navigation>

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
@@ -94,9 +95,10 @@ class FeedFragment
             executor = executor,
             handleSelection = { feedItem ->
                 feedViewModel.prepareFeedItemForPlayback(feedItem)
+                val extras = FragmentNavigatorExtras(Pair(binding.imageviewFeedMainimage, binding.imageviewFeedMainimage.transitionName))
                 val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
                 findNavController()
-                    .navigate(action)
+                    .navigate(action, extras)
             },
             handlePlayPause = {feedItem ->
                 feedViewModel.attemptPlaybackOrPause(feedItem)

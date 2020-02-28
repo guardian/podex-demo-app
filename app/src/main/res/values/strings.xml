@@ -12,4 +12,5 @@
     <string name="title_searchfragment">Podcasts</string>
     <string name="menu_search">Search</string>
     <string name="eventslist_title">Events</string>
+    <string name="transition_image_to_feed_fragment">transition_image_to_feed_fragment</string>
 </resources>

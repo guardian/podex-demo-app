@@ -50,7 +50,7 @@
                     app:layout_constraintTop_toBottomOf="@id/toolbar_player"
                     android:contentDescription="@string/playerfragment_album_art_alt"
                     app:srcCompat="@android:color/transparent"
-                    imageUrl="@{artUrlString}"/>
+                    imageUrl="@{artUrlString}" />
 
                 <TextView
                     android:id="@+id/textview_play_title"

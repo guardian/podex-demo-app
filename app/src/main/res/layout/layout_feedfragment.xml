@@ -98,7 +98,8 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_max="120dp"
                                 app:layout_constraintWidth_min="120dp"
-                                imageUrl="@{feed.feedImageUrlString}"/>
+                                imageUrl="@{feed.feedImageUrlString}"
+                                android:transitionName="@string/transition_image_to_feed_fragment"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
