@@ -67,7 +67,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@{title}"
                     android:textStyle="bold"
-                    android:textColor="@color/darkTextColor"/>
+                    android:textAppearance="@style/PodXTextAppearanceDark"/>
 
                 <TextView
                     android:id="@+id/textview_play_subtitle"
@@ -82,7 +82,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@{description}"
-                    android:textColor="@color/darkTextColor" />
+                    android:textAppearance="@style/PodXTextAppearanceDark" />
 
                 <ImageButton
                     android:id="@+id/media_button"

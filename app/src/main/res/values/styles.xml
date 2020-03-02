@@ -49,7 +49,6 @@
     <style name="PodXProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressTint">@color/highlightColor</item>
         <item name="android:progressBackgroundTint">@color/seekbarBackground</item>
-        <item name="android:progressBackgroundTintMode">src_over</item>
     </style>
 
     <style name="PodXTitleTextAppearenceDark">

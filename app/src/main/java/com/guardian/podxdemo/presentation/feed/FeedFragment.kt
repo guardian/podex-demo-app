@@ -11,10 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
+import androidx.transition.TransitionInflater
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
@@ -55,6 +55,8 @@ class FeedFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupTransition()
+
         feedViewModel.setPlaceholderData(args.searchResult)
         feedViewModel.getFeedAndItems(args.searchResult.feedUrlString)
 
@@ -64,6 +66,11 @@ class FeedFragment
         (requireActivity() as AppCompatActivity?)?.setSupportActionBar(binding.toolbarFeed)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
+    }
+
+    private fun setupTransition() {
+        sharedElementEnterTransition = TransitionInflater.from(context)
+            .inflateTransition(android.R.transition.move)
     }
 
     private fun setupFeedInfoView() {
@@ -95,10 +102,9 @@ class FeedFragment
             executor = executor,
             handleSelection = { feedItem ->
                 feedViewModel.prepareFeedItemForPlayback(feedItem)
-                val extras = FragmentNavigatorExtras(Pair(binding.imageviewFeedMainimage, binding.imageviewFeedMainimage.transitionName))
                 val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
                 findNavController()
-                    .navigate(action, extras)
+                    .navigate(action)
             },
             handlePlayPause = {feedItem ->
                 feedViewModel.attemptPlaybackOrPause(feedItem)

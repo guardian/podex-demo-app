@@ -9,8 +9,8 @@
     <color name="sixtyPercentWhite">#99FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="eightyPercentWhite">#CCFFFFFF</color>
-    <color name="highlightColor">#FFFFE600</color>
-    <color name="seekbarBackground">#FFB7B7B7</color>
+    <color name="highlightColor">#FFE600</color>
+    <color name="seekbarBackground">#B7B7B7</color>
     <color name="controlGrey">#AA767676</color>
     <color name="transparentPrimary">#33FFFFFF</color>
 </resources>

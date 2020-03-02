@@ -23,6 +23,7 @@
             app:layout_constrainedHeight="true"
             app:layout_constraintDimensionRatio="1"
             android:contentDescription="TODO"
-            app:imageUrl="@{searchResult.imageUrlString}"/>
+            app:imageUrl="@{searchResult.imageUrlString}"
+            android:transitionName="@string/transition_image_to_feed_fragment"/>/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
