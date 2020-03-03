@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
-import androidx.transition.TransitionInflater
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
@@ -49,13 +48,12 @@ class FeedFragment
             container,
             false
         )
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupTransition()
 
         feedViewModel.setPlaceholderData(args.searchResult)
         feedViewModel.getFeedAndItems(args.searchResult.feedUrlString)
@@ -66,11 +64,6 @@ class FeedFragment
         (requireActivity() as AppCompatActivity?)?.setSupportActionBar(binding.toolbarFeed)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
-    }
-
-    private fun setupTransition() {
-        sharedElementEnterTransition = TransitionInflater.from(context)
-            .inflateTransition(android.R.transition.move)
     }
 
     private fun setupFeedInfoView() {

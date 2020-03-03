@@ -139,11 +139,10 @@ class SearchFragment
                 }
             },
             executor = executor
-        ) { searchResult, searchImageView ->
-            val extras = FragmentNavigatorExtras(Pair(searchImageView, resources.getString(R.string.transition_image_to_feed_fragment)))
+        ) { searchResult ->
             val action = SearchFragmentDirections.actionSearchFragmentToFeedFragment(searchResult)
             findNavController()
-                .navigate(action, extras)
+                .navigate(action)
         }.apply {
             searchViewModel.uiModel.results
                 .observe(viewLifecycleOwner, Observer { results ->
