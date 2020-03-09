@@ -12,6 +12,40 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_podximage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        
+        <ImageView
+            android:id="@+id/imageview_podximage_icon"
+            android:layout_width="@dimen/event_icon"
+            android:layout_height="@dimen/event_icon"
+            android:layout_marginTop="@dimen/podxlist_image_margin"
+            android:layout_marginBottom="@dimen/podxlist_image_margin"
+            android:layout_marginStart="@dimen/podx_image_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar_podximage"
+            android:src="@drawable/baseline_info_black_24_modified"
+            android:tint="@color/highlightColor" />
+
+        <TextView
+            android:id="@+id/textview_podximage_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/PodXTextAppearanceDark"
+            android:textStyle="bold"
+            android:textSize="@dimen/podx_title"
+            android:text="@{podxImage.notification}"
+            android:maxLines="3"
+            app:layout_constraintStart_toEndOf="@id/imageview_podximage_icon"
+            app:layout_constraintEnd_toEndOf="@id/imageview_podximage"
+            app:layout_constraintTop_toTopOf="@id/imageview_podximage_icon"
+            app:layout_constraintBottom_toBottomOf="@id/imageview_podximage_icon"/>
 
         <ImageView
             android:id="@+id/imageview_podximage"
@@ -21,7 +55,7 @@
             imageUrl="@{podxImage.urlString}"
             app:layout_constrainedHeight="true"
             app:layout_constraintDimensionRatio="1.0"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageview_podximage_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

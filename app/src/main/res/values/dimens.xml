@@ -9,4 +9,5 @@
     <dimen name="podxlist_image_margin">8dp</dimen>
     <dimen name="player_control_size">64dp</dimen>
     <dimen name="podx_title">20sp</dimen>
+    <dimen name="event_icon">36dp</dimen>
 </resources>
