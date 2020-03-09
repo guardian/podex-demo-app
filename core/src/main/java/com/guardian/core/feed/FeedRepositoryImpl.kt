@@ -216,4 +216,24 @@ class FeedRepositoryImpl
             }
         }
     }
+
+    private fun mapPodXCallPromptEvent(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podxSupport.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXSupportEventXmlDataObject ->
+            PodXSupportEvent(
+                timeStart = podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXSupportEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXSupportEventXmlDataObject.caption.trim(),
+                notification = podXSupportEventXmlDataObject.notification.trim(),
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXSupportEvents(podXEventList)
+                Timber.i("Caching PodxSupportEvents ${podXEventList.size}")
+            }
+        }
+    }
 }

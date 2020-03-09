@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "podx_newsletter_signup_events",
+@Entity(tableName = "podx_news_letter_sign_up_events",
     indices = [Index(value = ["feedItemUrlString"], unique = false)])
 @Parcelize
 data class PodXNewsLetterSignUpEvent (

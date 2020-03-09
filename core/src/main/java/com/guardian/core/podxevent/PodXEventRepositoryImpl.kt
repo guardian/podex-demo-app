@@ -35,11 +35,67 @@ class PodXEventRepositoryImpl
         podXSupportEventDao.putPodXSupportEventList(podXSupportEvents)
     }
 
+    override fun addPodXCallPromptEvents(PodXCallPromptEvents: List<PodXCallPromptEvent>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addPodXFeedBackEvents(PodXFeedBackEvents: List<PodXFeedBackEvent>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addPodXFeedLinkEvents(PodXFeedLinkEvents: List<PodXFeedLinkEvent>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addPodXNewsLetterSignUpEvents(PodXNewsLetterSignUpEvents: List<PodXNewsLetterSignUpEvent>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addPodXPollEvents(PodXPollEvents: List<PodXPollEvent>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addPodXSocialPromptEvents(PodXSocialPromptEvents: List<PodXSocialPromptEvent>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addPodXTextEvents(PodXTextEvents: List<PodXTextEvent>) {
+        TODO("Not yet implemented")
+    }
+
     override fun getWebEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXWebEvent>> {
         return podXWebEventDao.getPodXWebEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
     }
 
     override fun getSupportEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXSupportEvent>> {
         return podXSupportEventDao.getPodXSupportEventsForFeedItemUrl(feedItem.feedItemAudioUrl)
+    }
+
+    override fun getCallPromptEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXCallPromptEvent>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFeedBackEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXFeedBackEvent>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFeedLinkEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXFeedLinkEvent>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNewsLetterSignUpEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXNewsLetterSignUpEvent>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getPollEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXPollEvent>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSocialPromptEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXSocialPromptEvent>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTextEventsForFeedItem(feedItem: FeedItem): Flowable<List<PodXTextEvent>> {
+        TODO("Not yet implemented")
     }
 }
