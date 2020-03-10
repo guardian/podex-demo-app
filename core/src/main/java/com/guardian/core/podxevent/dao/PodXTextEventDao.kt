@@ -1,11 +1,13 @@
 package com.guardian.core.podxevent.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.guardian.core.podxevent.PodXTextEvent
 import io.reactivex.Flowable
 
+@Dao
 interface PodXTextEventDao {
     @Query("SELECT * from podx_text_events")
     fun getPodXTextEvents(): Flowable<List<PodXTextEvent>>

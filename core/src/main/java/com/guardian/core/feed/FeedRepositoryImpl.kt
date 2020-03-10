@@ -142,6 +142,13 @@ class FeedRepositoryImpl
                 mapPodXImages(feedItemXmlDataObject)
                 mapPodXWebLinks(feedItemXmlDataObject)
                 mapPodXSupport(feedItemXmlDataObject)
+                mapPodXCallPrompts(feedItemXmlDataObject)
+                mapPodXFeedBacks(feedItemXmlDataObject)
+                mapPodXFeedLinks(feedItemXmlDataObject)
+                mapPodXNewsLetterSignUps(feedItemXmlDataObject)
+                mapPodXPolls(feedItemXmlDataObject)
+                mapPodXSocialPrompts(feedItemXmlDataObject)
+                mapPodXTexts(feedItemXmlDataObject)
 
                 currentFeedItem
             }.also { feedItems ->
