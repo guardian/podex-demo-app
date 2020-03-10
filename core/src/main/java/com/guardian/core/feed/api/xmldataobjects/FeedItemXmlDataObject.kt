@@ -23,7 +23,7 @@ data class FeedItemXmlDataObject(
     val podXFeedLink: List<PodXFeedLinkEventXmlDataObject> = listOf(PodXFeedLinkEventXmlDataObject()),
     val podXCallPrompt: List<PodXCallPromptEventXmlDataObject> = listOf(PodXCallPromptEventXmlDataObject()),
     val podXNewsletterSignup: List<PodXNewsletterSignupEventXmlDataObject> = listOf(PodXNewsletterSignupEventXmlDataObject()),
-    val podXFeedback: List<PodXFeedbackEventXmlDataObject> = listOf(PodXFeedbackEventXmlDataObject()),
+    val podXFeedBack: List<PodXFeedbackEventXmlDataObject> = listOf(PodXFeedbackEventXmlDataObject()),
     val podXPoll: List<PodXPollEventXmlDataObject> = listOf(PodXPollEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
@@ -76,7 +76,7 @@ data class FeedItemXmlDataObject(
                 podXFeedLink = xmlParserElementMap["podx:feedLink"]?.value as List<PodXFeedLinkEventXmlDataObject>,
                 podXCallPrompt = xmlParserElementMap["podx:callPrompt"]?.value as List<PodXCallPromptEventXmlDataObject>,
                 podXNewsletterSignup = xmlParserElementMap["podx:newsletterSignup"]?.value as List<PodXNewsletterSignupEventXmlDataObject>,
-                podXFeedback = xmlParserElementMap["podx:feedback"]?.value as List<PodXFeedbackEventXmlDataObject>,
+                podXFeedBack = xmlParserElementMap["podx:feedback"]?.value as List<PodXFeedbackEventXmlDataObject>,
                 podXPoll = xmlParserElementMap["podx:poll"]?.value as List<PodXPollEventXmlDataObject>
             )
         }

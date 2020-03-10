@@ -12,9 +12,16 @@ import com.guardian.core.library.BaseRepository
 import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
 import com.guardian.core.podxevent.OGMetadata
+import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXEventRepository
+import com.guardian.core.podxevent.PodXFeedBackEvent
+import com.guardian.core.podxevent.PodXFeedLinkEvent
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXNewsLetterSignUpEvent
+import com.guardian.core.podxevent.PodXPollEvent
+import com.guardian.core.podxevent.PodXSocialPromptEvent
 import com.guardian.core.podxevent.PodXSupportEvent
+import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
@@ -217,22 +224,209 @@ class FeedRepositoryImpl
         }
     }
 
-    private fun mapPodXCallPromptEvent(feedItemXmlDataObject: FeedItemXmlDataObject) {
-        feedItemXmlDataObject.podxSupport.filter { podXEventXmlDataObject ->
+    private fun mapPodXCallPrompts(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podXCallPrompt.filter { podXEventXmlDataObject ->
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
-        }.map { podXSupportEventXmlDataObject ->
-            PodXSupportEvent(
-                timeStart = podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-                timeEnd = podXSupportEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
-                    ?: podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
-                caption = podXSupportEventXmlDataObject.caption.trim(),
-                notification = podXSupportEventXmlDataObject.notification.trim(),
+        }.map { podXPhonePromptEventXmlDataObject ->
+            PodXCallPromptEvent(
+                timeStart = podXPhonePromptEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXPhonePromptEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXPhonePromptEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXPhonePromptEventXmlDataObject.caption.trim(),
+                notification = podXPhonePromptEventXmlDataObject.notification.trim(),
+                phoneNumber = podXPhonePromptEventXmlDataObject.attributes["number"]?.value ?: "",
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
-                podXEventRepository.addPodXSupportEvents(podXEventList)
-                Timber.i("Caching PodxSupportEvents ${podXEventList.size}")
+                podXEventRepository.addPodXCallPromptEvents(podXEventList)
+                Timber.i("Caching PodxCallEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXFeedBacks(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podXFeedBack.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXFeedBackEventXmlDataObject ->
+            val urlString = podXFeedBackEventXmlDataObject.attributes["url"]?.value ?: ""
+            val placeholderMetadata = try {
+                OGMetadata
+                    .extractOGMetadataFromUrlString(urlString)
+            } catch (exception: IllegalArgumentException) {
+                Timber.w("could not extract og data for $urlString")
+                OGMetadata("", "", "", "")
+            }
+
+            PodXFeedBackEvent(
+                timeStart = podXFeedBackEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXFeedBackEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXFeedBackEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXFeedBackEventXmlDataObject.caption.trim(),
+                notification = podXFeedBackEventXmlDataObject.notification.trim(),
+                urlString = podXFeedBackEventXmlDataObject.attributes["url"]?.value ?: "",
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                ogMetadata = placeholderMetadata
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXFeedBackEvents(podXEventList)
+                Timber.i("Caching PodxFeedBackEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXFeedLinks(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
+
+        feedItemXmlDataObject.podXFeedLink.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXFeedLinkEventXmlDataObject ->
+            val pubDate = try {
+                dateFormatter.parse(podXFeedLinkEventXmlDataObject.feedItemPubDate) ?: Date(System.currentTimeMillis())
+            } catch (parseException: ParseException) {
+                Date(System.currentTimeMillis())
+            }
+
+            PodXFeedLinkEvent(
+                timeStart = podXFeedLinkEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXFeedLinkEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXFeedLinkEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXFeedLinkEventXmlDataObject.caption.trim(),
+                notification = podXFeedLinkEventXmlDataObject.notification.trim(),
+                currentFeedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                remoteFeedItemGuid = podXFeedLinkEventXmlDataObject.feedItemGuid,
+                remoteFeedItemPubDate = pubDate,
+                remoteFeedItemTitle = podXFeedLinkEventXmlDataObject.feedItemTitle,
+                remoteFeedItemUrlString = podXFeedLinkEventXmlDataObject.feedItemEnclosureUrl,
+                remoteFeedUrlString = podXFeedLinkEventXmlDataObject.feedUrl,
+                remoteItemAudioTime = podXFeedLinkEventXmlDataObject.feedItemAudioTimestamp.parseNormalPlayTimeToMillisOrNull()
+                    ?: 0L
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXFeedLinkEvents(podXEventList)
+                Timber.i("Caching PodxFeedBackEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXNewsLetterSignUps(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podXNewsletterSignup.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXNewsLetterSignUpEventXmlDataObject ->
+            // set a placeholder as we will scrape metadata afterwards
+            // todo fetch asynchronously
+            val urlString = podXNewsLetterSignUpEventXmlDataObject.attributes["url"]?.value ?: ""
+            val placeholderMetadata = try {
+                OGMetadata
+                    .extractOGMetadataFromUrlString(urlString)
+            } catch (exception: IllegalArgumentException) {
+                Timber.w("could not extract og data for $urlString")
+                OGMetadata("", "", "", "")
+            }
+
+            PodXNewsLetterSignUpEvent(
+                urlString = urlString,
+                timeStart = podXNewsLetterSignUpEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXNewsLetterSignUpEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXNewsLetterSignUpEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXNewsLetterSignUpEventXmlDataObject.caption.trim(),
+                notification = podXNewsLetterSignUpEventXmlDataObject.notification.trim(),
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                ogMetadata = placeholderMetadata
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXNewsLetterSignUpEvents(podXEventList)
+                Timber.i("Caching PodxNewsLetterSignUpEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXPolls(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podXPoll.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXPollEventXmlDataObject ->
+            // set a placeholder as we will scrape metadata afterwards
+            // todo fetch asynchronously
+            val urlString = podXPollEventXmlDataObject.attributes["url"]?.value ?: ""
+            val placeholderMetadata = try {
+                OGMetadata
+                    .extractOGMetadataFromUrlString(urlString)
+            } catch (exception: IllegalArgumentException) {
+                Timber.w("could not extract og data for $urlString")
+                OGMetadata("", "", "", "")
+            }
+
+            PodXPollEvent(
+                urlString = urlString,
+                timeStart = podXPollEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXPollEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXPollEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXPollEventXmlDataObject.caption.trim(),
+                notification = podXPollEventXmlDataObject.notification.trim(),
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                ogMetadata = placeholderMetadata
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXPollEvents(podXEventList)
+                Timber.i("Caching PodxPollEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXSocialPrompts(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podxSocialLink.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.flatMap { podXSocialLinkXmlDataObject ->
+            podXSocialLinkXmlDataObject.socialLink.map {
+                val urlString = it.attributes["url"]?.value ?: ""
+                val placeholderMetadata = try {
+                    OGMetadata
+                        .extractOGMetadataFromUrlString(urlString)
+                } catch (exception: IllegalArgumentException) {
+                    Timber.w("could not extract og data for $urlString")
+                    OGMetadata("", "", "", "")
+                }
+
+                PodXSocialPromptEvent(
+                    timeStart = podXSocialLinkXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                    timeEnd = podXSocialLinkXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                        ?: podXSocialLinkXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                    caption = podXSocialLinkXmlDataObject.caption.trim(),
+                    notification = podXSocialLinkXmlDataObject.notification.trim(),
+                    feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                    socialLinkUrlString = urlString,
+                    ogMetadata = placeholderMetadata
+                )
+            }
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXSocialPromptEvents(podXEventList)
+                Timber.i("Caching PodxWebEvents ${podXEventList.size}")
+            }
+        }
+    }
+
+    private fun mapPodXTexts(feedItemXmlDataObject: FeedItemXmlDataObject) {
+        feedItemXmlDataObject.podXText.filter { podXEventXmlDataObject ->
+            podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
+        }.map { podXPollEventXmlDataObject ->
+
+            PodXTextEvent(
+                timeStart = podXPollEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                timeEnd = podXPollEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
+                    ?: podXPollEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
+                caption = podXPollEventXmlDataObject.caption.trim(),
+                notification = podXPollEventXmlDataObject.notification.trim(),
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
+            )
+        }.also { podXEventList ->
+            if (podXEventList.isNotEmpty()) {
+                podXEventRepository.addPodXTextEvents(podXEventList)
+                Timber.i("Caching PodxPollEvents ${podXEventList.size}")
             }
         }
     }

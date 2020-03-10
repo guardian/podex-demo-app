@@ -134,56 +134,56 @@ interface PodXEventRepository {
     /**
      * Add a list of [PodXSupportEvent]s to the repository
      *
-     * @param PodXSupportEvents the list of events to be added
+     * @param podXSupportEvents the list of events to be added
      */
     fun addPodXSupportEvents(podXSupportEvents: List<PodXSupportEvent>)
 
     /**
      * Add a list of [PodXCallPromptEvent]s to the repository
      *
-     * @param PodXCallPromptEvents the list of events to be added
+     * @param podXCallPromptEvents the list of events to be added
      */
-    fun addPodXCallPromptEvents(PodXCallPromptEvents: List<PodXCallPromptEvent>)
+    fun addPodXCallPromptEvents(podXCallPromptEvents: List<PodXCallPromptEvent>)
 
     /**
      * Add a list of [PodXFeedBackEvent]s to the repository
      *
-     * @param PodXFeedBackEvents the list of events to be added
+     * @param podXFeedBackEvents the list of events to be added
      */
-    fun addPodXFeedBackEvents(PodXFeedBackEvents: List<PodXFeedBackEvent>)
+    fun addPodXFeedBackEvents(podXFeedBackEvents: List<PodXFeedBackEvent>)
 
     /**
      * Add a list of [PodXFeedLinkEvent]s to the repository
      *
-     * @param PodXFeedLinkEvents the list of events to be added
+     * @param podXFeedLinkEvents the list of events to be added
      */
-    fun addPodXFeedLinkEvents(PodXFeedLinkEvents: List<PodXFeedLinkEvent>)
+    fun addPodXFeedLinkEvents(podXFeedLinkEvents: List<PodXFeedLinkEvent>)
 
     /**
      * Add a list of [PodXNewsLetterSignUpEvent]s to the repository
      *
-     * @param PodXNewsLetterSignUpEvents the list of events to be added
+     * @param podXNewsLetterSignUpEvents the list of events to be added
      */
-    fun addPodXNewsLetterSignUpEvents(PodXNewsLetterSignUpEvents: List<PodXNewsLetterSignUpEvent>)
+    fun addPodXNewsLetterSignUpEvents(podXNewsLetterSignUpEvents: List<PodXNewsLetterSignUpEvent>)
 
     /**
      * Add a list of [PodXPollEvent]s to the repository
      *
-     * @param PodXPollEvents the list of events to be added
+     * @param podXPollEvents the list of events to be added
      */
-    fun addPodXPollEvents(PodXPollEvents: List<PodXPollEvent>)
+    fun addPodXPollEvents(podXPollEvents: List<PodXPollEvent>)
 
     /**
      * Add a list of [PodXSocialPromptEvent]s to the repository
      *
-     * @param PodXSocialPromptEvents the list of events to be added
+     * @param podXSocialPromptEvents the list of events to be added
      */
-    fun addPodXSocialPromptEvents(PodXSocialPromptEvents: List<PodXSocialPromptEvent>)
+    fun addPodXSocialPromptEvents(podXSocialPromptEvents: List<PodXSocialPromptEvent>)
 
     /**
      * Add a list of [PodXTextEvent]s to the repository
      *
-     * @param PodXTextEvents the list of events to be added
+     * @param podXTextEvents the list of events to be added
      */
-    fun addPodXTextEvents(PodXTextEvents: List<PodXTextEvent>)
+    fun addPodXTextEvents(podXTextEvents: List<PodXTextEvent>)
 }
