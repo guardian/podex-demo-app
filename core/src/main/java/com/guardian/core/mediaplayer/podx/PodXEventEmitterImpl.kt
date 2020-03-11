@@ -134,6 +134,13 @@ class PodXEventEmitterImpl
         registerImageEvents(feedItem)
         registerWebEvents(feedItem)
         registerSupportEvents(feedItem)
+        registerCallPromptEvents(feedItem)
+        registerFeedBackEvents(feedItem)
+        registerFeedLinkEvents(feedItem)
+        registerNewsLetterSignUpEvents(feedItem)
+        registerSocialPromptEvents(feedItem)
+        registerPollEvents(feedItem)
+        registerTextEvents(feedItem)
 
         setupPendingEventTimes()
     }
@@ -201,6 +208,99 @@ class PodXEventEmitterImpl
         )
     }
 
+    private fun registerCallPromptEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getCallPromptEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXCallPromptEvents.clear()
+                    pendingPodXCallPromptEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerFeedBackEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getFeedBackEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXFeedBackEvents.clear()
+                    pendingPodXFeedBackEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerFeedLinkEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getFeedLinkEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXFeedLinkEvents.clear()
+                    pendingPodXFeedLinkEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+
+    private fun registerNewsLetterSignUpEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getNewsLetterSignUpEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXNewsLetterSignUpEvents.clear()
+                    pendingPodXNewsLetterSignUpEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerPollEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getPollEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXPollEvents.clear()
+                    pendingPodXPollEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+
+    private fun registerSocialPromptEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getSocialPromptEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXSocialPromptEvents.clear()
+                    pendingPodXSocialPromptEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
+    private fun registerTextEvents(feedItem: FeedItem) {
+        currentFeedDisposable.add(
+            podXEventRepository.getTextEventsForFeedItem(feedItem)
+                .subscribe({ feedPodXEventList ->
+                    pendingPodXTextEvents.clear()
+                    pendingPodXTextEvents.addAll(feedPodXEventList)
+                    registerPlaybackTimerObservable()
+                }, { e: Throwable ->
+                    Timber.e(e)
+                })
+        )
+    }
+
     private fun registerPlaybackTimerObservable() {
         currentFeedItemDisposable.clear()
         val playbackState = mediaSessionConnection.playbackState.value
@@ -231,7 +331,7 @@ class PodXEventEmitterImpl
             )
         }
     }
-    
+
     private fun getNextEventTime(currentTimeMillis: Long): Long {
         val minEvent = pendingPodXEventTimes.filter{ eventTime -> eventTime > currentTimeMillis }
             .min() ?: Long.MAX_VALUE - currentTimeMillis
@@ -273,6 +373,82 @@ class PodXEventEmitterImpl
             podXSupportEventMutableLiveData.postValue(currentSupportEventList)
         }
 
+        val currentCallPromptEventList = pendingPodXCallPromptEvents
+            .filter { pendingCallPromptEvent ->
+                pendingCallPromptEvent.timeStart <= timeMillis &&
+                    pendingCallPromptEvent.timeEnd >= timeMillis
+            }
+        podXCallPromptEventMutableLiveData.postValue(currentCallPromptEventList)
+        if (currentCallPromptEventList
+                .size != (podXCallPromptEventMutableLiveData.value)?.size ?: 0) {
+            podXCallPromptEventMutableLiveData.postValue(currentCallPromptEventList)
+        }
+
+        val currentFeedBackEventList = pendingPodXFeedBackEvents
+            .filter { pendingFeedBackEvent ->
+                pendingFeedBackEvent.timeStart <= timeMillis &&
+                    pendingFeedBackEvent.timeEnd >= timeMillis
+            }
+        podXFeedBackEventMutableLiveData.postValue(currentFeedBackEventList)
+        if (currentFeedBackEventList
+                .size != (podXFeedBackEventMutableLiveData.value)?.size ?: 0) {
+            podXFeedBackEventMutableLiveData.postValue(currentFeedBackEventList)
+        }
+
+        val currentFeedLinkEventList = pendingPodXFeedLinkEvents
+            .filter { pendingFeedLinkEvent ->
+                pendingFeedLinkEvent.timeStart <= timeMillis &&
+                    pendingFeedLinkEvent.timeEnd >= timeMillis
+            }
+        podXFeedLinkEventMutableLiveData.postValue(currentFeedLinkEventList)
+        if (currentFeedLinkEventList
+                .size != (podXFeedLinkEventMutableLiveData.value)?.size ?: 0) {
+            podXFeedLinkEventMutableLiveData.postValue(currentFeedLinkEventList)
+        }
+
+        val currentNewsLetterSignUpEventList = pendingPodXNewsLetterSignUpEvents
+            .filter { pendingNewsLetterSignUpEvent ->
+                pendingNewsLetterSignUpEvent.timeStart <= timeMillis &&
+                    pendingNewsLetterSignUpEvent.timeEnd >= timeMillis
+            }
+        podXNewsLetterSignUpEventMutableLiveData.postValue(currentNewsLetterSignUpEventList)
+        if (currentNewsLetterSignUpEventList
+                .size != (podXNewsLetterSignUpEventMutableLiveData.value)?.size ?: 0) {
+            podXNewsLetterSignUpEventMutableLiveData.postValue(currentNewsLetterSignUpEventList)
+        }
+
+        val currentSocialPromptEventList = pendingPodXSocialPromptEvents
+            .filter { pendingSocialPromptEvent ->
+                pendingSocialPromptEvent.timeStart <= timeMillis &&
+                    pendingSocialPromptEvent.timeEnd >= timeMillis
+            }
+        podXSocialPromptEventMutableLiveData.postValue(currentSocialPromptEventList)
+        if (currentSocialPromptEventList
+                .size != (podXSocialPromptEventMutableLiveData.value)?.size ?: 0) {
+            podXSocialPromptEventMutableLiveData.postValue(currentSocialPromptEventList)
+        }
+
+        val currentTextEventList = pendingPodXTextEvents
+            .filter { pendingTextEvent ->
+                pendingTextEvent.timeStart <= timeMillis &&
+                    pendingTextEvent.timeEnd >= timeMillis
+            }
+        podXTextEventMutableLiveData.postValue(currentTextEventList)
+        if (currentTextEventList
+                .size != (podXTextEventMutableLiveData.value)?.size ?: 0) {
+            podXTextEventMutableLiveData.postValue(currentTextEventList)
+        }
+
+        val currentPollEventList = pendingPodXPollEvents
+            .filter { pendingPollEvent ->
+                pendingPollEvent.timeStart <= timeMillis &&
+                    pendingPollEvent.timeEnd >= timeMillis
+            }
+        podXPollEventMutableLiveData.postValue(currentPollEventList)
+        if (currentPollEventList
+                .size != (podXPollEventMutableLiveData.value)?.size ?: 0) {
+            podXPollEventMutableLiveData.postValue(currentPollEventList)
+        }
     }
 
     private fun getPlaybackPositionFromState(playbackStateCompat: PlaybackStateCompat): Long {
