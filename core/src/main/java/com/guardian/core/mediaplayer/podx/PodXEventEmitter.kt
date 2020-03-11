@@ -2,8 +2,15 @@ package com.guardian.core.mediaplayer.podx
 
 import androidx.lifecycle.LiveData
 import com.guardian.core.feeditem.FeedItem
+import com.guardian.core.podxevent.PodXCallPromptEvent
+import com.guardian.core.podxevent.PodXFeedBackEvent
+import com.guardian.core.podxevent.PodXFeedLinkEvent
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXNewsLetterSignUpEvent
+import com.guardian.core.podxevent.PodXPollEvent
+import com.guardian.core.podxevent.PodXSocialPromptEvent
 import com.guardian.core.podxevent.PodXSupportEvent
+import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 
 /**
@@ -27,6 +34,41 @@ interface PodXEventEmitter {
      * A LiveData which contains a list of currently showing [PodXSupportEvent]s
      */
     val podXSupportEventLiveData: LiveData<List<PodXSupportEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXCallPromptEvent]s
+     */
+    val podXCallPromptEventLiveData: LiveData<List<PodXCallPromptEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXFeedBackEvent]s
+     */
+    val podXFeedBackEventLiveData: LiveData<List<PodXFeedBackEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXFeedLinkEvent]s
+     */
+    val podXFeedLinkEventLiveData: LiveData<List<PodXFeedLinkEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXNewsLetterSignUpEvent]s
+     */
+    val podXNewsLetterSignUpEventLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXPollEvent]s
+     */
+    val podXPollEventLiveData: LiveData<List<PodXPollEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXSocialPromptEvent]s
+     */
+    val podXSocialPromptEventLiveData: LiveData<List<PodXSocialPromptEvent>>
+
+    /**
+     * A LiveData which contains a list of currently showing [PodXTextEvent]s
+     */
+    val podXTextEventLiveData: LiveData<List<PodXTextEvent>>
 
     /**
      * Register a [FeedItem] with the emitter. Events associated with the feed item will fire
