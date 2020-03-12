@@ -215,13 +215,24 @@ class FeedRepositoryImpl
         feedItemXmlDataObject.podxSupport.filter { podXEventXmlDataObject ->
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXSupportEventXmlDataObject ->
+            val urlString = podXSupportEventXmlDataObject.attributes["url"]?.value ?: ""
+            val placeholderMetadata = try {
+                OGMetadata
+                    .extractOGMetadataFromUrlString(urlString)
+            } catch (exception: IllegalArgumentException) {
+                Timber.w("could not extract og data for $urlString")
+                OGMetadata("", "", "", "")
+            }
+
             PodXSupportEvent(
+                urlString = urlString,
                 timeStart = podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 timeEnd = podXSupportEventXmlDataObject.end.parseNormalPlayTimeToMillisOrNull()
                     ?: podXSupportEventXmlDataObject.start.parseNormalPlayTimeToMillis(),
                 caption = podXSupportEventXmlDataObject.caption.trim(),
                 notification = podXSupportEventXmlDataObject.notification.trim(),
-                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: ""
+                feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
+                ogMetadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
