@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodxeventscontainerfragmentBinding
@@ -93,9 +94,18 @@ class PodXEventsContainerFragment
                 }
             }
 
-        imageThumbnailData.observe(viewLifecycleOwner) {
-            Timber.i("${it.size} thumbnails")
-        }
+        val supportThumbailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXSupportEventsListLiveData
+            .map{ supportEvent ->
+                supportEvent.map { support ->
+                    support.toPodXEventThumbnail(
+                        onClickListener = View.OnClickListener {
+                            navigateToSupport(support)
+                        }
+                    )
+                }
+            }
 
         MediatorLiveData<List<PodXEventThumbnailData>>()
             .apply {
@@ -107,9 +117,21 @@ class PodXEventsContainerFragment
                 addSource(webThumbnailData) {
                     value = (imageThumbnailData.value ?: listOf()) + it
                 }
+
+                addSource(supportThumbailData) {
+                    value = it + (supportThumbailData.value ?: listOf())
+                }
             }.observe(viewLifecycleOwner) {
                 thumbnailMutableLiveData.postValue(it)
             }
+    }
+
+    private fun navigateToSupport(podXSupportEvent: PodXSupportEvent) {
+        if (podXSupportEvent.urlString.isNotBlank()) {
+            val webPage: Uri = Uri.parse(podXSupportEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
     }
 
     private fun navigateToWeb(podXWebEvent: PodXWebEvent) {

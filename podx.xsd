@@ -73,10 +73,7 @@
             </xs:annotation>
             <xs:complexContent>
                 <xs:extension base="podx:baseEvent">
-                    <xs:all>
-                        <xs:element name="payPal" type="xs:string"/>
-                        <xs:element name="patreon" type="xs:string"/>
-                    </xs:all>
+                    <xs:attribute name="url" type="xs:anyURI"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

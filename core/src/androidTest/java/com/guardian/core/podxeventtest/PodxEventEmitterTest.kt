@@ -173,7 +173,7 @@ class PodxEventEmitterTest {
 
     @Test
     fun testEmittingImageAndWebEventsAfterSeekViaLiveData() {
-        // aquire the lock to start the test that will run in the background
+        // acquire the lock to start the test that will run in the background
         testRunningMutex.tryLock()
 
         //store observed changes to the emitter with these vars
@@ -240,6 +240,12 @@ class PodxEventEmitterTest {
 
         // wait until the test is completed before cleaning up
         while (testRunningMutex.isLocked) {}
+    }
+
+    @Test
+    fun testAllEvents() {
+        // acquire the lock to start the test that will run in the background
+        testRunningMutex.tryLock()
     }
 
     /**

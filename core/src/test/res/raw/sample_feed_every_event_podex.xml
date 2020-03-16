@@ -1,0 +1,133 @@
+<rss version="2.0"
+    xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+    xmlns:podx="podx">
+    <channel>
+        <itunes:new-feed-url>https://interactive.guim.co.uk/podx/podcast.xml</itunes:new-feed-url>
+        <title>PodX Test Feed</title>
+        <link>https://www.theguardian.com/australia-news/series/australian-politics-live</link>
+        <description>This is a test feed using audio where Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you. There is additional data to show information about Mark Zuckerburg's dog while the episode plays back.</description>
+        <language>en-gb</language>
+        <copyright>The Guardian ©2019</copyright>
+        <lastBuildDate> Tue, 12 Nov 2019 01:29:02 GMT </lastBuildDate>
+        <ttl>15</ttl>
+
+        <itunes:owner>
+            <itunes:email>userhelp@theguardian.com</itunes:email>
+            <itunes:name>The Guardian</itunes:name>
+        </itunes:owner>
+        <itunes:image href="https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg"/>
+        <itunes:author>The Guardian</itunes:author>
+
+        <itunes:keywords/>
+        <itunes:summary>This is a test feed using audio where Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you. There is additional data to show information about Mark Zuckerburg's dog while the episode plays back.</itunes:summary>
+        <image>
+            <title>PodX Test Feed</title>
+            <url>https://static.guim.co.uk/sitecrumbs/Guardian.gif</url>
+            <link>https://www.theguardian.com</link>
+        </image>
+        <itunes:category text="News &amp; Politics">
+
+        </itunes:category>
+        <item>
+            <title>
+                A whole lot of images
+            </title>
+            <description>
+                The official campaign post-mortem has been completed by Jay Weatherill and Craig Emerson, but with a whole lot of pictures of a dog? Katharine Murphy sits down with Weatherill to discuss the findings of the ‘warts-and-all’ review. Was Bill Shorten found untrustworthy by voters? Will the party continue to be overshadowed by the Rudd-Gillard-Rudd years? How will they combat disinformation in the future?
+            </description>
+            <enclosure url="https://flex.acast.com/audio.guim.co.uk/2019/11/08-18765-APLlaborreport.mp3" length="30345089" type="audio/mpeg"/>
+            <pubDate>Fri, 08 Nov 2019 19:00:43 GMT</pubDate>
+            <guid>5dc4f4838f08c2d1f80dbe45</guid>
+            <itunes:duration>00:31:36</itunes:duration>
+            <itunes:author>The Guardian</itunes:author>
+            <itunes:explicit>clean</itunes:explicit>
+            <itunes:keywords>
+                Jay Weatherill, Australian politics, Australia news, Bill Shorten, Scott Morrison, Malcolm Turnbull, Labor party, Liberal party
+            </itunes:keywords>
+            <itunes:subtitle>
+                The official campaign post-mortem has been completed by Jay Weatherill and Craig Emerson, but with a whole lot of pictures of a dog? Katharine Murphy sits down with Weatherill to discuss the findings of the ‘warts-and-all’ review. Was Bill Shorten found untrustworthy by voters? Will the party continue to be overshadowed by the Rudd-Gillard-Rudd years? How will they combat disinformation in the future?
+            </itunes:subtitle>
+            <itunes:summary>
+                The official campaign post-mortem has been completed by Jay Weatherill and Craig Emerson, but with a whole lot of pictures of a dog? Katharine Murphy sits down with Weatherill to discuss the findings of the ‘warts-and-all’ review. Was Bill Shorten found untrustworthy by voters? Will the party continue to be overshadowed by the Rudd-Gillard-Rudd years? How will they combat disinformation in the future?
+            </itunes:summary>
+
+            <podx:image href="https://interactive.guim.co.uk/podx/Puli_600.jpg">
+                <podx:start>0:05</podx:start>
+                <podx:end>0:25</podx:end>
+                <podx:caption>This is a funny dog caption</podx:caption>
+                <podx:notification>This is a funny dog notification</podx:notification>
+            </podx:image>
+
+            <podx:web href="https://www.theguardian.com/technology/2015/jul/31/zuckerberg-baby-announcement-upstaged-by-their-dog">
+                <podx:start>0:08</podx:start>
+                <podx:end>0:25</podx:end>
+                <podx:caption>Dog article</podx:caption>
+                <podx:notification>This is an informative dog notification</podx:notification>
+            </podx:web>
+
+            <podx:socialPrompt>
+                <podx:start>0:05</podx:start>
+                <podx:end>0:25</podx:end>
+                <podx:caption>Follow us on these</podx:caption>
+                <podx:notification>Follow us</podx:notification>
+                <podx:socialLink url="https://www.facebook.com/theguardianaustralia"/>
+                <podx:socialLink url="https://www.instagram.com/guardianaustralia"/>
+            </podx:socialPrompt>
+
+            <podx:text>
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</podx:caption>
+                <podx:notification>Lorem ipsum</podx:notification>
+            </podx:text>
+
+            <podx:support url="https://support.theguardian.com/au/support">
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Support our efforts to podcast</podx:caption>
+                <podx:notification>Support us</podx:notification>
+            </podx:support>
+
+            <podx:feedLink>
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Have a geez at this other episode</podx:caption>
+                <podx:notification>Come on</podx:notification>
+                <podx:feedUrl>https://interactive.guim.co.uk/podx/podcast.xml</podx:feedUrl>
+                <podx:feedItemTitle> A whole lot of images </podx:feedItemTitle>
+                <podx:feedItemPubDate>Fri, 08 Nov 2019 19:00:43 GMT</podx:feedItemPubDate>
+                <podx:feedItemGuid>5dc4f4838f08c2d1f80dbe45</podx:feedItemGuid>
+                <podx:feedItemEnclosureUrl>https://flex.acast.com/audio.guim.co.uk/2019/11/08-18765-APLlaborreport.mp3</podx:feedItemEnclosureUrl>
+                <podx:feedItemAudioTimeStamp>1:11</podx:feedItemAudioTimeStamp>
+            </podx:feedLink>
+
+            <podx:callPrompt number="01189998819991197253">
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Call out chat line</podx:caption>
+                <podx:notification>Call us</podx:notification>
+            </podx:callPrompt>
+
+            <podx:newsletterSignup url="https://www.theguardian.com/world/guardian-australia-morning-mail/2014/jun/24/-sp-guardian-australias-morning-mail-subscribe-by-email">
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Sign up to the morning mail</podx:caption>
+                <podx:notification>Morning mail</podx:notification>
+            </podx:newsletterSignup>
+
+            <podx:feedback url="https://www.theguardian.com/info/2013/may/26/contact-guardian-australia">
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Contact us to let us know what you think</podx:caption>
+                <podx:notification>Contact us</podx:notification>
+            </podx:feedback>
+
+            <podx:poll url="https://www.theguardian.com/environment/ng-interactive/2019/oct/27/australian-bird-of-the-year-2019-vote-for-your-favourite">
+                <podx:start>0:01</podx:start>
+                <podx:end>0:31</podx:end>
+                <podx:caption>Vote in this poll</podx:caption>
+                <podx:notification>Vote here</podx:notification>
+            </podx:poll>
+        </item>
+    </channel>
+</rss>

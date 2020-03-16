@@ -33,8 +33,12 @@ data class OGMetadata(
                     }
                 }
 
+            if (argMap["og:image"].isNullOrBlank()) {
+                throw IllegalArgumentException()
+            }
+
             return OGMetadata(
-                OGImage = argMap["og:image"]!!,
+                OGImage = argMap["og:image"] ?: "",
                 OGTitle = argMap["og:title"] ?: "",
                 OGType = argMap["og:type"] ?: "",
                 OGUrl = argMap["og:url"] ?: ""
