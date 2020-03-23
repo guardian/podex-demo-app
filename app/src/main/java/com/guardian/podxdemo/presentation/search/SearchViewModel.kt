@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.guardian.core.search.SearchRepository
 import com.guardian.core.search.SearchResult
 import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 import javax.inject.Inject
 
 data class SearchUiModel(
@@ -28,9 +29,12 @@ class SearchViewModel
     fun doSearch(search: String) {
         compositeDisposable.clear()
         compositeDisposable.add(searchRepository.doSearch(search)
-            .subscribe {
+            .subscribe ({
                 searchResults.postValue(it)
-            }
+            }, { e: Throwable ->
+                Timber.e(e)
+            })
+
         )
     }
 
