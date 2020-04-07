@@ -62,23 +62,25 @@ class PodXEventsContainerFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        feedThumnailLiveData()
         bindVisibilitySwitch()
         setupRecyclerView()
+        feedThumnailLiveData()
     }
 
     private fun feedThumnailLiveData() {
-        val imageThumbnailData = podXEventsContainerViewModel
+
+        val imageThumbnailData = MutableLiveData<List<PodXEventThumbnailData>> ()
+        podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXImageEventsListLiveData
-            .map { imageList ->
-                imageList.map { image ->
+            .observe(viewLifecycleOwner) { imageList ->
+                imageThumbnailData.postValue(imageList.map { image ->
                     image.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
                             navigateToImage(image)
                         }
                     )
-                }
+                })
             }
 
         val webThumbnailData = podXEventsContainerViewModel
@@ -97,7 +99,7 @@ class PodXEventsContainerFragment
         val supportThumbailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXSupportEventsListLiveData
-            .map{ supportEvent ->
+            .map { supportEvent ->
                 supportEvent.map { support ->
                     support.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
@@ -109,20 +111,22 @@ class PodXEventsContainerFragment
 
         MediatorLiveData<List<PodXEventThumbnailData>>()
             .apply {
+                observe(viewLifecycleOwner) {
+                    thumbnailMutableLiveData.postValue(it)
+                }
+
                 addSource(imageThumbnailData) {
                     Timber.i("list of showing ${it.size}")
-                    value = it + (webThumbnailData.value ?: listOf())
+                    postValue(it + (imageThumbnailData.value ?: listOf()))
                 }
 
-                addSource(webThumbnailData) {
-                    value = (imageThumbnailData.value ?: listOf()) + it
-                }
-
-                addSource(supportThumbailData) {
-                    value = it + (supportThumbailData.value ?: listOf())
-                }
-            }.observe(viewLifecycleOwner) {
-                thumbnailMutableLiveData.postValue(it)
+                // addSource(webThumbnailData) {
+                //     postValue((webThumbnailData.value ?: listOf()) + it)
+                // }
+                //
+                // addSource(supportThumbailData) {
+                //     postValue(it + (supportThumbailData.value ?: listOf()))
+                // }
             }
     }
 

@@ -122,12 +122,10 @@ class PodXEventEmitterImpl
     private val pendingPodXSocialPromptEvents: MutableList<PodXSocialPromptEvent> = mutableListOf()
     private val pendingPodXTextEvents: MutableList<PodXTextEvent> = mutableListOf()
 
-    private var pendingPodXEventTimes: List<Long> = listOf()
-
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.clear()
 
-        podXImageEventMutableLiveData.postValue(listOf())
+        podXImageEventMutableLiveData.value = listOf()
         podXWebEventMutableLiveData.postValue(listOf())
         podXSupportEventMutableLiveData.postValue(listOf())
 
@@ -141,32 +139,6 @@ class PodXEventEmitterImpl
         registerSocialPromptEvents(feedItem)
         registerPollEvents(feedItem)
         registerTextEvents(feedItem)
-
-        setupPendingEventTimes()
-    }
-
-    private fun setupPendingEventTimes() {
-        pendingPodXEventTimes = pendingPodXImageEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXCallPromptEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXFeedBackEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXFeedLinkEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXNewsLetterSignUpEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXPollEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXSocialPromptEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXSupportEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXTextEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        } + pendingPodXWebEvents.flatMap {
-            listOf(it.timeStart, it.timeEnd)
-        }
     }
 
     private fun registerWebEvents(feedItem: FeedItem) {
@@ -333,8 +305,29 @@ class PodXEventEmitterImpl
     }
 
     private fun getNextEventTime(currentTimeMillis: Long): Long {
-        val minEvent = pendingPodXEventTimes.filter{ eventTime -> eventTime > currentTimeMillis }
-            .min() ?: Long.MAX_VALUE - currentTimeMillis
+        val minEvent = (pendingPodXImageEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXCallPromptEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXFeedBackEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXFeedLinkEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXNewsLetterSignUpEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXPollEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXSocialPromptEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXSupportEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXTextEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            } + pendingPodXWebEvents.flatMap {
+                listOf(it.timeStart, it.timeEnd)
+            }).filter {
+                eventTime -> eventTime > currentTimeMillis
+            }.min() ?: Long.MAX_VALUE - currentTimeMillis
 
         return max (minEvent, 250L)
     }
