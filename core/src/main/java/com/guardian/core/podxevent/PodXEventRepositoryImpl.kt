@@ -31,6 +31,14 @@ class PodXEventRepositoryImpl
     override fun deletePodXEventsForFeedItem(feedItem: FeedItem) {
         podXImageEventDao.removePodXImageEventList(feedItem.feedItemAudioUrl)
         podXWebEventDao.removePodXWebEventList(feedItem.feedItemAudioUrl)
+        podXSupportEventDao.removePodXSupportEventList(feedItem.feedItemAudioUrl)
+        podXCallPromptEventDao.removePodXCallPromptEventList(feedItem.feedItemAudioUrl)
+        podXFeedBackEventDao.removePodXFeedBackEventList(feedItem.feedItemAudioUrl)
+        podXFeedLinkEventDao.removePodXFeedLinkEventList(feedItem.feedItemAudioUrl)
+        podXNewsLetterSignUpEventDao.removePodXNewsLetterSignUpEventList(feedItem.feedItemAudioUrl)
+        podXPollEventDao.removePodXPollEventList(feedItem.feedItemAudioUrl)
+        podXSocialPromptEventDao.removePodXSocialPromptEventList(feedItem.feedItemAudioUrl)
+        podXTextEventDao.removePodXTextEventList(feedItem.feedItemAudioUrl)
     }
 
     override fun addPodXImageEvents(podXImageEvents: List<PodXImageEvent>) {

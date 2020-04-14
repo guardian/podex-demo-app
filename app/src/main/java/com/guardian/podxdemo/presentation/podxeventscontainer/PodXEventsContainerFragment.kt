@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -24,7 +25,6 @@ import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodxeventscontainerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
-import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -109,6 +109,107 @@ class PodXEventsContainerFragment
                 }
             }
 
+        val textThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXTextEventsListLiveData
+            .map { textEvent ->
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                textEvent.map { text ->
+                        text.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
+                }
+            }
+
+        val callPromptThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXCallPromptEventsListLiveData
+            .map { callPromptEvent ->
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    callPromptEvent.map { callPrompt ->
+                        callPrompt.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
+                }
+            }
+
+        val feedBackThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXFeedBackEventsListLiveData
+            .map { feedBackEvent ->
+                feedBackEvent.map { feedBack ->
+                    feedBack.toPodXEventThumbnail(
+                        onClickListener = View.OnClickListener {
+                        }
+                    )
+                }
+            }
+
+        // todo val feedLinkThumbnailData = podXEventsContainerViewModel
+        //     .podXEventsContainerUiModel
+        //     .podXFeedLinkEventsListLiveData
+        //     .map { feedLinkEvent ->
+        //         feedLinkEvent.map { feedLink ->
+        //             feedLink.toPodXEventThumbnail(
+        //                 onClickListener = View.OnClickListener {
+        //                 }
+        //             )
+        //         }
+        //     }
+
+        val newsLetterSignUpThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXNewsLetterSignUpEventsListLiveData
+            .map { newsLetterSignUpEvent ->
+                newsLetterSignUpEvent.map { newsLetterSignUp ->
+                    newsLetterSignUp.toPodXEventThumbnail(
+                        onClickListener = View.OnClickListener {
+                        }
+                    )
+                }
+            }
+
+        val pollThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXPollEventsListLiveData
+            .map { pollEvent ->
+                pollEvent.map { poll ->
+                    poll.toPodXEventThumbnail(
+                        onClickListener = View.OnClickListener {
+                        }
+                    )
+                }
+            }
+
+        val socialPromptThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXSocialPromptEventsListLiveData
+            .map { socialPromptEvent ->
+                socialPromptEvent.map { socialPrompt ->
+                    socialPrompt.toPodXEventThumbnail(
+                        onClickListener = View.OnClickListener {
+                        }
+                    )
+                }
+            }
+
+
         MediatorLiveData<List<PodXEventThumbnailData>>()
             .apply {
                 observe(viewLifecycleOwner) {
@@ -116,18 +217,80 @@ class PodXEventsContainerFragment
                 }
 
                 addSource(imageThumbnailData) {
-                    Timber.i("list of showing ${it.size}")
-                    postValue(it + (imageThumbnailData.value ?: listOf()))
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
                 }
 
-                // addSource(webThumbnailData) {
-                //     postValue((webThumbnailData.value ?: listOf()) + it)
-                // }
+                 addSource(webThumbnailData) {
+                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                         feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                         pollThumbnailData, socialPromptThumbnailData))
+                 }
+
+                addSource(supportThumbailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
+
+                addSource(textThumbnailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
+
+                addSource(callPromptThumbnailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
+
+                addSource(feedBackThumbnailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
+
+                // todo addSource(feedLinkThumbnailData) {
                 //
-                // addSource(supportThumbailData) {
-                //     postValue(it + (supportThumbailData.value ?: listOf()))
                 // }
+
+                addSource(pollThumbnailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
+
+                addSource(socialPromptThumbnailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
             }
+    }
+
+    private fun generatecurrentThumbnails(
+        vararg eventsThumbnailLiveDatas: LiveData<List<PodXEventThumbnailData>>
+    ) : List<PodXEventThumbnailData> {
+        val aggregateThumbnails = mutableListOf<PodXEventThumbnailData>()
+
+        for (thumbnailLiveData in eventsThumbnailLiveDatas) {
+            val thumbnailData = thumbnailLiveData.value
+            if (!thumbnailData.isNullOrEmpty()) {
+                aggregateThumbnails.addAll(thumbnailData)
+            }
+        }
+
+        return aggregateThumbnails
     }
 
     private fun navigateToSupport(podXSupportEvent: PodXSupportEvent) {

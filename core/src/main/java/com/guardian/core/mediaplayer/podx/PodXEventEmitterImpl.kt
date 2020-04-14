@@ -171,6 +171,7 @@ class PodXEventEmitterImpl
         currentFeedDisposable.add(
             podXEventRepository.getSupportEventsForFeedItem(feedItem)
                 .subscribe({ feedPodXEventList ->
+                    Timber.i("we have ${feedPodXEventList.size} elements coming from cache")
                     pendingPodXSupportEvents.clear()
                     pendingPodXSupportEvents.addAll(feedPodXEventList)
                     registerPlaybackTimerObservable()
