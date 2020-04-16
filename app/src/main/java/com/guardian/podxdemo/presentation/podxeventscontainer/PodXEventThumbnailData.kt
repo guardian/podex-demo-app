@@ -3,8 +3,6 @@ package com.guardian.podxdemo.presentation.podxeventscontainer
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
-import com.guardian.core.feed.Feed
-import com.guardian.core.feed.FeedRepository
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXFeedBackEvent
 import com.guardian.core.podxevent.PodXFeedLinkEvent
@@ -70,6 +68,16 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener
         onClickListener = onClickListener,
         imageDrawable = null
     )
+
+fun PodXFeedLinkEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener)
+    : PodXEventThumbnailData {
+    return PodXEventThumbnailData(
+        imageUrlString = this.remoteFeedImageUrlString,
+        captionString = this.caption,
+        onClickListener = onClickListener,
+        imageDrawable = null
+    )
+}
 
 fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener):
     PodXEventThumbnailData {
