@@ -25,6 +25,7 @@ import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.ParseException
@@ -56,6 +57,8 @@ class FeedRepositoryImpl
     override fun getFeeds(): Flowable<List<Feed>> {
         return feedDao.getCachedFeeds()
     }
+
+    private val repositoryScopedDisposable = CompositeDisposable()
 
     override fun getFeed(feedUrl: String): Flowable<Feed> {
         // Fire and forget our update from the web for this feed, results will update the room repo
@@ -144,7 +147,7 @@ class FeedRepositoryImpl
                 mapPodXSupport(feedItemXmlDataObject)
                 mapPodXCallPrompts(feedItemXmlDataObject)
                 mapPodXFeedBacks(feedItemXmlDataObject)
-                mapPodXFeedLinks(feedItemXmlDataObject)
+                mapPodXFeedLinks(feedItemXmlDataObject, feedUrl)
                 mapPodXNewsLetterSignUps(feedItemXmlDataObject)
                 mapPodXPolls(feedItemXmlDataObject)
                 mapPodXSocialPrompts(feedItemXmlDataObject)
@@ -294,7 +297,7 @@ class FeedRepositoryImpl
         }
     }
 
-    private fun mapPodXFeedLinks(feedItemXmlDataObject: FeedItemXmlDataObject) {
+    private fun mapPodXFeedLinks(feedItemXmlDataObject: FeedItemXmlDataObject, currentFeedUrl: String) {
         val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.getDefault())
 
         feedItemXmlDataObject.podXFeedLink.filter { podXEventXmlDataObject ->
@@ -319,14 +322,53 @@ class FeedRepositoryImpl
                 remoteFeedItemUrlString = podXFeedLinkEventXmlDataObject.feedItemEnclosureUrl,
                 remoteFeedUrlString = podXFeedLinkEventXmlDataObject.feedUrl,
                 remoteItemAudioTime = podXFeedLinkEventXmlDataObject.feedItemAudioTimestamp.parseNormalPlayTimeToMillisOrNull()
-                    ?: 0L
-            )
+                    ?: 0L,
+                remoteFeedImageUrlString = null
+            ).apply {
+                addFeedImageToFeedLink(currentFeedUrl, this)
+            }
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXFeedLinkEvents(podXEventList)
                 Timber.i("Caching PodxFeedBackEvents ${podXEventList.size}")
             }
         }
+    }
+
+    private fun addFeedImageToFeedLink(feedUrl: String, feedLinkEvent: PodXFeedLinkEvent) {
+        repositoryScopedDisposable.add(
+            feedDao.getFeedForUrlString(feedUrl)
+                .subscribe ({cachedFeed ->
+                    reAddFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
+                }, { e: Throwable ->
+                    generalFeedApi.getFeedDeSerializedXml(feedUrl)
+                        .apply {
+                            val feedImage: String = this.itunesImage.attributes["href"]?.value
+                                ?: this.image.url
+
+                            reAddFeedLinkWithImage(feedImage, feedLinkEvent)
+                        }
+                })
+        )
+    }
+
+    private fun reAddFeedLinkWithImage(feedImageUrlString: String, feedLinkEvent: PodXFeedLinkEvent) {
+        podXEventRepository.addPodXFeedLinkEvents(
+            listOf(PodXFeedLinkEvent(
+                remoteFeedImageUrlString = feedImageUrlString,
+                timeStart = feedLinkEvent.timeStart,
+                timeEnd = feedLinkEvent.timeEnd,
+                caption = feedLinkEvent.caption,
+                notification = feedLinkEvent.notification,
+                currentFeedItemUrlString = feedLinkEvent.currentFeedItemUrlString,
+                remoteFeedUrlString = feedLinkEvent.remoteFeedUrlString,
+                remoteFeedItemUrlString = feedLinkEvent.remoteFeedItemUrlString,
+                remoteFeedItemTitle = feedLinkEvent.remoteFeedItemTitle,
+                remoteFeedItemPubDate = feedLinkEvent.remoteFeedItemPubDate,
+                remoteFeedItemGuid = feedLinkEvent.remoteFeedItemGuid,
+                remoteItemAudioTime = feedLinkEvent.remoteItemAudioTime,
+                id = feedLinkEvent.id
+            )))
     }
 
     private fun mapPodXNewsLetterSignUps(feedItemXmlDataObject: FeedItemXmlDataObject) {

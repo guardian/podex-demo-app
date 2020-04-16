@@ -71,14 +71,6 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener
         imageDrawable = null
     )
 
-//todo whatever needs to be done here
-// fun PodXFeedLinkEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-//                                            feed: Feed):
-//     PodXEventThumbnailData =
-//     PodXEventThumbnailData(
-//
-//     )
-
 fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener):
     PodXEventThumbnailData {
     return PodXEventThumbnailData(

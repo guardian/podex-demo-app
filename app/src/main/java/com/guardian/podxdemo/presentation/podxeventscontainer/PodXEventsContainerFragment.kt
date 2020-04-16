@@ -161,17 +161,17 @@ class PodXEventsContainerFragment
                 }
             }
 
-        // todo val feedLinkThumbnailData = podXEventsContainerViewModel
-        //     .podXEventsContainerUiModel
-        //     .podXFeedLinkEventsListLiveData
-        //     .map { feedLinkEvent ->
-        //         feedLinkEvent.map { feedLink ->
-        //             feedLink.toPodXEventThumbnail(
-        //                 onClickListener = View.OnClickListener {
-        //                 }
-        //             )
-        //         }
-        //     }
+        val feedLinkThumbnailData = podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXFeedLinkEventsListLiveData
+            .map { feedLinkEvent ->
+                feedLinkEvent.map { feedLink ->
+                    feedLink.toPodXEventThumbnail(
+                        onClickListener = View.OnClickListener {
+                        }
+                    )
+                }
+            }
 
         val newsLetterSignUpThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel

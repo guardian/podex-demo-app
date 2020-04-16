@@ -23,6 +23,7 @@ data class PodXFeedLinkEvent (
     val remoteFeedItemPubDate: Date?,
     val remoteFeedItemGuid: String?,
     val remoteItemAudioTime: Long,
+    val remoteFeedImageUrlString: String?,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 ) : Parcelable
