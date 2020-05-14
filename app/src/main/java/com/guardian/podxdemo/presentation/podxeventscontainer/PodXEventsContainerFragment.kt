@@ -25,6 +25,7 @@ import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodxeventscontainerfragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
+import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -168,6 +169,12 @@ class PodXEventsContainerFragment
                 feedLinkEvent.map { feedLink ->
                     feedLink.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
+                            podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
+                                .subscribe({feedItemFromLink ->
+                                    navigateToFeedItem(feedItemFromLink)
+                                },
+                                    {e -> Timber.e(e)}
+                                )
                         }
                     )
                 }

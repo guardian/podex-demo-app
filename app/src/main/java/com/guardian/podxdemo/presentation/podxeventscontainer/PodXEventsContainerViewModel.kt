@@ -2,6 +2,9 @@ package com.guardian.podxdemo.presentation.podxeventscontainer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.guardian.core.feed.FeedRepository
+import com.guardian.core.feeditem.FeedItem
+import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXFeedBackEvent
@@ -13,6 +16,7 @@ import com.guardian.core.podxevent.PodXSocialPromptEvent
 import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 data class PodXEventsContainerUiModel(
@@ -30,7 +34,9 @@ data class PodXEventsContainerUiModel(
 
 class PodXEventsContainerViewModel
 @Inject constructor(
-    private val podXEventEmitter: PodXEventEmitter
+    private val podXEventEmitter: PodXEventEmitter,
+    private val podXFeedRepository: FeedRepository,
+    private val podXFeedItemRepository: FeedItemRepository
 ) :
     ViewModel() {
     val podXEventsContainerUiModel by lazy {
@@ -46,5 +52,21 @@ class PodXEventsContainerViewModel
             podXEventEmitter.podXSocialPromptEventLiveData,
             podXEventEmitter.podXTextEventLiveData
         )
+    }
+
+    fun openGetFeedItemFromFeedLink(feedLinkEvent: PodXFeedLinkEvent): Flowable<FeedItem> {
+        return podXFeedRepository.getFeed(feedLinkEvent.remoteFeedUrlString)
+            .flatMap { feed ->
+                podXFeedItemRepository.getFeedItemForSearchParams(
+                    feedLinkEvent.remoteFeedItemTitle,
+                    feedLinkEvent.remoteFeedItemPubDate,
+                    feedLinkEvent.remoteFeedItemGuid,
+                    feedLinkEvent.remoteItemAudioTime,
+                    feedLinkEvent.remoteFeedImageUrlString
+                ).map {
+                    it.first()
+                }
+
+            }
     }
 }

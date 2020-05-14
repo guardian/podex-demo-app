@@ -137,7 +137,8 @@ class FeedRepositoryImpl
                     feedUrlString = feedUrl,
                     author = feedItemXmlDataObject.author.trim(),
                     episodeNumber = index.toLong(),
-                    lengthMs = feedItemXmlDataObject.duration.parseNormalPlayTimeToMillisOrNull() ?: 0L
+                    lengthMs = feedItemXmlDataObject.duration.parseNormalPlayTimeToMillisOrNull() ?: 0L,
+                    guid = feedItemXmlDataObject.guid
                 )
 
                 // prevent duplicate podX events from being added
