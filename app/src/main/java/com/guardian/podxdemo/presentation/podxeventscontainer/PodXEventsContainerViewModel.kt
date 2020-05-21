@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
+import com.guardian.core.mediaplayer.common.MediaSessionConnection
+import com.guardian.core.mediaplayer.extensions.id
+import com.guardian.core.mediaplayer.extensions.isPrepared
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXFeedBackEvent
@@ -36,7 +39,8 @@ class PodXEventsContainerViewModel
 @Inject constructor(
     private val podXEventEmitter: PodXEventEmitter,
     private val podXFeedRepository: FeedRepository,
-    private val podXFeedItemRepository: FeedItemRepository
+    private val podXFeedItemRepository: FeedItemRepository,
+    private val mediaSessionConnection: MediaSessionConnection
 ) :
     ViewModel() {
     val podXEventsContainerUiModel by lazy {
@@ -68,5 +72,16 @@ class PodXEventsContainerViewModel
                 }
 
             }
+    }
+
+    fun prepareFeedItemForPlayback(feedItem: FeedItem) {
+        val nowPlaying = mediaSessionConnection.nowPlaying.value
+        val transportControls = mediaSessionConnection.transportControls
+
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
+            transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
+            podXEventEmitter.registerCurrentFeedItem(feedItem)
+        }
     }
 }

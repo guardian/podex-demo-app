@@ -19,6 +19,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.podxevent.PodXImageEvent
 import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXWebEvent
@@ -171,6 +172,7 @@ class PodXEventsContainerFragment
                         onClickListener = View.OnClickListener {
                             podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
                                 .subscribe({feedItemFromLink ->
+                                    Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
                                     navigateToFeedItem(feedItemFromLink)
                                 },
                                     {e -> Timber.e(e)}
@@ -226,63 +228,75 @@ class PodXEventsContainerFragment
                 addSource(imageThumbnailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
 
                  addSource(webThumbnailData) {
                      postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                          supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                         feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                         feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                          pollThumbnailData, socialPromptThumbnailData))
                  }
 
                 addSource(supportThumbailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
 
                 addSource(textThumbnailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
 
                 addSource(callPromptThumbnailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
 
                 addSource(feedBackThumbnailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
 
-                // todo addSource(feedLinkThumbnailData) {
-                //
-                // }
+                addSource(feedLinkThumbnailData) {
+                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
+                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                        pollThumbnailData, socialPromptThumbnailData))
+                }
 
                 addSource(pollThumbnailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
 
                 addSource(socialPromptThumbnailData) {
                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, newsLetterSignUpThumbnailData,
+                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                         pollThumbnailData, socialPromptThumbnailData))
                 }
             }
+    }
+
+    private fun navigateToFeedItem(feedItemFromLink: FeedItem?) {
+        if (feedItemFromLink != null) {
+            podXEventsContainerViewModel.prepareFeedItemForPlayback(feedItemFromLink)
+
+            findNavController()
+                .navigate(R.id.action_global_playerFragment)
+        }
     }
 
     private fun generatecurrentThumbnails(
@@ -302,9 +316,13 @@ class PodXEventsContainerFragment
 
     private fun navigateToSupport(podXSupportEvent: PodXSupportEvent) {
         if (podXSupportEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXSupportEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
+            val argsBundle = Bundle()
+                .apply {
+                    putParcelable("podXSupportEvent", podXSupportEvent)
+                }
+
+            findNavController()
+                .navigate(R.id.action_global_playerFragment, argsBundle)
         }
     }
 
