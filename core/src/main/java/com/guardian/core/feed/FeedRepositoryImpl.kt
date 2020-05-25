@@ -328,32 +328,33 @@ class FeedRepositoryImpl
             ).apply {
                 addFeedImageToFeedLink(currentFeedUrl, this)
             }
-        }.also { podXEventList ->
-            if (podXEventList.isNotEmpty()) {
-                podXEventRepository.addPodXFeedLinkEvents(podXEventList)
-                Timber.i("Caching PodxFeedBackEvents ${podXEventList.size}")
-            }
         }
     }
 
     private fun addFeedImageToFeedLink(feedUrl: String, feedLinkEvent: PodXFeedLinkEvent) {
         repositoryScopedDisposable.add(
             feedDao.getFeedForUrlString(feedUrl)
+                .firstOrError()
                 .subscribe ({cachedFeed ->
-                    reAddFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
+                    Timber.i("adding cached feed link once")
+                    addFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
                 }, { e: Throwable ->
+                    Timber.e(e)
+
                     generalFeedApi.getFeedDeSerializedXml(feedUrl)
                         .apply {
                             val feedImage: String = this.itunesImage.attributes["href"]?.value
                                 ?: this.image.url
 
-                            reAddFeedLinkWithImage(feedImage, feedLinkEvent)
+                            Timber.e(e)
+
+                            addFeedLinkWithImage(feedImage, feedLinkEvent)
                         }
                 })
         )
     }
 
-    private fun reAddFeedLinkWithImage(feedImageUrlString: String, feedLinkEvent: PodXFeedLinkEvent) {
+    private fun addFeedLinkWithImage(feedImageUrlString: String, feedLinkEvent: PodXFeedLinkEvent) {
         podXEventRepository.addPodXFeedLinkEvents(
             listOf(PodXFeedLinkEvent(
                 remoteFeedImageUrlString = feedImageUrlString,

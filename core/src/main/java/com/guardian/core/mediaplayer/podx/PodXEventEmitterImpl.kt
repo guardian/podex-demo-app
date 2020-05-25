@@ -397,6 +397,7 @@ class PodXEventEmitterImpl
         podXFeedLinkEventMutableLiveData.postValue(currentFeedLinkEventList)
         if (currentFeedLinkEventList
                 .size != (podXFeedLinkEventMutableLiveData.value)?.size ?: 0) {
+            Timber.i("feed link count: ${currentFeedLinkEventList.size}")
             podXFeedLinkEventMutableLiveData.postValue(currentFeedLinkEventList)
         }
 
