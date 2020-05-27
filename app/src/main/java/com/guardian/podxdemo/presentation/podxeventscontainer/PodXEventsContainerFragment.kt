@@ -20,8 +20,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.guardian.core.feeditem.FeedItem
+import com.guardian.core.podxevent.PodXCallPromptEvent
+import com.guardian.core.podxevent.PodXFeedBackEvent
 import com.guardian.core.podxevent.PodXImageEvent
+import com.guardian.core.podxevent.PodXNewsLetterSignUpEvent
+import com.guardian.core.podxevent.PodXPollEvent
+import com.guardian.core.podxevent.PodXSocialPromptEvent
 import com.guardian.core.podxevent.PodXSupportEvent
+import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodxeventscontainerfragmentBinding
@@ -121,6 +127,7 @@ class PodXEventsContainerFragment
                 textEvent.map { text ->
                         text.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
+                                navigateToText(text)
                             },
                             resources = resources,
                             theme = theme
@@ -141,6 +148,7 @@ class PodXEventsContainerFragment
                     callPromptEvent.map { callPrompt ->
                         callPrompt.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
+                                navigateToCall(callPrompt)
                             },
                             resources = resources,
                             theme = theme
@@ -158,6 +166,7 @@ class PodXEventsContainerFragment
                 feedBackEvent.map { feedBack ->
                     feedBack.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
+                            navigateToFeedBack(feedBack)
                         }
                     )
                 }
@@ -189,6 +198,7 @@ class PodXEventsContainerFragment
                 newsLetterSignUpEvent.map { newsLetterSignUp ->
                     newsLetterSignUp.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
+                            navigateToNewsLetterSignUp(newsLetterSignUp)
                         }
                     )
                 }
@@ -201,6 +211,7 @@ class PodXEventsContainerFragment
                 pollEvent.map { poll ->
                     poll.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
+                            navigateToPoll(poll)
                         }
                     )
                 }
@@ -213,6 +224,7 @@ class PodXEventsContainerFragment
                 socialPromptEvent.map { socialPrompt ->
                     socialPrompt.toPodXEventThumbnail(
                         onClickListener = View.OnClickListener {
+                            navigateToSocialPrompt(socialPrompt)
                         }
                     )
                 }
@@ -316,19 +328,48 @@ class PodXEventsContainerFragment
 
     private fun navigateToSupport(podXSupportEvent: PodXSupportEvent) {
         if (podXSupportEvent.urlString.isNotBlank()) {
-            val argsBundle = Bundle()
-                .apply {
-                    putParcelable("podXSupportEvent", podXSupportEvent)
-                }
-
-            findNavController()
-                .navigate(R.id.action_global_playerFragment, argsBundle)
+            val webPage: Uri = Uri.parse(podXSupportEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
         }
     }
 
     private fun navigateToWeb(podXWebEvent: PodXWebEvent) {
         if (podXWebEvent.urlString.isNotBlank()) {
             val webPage: Uri = Uri.parse(podXWebEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
+    }
+
+    private fun navigateToFeedBack(podXFeedBackEvent: PodXFeedBackEvent) {
+        if (podXFeedBackEvent.urlString.isNotBlank()) {
+            val webPage: Uri = Uri.parse(podXFeedBackEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
+    }
+
+    private fun navigateToNewsLetterSignUp(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
+        if (podXNewsLetterSignUpEvent.urlString.isNotBlank()) {
+            val webPage: Uri = Uri.parse(podXNewsLetterSignUpEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
+    }
+
+    private fun navigateToPoll (podXPollEvent: PodXPollEvent) {
+        if (podXPollEvent.urlString.isNotBlank()) {
+            val webPage: Uri = Uri.parse(podXPollEvent.urlString)
+            val intent = Intent(Intent.ACTION_VIEW, webPage)
+            startActivity(intent)
+        }
+    }
+
+    private fun navigateToSocialPrompt(podXSocialPromptEvent: PodXSocialPromptEvent) {
+        if (podXSocialPromptEvent.socialLinkUrlString.isNotBlank()) {
+            //todo this might hinge too much on deep links
+            val webPage: Uri = Uri.parse(podXSocialPromptEvent.socialLinkUrlString)
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             startActivity(intent)
         }
@@ -342,6 +383,14 @@ class PodXEventsContainerFragment
 
         findNavController()
             .navigate(R.id.action_global_podXImageFragment, argsBundle)
+    }
+
+    private fun navigateToText(podXTextEvent: PodXTextEvent) {
+        //todo make image fragment
+    }
+
+    private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent) {
+        //todo create call intent and alert
     }
 
     private fun setupRecyclerView() {
