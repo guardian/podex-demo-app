@@ -19,18 +19,15 @@ interface FeedItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addFeedList(feedItems: List<FeedItem>)
 
-    @Query("SELECT * from feed_items WHERE title = :feedItemTitle")
-    fun getFeedItemsWithTitle(feedItemTitle: String): Flowable<List<FeedItem>>
+    @Query("SELECT * FROM feed_items WHERE (:feedItemEnclosureUrl is NULL OR feedItemAudioUrl = :feedItemEnclosureUrl) OR " +
+        "(:feedItemTitle is NULL OR title LIKE :feedItemTitle) AND " +
+        "(:feedItemGuid is NULL OR guid LIKE :feedItemGuid) AND " +
+        "(:feedItemPubDate is NULL OR pubDate LIKE :feedItemPubDate)")
+    fun getFeedItemsWithLinkParams(
+        feedItemTitle: String? = null,
+        feedItemGuid: String? = null,
+        feedItemEnclosureUrl: String? = null,
+        feedItemPubDate: Date? = null
+    ): Flowable<List<FeedItem>>
 
-    @Query("SELECT * from feed_items WHERE pubDate = :feedItemPubDate")
-    fun getFeedItemsWithPubDate(feedItemPubDate: Date): Flowable<List<FeedItem>>
-
-    @Query("SELECT * from feed_items WHERE guid = :feedItemGuid")
-    fun getFeedItemsWithGuid(feedItemGuid: String): Flowable<List<FeedItem>>
-
-    @Query("SELECT * from feed_items WHERE lengthMs = :feedItemAudioTime")
-    fun getFeedItemsWithPlayTime(feedItemAudioTime: Long): Flowable<List<FeedItem>>
-
-    @Query("SELECT * from feed_items WHERE imageUrlString = :feedImageUrlString")
-    fun getFeedItemsWithImage(feedImageUrlString: String): Flowable<List<FeedItem>>
 }

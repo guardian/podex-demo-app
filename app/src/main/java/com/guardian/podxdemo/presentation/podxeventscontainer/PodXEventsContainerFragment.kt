@@ -303,6 +303,7 @@ class PodXEventsContainerFragment
     }
 
     private fun navigateToFeedItem(feedItemFromLink: FeedItem?) {
+        Timber.i("got to navigate function with ${feedItemFromLink?.feedItemAudioUrl}")
         if (feedItemFromLink != null) {
             podXEventsContainerViewModel.prepareFeedItemForPlayback(feedItemFromLink)
 

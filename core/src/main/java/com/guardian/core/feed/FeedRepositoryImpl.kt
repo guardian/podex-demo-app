@@ -25,6 +25,7 @@ import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.core.search.SearchResult
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -70,6 +71,10 @@ class FeedRepositoryImpl
         }
 
         return feedDao.getFeedForUrlString(feedUrl)
+    }
+
+    override fun getFeedWithoutUpDate(feedUrl: String): Single<Feed> {
+        return feedDao.getFeedForUrlString(feedUrl).firstOrError()
     }
 
     @Suppress("DEPRECATION")

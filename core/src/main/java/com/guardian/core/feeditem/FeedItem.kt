@@ -11,7 +11,10 @@ import java.util.Date
 
 @Parcelize
 @Entity(tableName = "feed_items",
-    indices = [Index(value = ["feedUrlString"], unique = false)])
+    indices = [Index(value = ["feedUrlString"], unique = false),
+        Index(value = ["title"], unique = false),
+        Index(value = ["guid"], unique = false),
+        Index(value = ["pubDate"], unique = false)])
 @ForeignKey(entity = PodXImageEvent::class,
     parentColumns = ["feedItemAudioUrl"],
     childColumns = ["feedItemUrlString"],

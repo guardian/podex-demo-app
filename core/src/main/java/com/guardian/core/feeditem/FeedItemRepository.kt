@@ -22,25 +22,21 @@ interface FeedItemRepository {
     fun getFeedItemForUrlString(feedItemUrlString: String): Flowable<FeedItem>
 
     /**
-     * Given a set of arguments returns a list of matching feed items from the repo items are
-     * ordered by the number of matching fields,
+     * Given a set of arguments returns a list of matching feed items from the repo, ideally one
+     * item matches given parameters
      *
      * @param feedItemTitle the title of the episode, corresponding to the title field of an item
      * in the RSS feed
      * @param feedItemPubDate the [Date] that can be converted from the pubDate field of the RSS
      * feed
      * @param feedItemGuid a guid is not necessarily unique in the RSS spec, and can take any form
-     * @param feedItemAudioTime the audio time converted from the itunes duration field if it is
-     * included
-     * @param feedImageUrlString the image url given by the itunes image field if it is included,
-     * alternatively the enclosure image can be used
+     * @param feedItemUrlString the enclusure url for a given feed item
      * @return a [Flowable] that emits the most current version of the [FeedItem] and updates
      */
     fun getFeedItemForSearchParams(feedItemTitle: String?,
                                    feedItemPubDate: Date?,
                                    feedItemGuid: String?,
-                                   feedItemAudioTime: Long?,
-                                   feedImageUrlString: String?): Flowable<List<FeedItem>>
+                                   feedItemUrlString: String?): Flowable<List<FeedItem>>
 
     /**
      * Add list of [FeedItem]s to the repository

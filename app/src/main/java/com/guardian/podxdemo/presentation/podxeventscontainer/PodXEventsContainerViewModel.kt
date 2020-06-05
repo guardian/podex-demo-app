@@ -20,6 +20,8 @@ import com.guardian.core.podxevent.PodXSupportEvent
 import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import io.reactivex.Flowable
+import io.reactivex.Single
+import timber.log.Timber
 import javax.inject.Inject
 
 data class PodXEventsContainerUiModel(
@@ -59,18 +61,17 @@ class PodXEventsContainerViewModel
     }
 
     fun openGetFeedItemFromFeedLink(feedLinkEvent: PodXFeedLinkEvent): Flowable<FeedItem> {
-        return podXFeedRepository.getFeed(feedLinkEvent.remoteFeedUrlString)
-            .flatMap { feed ->
+        return podXFeedRepository.getFeedWithoutUpDate(feedLinkEvent.remoteFeedUrlString)
+            .toFlowable()
+            .flatMap { _ ->
                 podXFeedItemRepository.getFeedItemForSearchParams(
                     feedLinkEvent.remoteFeedItemTitle,
                     feedLinkEvent.remoteFeedItemPubDate,
                     feedLinkEvent.remoteFeedItemGuid,
-                    feedLinkEvent.remoteItemAudioTime,
-                    feedLinkEvent.remoteFeedImageUrlString
+                    feedLinkEvent.remoteFeedItemUrlString
                 ).map {
                     it.first()
                 }
-
             }
     }
 
