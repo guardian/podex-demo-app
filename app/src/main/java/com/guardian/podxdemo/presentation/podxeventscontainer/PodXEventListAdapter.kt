@@ -24,5 +24,6 @@ class PodXEventListAdapter(
 
     override fun bind(holder: ViewholderPodxeventadapterImageBinding, item: PodXEventThumbnailData) {
         holder.podXThumbnailData = item
+        holder.imageviewPodxeventviewholderBadge.setImageDrawable(item.badgeDrawable)
     }
 }

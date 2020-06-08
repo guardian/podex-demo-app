@@ -77,30 +77,45 @@ class PodXEventsContainerFragment
 
     private fun feedThumnailLiveData() {
 
-        val imageThumbnailData = MutableLiveData<List<PodXEventThumbnailData>> ()
-        podXEventsContainerViewModel
+        val imageThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXImageEventsListLiveData
-            .observe(viewLifecycleOwner) { imageList ->
-                imageThumbnailData.postValue(imageList.map { image ->
-                    image.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToImage(image)
-                        }
-                    )
-                })
+            .map { imageList ->
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    imageList.map { image ->
+                        image.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToImage(image)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
+                }
             }
 
         val webThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXWebEventsListLiveData
             .map { webList ->
-                webList.map { web ->
-                    web.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToWeb(web)
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    webList.map { web ->
+                        web.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToWeb(web)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
@@ -108,12 +123,20 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXSupportEventsListLiveData
             .map { supportEvent ->
-                supportEvent.map { support ->
-                    support.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToSupport(support)
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                     supportEvent.map { support ->
+                            support.toPodXEventThumbnail(
+                                onClickListener = View.OnClickListener {
+                                    navigateToSupport(support)
+                                },
+                                resources = resources,
+                                theme = theme
+                            )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
@@ -124,15 +147,15 @@ class PodXEventsContainerFragment
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
-                textEvent.map { text ->
-                        text.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToText(text)
-                            },
-                            resources = resources,
-                            theme = theme
-                        )
-                    }
+                    textEvent.map { text ->
+                            text.toPodXEventThumbnail(
+                                onClickListener = View.OnClickListener {
+                                    navigateToText(text)
+                                },
+                                resources = resources,
+                                theme = theme
+                            )
+                        }
                 } else {
                     listOf()
                 }
@@ -163,12 +186,20 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXFeedBackEventsListLiveData
             .map { feedBackEvent ->
-                feedBackEvent.map { feedBack ->
-                    feedBack.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToFeedBack(feedBack)
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    feedBackEvent.map { feedBack ->
+                        feedBack.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToFeedBack(feedBack)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
@@ -176,18 +207,26 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXFeedLinkEventsListLiveData
             .map { feedLinkEvent ->
-                feedLinkEvent.map { feedLink ->
-                    feedLink.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
-                                .subscribe({feedItemFromLink ->
-                                    Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
-                                    navigateToFeedItem(feedItemFromLink)
-                                },
-                                    {e -> Timber.e(e)}
-                                )
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    feedLinkEvent.map { feedLink ->
+                        feedLink.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
+                                    .subscribe({ feedItemFromLink ->
+                                        Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
+                                        navigateToFeedItem(feedItemFromLink)
+                                    },
+                                        { e -> Timber.e(e) }
+                                    )
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
@@ -195,12 +234,20 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXNewsLetterSignUpEventsListLiveData
             .map { newsLetterSignUpEvent ->
-                newsLetterSignUpEvent.map { newsLetterSignUp ->
-                    newsLetterSignUp.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToNewsLetterSignUp(newsLetterSignUp)
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    newsLetterSignUpEvent.map { newsLetterSignUp ->
+                        newsLetterSignUp.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToNewsLetterSignUp(newsLetterSignUp)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
@@ -208,12 +255,20 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXPollEventsListLiveData
             .map { pollEvent ->
-                pollEvent.map { poll ->
-                    poll.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToPoll(poll)
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    pollEvent.map { poll ->
+                        poll.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToPoll(poll)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
@@ -221,12 +276,20 @@ class PodXEventsContainerFragment
             .podXEventsContainerUiModel
             .podXSocialPromptEventsListLiveData
             .map { socialPromptEvent ->
-                socialPromptEvent.map { socialPrompt ->
-                    socialPrompt.toPodXEventThumbnail(
-                        onClickListener = View.OnClickListener {
-                            navigateToSocialPrompt(socialPrompt)
-                        }
-                    )
+                val resources = activity?.resources
+                val theme = activity?.theme
+                if (resources != null && theme != null) {
+                    socialPromptEvent.map { socialPrompt ->
+                        socialPrompt.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToSocialPrompt(socialPrompt)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
+                } else {
+                    listOf()
                 }
             }
 
