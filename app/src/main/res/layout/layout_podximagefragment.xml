@@ -74,7 +74,7 @@
             android:id="@+id/fragment_podx_image_collapsed_player_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:name="com.guardian.podxdemo.presentation.collapsedplayerlight.CollapsedPlayerFragmentLight"
+            android:name="com.guardian.podxdemo.presentation.collapsedplayerlight.CollapsedPlayerLightFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

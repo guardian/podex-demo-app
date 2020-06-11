@@ -28,6 +28,14 @@
                 imageUrl="@{podXThumbnailData.imageUrlString}"/>
 
             <ImageView
+                android:layout_width="@dimen/podxlist_image_badge_bg_width"
+                android:layout_height="@dimen/podxlist_image_badge_bg_width"
+                android:layout_margin="@dimen/podxlist_badge_bg_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:src="@drawable/oval"/>
+
+            <ImageView
                 android:id="@+id/imageview_podxeventviewholder_badge"
                 android:layout_width="@dimen/podxlist_image_badge_width"
                 android:layout_height="@dimen/podxlist_image_badge_width"

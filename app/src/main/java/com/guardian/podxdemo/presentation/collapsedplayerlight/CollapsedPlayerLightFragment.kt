@@ -10,12 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guardian.podxdemo.R
-import com.guardian.podxdemo.databinding.LayoutCollapsedplayerfragmentLightBinding
+import com.guardian.podxdemo.databinding.LayoutCollapsedplayerlightfragmentBinding
 import com.guardian.podxdemo.presentation.player.PlayerViewModel
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import javax.inject.Inject
 
-class CollapsedPlayerFragmentLight
+class CollapsedPlayerLightFragment
 @Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
     Fragment() {
 
@@ -23,7 +23,7 @@ class CollapsedPlayerFragmentLight
         viewModelProviderFactory
     }
 
-    private var binding: LayoutCollapsedplayerfragmentLightBinding by lifecycleAwareVar()
+    private var binding: LayoutCollapsedplayerlightfragmentBinding by lifecycleAwareVar()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,7 @@ class CollapsedPlayerFragmentLight
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.layout_collapsedplayerfragment_light,
+            R.layout.layout_collapsedplayerlightfragment,
             container,
             false
         )

@@ -14,4 +14,6 @@
     <dimen name="event_icon">36dp</dimen>
     <dimen name="podxlist_image_badge_width">24dp</dimen>
     <dimen name="podxlist_badge_margin">4dp</dimen>
+    <dimen name="podxlist_image_badge_bg_width">60</dimen>
+    <dimen name="podxlist_badge_bg_margin">10</dimen>
 </resources>

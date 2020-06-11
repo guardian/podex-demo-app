@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.guardian.podxdemo.dagger.keys.FragmentKey
 import com.guardian.podxdemo.presentation.collapsedplayer.CollapsedPlayerFragment
+import com.guardian.podxdemo.presentation.collapsedplayerlight.CollapsedPlayerLightFragment
 import com.guardian.podxdemo.presentation.feed.FeedFragment
 import com.guardian.podxdemo.presentation.player.PlayerFragment
 import com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment
@@ -34,6 +35,13 @@ abstract class PodcastFragmentsModule {
     @IntoMap
     @FragmentKey(CollapsedPlayerFragment::class)
     abstract fun bindsCollapsedPlayerFragment(collapsedPlayerFragment: CollapsedPlayerFragment):
+        Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(CollapsedPlayerLightFragment::class)
+    abstract fun bindsCollapsedPlayerLightFragment
+            (collapsedPlayerLightFragment: CollapsedPlayerLightFragment):
         Fragment
 
     @Binds
