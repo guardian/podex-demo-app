@@ -445,12 +445,20 @@ class PodXEventsContainerFragment
                 putParcelable("podXImageEvent", podXImageEvent)
             }
 
+
         findNavController()
             .navigate(R.id.action_global_podXImageFragment, argsBundle)
     }
 
     private fun navigateToText(podXTextEvent: PodXTextEvent) {
-        //todo make image fragment
+        val argsBundle = Bundle()
+            .apply {
+                putParcelable("podXTextEvent", podXTextEvent)
+            }
+
+
+        findNavController()
+            .navigate(R.id.action_global_podXTextFragment, argsBundle)
     }
 
     private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent) {

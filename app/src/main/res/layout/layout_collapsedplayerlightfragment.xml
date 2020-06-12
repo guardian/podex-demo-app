@@ -3,7 +3,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/collapsed_player_light_total_height"
         android:animateLayoutChanges="true"
         android:orientation="horizontal"
         android:gravity="center"
@@ -26,7 +26,6 @@
             android:id="@+id/imagebutton_collapsed_player_light_playpause"
             android:layout_width="@dimen/collapsed_player_light_playpause_size"
             android:layout_height="@dimen/collapsed_player_light_playpause_size"
-            android:layout_margin="@dimen/collapsed_player_margin"
             android:background="?attr/selectableItemBackground"
             android:scaleType="fitXY"
             android:tint="@color/highlightColor"
@@ -46,16 +45,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/imagebutton_collapsed_player_podxevents"-->
-<!--            android:layout_width="@dimen/collapsed_player_control_size"-->
-<!--            android:layout_height="@dimen/collapsed_player_control_size"-->
-<!--            android:background="?attr/selectableItemBackground"-->
-<!--            android:scaleType="fitXY"-->
-<!--            android:src="@drawable/baseline_info_black_24_modified"-->
-<!--            android:tint="@color/transparentPrimary"-->
-<!--            android:tintMode="src_in"/>-->
 
         <FrameLayout
             android:layout_width="match_parent"

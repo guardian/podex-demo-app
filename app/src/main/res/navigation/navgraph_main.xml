@@ -47,10 +47,26 @@
             android:name="podXImageEvent"
             app:argType="com.guardian.core.podxevent.PodXImageEvent"/>
     </fragment>
+    <fragment
+        android:id="@+id/podXTextFragment"
+        android:name="com.guardian.podxdemo.presentation.podxtext.PodXTextFragment"
+        android:label="PodXTextFragment" >
+        <argument
+            android:name="podXTextEvent"
+            app:argType="com.guardian.core.podxevent.PodXTextEvent"/>
+    </fragment>
 
     <action
         android:id="@+id/action_global_podXImageFragment"
         app:destination="@id/podXImageFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"/>
+
+    <action
+        android:id="@+id/action_global_podXTextFragment"
+        app:destination="@id/podXTextFragment"
         app:enterAnim="@anim/slide_in_bottom"
         app:exitAnim="@anim/slide_out_top"
         app:popEnterAnim="@anim/slide_in_top"
