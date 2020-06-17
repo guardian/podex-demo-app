@@ -13,4 +13,7 @@
     <string name="menu_search">Search</string>
     <string name="eventslist_title">Events</string>
     <string name="transition_image_to_feed_fragment">transition_image_to_feed_fragment</string>
+    <string name="alertmessage_call_event">"Are you sure you want to call this number "</string>
+    <string name="alertpositive_call_event">Call</string>
+    <string name="alertnegative_call_event">Dismiss</string>
 </resources>

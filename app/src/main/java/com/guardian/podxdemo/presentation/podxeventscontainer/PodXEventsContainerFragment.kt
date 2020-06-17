@@ -432,7 +432,6 @@ class PodXEventsContainerFragment
 
     private fun navigateToSocialPrompt(podXSocialPromptEvent: PodXSocialPromptEvent) {
         if (podXSocialPromptEvent.socialLinkUrlString.isNotBlank()) {
-            //todo this might hinge too much on deep links
             val webPage: Uri = Uri.parse(podXSocialPromptEvent.socialLinkUrlString)
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             startActivity(intent)
@@ -462,7 +461,11 @@ class PodXEventsContainerFragment
     }
 
     private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent) {
-        //todo create call intent and alert
+        val fragmentManager = activity?.supportFragmentManager
+        if (fragmentManager != null) {
+            PodXCallDialogFragment()
+                .show(fragmentManager, "not sure bout dis")
+        }
     }
 
     private fun setupRecyclerView() {
