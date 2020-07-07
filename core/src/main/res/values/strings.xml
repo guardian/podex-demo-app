@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Podex:fundament</string>
+    <string name="app_name">PodX</string>
 
     <!-- Notificaiton Channel -->
     <string name="notification_channel">Now Playing</string>
-    <string name="notification_channel_description">Shows what podcast is currently playing with PodX</string>
+    <string name="notification_channel_description">Shows which podcast is currently playing with PodX</string>
 
     <!-- Notification actions -->
     <string name="notification_skip_to_previous">Skip to previous track</string>

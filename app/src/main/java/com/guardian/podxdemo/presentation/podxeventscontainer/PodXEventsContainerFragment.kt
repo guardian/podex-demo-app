@@ -463,7 +463,7 @@ class PodXEventsContainerFragment
     private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent) {
         val fragmentManager = activity?.supportFragmentManager
         if (fragmentManager != null) {
-            PodXCallDialogFragment()
+            PodXCallDialogFragment(podXCallPromptEvent.phoneNumber)
                 .show(fragmentManager, "not sure bout dis")
         }
     }

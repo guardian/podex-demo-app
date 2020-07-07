@@ -17,4 +17,5 @@
     <dimen name="podxlist_badge_margin">4dp</dimen>
     <dimen name="podxlist_image_badge_bg_width">20dp</dimen>
     <dimen name="podxlist_badge_bg_margin">6dp</dimen>
+    <dimen name="podxlist_caption_margin">24dp</dimen>
 </resources>

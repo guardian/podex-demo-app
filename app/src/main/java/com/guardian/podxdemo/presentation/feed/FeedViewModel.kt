@@ -1,5 +1,6 @@
 package com.guardian.podxdemo.presentation.feed
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.search.SearchResult
+import com.guardian.podxdemo.service.notification.EventNotificationService
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject

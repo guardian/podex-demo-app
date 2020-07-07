@@ -19,8 +19,10 @@ data class PodXEventThumbnailData(
     val imageUrlString: String?,
     val imageDrawable: Drawable?,
     val badgeDrawable: Drawable?,
+    val notificationString: String,
     val captionString: String,
-    val onClickListener: View.OnClickListener
+    val onClickListener: View.OnClickListener,
+    val imageSwitch: Boolean = false
 )
 
 fun PodXWebEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
@@ -29,6 +31,7 @@ fun PodXWebEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
     return PodXEventThumbnailData(
         imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
@@ -41,6 +44,7 @@ fun PodXImageEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
     PodXEventThumbnailData(
         imageUrlString = this.urlString,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme)
@@ -48,11 +52,11 @@ fun PodXImageEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
 
 fun PodXSupportEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
                                           resources: Resources, theme: Resources.Theme):
-    //todo add support badge
     PodXEventThumbnailData =
     PodXEventThumbnailData(
         imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
@@ -64,6 +68,7 @@ fun PodXCallPromptEvent.toPodXEventThumbnail(onClickListener: View.OnClickListen
     PodXEventThumbnailData(
         imageUrlString = null,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = resources.getDrawable(R.drawable.baseline_call_black_24, theme),
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme)
@@ -75,6 +80,7 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener
     PodXEventThumbnailData(
         imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme)
@@ -86,6 +92,7 @@ fun PodXFeedLinkEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener
     return PodXEventThumbnailData(
         imageUrlString = this.remoteFeedImageUrlString,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme)
@@ -98,6 +105,7 @@ fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(onClickListener: View.OnClick
     return PodXEventThumbnailData(
         imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme)
@@ -110,6 +118,7 @@ fun PodXPollEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
     return PodXEventThumbnailData(
         imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme)
@@ -122,6 +131,7 @@ fun PodXSocialPromptEvent.toPodXEventThumbnail(onClickListener: View.OnClickList
     return PodXEventThumbnailData(
         imageUrlString = this.ogMetadata.OGImage,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme)
@@ -134,6 +144,7 @@ fun PodXTextEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
     return PodXEventThumbnailData(
         imageUrlString = null,
         captionString = this.caption,
+        notificationString = this.notification,
         onClickListener = onClickListener,
         imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme)
