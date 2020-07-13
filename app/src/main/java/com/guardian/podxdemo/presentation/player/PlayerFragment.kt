@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import com.guardian.core.mediaplayer.extensions.albumArtUri
 import com.guardian.core.mediaplayer.extensions.duration
@@ -47,6 +48,8 @@ class PlayerFragment
             false
         )
 
+        setupMediaInfo()
+
         return binding.root
     }
 
@@ -54,13 +57,21 @@ class PlayerFragment
         super.onViewCreated(view, savedInstanceState)
 
         setupPlayerControls()
-        setupMediaInfo()
         setupSeekBar()
+        setupScrollEvent()
 
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPlayer)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
-        //setHasOptionsMenu(true)
+    }
+
+    private fun setupScrollEvent() {
+        if (args.scrollToEvents) {
+            binding.scrollviewPlayerRoot.smoothScrollTo(
+                0,
+                binding.scrollviewPlayerRoot.bottom
+            )
+        }
     }
 
     private fun setupPlayerControls() {
@@ -109,10 +120,10 @@ class PlayerFragment
             .observe(
                 viewLifecycleOwner,
                 Observer<MediaMetadataCompat> { mediaItem ->
-                    binding.title = mediaItem.title
+                    binding.title = mediaItem.title.toString()
                     binding.description = mediaItem.description.description.toString()
                     binding.artUrlString = mediaItem.albumArtUri.toString()
-                    binding.duration = mediaItem.duration.toTimestampMSS(context!!)
+                    binding.duration = mediaItem.duration.toTimestampMSS(requireContext())
                 }
             )
 
@@ -122,7 +133,7 @@ class PlayerFragment
             .playerUiModel
             .mediaPlaybackPositionLiveData.observe(
             viewLifecycleOwner,
-            Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(context!!) }
+            Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(requireContext()) }
         )
     }
 
