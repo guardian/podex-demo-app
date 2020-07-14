@@ -53,6 +53,19 @@
                     app:srcCompat="@android:color/transparent"
                     imageUrl="@{artUrlString}" />
 
+                <View
+                    android:id="@+id/view_play_title_placeholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/placeholder_padding"
+                    app:layout_constraintTop_toTopOf="@id/textview_play_title"
+                    app:layout_constraintBottom_toBottomOf="@id/textview_play_title"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="@id/textview_play_title"
+                    app:layout_constraintStart_toStartOf="@id/textview_play_title"
+                    app:layout_constraintWidth_percent="0.65"
+                    app:layout_constrainedWidth="true"
+                    android:background="@color/placeholderGrey"/>
                 <TextView
                     android:id="@+id/textview_play_title"
                     android:layout_width="0dp"
@@ -61,8 +74,9 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:textAlignment="center"
-                    android:ellipsize="end"
-                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +84,19 @@
                     android:textStyle="bold"
                     android:textAppearance="@style/PodXTextAppearanceDark"/>
 
+
+                <View
+                    android:id="@+id/view_play_subtitle_placeholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/placeholder_padding"
+                    app:layout_constraintTop_toTopOf="@id/textview_play_subtitle"
+                    app:layout_constraintBottom_toBottomOf="@id/textview_play_subtitle"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="@id/textview_play_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/textview_play_subtitle"
+                    app:layout_constrainedWidth="true"
+                    android:background="@color/placeholderGrey"/>
                 <TextView
                     android:id="@+id/textview_play_subtitle"
                     android:layout_width="0dp"
@@ -77,8 +104,10 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:textAlignment="center"
-                    android:ellipsize="end"
-                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:singleLine="false"
+                    android:maxLines="3"
+                    android:marqueeRepeatLimit="marquee_forever"
                     app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

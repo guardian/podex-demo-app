@@ -19,4 +19,5 @@
     <dimen name="podxlist_badge_bg_margin">6dp</dimen>
     <dimen name="podxlist_caption_margin">24dp</dimen>
     <dimen name="search_progressbar_size">32dp</dimen>
+    <dimen name="placeholder_padding">4dp</dimen>
 </resources>

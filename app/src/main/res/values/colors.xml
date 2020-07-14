@@ -13,4 +13,5 @@
     <color name="seekbarBackground">#B7B7B7</color>
     <color name="controlGrey">#AA767676</color>
     <color name="transparentPrimary">#33FFFFFF</color>
+    <color name="placeholderGrey">#cfd8dc</color>
 </resources>

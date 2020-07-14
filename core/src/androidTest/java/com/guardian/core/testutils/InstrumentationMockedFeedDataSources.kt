@@ -37,7 +37,8 @@ object InstrumentationMockedFeedDataSources {
         pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 1945000,
-        episodeNumber = 1
+        episodeNumber = 1,
+        guid = "5dc4f4838f08c2d1f80dbe45"
     )
 
     val testFeedItem2: FeedItem = FeedItem(
@@ -50,7 +51,8 @@ object InstrumentationMockedFeedDataSources {
         pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 36459909,
-        episodeNumber = 2
+        episodeNumber = 2,
+        guid = "5e6b15ca8f087df56e4c7cbc"
     )
 
     val testFeedList = listOf(testFeedItem1, testFeedItem2)

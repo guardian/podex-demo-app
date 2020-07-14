@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.navArgs
 import com.guardian.core.mediaplayer.extensions.albumArtUri
 import com.guardian.core.mediaplayer.extensions.duration
@@ -120,8 +119,12 @@ class PlayerFragment
             .observe(
                 viewLifecycleOwner,
                 Observer<MediaMetadataCompat> { mediaItem ->
-                    binding.title = mediaItem.title.toString()
-                    binding.description = mediaItem.description.description.toString()
+                    if (mediaItem.title != null) {
+                        binding.viewPlayTitlePlaceholder.visibility = View.GONE
+                        binding.viewPlaySubtitlePlaceholder.visibility = View.GONE
+                        binding.title = mediaItem.title.toString()
+                        binding.description = mediaItem.description.description.toString()
+                    }
                     binding.artUrlString = mediaItem.albumArtUri.toString()
                     binding.duration = mediaItem.duration.toTimestampMSS(requireContext())
                 }
