@@ -1,5 +1,6 @@
 package com.guardian.podxdemo.presentation.player
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.view.LayoutInflater
@@ -125,7 +126,9 @@ class PlayerFragment
                         binding.title = mediaItem.title.toString()
                         binding.description = mediaItem.description.description.toString()
                     }
-                    binding.artUrlString = mediaItem.albumArtUri.toString()
+                    if (mediaItem.albumArtUri != Uri.EMPTY) {
+                        binding.artUrlString = mediaItem.albumArtUri.toString()
+                    }
                     binding.duration = mediaItem.duration.toTimestampMSS(requireContext())
                 }
             )

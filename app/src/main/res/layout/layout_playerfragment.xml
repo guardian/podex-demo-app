@@ -50,7 +50,7 @@
                     android:layout_margin="@dimen/podx_image_margin"
                     app:layout_constraintTop_toBottomOf="@id/toolbar_player"
                     android:contentDescription="@string/playerfragment_album_art_alt"
-                    app:srcCompat="@android:color/transparent"
+                    app:srcCompat="@color/placeholderGrey"
                     imageUrl="@{artUrlString}" />
 
                 <View
@@ -77,6 +77,7 @@
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:marqueeRepeatLimit="marquee_forever"
+                    android:focusable="true"
                     app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
