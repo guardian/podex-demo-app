@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
@@ -47,18 +48,6 @@
             app:layout_constraintTop_toTopOf="@id/imageview_podximage_icon"
             app:layout_constraintBottom_toBottomOf="@id/imageview_podximage_icon"/>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageview_podximage"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_margin="@dimen/podx_image_margin"-->
-<!--            imageUrl="@{podxImage.urlString}"-->
-<!--            app:layout_constrainedHeight="true"-->
-<!--            app:layout_constraintDimensionRatio="1.0"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/imageview_podximage_icon"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent" />-->
-        
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/imageview_podximage"
             android:layout_width="match_parent"
@@ -89,6 +78,7 @@
             android:name="com.guardian.podxdemo.presentation.collapsedplayerlight.CollapsedPlayerLightFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="Instantiatable" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

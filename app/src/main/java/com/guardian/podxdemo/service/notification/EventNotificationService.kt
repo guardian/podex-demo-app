@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -29,6 +30,10 @@ import javax.inject.Inject
 class EventNotificationService : Service(){
     @Inject
     lateinit var podXEventEmitter: PodXEventEmitter
+
+    private val defaultArgsBundle = Bundle().apply{
+        putBoolean("scrollToEvents", true)
+    }
 
     private val notificationManager: NotificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -125,6 +130,7 @@ class EventNotificationService : Service(){
                 val imagePendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -181,6 +187,7 @@ class EventNotificationService : Service(){
                 val callPromptPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -237,6 +244,7 @@ class EventNotificationService : Service(){
                 val feedBackPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -293,6 +301,7 @@ class EventNotificationService : Service(){
                 val feedLinkPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -349,6 +358,7 @@ class EventNotificationService : Service(){
                 val newsLetterSignUpPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -405,6 +415,7 @@ class EventNotificationService : Service(){
                 val pollPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -461,6 +472,7 @@ class EventNotificationService : Service(){
                 val socialPromptPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -517,6 +529,7 @@ class EventNotificationService : Service(){
                 val supportPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -573,6 +586,7 @@ class EventNotificationService : Service(){
                 val textPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
@@ -629,6 +643,7 @@ class EventNotificationService : Service(){
                 val webPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
                     .setDestination(R.id.playerFragment)
+                    .setArguments(defaultArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)

@@ -152,20 +152,28 @@ class CollapsedPlayerFragment
                 if (hasPodXEvents) {
                     binding.imagebuttonCollapsedPlayerPodxevents
                         .imageTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(context!!, R.color.highlightColor)
+                        ContextCompat.getColor(requireContext(), R.color.highlightColor)
                     )
                 } else {
                     binding.imagebuttonCollapsedPlayerPodxevents
                         .imageTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(context!!, R.color.transparentPrimary)
+                        ContextCompat.getColor(requireContext(), R.color.transparentPrimary)
                     )
                 }
             })
 
         binding.imagebuttonCollapsedPlayerPodxevents
             .setOnClickListener {
+                val argsBundle = Bundle().apply {
+                    if (playerViewModel
+                            .playerUiModel
+                            .hasPodXEventsLiveData
+                            .value == true) {
+                        this.putBoolean("scrollToEvents", true)
+                    }
+                }
                 findNavController()
-                    .navigate(R.id.action_global_playerFragment)
+                    .navigate(R.id.action_global_playerFragment, argsBundle)
             }
     }
 
