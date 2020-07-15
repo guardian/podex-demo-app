@@ -31,5 +31,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         setContentView(R.layout.layout_mainactivity)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 }

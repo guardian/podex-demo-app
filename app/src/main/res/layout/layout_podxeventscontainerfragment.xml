@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
@@ -8,6 +8,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:layout_width="@dimen/event_icon"
+                android:layout_height="@dimen/event_icon"
+                android:layout_margin="@dimen/podxlist_image_margin"
+                android:src="@drawable/baseline_info_black_24_modified"
+                android:tint="@color/highlightColor"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eventslist_title"
+                android:textAppearance="@style/PodXTitleTextAppearenceDark"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_podxeventscontainer_events"

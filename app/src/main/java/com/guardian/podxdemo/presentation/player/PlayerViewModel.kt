@@ -1,5 +1,6 @@
 package com.guardian.podxdemo.presentation.player
 
+import android.media.session.PlaybackState
 import android.os.Handler
 import android.os.Looper
 import android.support.v4.media.MediaMetadataCompat
@@ -11,29 +12,32 @@ import com.guardian.core.mediaplayer.extensions.currentPlayBackPosition
 import com.guardian.core.mediaplayer.extensions.isPlayEnabled
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
-import com.guardian.podxdemo.R
+import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 
 data class PlayerUiModel(
     val mediaMetadataLiveData: LiveData<MediaMetadataCompat>,
-    val mediaButtonRes: LiveData<Int>,
+    val mediaButtonIsPlaying: LiveData<Boolean>,
     val mediaPlaybackPositionLiveData: LiveData<Long>,
-    val isPreparedLiveData: LiveData<Boolean>
+    val isPreparedLiveData: LiveData<Boolean>,
+    val hasPodXEventsLiveData: LiveData<Boolean>
 )
 
 class PlayerViewModel
 @Inject constructor(
-    private val mediaSessionConnection: MediaSessionConnection
+    private val mediaSessionConnection: MediaSessionConnection,
+    private val podXEventEmitter: PodXEventEmitter
 ) :
     ViewModel() {
 
     val playerUiModel by lazy {
         PlayerUiModel(mediaMetadataMutableLiveData,
-            mutableMediaButtonRes,
+            mutableMediaButtonIsPlaying,
             mutableMediaPlaybackPosition,
-            mutableIsPreparedLiveData)
+            mutableIsPreparedLiveData,
+            mutableHasPodXEventsLiveData)
     }
 
     private val compositeDisposable = CompositeDisposable()
@@ -49,20 +53,21 @@ class PlayerViewModel
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
         mediaSessionConnection.playbackState.observeForever {
 
+            Timber.i( "posting ${it.currentPlayBackPosition}")
             checkPlaybackPosition()
 
-            this.postValue(
-                it.currentPlayBackPosition
-            )
+            if (it.playbackState == PlaybackState.STATE_PLAYING) {
+                this.postValue(
+                    it.currentPlayBackPosition
+                )
+            }
+
         }
     }
-    private val mutableMediaButtonRes = MutableLiveData<Int>().apply {
+    private val mutableMediaButtonIsPlaying = MutableLiveData<Boolean>().apply {
         mediaSessionConnection.playbackState.observeForever { playbackState ->
             this.postValue(
-                when (playbackState.isPlaying) {
-                    true -> R.drawable.baseline_pause_24
-                    else -> R.drawable.baseline_play_arrow_24
-                }
+                playbackState.isPlaying
             )
         }
     }
@@ -72,6 +77,34 @@ class PlayerViewModel
             this.postValue(playbackState.isPrepared)
         }
     }
+
+    private val mutableHasPodXEventsLiveData = MutableLiveData<Boolean>().apply{
+        podXEventEmitter.podXImageEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXWebEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXSupportEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+    }
+
+    private fun checkAllEvents(): Boolean {
+        return podXEventEmitter.podXImageEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXWebEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXSupportEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXCallPromptEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXFeedBackEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXFeedLinkEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXNewsLetterSignUpEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXPollEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXSocialPromptEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXTextEventLiveData.value?.isNotEmpty() == true
+    }
+
 
     /**
      * changes the playback status
@@ -107,5 +140,12 @@ class PlayerViewModel
         super.onCleared()
 
         compositeDisposable.clear()
+    }
+
+    fun seekToPosition(time: Long) {
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (isPrepared) {
+            mediaSessionConnection.transportControls.seekTo(time)
+        }
     }
 }

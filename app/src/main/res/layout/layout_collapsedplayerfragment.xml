@@ -6,55 +6,81 @@
         <variable
             name="artUrlString"
             type="String"/>
-
-        <variable
-            name="title"
-            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintlayout_collapsed_player_root"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:animateLayoutChanges="true"
-        android:background="@color/primaryColor">
+        android:background="@color/primaryColor"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/progressbar_collapsed_player"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/imageview_collapsed_player_cover"
+            imageUrl="@{artUrlString}"
             android:layout_width="@dimen/collapsed_player_image"
             android:layout_height="@dimen/collapsed_player_image"
             android:layout_margin="@dimen/collapsed_player_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            imageUrl="@{artUrlString}"/>
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
-        <TextView
-            android:id="@+id/textview_collapsed_player_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            app:layout_constraintStart_toEndOf="@id/imageview_collapsed_player_cover"
-            app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_playpause"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintTop_toTopOf="parent"
+        <ImageButton
+            android:id="@+id/imagebutton_collapsed_player_seekbackwards"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_replay_10_white_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@{title}"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="10000"
-            android:singleLine="true" />
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_playpause"
+            app:layout_constraintStart_toEndOf="@id/imageview_collapsed_player_cover"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_playpause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_seekforwards"
+            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_seekbackwards"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
 
+        <ImageButton
+            android:id="@+id/imagebutton_collapsed_player_seekforwards"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_forward_30_white_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_podxevents"
+            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_playpause"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_collapsed_player_podxevents"
+            android:layout_width="@dimen/collapsed_player_control_size"
+            android:layout_height="@dimen/collapsed_player_control_size"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_info_black_24_modified"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_seekforwards"
+            app:layout_constraintTop_toBottomOf="@id/progressbar_collapsed_player"
+            android:tint="@color/transparentPrimary"
+            android:tintMode="src_in"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

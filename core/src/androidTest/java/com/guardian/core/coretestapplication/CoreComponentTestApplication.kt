@@ -1,7 +1,6 @@
 package com.guardian.core.coretestapplication
 
 import android.app.Application
-import com.guardian.core.mediaplayer.daggermocks.DaggerTestCoreComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

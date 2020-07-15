@@ -1,12 +1,15 @@
 package com.guardian.podxdemo.presentation.feed
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutFeedfragmentBinding
+import com.guardian.podxdemo.service.notification.EventNotificationService
 import com.guardian.podxdemo.utils.lifecycleAwareVar
 import timber.log.Timber
 import java.util.concurrent.Executor
@@ -46,6 +50,7 @@ class FeedFragment
             container,
             false
         )
+
         return binding.root
     }
 
@@ -57,6 +62,10 @@ class FeedFragment
 
         setupFeedInfoView()
         setupFeedEpisodeList()
+
+        (requireActivity() as AppCompatActivity?)?.setSupportActionBar(binding.toolbarFeed)
+        (requireActivity() as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
     }
 
     private fun setupFeedInfoView() {
@@ -85,20 +94,54 @@ class FeedFragment
                     return oldItem.title == newItem.title
                 }
             },
-            executor = executor
-        ) { feedItem ->
-            feedViewModel.prepareFeedItemForPlayback(feedItem)
-            val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
-            findNavController()
-                .navigate(action)
-        }.apply {
-            feedViewModel.uiModel.feedItemData.observe(
-                viewLifecycleOwner,
-                Observer { feedItemList ->
-                    Timber.i("returned items ${feedItemList.size}")
-                    submitList(feedItemList)
+            executor = executor,
+            handleSelection = { feedItem ->
+                feedViewModel.prepareFeedItemForPlayback(feedItem)
+                val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
+                //start notification service
+                Intent(context, EventNotificationService::class.java)
+                    .also {
+                        context?.startService(it)
+                    }
+                findNavController()
+                    .navigate(action)
+            },
+            handlePlayPause = {feedItem ->
+                feedViewModel.attemptPlaybackOrPause(feedItem)
+                //start notification service
+                Intent(context, EventNotificationService::class.java)
+                    .also {
+                        context?.startService(it)
+                    }
+            },
+            bindIsPlaying = {feedItem ->
+                MutableLiveData<Boolean>().also{ isItemPlayingLiveData ->
+                    feedViewModel.uiModel.nowPlayingIdLiveData.observe(
+                        viewLifecycleOwner,
+                        Observer { nowPlayingId ->
+                            val isPlaying = feedViewModel.uiModel.isPlayingLiveData.value ?: false
+                            isItemPlayingLiveData
+                                .postValue((feedItem.feedItemAudioUrl == nowPlayingId)
+                                    && isPlaying)
+                        })
+
+                    feedViewModel.uiModel.isPlayingLiveData.observe(
+                        viewLifecycleOwner,
+                        Observer { isPlaying ->
+                            val nowPlayingId = feedViewModel.uiModel.nowPlayingIdLiveData.value
+                            isItemPlayingLiveData
+                                .postValue((feedItem.feedItemAudioUrl == nowPlayingId)
+                                    && isPlaying)
+                        })
                 }
-            )
-        }
+            }).apply {
+                feedViewModel.uiModel.feedItemData.observe(
+                    viewLifecycleOwner,
+                    Observer { feedItemList ->
+                        Timber.i("returned items ${feedItemList.size}")
+                        submitList(feedItemList)
+                    }
+                )
+            }
     }
 }

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primaryColor">#042860</color>
-    <color name="primaryLightColor">#FFFFFF</color>
+    <color name="primaryLightColor">#FAFAFA</color>
     <color name="primaryDarkColor">#000036</color>
-    <color name="primaryTextColor">#FFFFFF</color>
+    <color name="primaryTextColor">#FAFAFA</color>
     <color name="darkTextColor">#000000</color>
+    <color name="secondaryDarkTextColor">#5A5A5A</color>
     <color name="sixtyPercentWhite">#99FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="eightyPercentWhite">#CCFFFFFF</color>
+    <color name="highlightColor">#FFE600</color>
+    <color name="seekbarBackground">#B7B7B7</color>
+    <color name="controlGrey">#AA767676</color>
+    <color name="transparentPrimary">#33FFFFFF</color>
+    <color name="placeholderGrey">#cfd8dc</color>
 </resources>

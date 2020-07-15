@@ -1,20 +1,34 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/primaryLightColor</item>
-        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/primaryDarkColor</item>
         <item name="android:textAppearance">@style/PodXTextAppearance</item>
         <item name="editTextStyle">@style/PodXEditText</item>
         <item name="android:textViewStyle">@style/PodXTextView</item>
+        <item name="android:progressBarStyle">@style/PodXProgressBar</item>
+        <item name="seekBarStyle">@style/PodXSeekBar</item>
     </style>
 
     <style name="PodXTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textColor">@color/primaryDarkColor</item>
     </style>
 
     <style name="PodXTextAppearanceDark" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/darkTextColor</item>
+    </style>
+
+    <style name="PodXTextAppearanceFeedTime" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="PodXTextAppearanceFeedDate" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/secondaryDarkTextColor</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="PodXEditText" parent="Widget.AppCompat.EditText">
@@ -24,5 +38,28 @@
 
     <style name="PodXTextView" parent="Widget.AppCompat.TextView">
         <item name="android:textAppearance">@style/PodXTextAppearance</item>
+    </style>
+
+    <style name="PodXSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressTint">@color/highlightColor</item>
+        <item name="android:progressBackgroundTint">@color/seekbarBackground</item>
+        <item name="android:progressBackgroundTintMode">src_over</item>
+        <item name="android:thumbTint">@color/highlightColor</item>
+    </style>
+
+    <style name="PodXProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressTint">@color/highlightColor</item>
+        <item name="android:progressBackgroundTint">@color/seekbarBackground</item>
+    </style>
+
+    <style name="PodXTitleTextAppearenceDark">
+        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textSize">@dimen/podx_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name = "PodXAppBarDark">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="android:textColorPrimary">@color/primaryLightColor</item>
     </style>
 </resources>

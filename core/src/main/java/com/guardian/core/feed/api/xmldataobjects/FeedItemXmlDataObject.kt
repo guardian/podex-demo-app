@@ -15,6 +15,7 @@ data class FeedItemXmlDataObject(
     val duration: String = "",
     val author: String = "",
     val keywords: String = "",
+    val guid: String = "",
     val podxImages: List<PodXImageEventXmlDataObject> = listOf(PodXImageEventXmlDataObject()),
     val podxWeb: List<PodXWebEventXmlDataObject> = listOf(PodXWebEventXmlDataObject()),
     val podxSupport: List<PodXSupportEventXmlDataObject> = listOf(PodXSupportEventXmlDataObject()),
@@ -23,7 +24,7 @@ data class FeedItemXmlDataObject(
     val podXFeedLink: List<PodXFeedLinkEventXmlDataObject> = listOf(PodXFeedLinkEventXmlDataObject()),
     val podXCallPrompt: List<PodXCallPromptEventXmlDataObject> = listOf(PodXCallPromptEventXmlDataObject()),
     val podXNewsletterSignup: List<PodXNewsletterSignupEventXmlDataObject> = listOf(PodXNewsletterSignupEventXmlDataObject()),
-    val podXFeedback: List<PodXFeedbackEventXmlDataObject> = listOf(PodXFeedbackEventXmlDataObject()),
+    val podXFeedBack: List<PodXFeedbackEventXmlDataObject> = listOf(PodXFeedbackEventXmlDataObject()),
     val podXPoll: List<PodXPollEventXmlDataObject> = listOf(PodXPollEventXmlDataObject())
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = enclosureXmlDataObject.isEmpty()
@@ -42,6 +43,7 @@ data class FeedItemXmlDataObject(
                 "itunes:duration" to ValueContainer(""),
                 "itunes:author" to ValueContainer(""),
                 "itunes:keywords" to ValueContainer(""),
+                "guid" to ValueContainer(""),
                 "podx:image" to ValueContainer(listOf(PodXImageEventXmlDataObject())),
                 "podx:web" to ValueContainer(listOf(PodXWebEventXmlDataObject())),
                 "podx:support" to ValueContainer(listOf(PodXSupportEventXmlDataObject())),
@@ -68,6 +70,7 @@ data class FeedItemXmlDataObject(
                 duration = xmlParserElementMap["itunes:duration"]?.value as String,
                 author = xmlParserElementMap["itunes:author"]?.value as String,
                 keywords = xmlParserElementMap["itunes:keywords"]?.value as String,
+                guid = xmlParserElementMap["guid"]?.value as String,
                 podxImages = xmlParserElementMap["podx:image"]?.value as List<PodXImageEventXmlDataObject>,
                 podxWeb = xmlParserElementMap["podx:web"]?.value as List<PodXWebEventXmlDataObject>,
                 podxSupport = xmlParserElementMap["podx:support"]?.value as List<PodXSupportEventXmlDataObject>,
@@ -76,7 +79,7 @@ data class FeedItemXmlDataObject(
                 podXFeedLink = xmlParserElementMap["podx:feedLink"]?.value as List<PodXFeedLinkEventXmlDataObject>,
                 podXCallPrompt = xmlParserElementMap["podx:callPrompt"]?.value as List<PodXCallPromptEventXmlDataObject>,
                 podXNewsletterSignup = xmlParserElementMap["podx:newsletterSignup"]?.value as List<PodXNewsletterSignupEventXmlDataObject>,
-                podXFeedback = xmlParserElementMap["podx:feedback"]?.value as List<PodXFeedbackEventXmlDataObject>,
+                podXFeedBack = xmlParserElementMap["podx:feedback"]?.value as List<PodXFeedbackEventXmlDataObject>,
                 podXPoll = xmlParserElementMap["podx:poll"]?.value as List<PodXPollEventXmlDataObject>
             )
         }

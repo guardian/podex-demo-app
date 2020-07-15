@@ -16,3 +16,16 @@ fun Long.toTimestampMSS(context: Context): String {
     return if (this < 0) context.getString(R.string.duration_unknown)
     else context.getString(R.string.duration_format).format(minutes, remainingSeconds)
 }
+
+/**
+ * Utility method to convert milliseconds to a display rounded minutes or seconds
+ */
+fun Long.toFeedDisplayTime(): String {
+    val minutes = floor(this / 1E3).toInt() / 60
+    val seconds = floor(this / 1E3).toInt() - (minutes * 60)
+    return if (minutes <= 0) {
+        "%ds".format(seconds)
+    } else {
+        "%dm".format(minutes)
+    }
+}

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
@@ -12,18 +13,52 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_podximage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <ImageView
+            android:id="@+id/imageview_podximage_icon"
+            android:layout_width="@dimen/event_icon"
+            android:layout_height="@dimen/event_icon"
+            android:layout_marginTop="@dimen/podxlist_image_margin"
+            android:layout_marginBottom="@dimen/podxlist_image_margin"
+            android:layout_marginStart="@dimen/podx_image_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_podximage"
+            android:src="@drawable/baseline_info_black_24_modified"
+            android:tint="@color/highlightColor" />
+
+        <TextView
+            android:id="@+id/textview_podximage_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/PodXTextAppearanceDark"
+            android:textStyle="bold"
+            android:textSize="@dimen/podx_title"
+            android:text="@{podxImage.notification}"
+            android:maxLines="3"
+            app:layout_constraintStart_toEndOf="@id/imageview_podximage_icon"
+            app:layout_constraintEnd_toEndOf="@id/imageview_podximage"
+            app:layout_constraintTop_toTopOf="@id/imageview_podximage_icon"
+            app:layout_constraintBottom_toBottomOf="@id/imageview_podximage_icon"/>
+
+        <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/imageview_podximage"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="@dimen/podx_image_margin"
             imageUrl="@{podxImage.urlString}"
             app:layout_constrainedHeight="true"
-            app:layout_constraintDimensionRatio="1.0"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_percent="0.60"
+            app:layout_constraintTop_toBottomOf="@id/imageview_podximage_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/textview_podximage"
@@ -36,5 +71,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <fragment
+            android:id="@+id/fragment_podx_image_collapsed_player_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.guardian.podxdemo.presentation.collapsedplayerlight.CollapsedPlayerLightFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="Instantiatable" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

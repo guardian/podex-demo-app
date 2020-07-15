@@ -22,6 +22,7 @@ object InstrumentationMockedFeedDataSources {
     val testFeed: Feed = Feed(
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
         title = "PodX Test Feed",
+        author = "The Guardian",
         feedImageUrlString = "https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg",
         description = "This is a test feed using audio where Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you. There is additional data to show information about Mark Zuckerburg's dog while the episode plays back."
     )
@@ -31,12 +32,13 @@ object InstrumentationMockedFeedDataSources {
         description = "The shadow climate minister, Mark Butler, sits down with Katharine Murphy to discuss Labor’s ambitious climate policies. Did they lead to Labor’s election loss? And will Labor’s stance on climate change remain ‘unshakeable’?• Labor’s climate policies are ‘unshakeable’ despite election loss, Mark Butler says. There is a picture of a Pulli dog, and a link to an article about a famous owner.",
         imageUrlString = "https://interactive.guim.co.uk/podx/Puli_600.jpg",
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
-        feedItemAudioUrl = "$fileDirPath/$feedItem2FileName",
+        feedItemAudioUrl = "$fileDirPath/$feedItem1FileName",
         feedItemAudioEncoding = "audio/mpeg",
         pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 1945000,
-        episodeNumber = 1
+        episodeNumber = 1,
+        guid = "5dc4f4838f08c2d1f80dbe45"
     )
 
     val testFeedItem2: FeedItem = FeedItem(
@@ -44,12 +46,13 @@ object InstrumentationMockedFeedDataSources {
         description = "Prof Stuart Russell wrote the book on artificial intelligence. Literally. But that was back in 1995, when the next few decades of AI were uncertain, and, according to him, distinctly less threatening. Sitting down with Ian Sample, Russell talks about his latest book, Human Compatible, which warns of a dystopian future in which humans are outsmarted by machines. But how did we get here? And what can we do to make sure these machines benefit humankind?\n",
         imageUrlString = "https://interactive.guim.co.uk/podx/Puli_600.jpg",
         feedUrlString = "https://interactive.guim.co.uk/podx/podcast.xml",
-        feedItemAudioUrl = "$fileDirPath/$feedItem1FileName",
+        feedItemAudioUrl = "$fileDirPath/$feedItem2FileName",
         feedItemAudioEncoding = "audio/mpeg",
         pubDate = Date(System.currentTimeMillis()),
         author = "The Guardian",
         lengthMs = 36459909,
-        episodeNumber = 2
+        episodeNumber = 2,
+        guid = "5e6b15ca8f087df56e4c7cbc"
     )
 
     val testFeedList = listOf(testFeedItem1, testFeedItem2)
@@ -86,19 +89,22 @@ object InstrumentationMockedFeedDataSources {
                 }
         }
 
-    fun writeTestData(testAudioFileResource: InputStream) {
+    fun writeTestData(testAudioFileResource1: InputStream, testAudioFileResource2: InputStream) {
         val testFile1 = File(InstrumentationRegistry.getInstrumentation().context.filesDir, feedItem1FileName)
         if (!testFile1.exists()) {
             FileOutputStream(testFile1).write(
-                testAudioFileResource.readBytes()
+                testAudioFileResource1.readBytes()
             )
+            testAudioFileResource1.close()
         }
 
         val testFile2 = File(InstrumentationRegistry.getInstrumentation().context.filesDir, feedItem2FileName)
         if (!testFile2.exists()) {
             FileOutputStream(testFile2).write(
-                testAudioFileResource.readBytes()
+                testAudioFileResource2.readBytes()
             )
+            testAudioFileResource2.close()
         }
+
     }
 }

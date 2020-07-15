@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/fragment_search_podx_events_container">
+            app:layout_constraintBottom_toTopOf="@id/fragment_search_collapsed_player_container">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -30,7 +30,8 @@
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlways">
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:theme="@style/PodXAppBarDark">
 
                     <LinearLayout
                         android:id="@+id/toolbar_search_container"
@@ -41,7 +42,7 @@
                             android:id="@+id/toolbar_search"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:title="@string/title_searchfragment"/>
+                            app:title="@string/title_searchfragment" />
 
                         <EditText
                             android:id="@+id/edittext_search_term"
@@ -59,6 +60,10 @@
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
             </com.google.android.material.appbar.AppBarLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_search_results"
                     android:layout_width="match_parent"
@@ -67,18 +72,36 @@
                     android:layout_marginBottom="5dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     tools:listitem="@layout/viewholder_searchadapter_result"
-                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+                    android:animateLayoutChanges="true"/>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_percent="0.33"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/recyclerview_search_results">
+                    <androidx.core.widget.ContentLoadingProgressBar
+                        android:id="@+id/progressbar_search"
+                        android:layout_width="@dimen/search_progressbar_size"
+                        android:layout_height="@dimen/search_progressbar_size"
+                        android:layout_gravity="center"
+                        android:indeterminate="true"
+                        style="@android:style/Widget.ProgressBar.Inverse" />
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <fragment
-            android:id="@+id/fragment_search_podx_events_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/fragment_search_collapsed_player_container"/>
+<!--        <fragment-->
+<!--            android:id="@+id/fragment_search_podx_events_container"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/fragment_search_collapsed_player_container"/>-->
 
 
         <fragment
@@ -89,6 +112,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

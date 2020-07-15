@@ -149,13 +149,11 @@
         Katharine Murphy sits down with the president of the National Farmers’ Federation, Fiona Simson, to talk about their new drought policy. It looks at long-term objectives it thinks the Coalition should be considering to enhance resilience for farmers. But is the government likely to listen? What did Barnaby Joyce achieve as drought envoy? I ask for some money as this is discussed  – Full Story podcast
         </itunes:summary>
 
-        <podx:support>
-          <podx:recipient>invalid id</podx:recipient>
-          <podx:paypal>invalid id</podx:paypal>
+        <podx:support url="">
           <podx:start>0:07</podx:start>
           <podx:end>1:00</podx:end>
           <podx:caption>Donate</podx:caption>
-          <podx:text>All donations go to support the wonderful work done by me</podx:text>
+          <podx:notification>All donations go to support the wonderful work done by me</podx:notification>
         </podx:support>
 
     </item>
@@ -181,7 +179,7 @@
         <podx:notification>This is a funny dog notification</podx:notification>
       </podx:image>
 
-      <podx:web href="https://www.theguardian.com/technology/2015/jul/31/zuckerberg-baby-announcement-upstaged-by-their-dog">
+      <podx:web url="https://www.theguardian.com/technology/2015/jul/31/zuckerberg-baby-announcement-upstaged-by-their-dog">
         <podx:start>0:03</podx:start>
         <podx:end>0:20</podx:end>
         <podx:caption>Dog article</podx:caption>

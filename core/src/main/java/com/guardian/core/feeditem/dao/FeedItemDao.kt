@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.guardian.core.feeditem.FeedItem
 import io.reactivex.Flowable
+import java.util.Date
 
 @Dao
 interface FeedItemDao {
@@ -17,4 +18,16 @@ interface FeedItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addFeedList(feedItems: List<FeedItem>)
+
+    @Query("SELECT * FROM feed_items WHERE (:feedItemEnclosureUrl is NULL OR feedItemAudioUrl = :feedItemEnclosureUrl) OR " +
+        "(:feedItemTitle is NULL OR title LIKE :feedItemTitle) AND " +
+        "(:feedItemGuid is NULL OR guid LIKE :feedItemGuid) AND " +
+        "(:feedItemPubDate is NULL OR pubDate LIKE :feedItemPubDate)")
+    fun getFeedItemsWithLinkParams(
+        feedItemTitle: String? = null,
+        feedItemGuid: String? = null,
+        feedItemEnclosureUrl: String? = null,
+        feedItemPubDate: Date? = null
+    ): Flowable<List<FeedItem>>
+
 }

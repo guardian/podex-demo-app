@@ -36,6 +36,7 @@ object MockedFeedDataSources {
     val testFeed: Feed = Feed(
         feedUrlString = "ç",
         title = "Australian politics live podcast",
+        author = "The Guardian",
         feedImageUrlString = "https://uploads.guim.co.uk/2019/06/03/Australian_Politics_Live_3000x3000.jpg",
         description = "Katharine Murphy and Guardian Australia's political team examine what’s happening in Australian politics and why it matters to you."
     )

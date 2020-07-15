@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="artUrlString"
@@ -21,111 +23,164 @@
             name="duration"
             type="String"/>
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
+        android:id="@+id/scrollview_player_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="2dp">
-
-
-        <ImageView
-            android:id="@+id/imageview_play_album_art"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/playerfragment_album_art_alt"
-            app:srcCompat="@android:color/transparent"
-            imageUrl="@{artUrlString}"/>
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintlayout_player_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/fragment_player_podx_events_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
-            app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="64dp" />
+                <ImageView
+                    android:id="@+id/imageview_play_album_art"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1"
+                    android:scaleType="fitXY"
+                    android:layout_margin="@dimen/podx_image_margin"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar_player"
+                    android:contentDescription="@string/playerfragment_album_art_alt"
+                    app:srcCompat="@color/placeholderGrey"
+                    imageUrl="@{artUrlString}" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginTop="-48dp"
-            android:background="@drawable/drawable_gradient_bottomwhite_toptransparent"
-            app:layout_constraintBottom_toBottomOf="@+id/imageview_play_album_art"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+                <View
+                    android:id="@+id/view_play_title_placeholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/placeholder_padding"
+                    app:layout_constraintTop_toTopOf="@id/textview_play_title"
+                    app:layout_constraintBottom_toBottomOf="@id/textview_play_title"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="@id/textview_play_title"
+                    app:layout_constraintStart_toStartOf="@id/textview_play_title"
+                    app:layout_constraintWidth_percent="0.65"
+                    app:layout_constrainedWidth="true"
+                    android:background="@color/placeholderGrey"/>
+                <TextView
+                    android:id="@+id/textview_play_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:textAlignment="center"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:focusable="true"
+                    app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@{title}"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/PodXTextAppearanceDark"/>
 
-        <ImageButton
-            android:id="@+id/media_button"
-            android:layout_width="@dimen/exo_media_button_width"
-            android:layout_height="@dimen/exo_media_button_height"
-            android:background="?attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:srcCompat="@drawable/baseline_play_arrow_24"
-            tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/textview_play_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintLeft_toRightOf="@id/media_button"
-            app:layout_constraintRight_toLeftOf="@id/textview_play_position"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            tools:text="@{title}" />
+                <View
+                    android:id="@+id/view_play_subtitle_placeholder"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/placeholder_padding"
+                    app:layout_constraintTop_toTopOf="@id/textview_play_subtitle"
+                    app:layout_constraintBottom_toBottomOf="@id/textview_play_subtitle"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constraintEnd_toEndOf="@id/textview_play_subtitle"
+                    app:layout_constraintStart_toStartOf="@id/textview_play_subtitle"
+                    app:layout_constrainedWidth="true"
+                    android:background="@color/placeholderGrey"/>
+                <TextView
+                    android:id="@+id/textview_play_subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:textAlignment="center"
+                    android:ellipsize="marquee"
+                    android:singleLine="false"
+                    android:maxLines="3"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@{description}"
+                    android:textAppearance="@style/PodXTextAppearanceDark" />
 
-        <TextView
-            android:id="@+id/textview_play_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@+id/textview_play_title"
-            app:layout_constraintLeft_toRightOf="@id/media_button"
-            app:layout_constraintRight_toLeftOf="@id/textview_play_position"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            tools:text="@{description}" />
+                <ImageButton
+                    android:id="@+id/media_button"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/highlightColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seekbar_player_position"
+                    app:srcCompat="@drawable/baseline_play_circle_filled_black_48" />
 
-        <TextView
-            android:id="@+id/textview_play_position"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintRight_toRightOf="parent"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            tools:text="@{playbackPosition}" />
+                <ImageButton
+                    android:id="@+id/button_player_rewind_ten"
+                    android:layout_width="@dimen/player_control_size"
+                    android:layout_height="@dimen/player_control_size"
+                    android:src="@drawable/baseline_replay_10_white_24"
+                    android:tint="@color/primaryDarkColor"
+                    android:tintMode="src_in"
+                    android:scaleType="fitXY"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintEnd_toStartOf="@id/media_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/media_button"
+                    app:layout_constraintBottom_toBottomOf="@id/media_button"/>
 
-        <TextView
-            android:id="@+id/textview_play_duration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:maxLines="1"
-            app:layout_constraintTop_toBottomOf="@id/textview_play_position"
-            app:layout_constraintRight_toRightOf="parent"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            tools:text="@{duration}" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageButton
+                    android:id="@+id/button_player_fast_forward_thirty"
+                    android:layout_width="@dimen/player_control_size"
+                    android:layout_height="@dimen/player_control_size"
+                    android:src="@drawable/baseline_forward_30_white_24"
+                    android:tint="@color/primaryDarkColor"
+                    android:tintMode="src_in"
+                    android:scaleType="fitXY"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintStart_toEndOf="@id/media_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/media_button"
+                    app:layout_constraintBottom_toBottomOf="@id/media_button"/>
+
+
+                <SeekBar
+                    android:id="@+id/seekbar_player_position"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:maxLines="1"
+                    app:layout_constraintTop_toBottomOf="@id/textview_play_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <fragment
+                android:id="@+id/fragment_player_podx_events_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventsContainerFragment"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/constraintlayout_player_container"
+                tools:ignore="Instantiatable" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

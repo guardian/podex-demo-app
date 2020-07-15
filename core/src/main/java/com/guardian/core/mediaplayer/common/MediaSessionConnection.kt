@@ -18,6 +18,7 @@ package com.guardian.core.mediaplayer.common
 
 import android.content.ComponentName
 import android.content.Context
+import android.media.session.MediaController
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -56,6 +57,9 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
         mediaBrowserConnectionCallback,
         null
     ).apply { connect() }
+
+    fun getSessionToken():  MediaSessionCompat.Token = mediaBrowser.sessionToken
+
     private lateinit var mediaController: MediaControllerCompat
 
     private inner class MediaBrowserConnectionCallback(private val context: Context) :
@@ -97,7 +101,11 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
         }
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            nowPlaying.postValue(metadata ?: NOTHING_PLAYING)
+            if (metadata?.size() != 0) {
+                nowPlaying.postValue(metadata)
+            } else {
+                nowPlaying.postValue(NOTHING_PLAYING)
+            }
         }
 
         override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {

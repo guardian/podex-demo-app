@@ -1,6 +1,7 @@
 package com.guardian.core.feed
 
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 interface FeedRepository {
     /**
@@ -11,6 +12,15 @@ interface FeedRepository {
      *      updates.
      */
     fun getFeed(feedUrl: String): Flowable<Feed>
+
+    /**
+     * Retrieves the [Feed] for a given feed url
+     *
+     * @param feedUrl the link to an rss feed
+     * @return a [Single] that emits a [Feed] from the repo if it exists, otherwise it is retrieved
+     * from the web.
+     */
+    fun getFeedWithoutUpDate(feedUrl: String): Single<Feed>
 
     /**
      * Retrieves all stored [Feed] objects
