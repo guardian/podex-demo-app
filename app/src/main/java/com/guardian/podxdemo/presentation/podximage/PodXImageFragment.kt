@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.guardian.podxdemo.R
 import com.guardian.podxdemo.databinding.LayoutPodximagefragmentBinding
 import com.guardian.podxdemo.utils.lifecycleAwareVar
@@ -40,6 +41,10 @@ class PodXImageFragment
         super.onViewCreated(view, savedInstanceState)
 
         binding.podxImage = podXImageEvent.podXImageEvent
+
+        // Glide.with(binding.imageviewPodximage)
+        //     .load(podXImageEvent.podXImageEvent.urlString)
+        //     .into(binding.imageviewPodximage)
 
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodximage)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
