@@ -14,7 +14,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId 'com.guardian.podxdemo'
+        applicationId 'com.guardian.podx'
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

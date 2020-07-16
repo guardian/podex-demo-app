@@ -3,7 +3,7 @@
     <data>
         <variable
             name="podXThumbnailData"
-            type="com.guardian.podxdemo.presentation.podxeventscontainer.PodXEventThumbnailData" />
+            type="com.guardian.podx.presentation.podxeventscontainer.PodXEventThumbnailData" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

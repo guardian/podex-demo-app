@@ -5,7 +5,7 @@
     app:startDestination="@id/searchFragment">
 
     <fragment android:id="@+id/searchFragment"
-        android:name="com.guardian.podxdemo.presentation.search.SearchFragment"
+        android:name="com.guardian.podx.presentation.search.SearchFragment"
         android:label="SearchFragment">
         <action
             android:id="@+id/action_search_fragment_to_feedFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.guardian.podxdemo.presentation.feed.FeedFragment"
+        android:name="com.guardian.podx.presentation.feed.FeedFragment"
         android:label="FeedFragment" >
         <argument
             android:name="searchResult"
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/playerFragment"
-        android:name="com.guardian.podxdemo.presentation.player.PlayerFragment"
+        android:name="com.guardian.podx.presentation.player.PlayerFragment"
         android:label="PlayerFragment">
         <argument
             android:name="scrollToEvents"
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/podXImageFragment"
-        android:name="com.guardian.podxdemo.presentation.podximage.PodXImageFragment"
+        android:name="com.guardian.podx.presentation.podximage.PodXImageFragment"
         android:label="PodXImageFragment" >
         <argument
             android:name="podXImageEvent"
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/podXTextFragment"
-        android:name="com.guardian.podxdemo.presentation.podxtext.PodXTextFragment"
+        android:name="com.guardian.podx.presentation.podxtext.PodXTextFragment"
         android:label="PodXTextFragment" >
         <argument
             android:name="podXTextEvent"

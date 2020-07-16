@@ -1,2 +1,2 @@
 include ':app', ':core'
-rootProject.name='PodXDemo'
+rootProject.name='PodX'

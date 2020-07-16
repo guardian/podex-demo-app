@@ -38,7 +38,7 @@ import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isSkipToNextEnabled
 import com.guardian.core.mediaplayer.extensions.isSkipToPreviousEnabled
 
-const val NOW_PLAYING_CHANNEL: String = "com.guardian.podxdemo.media.NOW_PLAYING"
+const val NOW_PLAYING_CHANNEL: String = "com.guardian.podx.media.NOW_PLAYING"
 const val NOW_PLAYING_NOTIFICATION: Int = 0xb339
 
 /**
