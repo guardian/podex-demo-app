@@ -41,10 +41,6 @@ class PodXImageFragment
 
         binding.podxImage = podXImageEvent.podXImageEvent
 
-        // Glide.with(binding.imageviewPodximage)
-        //     .load(podXImageEvent.podXImageEvent.urlString)
-        //     .into(binding.imageviewPodximage)
-
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodximage)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
