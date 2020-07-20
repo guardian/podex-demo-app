@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/podxlist_image_margin"
-        android:onClick="@{podXThumbnailData.onClickListener}">
+        android:onClick="@{podXThumbnailData.onClickListener}"
+        android:animateLayoutChanges="true">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintlayout_podxeventscontainer_image_collapsed"
             android:layout_width="wrap_content"
@@ -88,6 +89,7 @@
             android:id="@+id/textview_podxeventviewholder_expanded_caption"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
             app:layout_constraintTop_toBottomOf="@id/textview_podxeventviewholder_expanded_notification"
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
             app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"
@@ -99,6 +101,7 @@
             android:id="@+id/imageview_podxeventviewholder_expanded"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
             app:layout_constraintTop_toBottomOf="@id/textview_podxeventviewholder_expanded_caption"
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
             app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"

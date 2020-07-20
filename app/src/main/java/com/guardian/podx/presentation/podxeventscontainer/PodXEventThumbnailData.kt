@@ -53,7 +53,8 @@ fun PodXImageEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme),
+            imageSwitch = true
         )
 
 fun PodXSupportEvent.toPodXEventThumbnail(
