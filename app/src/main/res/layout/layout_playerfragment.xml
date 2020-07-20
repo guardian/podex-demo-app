@@ -172,14 +172,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_player_podx_events_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:name="com.guardian.podx.presentation.podxeventscontainer.PodXEventsContainerFragment"
                 android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@id/constraintlayout_player_container"
-                tools:ignore="Instantiatable" />
+                app:layout_constraintTop_toBottomOf="@id/constraintlayout_player_container" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

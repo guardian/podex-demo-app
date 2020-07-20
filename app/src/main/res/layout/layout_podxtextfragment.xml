@@ -35,14 +35,15 @@
             android:id="@+id/textview_podxtext_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
             android:textAppearance="@style/PodXTextAppearanceDark"
             android:textStyle="bold"
             android:textSize="@dimen/podx_title"
             android:text="@{podxText.notification}"
             android:maxLines="3"
             app:layout_constraintStart_toEndOf="@id/imageview_podxtext_icon"
-            app:layout_constraintEnd_toEndOf="@id/textview_podxtext_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/imageview_podxtext_icon"
             app:layout_constraintBottom_toBottomOf="@id/imageview_podxtext_icon"/>
         
@@ -57,14 +58,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_podx_image_collapsed_player_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:name="com.guardian.podx.presentation.collapsedplayerlight.CollapsedPlayerLightFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="Instantiatable" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

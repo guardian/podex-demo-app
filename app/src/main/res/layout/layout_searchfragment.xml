@@ -94,17 +94,7 @@
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-<!--        <fragment-->
-<!--            android:id="@+id/fragment_search_podx_events_container"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:name="com.guardian.podx.presentation.podxeventscontainer.PodXEventsContainerFragment"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/fragment_search_collapsed_player_container"/>-->
-
-
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_search_collapsed_player_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
