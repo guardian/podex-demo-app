@@ -4,7 +4,7 @@ import com.guardian.core.library.xml.ValueContainer
 import com.guardian.core.library.xml.XmlDataObject
 import com.guardian.core.library.xml.XmlDataObjectFactory
 
-data class PodXPollEventXmlDataObject (
+data class PodXPollEventXmlDataObject(
     val start: String = "",
     val end: String = "",
     val caption: String = "",

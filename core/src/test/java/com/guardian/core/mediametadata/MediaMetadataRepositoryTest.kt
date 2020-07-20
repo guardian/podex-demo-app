@@ -68,37 +68,41 @@ class MediaMetadataRepositoryTest {
             .observeOn(Schedulers.trampoline())
             .subscribe(
                 { metadataList ->
-                    assertNotNull(metadataList.find {
-                        it.id == MockedFeedDataSources.testFeedItem1.feedItemAudioUrl &&
-                            it.title == MockedFeedDataSources.testFeedItem1.title &&
-                            it.artist == MockedFeedDataSources.testFeedItem1.author &&
-                            it.album == MockedFeedDataSources.testFeed.title &&
-                            it.duration == MockedFeedDataSources.testFeedItem1.lengthMs &&
-                            it.mediaUri.toString() == MockedFeedDataSources.testFeedItem1.feedItemAudioUrl &&
-                            it.albumArtUri.toString() == MockedFeedDataSources.testFeedItem1.imageUrlString &&
-                            it.trackNumber == MockedFeedDataSources.testFeedItem1.episodeNumber &&
-                            it.trackCount == 2L &&
-                            it.displayTitle == MockedFeedDataSources.testFeedItem1.title &&
-                            it.displaySubtitle == MockedFeedDataSources.testFeedItem1.author &&
-                            it.displayDescription == MockedFeedDataSources.testFeedItem1.description &&
-                            it.displayIconUri.toString() == MockedFeedDataSources.testFeedItem1.imageUrlString
-                    })
+                    assertNotNull(
+                        metadataList.find {
+                            it.id == MockedFeedDataSources.testFeedItem1.feedItemAudioUrl &&
+                                it.title == MockedFeedDataSources.testFeedItem1.title &&
+                                it.artist == MockedFeedDataSources.testFeedItem1.author &&
+                                it.album == MockedFeedDataSources.testFeed.title &&
+                                it.duration == MockedFeedDataSources.testFeedItem1.lengthMs &&
+                                it.mediaUri.toString() == MockedFeedDataSources.testFeedItem1.feedItemAudioUrl &&
+                                it.albumArtUri.toString() == MockedFeedDataSources.testFeedItem1.imageUrlString &&
+                                it.trackNumber == MockedFeedDataSources.testFeedItem1.episodeNumber &&
+                                it.trackCount == 2L &&
+                                it.displayTitle == MockedFeedDataSources.testFeedItem1.title &&
+                                it.displaySubtitle == MockedFeedDataSources.testFeedItem1.author &&
+                                it.displayDescription == MockedFeedDataSources.testFeedItem1.description &&
+                                it.displayIconUri.toString() == MockedFeedDataSources.testFeedItem1.imageUrlString
+                        }
+                    )
 
-                    assertNotNull(metadataList.find {
-                        it.id == MockedFeedDataSources.testFeedItem2.feedItemAudioUrl &&
-                            it.title == MockedFeedDataSources.testFeedItem2.title &&
-                            it.artist == MockedFeedDataSources.testFeedItem2.author &&
-                            it.album == MockedFeedDataSources.testFeed.title &&
-                            it.duration == MockedFeedDataSources.testFeedItem2.lengthMs &&
-                            it.mediaUri.toString() == MockedFeedDataSources.testFeedItem2.feedItemAudioUrl &&
-                            it.albumArtUri.toString() == MockedFeedDataSources.testFeedItem2.imageUrlString &&
-                            it.trackNumber == MockedFeedDataSources.testFeedItem2.episodeNumber &&
-                            it.trackCount == 2L &&
-                            it.displayTitle == MockedFeedDataSources.testFeedItem2.title &&
-                            it.displaySubtitle == MockedFeedDataSources.testFeedItem2.author &&
-                            it.displayDescription == MockedFeedDataSources.testFeedItem2.description &&
-                            it.displayIconUri.toString() == MockedFeedDataSources.testFeedItem2.imageUrlString
-                    })
+                    assertNotNull(
+                        metadataList.find {
+                            it.id == MockedFeedDataSources.testFeedItem2.feedItemAudioUrl &&
+                                it.title == MockedFeedDataSources.testFeedItem2.title &&
+                                it.artist == MockedFeedDataSources.testFeedItem2.author &&
+                                it.album == MockedFeedDataSources.testFeed.title &&
+                                it.duration == MockedFeedDataSources.testFeedItem2.lengthMs &&
+                                it.mediaUri.toString() == MockedFeedDataSources.testFeedItem2.feedItemAudioUrl &&
+                                it.albumArtUri.toString() == MockedFeedDataSources.testFeedItem2.imageUrlString &&
+                                it.trackNumber == MockedFeedDataSources.testFeedItem2.episodeNumber &&
+                                it.trackCount == 2L &&
+                                it.displayTitle == MockedFeedDataSources.testFeedItem2.title &&
+                                it.displaySubtitle == MockedFeedDataSources.testFeedItem2.author &&
+                                it.displayDescription == MockedFeedDataSources.testFeedItem2.description &&
+                                it.displayIconUri.toString() == MockedFeedDataSources.testFeedItem2.imageUrlString
+                        }
+                    )
                 },
                 { e -> Timber.e(e) }
             )

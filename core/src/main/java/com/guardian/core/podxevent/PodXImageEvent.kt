@@ -6,8 +6,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "podx_image_events",
-    indices = [Index(value = ["feedItemUrlString"], unique = false)])
+@Entity(
+    tableName = "podx_image_events",
+    indices = [Index(value = ["feedItemUrlString"], unique = false)]
+)
 @Parcelize
 data class PodXImageEvent(
     val timeStart: Long,

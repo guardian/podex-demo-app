@@ -126,14 +126,14 @@ class PodXEventsContainerFragment
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
-                     supportEvent.map { support ->
-                            support.toPodXEventThumbnail(
-                                onClickListener = View.OnClickListener {
-                                    navigateToSupport(support)
-                                },
-                                resources = resources,
-                                theme = theme
-                            )
+                    supportEvent.map { support ->
+                        support.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToSupport(support)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
                     }
                 } else {
                     listOf()
@@ -148,14 +148,14 @@ class PodXEventsContainerFragment
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     textEvent.map { text ->
-                            text.toPodXEventThumbnail(
-                                onClickListener = View.OnClickListener {
-                                    navigateToText(text)
-                                },
-                                resources = resources,
-                                theme = theme
-                            )
-                        }
+                        text.toPodXEventThumbnail(
+                            onClickListener = View.OnClickListener {
+                                navigateToText(text)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
                 } else {
                     listOf()
                 }
@@ -214,10 +214,11 @@ class PodXEventsContainerFragment
                         feedLink.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
                                 podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
-                                    .subscribe({ feedItemFromLink ->
-                                        Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
-                                        navigateToFeedItem(feedItemFromLink)
-                                    },
+                                    .subscribe(
+                                        { feedItemFromLink ->
+                                            Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
+                                            navigateToFeedItem(feedItemFromLink)
+                                        },
                                         { e -> Timber.e(e) }
                                     )
                             },
@@ -293,7 +294,6 @@ class PodXEventsContainerFragment
                 }
             }
 
-
         MediatorLiveData<List<PodXEventThumbnailData>>()
             .apply {
                 observe(viewLifecycleOwner) {
@@ -301,66 +301,102 @@ class PodXEventsContainerFragment
                 }
 
                 addSource(imageThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
-                 addSource(webThumbnailData) {
-                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                         feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                         pollThumbnailData, socialPromptThumbnailData))
-                 }
+                addSource(webThumbnailData) {
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
+                }
 
                 addSource(supportThumbailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(textThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(callPromptThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(feedBackThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(feedLinkThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(pollThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(socialPromptThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generatecurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
             }
     }
@@ -377,7 +413,7 @@ class PodXEventsContainerFragment
 
     private fun generatecurrentThumbnails(
         vararg eventsThumbnailLiveDatas: LiveData<List<PodXEventThumbnailData>>
-    ) : List<PodXEventThumbnailData> {
+    ): List<PodXEventThumbnailData> {
         val aggregateThumbnails = mutableListOf<PodXEventThumbnailData>()
 
         for (thumbnailLiveData in eventsThumbnailLiveDatas) {
@@ -422,7 +458,7 @@ class PodXEventsContainerFragment
         }
     }
 
-    private fun navigateToPoll (podXPollEvent: PodXPollEvent) {
+    private fun navigateToPoll(podXPollEvent: PodXPollEvent) {
         if (podXPollEvent.urlString.isNotBlank()) {
             val webPage: Uri = Uri.parse(podXPollEvent.urlString)
             val intent = Intent(Intent.ACTION_VIEW, webPage)
@@ -444,7 +480,6 @@ class PodXEventsContainerFragment
                 putParcelable("podXImageEvent", podXImageEvent)
             }
 
-
         findNavController()
             .navigate(R.id.action_global_podXImageFragment, argsBundle)
     }
@@ -454,7 +489,6 @@ class PodXEventsContainerFragment
             .apply {
                 putParcelable("podXTextEvent", podXTextEvent)
             }
-
 
         findNavController()
             .navigate(R.id.action_global_podXTextFragment, argsBundle)
@@ -490,16 +524,19 @@ class PodXEventsContainerFragment
         )
             .apply {
                 thumbnailMutableLiveData
-                    .observe(viewLifecycleOwner,
+                    .observe(
+                        viewLifecycleOwner,
                         Observer {
                             submitList(it)
-                        })
+                        }
+                    )
             }
     }
 
     private fun bindVisibilitySwitch() {
         thumbnailMutableLiveData
-            .observe(viewLifecycleOwner,
+            .observe(
+                viewLifecycleOwner,
                 Observer {
                     binding
                         .constraintlayoutPodxeventscontainerRoot
@@ -508,6 +545,7 @@ class PodXEventsContainerFragment
                     } else {
                         View.VISIBLE
                     }
-                })
+                }
+            )
     }
 }

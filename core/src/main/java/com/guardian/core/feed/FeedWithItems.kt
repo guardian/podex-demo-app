@@ -5,9 +5,11 @@ import androidx.room.Relation
 import com.guardian.core.feeditem.FeedItem
 
 data class FeedWithItems(
-    @Relation(parentColumn = "feedUrlString",
+    @Relation(
+        parentColumn = "feedUrlString",
         entityColumn = "feedUrlString",
-        entity = FeedItem::class)
+        entity = FeedItem::class
+    )
     val feedItem: List<FeedItem>,
     @Embedded
     val feed: Feed

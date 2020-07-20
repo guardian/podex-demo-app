@@ -74,7 +74,7 @@ class PodxEventEmitterTest {
             // instantiate a local mediasessionconnection
             val connection = getMediaSessionConnection()
 
-            //instantiate an event emitter
+            // instantiate an event emitter
             val podXEventEmitter = getPodXEventEmitter(connection)
 
             // switch to the background with the media session
@@ -94,16 +94,13 @@ class PodxEventEmitterTest {
                 while (connection.playbackState.value?.state == PlaybackState.STATE_NONE) {}
                 while (connection.playbackState.value?.state == PlaybackState.STATE_BUFFERING) {}
 
-                //seek to a position in playback which has valid podXevents
+                // seek to a position in playback which has valid podXevents
                 connection.transportControls.seekTo(8000)
                 while (podXEventEmitter.podXImageEventLiveData.value?.size == 0) {}
 
                 assertThat(podXEventEmitter.podXImageEventLiveData.value?.size, `is`(2))
 
-
                 testRunningMutex.unlock()
-
-
             }
         }
 
@@ -128,7 +125,7 @@ class PodxEventEmitterTest {
             // instantiate a local mediasessionconnection
             val connection = getMediaSessionConnection()
 
-            //instantiate an event emitter
+            // instantiate an event emitter
             val podXEventEmitter = getPodXEventEmitter(connection)
 
             // switch to the background with the media session
@@ -148,16 +145,13 @@ class PodxEventEmitterTest {
                 while (connection.playbackState.value?.state == PlaybackState.STATE_NONE) {}
                 while (connection.playbackState.value?.state == PlaybackState.STATE_BUFFERING) {}
 
-                //seek to a position in playback which has valid podXevents
+                // seek to a position in playback which has valid podXevents
                 connection.transportControls.seekTo(8000)
                 while (podXEventEmitter.podXWebEventLiveData.value?.size == 0) {}
 
                 assertThat(podXEventEmitter.podXWebEventLiveData.value?.size, `is`(2))
 
-
                 testRunningMutex.unlock()
-
-
             }
         }
 
@@ -176,7 +170,7 @@ class PodxEventEmitterTest {
         // acquire the lock to start the test that will run in the background
         testRunningMutex.tryLock()
 
-        //store observed changes to the emitter with these vars
+        // store observed changes to the emitter with these vars
         var observedImageEvents = listOf<PodXImageEvent>()
         var observedWebEvents = listOf<PodXWebEvent>()
 
@@ -186,10 +180,10 @@ class PodxEventEmitterTest {
             // instantiate a local mediasessionconnection
             val connection = getMediaSessionConnection()
 
-            //instantiate an event emitter
+            // instantiate an event emitter
             val podXEventEmitter = getPodXEventEmitter(connection)
 
-            //observe the emitter
+            // observe the emitter
             podXEventEmitter.podXWebEventLiveData.observeForever {
                 observedWebEvents = it
             }
@@ -214,19 +208,23 @@ class PodxEventEmitterTest {
                 while (connection.playbackState.value?.state == PlaybackState.STATE_NONE) {}
                 while (connection.playbackState.value?.state == PlaybackState.STATE_BUFFERING) {}
 
-                //seek to a position in playback which has valid podXevents
+                // seek to a position in playback which has valid podXevents
                 connection.transportControls.seekTo(8000)
 
-                //todo: verify that the observed updates will be complete by the time this happens
+                // todo: verify that the observed updates will be complete by the time this happens
                 while (connection.playbackState.value?.position != 8000L) {}
 
-                assert(observedImageEvents.containsAll(
-                    InstrumentationMockedEventDataSources.testFeedItem1ImageList
-                ))
+                assert(
+                    observedImageEvents.containsAll(
+                        InstrumentationMockedEventDataSources.testFeedItem1ImageList
+                    )
+                )
 
-                assert(observedWebEvents.containsAll(
-                    InstrumentationMockedEventDataSources.testFeedItem1WebList
-                ))
+                assert(
+                    observedWebEvents.containsAll(
+                        InstrumentationMockedEventDataSources.testFeedItem1WebList
+                    )
+                )
 
                 testRunningMutex.unlock()
             }
@@ -266,9 +264,11 @@ class PodxEventEmitterTest {
     /**
      * needs to be run on the Main looper or any other prepared looper.
      */
-    private fun getPodXEventEmitter(mediaSessionConnection: MediaSessionConnection)
-        : PodXEventEmitter {
-        return PodXEventEmitterImpl(mediaSessionConnection,
-            InstrumentationMockedEventDataSources.podXEventRepository)
-    }
+    private fun getPodXEventEmitter(mediaSessionConnection: MediaSessionConnection):
+        PodXEventEmitter {
+            return PodXEventEmitterImpl(
+                mediaSessionConnection,
+                InstrumentationMockedEventDataSources.podXEventRepository
+            )
+        }
 }

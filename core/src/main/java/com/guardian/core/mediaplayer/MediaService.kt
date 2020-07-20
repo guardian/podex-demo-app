@@ -337,7 +337,8 @@ open class MediaService : MediaBrowserServiceCompat() {
 
             // Skip building a notification when state is "none" and metadata is null.
             val notification = if (mediaController.metadata != null &&
-                updatedState != PlaybackStateCompat.STATE_NONE) {
+                updatedState != PlaybackStateCompat.STATE_NONE
+            ) {
                 notificationBuilder.buildNotification(mediaSession.sessionToken)
             } else {
                 null

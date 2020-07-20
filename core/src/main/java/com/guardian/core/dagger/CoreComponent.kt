@@ -19,12 +19,16 @@ import javax.inject.Singleton
  * Component providing application wide singletons.
  */
 @Singleton
-@Component(modules = [WebModule::class,
-    SearchDataModule::class,
-    RepositoryModule::class,
-    MediaSessionConnectionModule::class,
-    MediaServiceModule::class,
-    RoomModule::class])
+@Component(
+    modules = [
+        WebModule::class,
+        SearchDataModule::class,
+        RepositoryModule::class,
+        MediaSessionConnectionModule::class,
+        MediaServiceModule::class,
+        RoomModule::class
+    ]
+)
 interface CoreComponent {
 
     @Component.Builder

@@ -144,133 +144,161 @@ class PodXEventEmitterImpl
     private fun registerWebEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getWebEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXWebEvents.clear()
-                    pendingPodXWebEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXWebEvents.clear()
+                        pendingPodXWebEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerImageEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getImageEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXImageEvents.clear()
-                    pendingPodXImageEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXImageEvents.clear()
+                        pendingPodXImageEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerSupportEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getSupportEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    Timber.i("we have ${feedPodXEventList.size} elements coming from cache")
-                    pendingPodXSupportEvents.clear()
-                    pendingPodXSupportEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        Timber.i("we have ${feedPodXEventList.size} elements coming from cache")
+                        pendingPodXSupportEvents.clear()
+                        pendingPodXSupportEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerCallPromptEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getCallPromptEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXCallPromptEvents.clear()
-                    pendingPodXCallPromptEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXCallPromptEvents.clear()
+                        pendingPodXCallPromptEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerFeedBackEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getFeedBackEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXFeedBackEvents.clear()
-                    pendingPodXFeedBackEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXFeedBackEvents.clear()
+                        pendingPodXFeedBackEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerFeedLinkEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getFeedLinkEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXFeedLinkEvents.clear()
-                    pendingPodXFeedLinkEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXFeedLinkEvents.clear()
+                        pendingPodXFeedLinkEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
-
 
     private fun registerNewsLetterSignUpEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getNewsLetterSignUpEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXNewsLetterSignUpEvents.clear()
-                    pendingPodXNewsLetterSignUpEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXNewsLetterSignUpEvents.clear()
+                        pendingPodXNewsLetterSignUpEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerPollEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getPollEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXPollEvents.clear()
-                    pendingPodXPollEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXPollEvents.clear()
+                        pendingPodXPollEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
-
 
     private fun registerSocialPromptEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getSocialPromptEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXSocialPromptEvents.clear()
-                    pendingPodXSocialPromptEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXSocialPromptEvents.clear()
+                        pendingPodXSocialPromptEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
     private fun registerTextEvents(feedItem: FeedItem) {
         currentFeedDisposable.add(
             podXEventRepository.getTextEventsForFeedItem(feedItem)
-                .subscribe({ feedPodXEventList ->
-                    pendingPodXTextEvents.clear()
-                    pendingPodXTextEvents.addAll(feedPodXEventList)
-                    registerPlaybackTimerObservable()
-                }, { e: Throwable ->
-                    Timber.e(e)
-                })
+                .subscribe(
+                    { feedPodXEventList ->
+                        pendingPodXTextEvents.clear()
+                        pendingPodXTextEvents.addAll(feedPodXEventList)
+                        registerPlaybackTimerObservable()
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
         )
     }
 
@@ -289,24 +317,28 @@ class PodXEventEmitterImpl
                         0L
                     }
                 }
-            }.delaySubscription (
+            }.delaySubscription(
                 nextEventTime, TimeUnit.MILLISECONDS
             )
 
             currentFeedItemDisposable.add(
                 nextEventObservable
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ timeMillis ->
-                        registerPlaybackTimerObservable()
-                    }, { e: Throwable? ->
-                        Timber.e(e)
-                    })
+                    .subscribe(
+                        { timeMillis ->
+                            registerPlaybackTimerObservable()
+                        },
+                        { e: Throwable? ->
+                            Timber.e(e)
+                        }
+                    )
             )
         }
     }
 
     private fun getNextEventTime(currentTimeMillis: Long): Long {
-        val minEvent = (pendingPodXImageEvents.flatMap {
+        val minEvent = (
+            pendingPodXImageEvents.flatMap {
                 listOf(it.timeStart, it.timeEnd)
             } + pendingPodXCallPromptEvents.flatMap {
                 listOf(it.timeStart, it.timeEnd)
@@ -326,11 +358,13 @@ class PodXEventEmitterImpl
                 listOf(it.timeStart, it.timeEnd)
             } + pendingPodXWebEvents.flatMap {
                 listOf(it.timeStart, it.timeEnd)
-            }).filter {
-                eventTime -> eventTime > currentTimeMillis
-            }.min() ?: Long.MAX_VALUE - currentTimeMillis
+            }
+            ).filter {
+            eventTime ->
+            eventTime > currentTimeMillis
+        }.min() ?: Long.MAX_VALUE - currentTimeMillis
 
-        return max (minEvent, 250L)
+        return max(minEvent, 250L)
     }
 
     private fun updateEmittedEvents(timeMillis: Long) {
@@ -342,7 +376,8 @@ class PodXEventEmitterImpl
 
         // only post if there are new values
         if (currentImageEventList
-                .size != (podXImageEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXImageEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXImageEventMutableLiveData.postValue(currentImageEventList)
         }
 
@@ -352,7 +387,8 @@ class PodXEventEmitterImpl
                     pendingWebEvent.timeEnd >= timeMillis
             }
         if (currentWebEventList
-                .size != (podXWebEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXWebEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXWebEventMutableLiveData.postValue(currentWebEventList)
         }
 
@@ -363,7 +399,8 @@ class PodXEventEmitterImpl
             }
         podXSupportEventMutableLiveData.postValue(currentSupportEventList)
         if (currentSupportEventList
-                .size != (podXSupportEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXSupportEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXSupportEventMutableLiveData.postValue(currentSupportEventList)
         }
 
@@ -374,7 +411,8 @@ class PodXEventEmitterImpl
             }
         podXCallPromptEventMutableLiveData.postValue(currentCallPromptEventList)
         if (currentCallPromptEventList
-                .size != (podXCallPromptEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXCallPromptEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXCallPromptEventMutableLiveData.postValue(currentCallPromptEventList)
         }
 
@@ -385,7 +423,8 @@ class PodXEventEmitterImpl
             }
         podXFeedBackEventMutableLiveData.postValue(currentFeedBackEventList)
         if (currentFeedBackEventList
-                .size != (podXFeedBackEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXFeedBackEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXFeedBackEventMutableLiveData.postValue(currentFeedBackEventList)
         }
 
@@ -396,7 +435,8 @@ class PodXEventEmitterImpl
             }
         podXFeedLinkEventMutableLiveData.postValue(currentFeedLinkEventList)
         if (currentFeedLinkEventList
-                .size != (podXFeedLinkEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXFeedLinkEventMutableLiveData.value)?.size ?: 0
+        ) {
             Timber.i("feed link count: ${currentFeedLinkEventList.size}")
             podXFeedLinkEventMutableLiveData.postValue(currentFeedLinkEventList)
         }
@@ -408,7 +448,8 @@ class PodXEventEmitterImpl
             }
         podXNewsLetterSignUpEventMutableLiveData.postValue(currentNewsLetterSignUpEventList)
         if (currentNewsLetterSignUpEventList
-                .size != (podXNewsLetterSignUpEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXNewsLetterSignUpEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXNewsLetterSignUpEventMutableLiveData.postValue(currentNewsLetterSignUpEventList)
         }
 
@@ -419,7 +460,8 @@ class PodXEventEmitterImpl
             }
         podXSocialPromptEventMutableLiveData.postValue(currentSocialPromptEventList)
         if (currentSocialPromptEventList
-                .size != (podXSocialPromptEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXSocialPromptEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXSocialPromptEventMutableLiveData.postValue(currentSocialPromptEventList)
         }
 
@@ -430,7 +472,8 @@ class PodXEventEmitterImpl
             }
         podXTextEventMutableLiveData.postValue(currentTextEventList)
         if (currentTextEventList
-                .size != (podXTextEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXTextEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXTextEventMutableLiveData.postValue(currentTextEventList)
         }
 
@@ -441,7 +484,8 @@ class PodXEventEmitterImpl
             }
         podXPollEventMutableLiveData.postValue(currentPollEventList)
         if (currentPollEventList
-                .size != (podXPollEventMutableLiveData.value)?.size ?: 0) {
+            .size != (podXPollEventMutableLiveData.value)?.size ?: 0
+        ) {
             podXPollEventMutableLiveData.postValue(currentPollEventList)
         }
     }

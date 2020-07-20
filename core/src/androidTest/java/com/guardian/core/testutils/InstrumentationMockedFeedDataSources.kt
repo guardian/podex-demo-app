@@ -58,36 +58,36 @@ object InstrumentationMockedFeedDataSources {
     val testFeedList = listOf(testFeedItem1, testFeedItem2)
 
     val feedRepository: FeedRepository = Mockito.mock(FeedRepository::class.java).also {
-            Mockito.`when`(it.getFeed(testFeed.feedUrlString)).then {
-                Flowable.just(testFeed)
-            }
-            Mockito.`when`(it.getFeeds())
-                .then { Flowable.just(listOf(testFeed)) }
+        Mockito.`when`(it.getFeed(testFeed.feedUrlString)).then {
+            Flowable.just(testFeed)
         }
+        Mockito.`when`(it.getFeeds())
+            .then { Flowable.just(listOf(testFeed)) }
+    }
 
     val feedItemRepository: FeedItemRepository = Mockito.mock(FeedItemRepository::class.java).also {
-            Mockito.`when`(it.getFeedItemsForFeed(testFeed))
-                .then {
-                    Flowable.just(
-                        listOf(
-                            testFeedItem1,
-                            testFeedItem2
-                            )
+        Mockito.`when`(it.getFeedItemsForFeed(testFeed))
+            .then {
+                Flowable.just(
+                    listOf(
+                        testFeedItem1,
+                        testFeedItem2
                     )
-                }
+                )
+            }
 
-            Mockito.`when`(it.getFeedItemForUrlString(testFeedItem1.feedItemAudioUrl))
-                .then {
-                    Timber.i("Retrieving item for ${testFeedItem1.feedItemAudioUrl}")
-                    Flowable.just(testFeedItem1)
-                }
+        Mockito.`when`(it.getFeedItemForUrlString(testFeedItem1.feedItemAudioUrl))
+            .then {
+                Timber.i("Retrieving item for ${testFeedItem1.feedItemAudioUrl}")
+                Flowable.just(testFeedItem1)
+            }
 
-            Mockito.`when`(it.getFeedItemForUrlString(testFeedItem2.feedItemAudioUrl))
-                .then {
-                    Timber.i("Retrieving item for ${testFeedItem2.feedItemAudioUrl}")
-                    Flowable.just(testFeedItem2)
-                }
-        }
+        Mockito.`when`(it.getFeedItemForUrlString(testFeedItem2.feedItemAudioUrl))
+            .then {
+                Timber.i("Retrieving item for ${testFeedItem2.feedItemAudioUrl}")
+                Flowable.just(testFeedItem2)
+            }
+    }
 
     fun writeTestData(testAudioFileResource1: InputStream, testAudioFileResource2: InputStream) {
         val testFile1 = File(InstrumentationRegistry.getInstrumentation().context.filesDir, feedItem1FileName)
@@ -105,6 +105,5 @@ object InstrumentationMockedFeedDataSources {
             )
             testAudioFileResource2.close()
         }
-
     }
 }

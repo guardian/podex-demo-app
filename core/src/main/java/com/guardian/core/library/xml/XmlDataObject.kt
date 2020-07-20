@@ -17,12 +17,12 @@ interface XmlDataObject {
  */
 val XmlDataObject.factory: XmlDataObjectFactory
     get() = if (this::class.companionObjectInstance is XmlDataObjectFactory) {
-            this::class.companionObjectInstance as XmlDataObjectFactory
-        } else {
-            throw InvalidClassException(
-                "Xml Data objects need a XmlDataObjectFactory companion object "
-            )
-        }
+        this::class.companionObjectInstance as XmlDataObjectFactory
+    } else {
+        throw InvalidClassException(
+            "Xml Data objects need a XmlDataObjectFactory companion object "
+        )
+    }
 
 /**
  * Interface for the companion object of a [XmlDataObject]

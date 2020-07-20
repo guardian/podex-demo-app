@@ -137,16 +137,16 @@ abstract class AbstractMusicSource : MusicSource {
      * on a single thread.
      */
     override fun whenReady(performAction: (Boolean) -> Unit): Boolean =
-            when (state) {
-                STATE_CREATED, STATE_INITIALIZING -> {
-                    onReadyListeners += performAction
-                    false
-                }
-                else -> {
-                    performAction(state != STATE_ERROR)
-                    true
-                }
+        when (state) {
+            STATE_CREATED, STATE_INITIALIZING -> {
+                onReadyListeners += performAction
+                false
             }
+            else -> {
+                performAction(state != STATE_ERROR)
+                true
+            }
+        }
 
     /**
      * Handles searching a [MusicSource] from a focused voice search, often coming
@@ -188,7 +188,7 @@ abstract class AbstractMusicSource : MusicSource {
                 Timber.d("Focused media search: title='$title' album='$album' artist='$artist")
                 filter { song ->
                     (song.artist == artist || song.albumArtist == artist) && song.album == album &&
-                            song.title == title
+                        song.title == title
                 }
             }
             else -> {
@@ -207,7 +207,7 @@ abstract class AbstractMusicSource : MusicSource {
                 Timber.d("Unfocused search for '$query'")
                 filter { song ->
                     song.title.containsCaseInsensitive(query) ||
-                            song.genre.containsCaseInsensitive(query)
+                        song.genre.containsCaseInsensitive(query)
                 }
             } else {
                 // If the user asked to "play music", or something similar, the query will also

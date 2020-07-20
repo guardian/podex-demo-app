@@ -72,7 +72,7 @@ class PlayerFragment
 
     private fun setupScrollEvent() {
         if (args.scrollToEvents) {
-            //delay the scroll
+            // delay the scroll
             lifecycle.coroutineScope.launch {
                 delay(600)
                 Timber.i("firing fullscroll")
@@ -142,14 +142,12 @@ class PlayerFragment
                 }
             )
 
-
-
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData.observe(
-            viewLifecycleOwner,
-            Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(requireContext()) }
-        )
+                viewLifecycleOwner,
+                Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(requireContext()) }
+            )
     }
 
     private fun setupSeekBar() {
@@ -159,16 +157,16 @@ class PlayerFragment
         val seekBarMutex = Mutex(false)
 
         binding.seekbarPlayerPosition
-            .setOnSeekBarChangeListener (
-                object: SeekBar.OnSeekBarChangeListener {
-                    //ignore the scanning
+            .setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    // ignore the scanning
                     override fun onProgressChanged(
                         seekBar: SeekBar?,
                         progress: Int,
                         fromUser: Boolean
                     ) {}
 
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {seekBarMutex.tryLock(this)}
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) { seekBarMutex.tryLock(this) }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
                         seekBarMutex.unlock(this)
@@ -183,12 +181,14 @@ class PlayerFragment
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData
-            .observe(viewLifecycleOwner,
-                Observer{ playbackTime ->
+            .observe(
+                viewLifecycleOwner,
+                Observer { playbackTime ->
                     if (!seekBarMutex.isLocked) {
                         setSeekBarPos(playbackTime)
                     }
-                })
+                }
+            )
     }
 
     private fun setSeekBarPos(pos: Long) {
@@ -203,13 +203,13 @@ class PlayerFragment
     }
 
     fun Int.toTimeInCurrentMedia(): Long {
-        //if the metadata isn't set we assume playback hasn't started
+        // if the metadata isn't set we assume playback hasn't started
         val currentDuration = playerViewModel.playerUiModel
             .mediaMetadataLiveData
             .value
             ?.duration ?: 0
 
-        return (this.toDouble() / PROGRESS_MAX  * currentDuration).toLong()
+        return (this.toDouble() / PROGRESS_MAX * currentDuration).toLong()
     }
 
     private companion object {

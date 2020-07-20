@@ -7,8 +7,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "podx_support_events",
-    indices = [Index(value = ["feedItemUrlString"], unique = false)])
+@Entity(
+    tableName = "podx_support_events",
+    indices = [Index(value = ["feedItemUrlString"], unique = false)]
+)
 @Parcelize
 data class PodXSupportEvent(
     val timeStart: Long,

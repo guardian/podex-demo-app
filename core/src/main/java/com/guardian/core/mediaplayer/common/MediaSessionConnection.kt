@@ -18,7 +18,6 @@ package com.guardian.core.mediaplayer.common
 
 import android.content.ComponentName
 import android.content.Context
-import android.media.session.MediaController
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -58,7 +57,7 @@ class MediaSessionConnection(context: Context, serviceComponent: ComponentName) 
         null
     ).apply { connect() }
 
-    fun getSessionToken():  MediaSessionCompat.Token = mediaBrowser.sessionToken
+    fun getSessionToken(): MediaSessionCompat.Token = mediaBrowser.sessionToken
 
     private lateinit var mediaController: MediaControllerCompat
 

@@ -17,7 +17,7 @@ class PodXSocialLinkXmlDataObject : XmlDataObject {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> = mapOf()
 
         override fun instantiateFromXmlParserElementMap
-                (xmlParserElementMap: Map<String, ValueContainer<*>>):
+        (xmlParserElementMap: Map<String, ValueContainer<*>>):
             XmlDataObject = PodXSocialLinkXmlDataObject()
     }
 }

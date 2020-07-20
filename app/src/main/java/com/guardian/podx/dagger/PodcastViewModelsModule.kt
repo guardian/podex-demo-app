@@ -32,7 +32,7 @@ abstract class PodcastViewModelsModule {
     @IntoMap
     @ViewModelKey(PodXEventsContainerViewModel::class)
     abstract fun bindsPodXEventsContainterViewModel
-            (podXEventsContainerViewModel: PodXEventsContainerViewModel): ViewModel
+    (podXEventsContainerViewModel: PodXEventsContainerViewModel): ViewModel
 
     @Binds
     abstract fun bindsViewModelFactory(factory: ViewModelInjectionFactory):

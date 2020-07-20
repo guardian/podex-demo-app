@@ -11,10 +11,8 @@ import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutPodximagefragmentBinding
 import com.guardian.podx.utils.lifecycleAwareVar
-import javax.inject.Inject
 
-class PodXImageFragment
-@Inject constructor() :
+class PodXImageFragment :
     Fragment() {
 
     private var binding: LayoutPodximagefragmentBinding by lifecycleAwareVar()

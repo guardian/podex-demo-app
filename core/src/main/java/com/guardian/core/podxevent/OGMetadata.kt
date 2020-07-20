@@ -28,7 +28,8 @@ data class OGMetadata(
                         "og:title",
                         "og:type",
                         "og:url"
-                        )) {
+                    )
+                    ) {
                         argMap[element.attributes()["property"]] = element.attributes()["content"]
                     }
                 }

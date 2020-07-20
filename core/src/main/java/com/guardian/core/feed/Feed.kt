@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 import com.guardian.core.feeditem.FeedItem
 
 @Entity(tableName = "feeds")
-@ForeignKey(entity = FeedItem::class,
+@ForeignKey(
+    entity = FeedItem::class,
     parentColumns = ["feedUrlString"],
     childColumns = ["feedUrlString"],
     onDelete = ForeignKey.CASCADE

@@ -56,6 +56,27 @@
             app:argType="com.guardian.core.podxevent.PodXTextEvent"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/podXLinkFragment"
+        android:name="com.guardian.podx.presentation.podxlink.PodXLinkFragment"
+        android:label="PodXLinkFragment" >
+        <argument
+            android:name="caption"
+            app:argType="string"
+            android:defaultValue=""
+            />
+        <argument
+            android:name="notification"
+            app:argType="string"
+            android:defaultValue=""
+            />
+        <argument
+            android:name="urlString"
+            app:argType="string"
+            android:defaultValue=""
+            />
+    </fragment>
+
     <action
         android:id="@+id/action_global_podXImageFragment"
         app:destination="@id/podXImageFragment"
@@ -71,6 +92,15 @@
         app:exitAnim="@anim/slide_out_top"
         app:popEnterAnim="@anim/slide_in_top"
         app:popExitAnim="@anim/slide_out_bottom"/>
+
+    <action
+        android:id="@+id/action_global_podXLinkFragment"
+        app:destination="@id/podXLinkFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"/>
+
     <action
         android:id="@+id/action_global_playerFragment"
         app:destination="@id/playerFragment"

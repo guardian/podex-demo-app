@@ -58,13 +58,16 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .isPreparedLiveData
-            .observe(viewLifecycleOwner, Observer { isPlaying ->
-                binding.constraintlayoutCollapsedPlayerRoot.visibility = if (isPlaying) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
+            .observe(
+                viewLifecycleOwner,
+                Observer { isPlaying ->
+                    binding.constraintlayoutCollapsedPlayerRoot.visibility = if (isPlaying) {
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
                 }
-            })
+            )
 
         binding
             .progressbarCollapsedPlayer
@@ -85,17 +88,20 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .mediaMetadataLiveData
-            .observe(viewLifecycleOwner, Observer { mediaMetadataCompat ->
-                binding.artUrlString = mediaMetadataCompat.albumArtUri.toString()
-            })
-
+            .observe(
+                viewLifecycleOwner,
+                Observer { mediaMetadataCompat ->
+                    binding.artUrlString = mediaMetadataCompat.albumArtUri.toString()
+                }
+            )
     }
 
     private fun setupProgressBar() {
         playerViewModel.playerUiModel
             .mediaPlaybackPositionLiveData
             .observe(
-                viewLifecycleOwner, Observer {
+                viewLifecycleOwner,
+                Observer {
                     setProgressBarPos(it)
                 }
             )
@@ -107,15 +113,18 @@ class CollapsedPlayerFragment
         playerViewModel
             .playerUiModel
             .mediaButtonIsPlaying
-            .observe(viewLifecycleOwner, Observer { isPlaying ->
-                if (isPlaying) {
-                    binding.imagebuttonCollapsedPlayerPlaypause
-                        .setImageResource(R.drawable.baseline_pause_white_36)
-                } else {
-                    binding.imagebuttonCollapsedPlayerPlaypause
-                        .setImageResource(R.drawable.baseline_play_arrow_white_36)
+            .observe(
+                viewLifecycleOwner,
+                Observer { isPlaying ->
+                    if (isPlaying) {
+                        binding.imagebuttonCollapsedPlayerPlaypause
+                            .setImageResource(R.drawable.baseline_pause_white_36)
+                    } else {
+                        binding.imagebuttonCollapsedPlayerPlaypause
+                            .setImageResource(R.drawable.baseline_play_arrow_white_36)
+                    }
                 }
-            })
+            )
 
         binding
             .imagebuttonCollapsedPlayerPlaypause
@@ -142,33 +151,36 @@ class CollapsedPlayerFragment
                     playerViewModel.seekToPosition(currentTime - TEN_SECONDS)
                 }
             }
-
     }
 
     private fun setupEventButton() {
         playerViewModel.playerUiModel
             .hasPodXEventsLiveData
-            .observe(viewLifecycleOwner, Observer{ hasPodXEvents: Boolean ->
-                if (hasPodXEvents) {
-                    binding.imagebuttonCollapsedPlayerPodxevents
-                        .imageTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(requireContext(), R.color.highlightColor)
-                    )
-                } else {
-                    binding.imagebuttonCollapsedPlayerPodxevents
-                        .imageTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(requireContext(), R.color.transparentPrimary)
-                    )
+            .observe(
+                viewLifecycleOwner,
+                Observer { hasPodXEvents: Boolean ->
+                    if (hasPodXEvents) {
+                        binding.imagebuttonCollapsedPlayerPodxevents
+                            .imageTintList = ColorStateList.valueOf(
+                            ContextCompat.getColor(requireContext(), R.color.highlightColor)
+                        )
+                    } else {
+                        binding.imagebuttonCollapsedPlayerPodxevents
+                            .imageTintList = ColorStateList.valueOf(
+                            ContextCompat.getColor(requireContext(), R.color.transparentPrimary)
+                        )
+                    }
                 }
-            })
+            )
 
         binding.imagebuttonCollapsedPlayerPodxevents
             .setOnClickListener {
                 val argsBundle = Bundle().apply {
                     if (playerViewModel
-                            .playerUiModel
-                            .hasPodXEventsLiveData
-                            .value == true) {
+                        .playerUiModel
+                        .hasPodXEventsLiveData
+                        .value == true
+                    ) {
                         this.putBoolean("scrollToEvents", true)
                     }
                 }

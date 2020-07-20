@@ -1,5 +1,7 @@
-package com.guardian.podx.presentation.podxtext
+package com.guardian.podx.presentation.podxlink
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +11,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
-import com.guardian.podx.databinding.LayoutPodxtextfragmentBinding
+import com.guardian.podx.databinding.LayoutPodxlinkfragmentBinding
 import com.guardian.podx.utils.lifecycleAwareVar
 
-class PodXTextFragment :
+class PodXLinkFragment :
     Fragment() {
 
-    private var binding: LayoutPodxtextfragmentBinding by lifecycleAwareVar()
+    private var binding: LayoutPodxlinkfragmentBinding by lifecycleAwareVar()
 
-    private val podXTextEvent: PodXTextFragmentArgs by navArgs()
+    private val podXLinkArgs: PodXLinkFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +28,7 @@ class PodXTextFragment :
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.layout_podxtextfragment,
+            R.layout.layout_podximagefragment,
             container,
             false
         )
@@ -37,9 +39,18 @@ class PodXTextFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.podxText = podXTextEvent.podXTextEvent
+        binding.caption = podXLinkArgs.caption
+        binding.notification = podXLinkArgs.notification
 
-        (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxtext)
+        binding.buttonPodxlinkNavigate.setOnClickListener {
+            if (podXLinkArgs.urlString.isNotBlank()) {
+                val webPage: Uri = Uri.parse(podXLinkArgs.urlString)
+                val intent = Intent(Intent.ACTION_VIEW, webPage)
+                startActivity(intent)
+            }
+        }
+
+        (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxlink)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
     }

@@ -340,42 +340,48 @@ class FeedRepositoryImpl
         repositoryScopedDisposable.add(
             feedDao.getFeedForUrlString(feedUrl)
                 .firstOrError()
-                .subscribe ({cachedFeed ->
-                    Timber.i("adding cached feed link once")
-                    addFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
-                }, { e: Throwable ->
-                    Timber.e(e)
+                .subscribe(
+                    { cachedFeed ->
+                        Timber.i("adding cached feed link once")
+                        addFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
 
-                    generalFeedApi.getFeedDeSerializedXml(feedUrl)
-                        .apply {
-                            val feedImage: String = this.itunesImage.attributes["href"]?.value
-                                ?: this.image.url
+                        generalFeedApi.getFeedDeSerializedXml(feedUrl)
+                            .apply {
+                                val feedImage: String = this.itunesImage.attributes["href"]?.value
+                                    ?: this.image.url
 
-                            Timber.e(e)
+                                Timber.e(e)
 
-                            addFeedLinkWithImage(feedImage, feedLinkEvent)
-                        }
-                })
+                                addFeedLinkWithImage(feedImage, feedLinkEvent)
+                            }
+                    }
+                )
         )
     }
 
     private fun addFeedLinkWithImage(feedImageUrlString: String, feedLinkEvent: PodXFeedLinkEvent) {
         podXEventRepository.addPodXFeedLinkEvents(
-            listOf(PodXFeedLinkEvent(
-                remoteFeedImageUrlString = feedImageUrlString,
-                timeStart = feedLinkEvent.timeStart,
-                timeEnd = feedLinkEvent.timeEnd,
-                caption = feedLinkEvent.caption,
-                notification = feedLinkEvent.notification,
-                currentFeedItemUrlString = feedLinkEvent.currentFeedItemUrlString,
-                remoteFeedUrlString = feedLinkEvent.remoteFeedUrlString,
-                remoteFeedItemUrlString = feedLinkEvent.remoteFeedItemUrlString,
-                remoteFeedItemTitle = feedLinkEvent.remoteFeedItemTitle,
-                remoteFeedItemPubDate = feedLinkEvent.remoteFeedItemPubDate,
-                remoteFeedItemGuid = feedLinkEvent.remoteFeedItemGuid,
-                remoteItemAudioTime = feedLinkEvent.remoteItemAudioTime,
-                id = feedLinkEvent.id
-            )))
+            listOf(
+                PodXFeedLinkEvent(
+                    remoteFeedImageUrlString = feedImageUrlString,
+                    timeStart = feedLinkEvent.timeStart,
+                    timeEnd = feedLinkEvent.timeEnd,
+                    caption = feedLinkEvent.caption,
+                    notification = feedLinkEvent.notification,
+                    currentFeedItemUrlString = feedLinkEvent.currentFeedItemUrlString,
+                    remoteFeedUrlString = feedLinkEvent.remoteFeedUrlString,
+                    remoteFeedItemUrlString = feedLinkEvent.remoteFeedItemUrlString,
+                    remoteFeedItemTitle = feedLinkEvent.remoteFeedItemTitle,
+                    remoteFeedItemPubDate = feedLinkEvent.remoteFeedItemPubDate,
+                    remoteFeedItemGuid = feedLinkEvent.remoteFeedItemGuid,
+                    remoteItemAudioTime = feedLinkEvent.remoteItemAudioTime,
+                    id = feedLinkEvent.id
+                )
+            )
+        )
     }
 
     private fun mapPodXNewsLetterSignUps(feedItemXmlDataObject: FeedItemXmlDataObject) {

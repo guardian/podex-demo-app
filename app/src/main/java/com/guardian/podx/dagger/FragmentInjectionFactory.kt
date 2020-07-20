@@ -8,7 +8,7 @@ import javax.inject.Provider
 class FragmentInjectionFactory
 @Inject constructor(
     private val fragmentMultiBinding: Map<Class<out Fragment>,
-@JvmSuppressWildcards Provider<Fragment>>
+        @JvmSuppressWildcards Provider<Fragment>>
 ) :
     FragmentFactory() {
 

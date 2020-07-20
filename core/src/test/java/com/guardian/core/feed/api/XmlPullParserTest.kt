@@ -1,7 +1,7 @@
 package com.guardian.core.feed.api
 
-import com.guardian.core.library.xml.XmlPullParserAdapterImpl
 import com.guardian.core.feed.api.xmldataobjects.RootXmlDataObject
+import com.guardian.core.library.xml.XmlPullParserAdapterImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before

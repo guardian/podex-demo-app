@@ -49,15 +49,18 @@ class CollapsedPlayerLightFragment
         playerViewModel
             .playerUiModel
             .mediaButtonIsPlaying
-            .observe(viewLifecycleOwner, Observer { isPlaying ->
-                if (isPlaying) {
-                    binding.imagebuttonCollapsedPlayerLightPlaypause
-                        .setImageResource(R.drawable.baseline_pause_circle_filled_black_48)
-                } else {
-                    binding.imagebuttonCollapsedPlayerLightPlaypause
-                        .setImageResource(R.drawable.baseline_play_circle_filled_black_48)
+            .observe(
+                viewLifecycleOwner,
+                Observer { isPlaying ->
+                    if (isPlaying) {
+                        binding.imagebuttonCollapsedPlayerLightPlaypause
+                            .setImageResource(R.drawable.baseline_pause_circle_filled_black_48)
+                    } else {
+                        binding.imagebuttonCollapsedPlayerLightPlaypause
+                            .setImageResource(R.drawable.baseline_play_circle_filled_black_48)
+                    }
                 }
-            })
+            )
 
         binding
             .imagebuttonCollapsedPlayerLightPlaypause
@@ -84,7 +87,6 @@ class CollapsedPlayerLightFragment
                     playerViewModel.seekToPosition(currentTime - TEN_SECONDS)
                 }
             }
-
     }
 
     private companion object {

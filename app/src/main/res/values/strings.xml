@@ -48,4 +48,5 @@
     <string name="notification_web_content_plural">links</string>
     <string name="notification_web_content_singular">link</string>
     <string name="notification_web_title">Link</string>
+    <string name="podxlink_navigate">Visit Webpage</string>
 </resources>

@@ -30,16 +30,16 @@ data class PodXSocialLinkEventXmlDataObject(
         }
 
         override fun instantiateFromXmlParserElementMap
-                (xmlParserElementMap: Map<String, ValueContainer<*>>):
+        (xmlParserElementMap: Map<String, ValueContainer<*>>):
             XmlDataObject {
 
-            return PodXSocialLinkEventXmlDataObject(
-                xmlParserElementMap["podx:start"]?.value as String,
-                xmlParserElementMap["podx:end"]?.value as String,
-                xmlParserElementMap["podx:caption"]?.value as String,
-                xmlParserElementMap["podx:notification"]?.value as String,
-                xmlParserElementMap["podx:socialType"]?.value as List<PodXSocialLinkXmlDataObject>
-            )
-        }
+                return PodXSocialLinkEventXmlDataObject(
+                    xmlParserElementMap["podx:start"]?.value as String,
+                    xmlParserElementMap["podx:end"]?.value as String,
+                    xmlParserElementMap["podx:caption"]?.value as String,
+                    xmlParserElementMap["podx:notification"]?.value as String,
+                    xmlParserElementMap["podx:socialType"]?.value as List<PodXSocialLinkXmlDataObject>
+                )
+            }
     }
 }

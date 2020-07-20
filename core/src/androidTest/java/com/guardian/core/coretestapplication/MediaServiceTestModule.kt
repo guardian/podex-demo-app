@@ -38,18 +38,24 @@ class MediaServiceTestModule {
     @Provides
     fun provideMockedMediaMetadataRepository(): MediaMetadataRepository {
         val feedDao: FeedDao = Mockito.mock(FeedDao::class.java).also {
-                Mockito.`when`(it.getCachedFeedsWithFeedItems())
-                    .then {
-                        Flowable
-                            .just<List<FeedWithItems>>(
-                                listOf(FeedWithItems(InstrumentationMockedFeedDataSources.testFeedList,
-                                    InstrumentationMockedFeedDataSources.testFeed))
+            Mockito.`when`(it.getCachedFeedsWithFeedItems())
+                .then {
+                    Flowable
+                        .just<List<FeedWithItems>>(
+                            listOf(
+                                FeedWithItems(
+                                    InstrumentationMockedFeedDataSources.testFeedList,
+                                    InstrumentationMockedFeedDataSources.testFeed
+                                )
                             )
-                    }
-            }
+                        )
+                }
+        }
 
-        return MediaMetadataRepositoryImpl(feedDao, InstrumentationMockedFeedDataSources.feedRepository,
-            InstrumentationMockedFeedDataSources.feedItemRepository)
+        return MediaMetadataRepositoryImpl(
+            feedDao, InstrumentationMockedFeedDataSources.feedRepository,
+            InstrumentationMockedFeedDataSources.feedItemRepository
+        )
     }
 
     @Provides

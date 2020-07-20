@@ -34,10 +34,10 @@ import javax.inject.Inject
  */
 
 class SearchFragment
-    @Inject constructor(
-        viewModelProviderFactory: ViewModelProvider.Factory,
-        private val executor: Executor
-    ) :
+@Inject constructor(
+    viewModelProviderFactory: ViewModelProvider.Factory,
+    private val executor: Executor
+) :
     Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels {
@@ -69,8 +69,8 @@ class SearchFragment
 
         // setup action bar
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
-        //todo remove static test data add feed search
-        //setHasOptionsMenu(true)
+        // todo remove static test data add feed search
+        // setHasOptionsMenu(true)
 
         // initialise search
         if (savedInstanceState == null) {
@@ -146,11 +146,14 @@ class SearchFragment
                 .navigate(action)
         }.apply {
             searchViewModel.uiModel.results
-                .observe(viewLifecycleOwner, Observer { results ->
-                    binding.progressbarSearch.hide()
-                    this.submitList(results)
-                    Timber.i("${this.itemCount} SearchResults added")
-                })
+                .observe(
+                    viewLifecycleOwner,
+                    Observer { results ->
+                        binding.progressbarSearch.hide()
+                        this.submitList(results)
+                        Timber.i("${this.itemCount} SearchResults added")
+                    }
+                )
         }
     }
 }

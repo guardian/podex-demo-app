@@ -17,11 +17,11 @@ data class FeedXmlDataObject(
     val owner: FeedItunesOwnerXmlDataObject = FeedItunesOwnerXmlDataObject()
 ) : XmlDataObject {
     override fun isEmpty(): Boolean = title.isEmpty() &&
-            link.isEmpty() &&
-            description.isEmpty() &&
-            image.isEmpty() &&
-            itunesImage.isEmpty() &&
-            feedItems.isEmpty() || feedItems.map { it.isEmpty() }.reduce { acc, b -> acc || b }
+        link.isEmpty() &&
+        description.isEmpty() &&
+        image.isEmpty() &&
+        itunesImage.isEmpty() &&
+        feedItems.isEmpty() || feedItems.map { it.isEmpty() }.reduce { acc, b -> acc || b }
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 

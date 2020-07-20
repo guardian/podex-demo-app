@@ -36,7 +36,7 @@ class PodXEventListAdapter(
         holder.buttonPodxeventviewholderExpand.rotationX = 0f
 
         holder.buttonPodxeventviewholderExpand.setOnClickListener {
-            //set up image expand binding
+            // set up image expand binding
             if (item.imageSwitch) {
                 if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
                     holder.imageviewPodxeventviewholderExpanded.visibility = View.VISIBLE
@@ -57,11 +57,13 @@ class PodXEventListAdapter(
                 holder.textviewPodxeventviewholderExpandedCaption.visibility = View.GONE
             }
 
-            //rotate the expand chevron, nb. rotation of the actual view is applied before the
+            // rotate the expand chevron, nb. rotation of the actual view is applied before the
             // animation starts
             holder.buttonPodxeventviewholderExpand.startAnimation(
-                RotateAnimation(180f,0f, Animation.RELATIVE_TO_SELF,
-                    0.5f, Animation.RELATIVE_TO_SELF, 0.5f).apply {
+                RotateAnimation(
+                    180f, 0f, Animation.RELATIVE_TO_SELF,
+                    0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+                ).apply {
                     duration = 500
                     interpolator = AccelerateDecelerateInterpolator()
                 }

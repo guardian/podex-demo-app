@@ -25,129 +25,158 @@ data class PodXEventThumbnailData(
     val imageSwitch: Boolean = false
 )
 
-fun PodXWebEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                      resources: Resources, theme: Resources.Theme):
+fun PodXWebEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData {
-    return PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
-    )
-}
+        return PodXEventThumbnailData(
+            imageUrlString = this.ogMetadata.OGImage,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
+        )
+    }
 
-fun PodXImageEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                        resources: Resources, theme: Resources.Theme):
+fun PodXImageEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData =
-    PodXEventThumbnailData(
-        imageUrlString = this.urlString,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme)
-    )
+        PodXEventThumbnailData(
+            imageUrlString = this.urlString,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme)
+        )
 
-fun PodXSupportEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                          resources: Resources, theme: Resources.Theme):
+fun PodXSupportEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData =
-    PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
-    )
+        PodXEventThumbnailData(
+            imageUrlString = this.ogMetadata.OGImage,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
+        )
 
-fun PodXCallPromptEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                             resources: Resources, theme: Resources.Theme):
+fun PodXCallPromptEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData =
-    PodXEventThumbnailData(
-        imageUrlString = null,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = resources.getDrawable(R.drawable.baseline_call_black_24, theme),
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme)
-    )
+        PodXEventThumbnailData(
+            imageUrlString = null,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = resources.getDrawable(R.drawable.baseline_call_black_24, theme),
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme)
+        )
 
-fun PodXFeedBackEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                           resources: Resources, theme: Resources.Theme):
+fun PodXFeedBackEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData =
-    PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme)
-    )
+        PodXEventThumbnailData(
+            imageUrlString = this.ogMetadata.OGImage,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme)
+        )
 
-fun PodXFeedLinkEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                           resources: Resources, theme: Resources.Theme):
+fun PodXFeedLinkEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData {
-    return PodXEventThumbnailData(
-        imageUrlString = this.remoteFeedImageUrlString,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme)
-    )
-}
+        return PodXEventThumbnailData(
+            imageUrlString = this.remoteFeedImageUrlString,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme)
+        )
+    }
 
-fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                                   resources: Resources, theme: Resources.Theme):
+fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData {
-    return PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme)
-    )
-}
+        return PodXEventThumbnailData(
+            imageUrlString = this.ogMetadata.OGImage,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme)
+        )
+    }
 
-fun PodXPollEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                       resources: Resources, theme: Resources.Theme):
+fun PodXPollEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData {
-    return PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme)
-    )
-}
+        return PodXEventThumbnailData(
+            imageUrlString = this.ogMetadata.OGImage,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme)
+        )
+    }
 
-fun PodXSocialPromptEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                               resources: Resources, theme: Resources.Theme):
+fun PodXSocialPromptEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData {
-    return PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = null,
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme)
-    )
-}
+        return PodXEventThumbnailData(
+            imageUrlString = this.ogMetadata.OGImage,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = null,
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme)
+        )
+    }
 
-fun PodXTextEvent.toPodXEventThumbnail(onClickListener: View.OnClickListener,
-                                       resources: Resources, theme: Resources.Theme):
+fun PodXTextEvent.toPodXEventThumbnail(
+    onClickListener: View.OnClickListener,
+    resources: Resources,
+    theme: Resources.Theme
+):
     PodXEventThumbnailData {
-    return PodXEventThumbnailData(
-        imageUrlString = null,
-        captionString = this.caption,
-        notificationString = this.notification,
-        onClickListener = onClickListener,
-        imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
-        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme)
-    )
-}
-
+        return PodXEventThumbnailData(
+            imageUrlString = null,
+            captionString = this.caption,
+            notificationString = this.notification,
+            onClickListener = onClickListener,
+            imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme)
+        )
+    }

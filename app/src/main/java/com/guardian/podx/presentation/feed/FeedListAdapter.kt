@@ -16,7 +16,7 @@ class FeedListAdapter(
     executor: Executor,
     val handleSelection: (FeedItem) -> Unit,
     val handlePlayPause: (FeedItem) -> Unit,
-    val bindIsPlaying :(FeedItem) -> LiveData<Boolean>
+    val bindIsPlaying: (FeedItem) -> LiveData<Boolean>
 ) :
     DataBoundListAdapter<FeedItem, ViewholderFeedadapterFeeditemBinding>(callback, executor) {
     override fun createBinding(parent: ViewGroup): ViewholderFeedadapterFeeditemBinding {

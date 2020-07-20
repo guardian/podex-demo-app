@@ -27,11 +27,11 @@ import dagger.android.AndroidInjection
 import timber.log.Timber
 import javax.inject.Inject
 
-class EventNotificationService : Service(){
+class EventNotificationService : Service() {
     @Inject
     lateinit var podXEventEmitter: PodXEventEmitter
 
-    private val defaultArgsBundle = Bundle().apply{
+    private val defaultArgsBundle = Bundle().apply {
         putBoolean("scrollToEvents", true)
     }
 
@@ -76,35 +76,34 @@ class EventNotificationService : Service(){
             }
 
         podXEventEmitter.podXNewsLetterSignUpEventLiveData
-            .observeForever{ newsLetterSignUpEventList ->
+            .observeForever { newsLetterSignUpEventList ->
                 displayNewsLetterSignUpEvents(newsLetterSignUpEventList)
             }
 
         podXEventEmitter.podXPollEventLiveData
-            .observeForever{ pollEventList ->
+            .observeForever { pollEventList ->
                 displayPollEvents(pollEventList)
             }
 
         podXEventEmitter.podXSocialPromptEventLiveData
-            .observeForever{ socialPromptEventList ->
+            .observeForever { socialPromptEventList ->
                 displaySocialPromptEvents(socialPromptEventList)
             }
 
         podXEventEmitter.podXSupportEventLiveData
-            .observeForever{ supportEventList ->
+            .observeForever { supportEventList ->
                 displaySupportEvents(supportEventList)
             }
 
         podXEventEmitter.podXTextEventLiveData
-            .observeForever{ textEventList ->
+            .observeForever { textEventList ->
                 displayTextEvents(textEventList)
             }
 
         podXEventEmitter.podXWebEventLiveData
-            .observeForever{ webEventList ->
+            .observeForever { webEventList ->
                 displayWebEvents(webEventList)
             }
-
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -113,12 +112,13 @@ class EventNotificationService : Service(){
     private fun displayImageEvents(imageEventList: List<PodXImageEvent>) {
         val newAggregate = displayingImageIds.size == 0 && imageEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingImageIds.filter {
             it !in imageEventList.map { image ->
                 image.id % PODX_IMAGE_NOTIFICATION_RANGE +
-                PODX_IMAGE_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_IMAGE_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -146,7 +146,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (imageEventList.size > 1) {
-                "${imageEventList.size} " +  getString(R.string.notification_image_content_plural)
+                "${imageEventList.size} " + getString(R.string.notification_image_content_plural)
             } else {
                 "${imageEventList.size} " + getString(R.string.notification_image_content_singular)
             }
@@ -170,12 +170,13 @@ class EventNotificationService : Service(){
     private fun displayCallPromptEvents(callPromptEventList: List<PodXCallPromptEvent>) {
         val newAggregate = displayingCallPromptIds.size == 0 && callPromptEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingCallPromptIds.filter {
             it !in callPromptEventList.map { callPrompt ->
                 callPrompt.id % PODX_CALL_PROMPT_NOTIFICATION_RANGE +
-                    PODX_CALL_PROMPT_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_CALL_PROMPT_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -203,7 +204,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (callPromptEventList.size > 1) {
-                "${callPromptEventList.size} " +  getString(R.string.notification_callprompt_content_plural)
+                "${callPromptEventList.size} " + getString(R.string.notification_callprompt_content_plural)
             } else {
                 "${callPromptEventList.size} " + getString(R.string.notification_callprompt_content_singular)
             }
@@ -227,12 +228,13 @@ class EventNotificationService : Service(){
     private fun displayFeedBackEvents(feedBackEventList: List<PodXFeedBackEvent>) {
         val newAggregate = displayingFeedBackIds.size == 0 && feedBackEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingFeedBackIds.filter {
             it !in feedBackEventList.map { feedBack ->
                 feedBack.id % PODX_FEED_BACK_NOTIFICATION_RANGE +
-                    PODX_FEED_BACK_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_FEED_BACK_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -260,7 +262,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (feedBackEventList.size > 1) {
-                "${feedBackEventList.size} " +  getString(R.string.notification_feed_back_content_plural)
+                "${feedBackEventList.size} " + getString(R.string.notification_feed_back_content_plural)
             } else {
                 "${feedBackEventList.size} " + getString(R.string.notification_feed_back_content_singular)
             }
@@ -284,12 +286,13 @@ class EventNotificationService : Service(){
     private fun displayFeedLinkEvents(FeedLinkEventList: List<PodXFeedLinkEvent>) {
         val newAggregate = displayingFeedLinkIds.size == 0 && FeedLinkEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingFeedLinkIds.filter {
             it !in FeedLinkEventList.map { feedLink ->
                 feedLink.id % PODX_FEED_LINK_NOTIFICATION_RANGE +
-                    PODX_FEED_LINK_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_FEED_LINK_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -317,7 +320,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (FeedLinkEventList.size > 1) {
-                "${FeedLinkEventList.size} " +  getString(R.string.notification_feed_link_content_plural)
+                "${FeedLinkEventList.size} " + getString(R.string.notification_feed_link_content_plural)
             } else {
                 "${FeedLinkEventList.size} " + getString(R.string.notification_feed_link_content_singular)
             }
@@ -341,12 +344,13 @@ class EventNotificationService : Service(){
     private fun displayNewsLetterSignUpEvents(NewsLetterSignUpEventList: List<PodXNewsLetterSignUpEvent>) {
         val newAggregate = displayingNewsLetterSignUpIds.size == 0 && NewsLetterSignUpEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingNewsLetterSignUpIds.filter {
             it !in NewsLetterSignUpEventList.map { newsLetterSignUp ->
                 newsLetterSignUp.id % PODX_NEWS_LETTER_SIGN_UP_NOTIFICATION_RANGE +
-                    PODX_NEWS_LETTER_SIGN_UP_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_NEWS_LETTER_SIGN_UP_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -374,7 +378,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (NewsLetterSignUpEventList.size > 1) {
-                "${NewsLetterSignUpEventList.size} " +  getString(R.string.notification_news_letter_sign_up_content_plural)
+                "${NewsLetterSignUpEventList.size} " + getString(R.string.notification_news_letter_sign_up_content_plural)
             } else {
                 "${NewsLetterSignUpEventList.size} " + getString(R.string.notification_news_letter_sign_up_content_singular)
             }
@@ -398,12 +402,13 @@ class EventNotificationService : Service(){
     private fun displayPollEvents(PollEventList: List<PodXPollEvent>) {
         val newAggregate = displayingPollIds.size == 0 && PollEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingPollIds.filter {
             it !in PollEventList.map { poll ->
                 poll.id % PODX_POLL_NOTIFICATION_RANGE +
-                    PODX_POLL_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_POLL_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -431,7 +436,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (PollEventList.size > 1) {
-                "${PollEventList.size} " +  getString(R.string.notification_poll_content_plural)
+                "${PollEventList.size} " + getString(R.string.notification_poll_content_plural)
             } else {
                 "${PollEventList.size} " + getString(R.string.notification_poll_content_singular)
             }
@@ -455,12 +460,13 @@ class EventNotificationService : Service(){
     private fun displaySocialPromptEvents(SocialPromptEventList: List<PodXSocialPromptEvent>) {
         val newAggregate = displayingSocialPromptIds.size == 0 && SocialPromptEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingSocialPromptIds.filter {
             it !in SocialPromptEventList.map { socialPrompt ->
                 socialPrompt.id % PODX_SOCIAL_PROMPT_NOTIFICATION_RANGE +
-                    PODX_SOCIAL_PROMPT_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_SOCIAL_PROMPT_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -488,7 +494,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (SocialPromptEventList.size > 1) {
-                "${SocialPromptEventList.size} " +  getString(R.string.notification_social_prompt_content_plural)
+                "${SocialPromptEventList.size} " + getString(R.string.notification_social_prompt_content_plural)
             } else {
                 "${SocialPromptEventList.size} " + getString(R.string.notification_social_prompt_content_singular)
             }
@@ -512,12 +518,13 @@ class EventNotificationService : Service(){
     private fun displaySupportEvents(SupportEventList: List<PodXSupportEvent>) {
         val newAggregate = displayingSupportIds.size == 0 && SupportEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingSupportIds.filter {
             it !in SupportEventList.map { support ->
                 support.id % PODX_SUPPORT_NOTIFICATION_RANGE +
-                    PODX_SUPPORT_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_SUPPORT_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -545,7 +552,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (SupportEventList.size > 1) {
-                "${SupportEventList.size} " +  getString(R.string.notification_support_content_plural)
+                "${SupportEventList.size} " + getString(R.string.notification_support_content_plural)
             } else {
                 "${SupportEventList.size} " + getString(R.string.notification_support_content_singular)
             }
@@ -569,12 +576,13 @@ class EventNotificationService : Service(){
     private fun displayTextEvents(TextEventList: List<PodXTextEvent>) {
         val newAggregate = displayingTextIds.size == 0 && TextEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingTextIds.filter {
             it !in TextEventList.map { text ->
                 text.id % PODX_TEXT_NOTIFICATION_RANGE +
-                    PODX_TEXT_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_TEXT_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -602,7 +610,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (TextEventList.size > 1) {
-                "${TextEventList.size} " +  getString(R.string.notification_text_content_plural)
+                "${TextEventList.size} " + getString(R.string.notification_text_content_plural)
             } else {
                 "${TextEventList.size} " + getString(R.string.notification_text_content_singular)
             }
@@ -626,12 +634,13 @@ class EventNotificationService : Service(){
     private fun displayWebEvents(WebEventList: List<PodXWebEvent>) {
         val newAggregate = displayingWebIds.size == 0 && WebEventList.isNotEmpty()
 
-        //remove notifications that aren't coming back from the emitter anymore
+        // remove notifications that aren't coming back from the emitter anymore
         displayingWebIds.filter {
             it !in WebEventList.map { web ->
                 web.id % PODX_WEB_NOTIFICATION_RANGE +
-                    PODX_WEB_NOTIFICATION_RANGE }
-        }.forEach{
+                    PODX_WEB_NOTIFICATION_RANGE
+            }
+        }.forEach {
             notificationManager.cancel(it)
         }
 
@@ -659,7 +668,7 @@ class EventNotificationService : Service(){
 
         if (newAggregate) {
             val contentString = if (WebEventList.size > 1) {
-                "${WebEventList.size} " +  getString(R.string.notification_web_content_plural)
+                "${WebEventList.size} " + getString(R.string.notification_web_content_plural)
             } else {
                 "${WebEventList.size} " + getString(R.string.notification_web_content_singular)
             }
@@ -679,9 +688,6 @@ class EventNotificationService : Service(){
         }
     }
 
-
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun eventChannelExists() =
         notificationManager.getNotificationChannel(PODX_EVENT_CHANNEL) != null
@@ -691,7 +697,8 @@ class EventNotificationService : Service(){
         val notificationChannel = NotificationChannel(
             PODX_EVENT_CHANNEL,
             getString(R.string.event_notification_channel),
-            NotificationManager.IMPORTANCE_LOW)
+            NotificationManager.IMPORTANCE_LOW
+        )
             .apply {
                 description = getString(R.string.event_notification_channel_description)
             }
