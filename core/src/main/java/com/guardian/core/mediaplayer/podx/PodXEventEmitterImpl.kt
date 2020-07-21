@@ -125,9 +125,9 @@ class PodXEventEmitterImpl
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.clear()
 
-        podXImageEventMutableLiveData.postValue(listOf())
-        podXWebEventMutableLiveData.postValue(listOf())
-        podXSupportEventMutableLiveData.postValue(listOf())
+        // podXImageEventMutableLiveData.postValue(listOf())
+        // podXWebEventMutableLiveData.postValue(listOf())
+        // podXSupportEventMutableLiveData.postValue(listOf())
 
         registerImageEvents(feedItem)
         registerWebEvents(feedItem)
@@ -325,7 +325,7 @@ class PodXEventEmitterImpl
                 nextEventObservable
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                        { timeMillis ->
+                        {
                             registerPlaybackTimerObservable()
                         },
                         { e: Throwable? ->

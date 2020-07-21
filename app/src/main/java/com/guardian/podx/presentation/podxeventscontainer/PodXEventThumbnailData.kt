@@ -22,13 +22,15 @@ data class PodXEventThumbnailData(
     val notificationString: String,
     val captionString: String,
     val onClickListener: View.OnClickListener,
-    val imageSwitch: Boolean = false
+    val imageSwitch: Boolean = false,
+    val newEventCallback: () -> Unit
 )
 
 fun PodXWebEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
@@ -37,14 +39,16 @@ fun PodXWebEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme),
+            newEventCallback = newEventCallback
         )
     }
 
 fun PodXImageEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData =
         PodXEventThumbnailData(
@@ -54,13 +58,15 @@ fun PodXImageEvent.toPodXEventThumbnail(
             onClickListener = onClickListener,
             imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme),
-            imageSwitch = true
+            imageSwitch = true,
+            newEventCallback = newEventCallback
         )
 
 fun PodXSupportEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData =
         PodXEventThumbnailData(
@@ -69,13 +75,15 @@ fun PodXSupportEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme),
+            newEventCallback = newEventCallback
         )
 
 fun PodXCallPromptEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData =
         PodXEventThumbnailData(
@@ -84,13 +92,15 @@ fun PodXCallPromptEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = resources.getDrawable(R.drawable.baseline_call_black_24, theme),
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme),
+            newEventCallback = newEventCallback
         )
 
 fun PodXFeedBackEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData =
         PodXEventThumbnailData(
@@ -99,13 +109,15 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme),
+            newEventCallback = newEventCallback
         )
 
 fun PodXFeedLinkEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
@@ -114,14 +126,16 @@ fun PodXFeedLinkEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme),
+            newEventCallback = newEventCallback
         )
     }
 
 fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
@@ -130,14 +144,16 @@ fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme),
+            newEventCallback = newEventCallback
         )
     }
 
 fun PodXPollEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
@@ -146,14 +162,16 @@ fun PodXPollEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme),
+            newEventCallback = newEventCallback
         )
     }
 
 fun PodXSocialPromptEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
@@ -162,14 +180,16 @@ fun PodXSocialPromptEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme),
+            newEventCallback = newEventCallback
         )
     }
 
 fun PodXTextEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
-    theme: Resources.Theme
+    theme: Resources.Theme,
+    newEventCallback: () -> Unit
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
@@ -178,6 +198,7 @@ fun PodXTextEvent.toPodXEventThumbnail(
             notificationString = this.notification,
             onClickListener = onClickListener,
             imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme)
+            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme),
+            newEventCallback = newEventCallback
         )
     }

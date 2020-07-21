@@ -72,11 +72,16 @@ class PodXEventsContainerFragment
 
         bindVisibilitySwitch()
         setupRecyclerView()
-        feedThumnailLiveData()
+        feedThumbnailLiveData()
+        setNewEventBehaviour()
     }
 
-    private fun feedThumnailLiveData() {
+    private fun setNewEventBehaviour() {
+        thumbnailMutableLiveData.observe(viewLifecycleOwner) {
+        }
+    }
 
+    private fun feedThumbnailLiveData() {
         val imageThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXImageEventsListLiveData
@@ -90,7 +95,10 @@ class PodXEventsContainerFragment
                                 navigateToImage(image)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToImage(image)
+                            }
                         )
                     }
                 } else {
@@ -111,7 +119,10 @@ class PodXEventsContainerFragment
                                 navigateToWeb(web)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToWebActivity(web)
+                            }
                         )
                     }
                 } else {
@@ -119,7 +130,7 @@ class PodXEventsContainerFragment
                 }
             }
 
-        val supportThumbailData = podXEventsContainerViewModel
+        val supportThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXSupportEventsListLiveData
             .map { supportEvent ->
@@ -132,7 +143,10 @@ class PodXEventsContainerFragment
                                 navigateToSupport(support)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToSupportActivity(support)
+                            }
                         )
                     }
                 } else {
@@ -153,7 +167,10 @@ class PodXEventsContainerFragment
                                 navigateToText(text)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToText(text)
+                            }
                         )
                     }
                 } else {
@@ -174,7 +191,10 @@ class PodXEventsContainerFragment
                                 navigateToCall(callPrompt)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToCall(callPrompt)
+                            }
                         )
                     }
                 } else {
@@ -195,7 +215,10 @@ class PodXEventsContainerFragment
                                 navigateToFeedBack(feedBack)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToFeedBackActivity(feedBack)
+                            }
                         )
                     }
                 } else {
@@ -223,7 +246,10 @@ class PodXEventsContainerFragment
                                     )
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                // todo probably best left unhandled
+                            }
                         )
                     }
                 } else {
@@ -244,7 +270,10 @@ class PodXEventsContainerFragment
                                 navigateToNewsLetterSignUp(newsLetterSignUp)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToNewsLetterSignUpActivity(newsLetterSignUp)
+                            }
                         )
                     }
                 } else {
@@ -265,7 +294,10 @@ class PodXEventsContainerFragment
                                 navigateToPoll(poll)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToPollActivity(poll)
+                            }
                         )
                     }
                 } else {
@@ -286,7 +318,10 @@ class PodXEventsContainerFragment
                                 navigateToSocialPrompt(socialPrompt)
                             },
                             resources = resources,
-                            theme = theme
+                            theme = theme,
+                            newEventCallback = {
+                                navigateToSocialPromptActivity(socialPrompt)
+                            }
                         )
                     }
                 } else {
@@ -302,9 +337,9 @@ class PodXEventsContainerFragment
 
                 addSource(imageThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -313,20 +348,20 @@ class PodXEventsContainerFragment
 
                 addSource(webThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
                     )
                 }
 
-                addSource(supportThumbailData) {
+                addSource(supportThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -335,9 +370,9 @@ class PodXEventsContainerFragment
 
                 addSource(textThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -346,9 +381,9 @@ class PodXEventsContainerFragment
 
                 addSource(callPromptThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -357,9 +392,9 @@ class PodXEventsContainerFragment
 
                 addSource(feedBackThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -368,9 +403,9 @@ class PodXEventsContainerFragment
 
                 addSource(feedLinkThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -379,9 +414,9 @@ class PodXEventsContainerFragment
 
                 addSource(pollThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -390,9 +425,9 @@ class PodXEventsContainerFragment
 
                 addSource(socialPromptThumbnailData) {
                     postValue(
-                        generatecurrentThumbnails(
+                        generateCurrentThumbnails(
                             imageThumbnailData, webThumbnailData,
-                            supportThumbailData, textThumbnailData, callPromptThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
                             feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
                             pollThumbnailData, socialPromptThumbnailData
                         )
@@ -411,12 +446,12 @@ class PodXEventsContainerFragment
         }
     }
 
-    private fun generatecurrentThumbnails(
-        vararg eventsThumbnailLiveDatas: LiveData<List<PodXEventThumbnailData>>
+    private fun generateCurrentThumbnails(
+        vararg eventsThumbnailLiveData: LiveData<List<PodXEventThumbnailData>>
     ): List<PodXEventThumbnailData> {
         val aggregateThumbnails = mutableListOf<PodXEventThumbnailData>()
 
-        for (thumbnailLiveData in eventsThumbnailLiveDatas) {
+        for (thumbnailLiveData in eventsThumbnailLiveData) {
             val thumbnailData = thumbnailLiveData.value
             if (!thumbnailData.isNullOrEmpty()) {
                 aggregateThumbnails.addAll(thumbnailData)
@@ -434,12 +469,38 @@ class PodXEventsContainerFragment
         }
     }
 
+    private fun navigateToSupportActivity(podXSupportEvent: PodXSupportEvent) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXSupportEvent.notification)
+                putString("caption", podXSupportEvent.caption)
+                putString("urlString", podXSupportEvent.urlString)
+                putInt("icon", R.drawable.ic_icons_link)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
+    }
+
     private fun navigateToWeb(podXWebEvent: PodXWebEvent) {
         if (podXWebEvent.urlString.isNotBlank()) {
             val webPage: Uri = Uri.parse(podXWebEvent.urlString)
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             startActivity(intent)
         }
+    }
+
+    private fun navigateToWebActivity(podXWebEvent: PodXWebEvent) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXWebEvent.notification)
+                putString("caption", podXWebEvent.caption)
+                putString("urlString", podXWebEvent.urlString)
+                putInt("icon", R.drawable.ic_icons_link)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
     private fun navigateToFeedBack(podXFeedBackEvent: PodXFeedBackEvent) {
@@ -450,12 +511,38 @@ class PodXEventsContainerFragment
         }
     }
 
+    private fun navigateToFeedBackActivity(podXFeedBackEvent: PodXFeedBackEvent) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXFeedBackEvent.notification)
+                putString("caption", podXFeedBackEvent.caption)
+                putString("urlString", podXFeedBackEvent.urlString)
+                putInt("icon", R.drawable.ic_icons_feedback)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
+    }
+
     private fun navigateToNewsLetterSignUp(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
         if (podXNewsLetterSignUpEvent.urlString.isNotBlank()) {
             val webPage: Uri = Uri.parse(podXNewsLetterSignUpEvent.urlString)
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             startActivity(intent)
         }
+    }
+
+    private fun navigateToNewsLetterSignUpActivity(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXNewsLetterSignUpEvent.notification)
+                putString("caption", podXNewsLetterSignUpEvent.caption)
+                putString("urlString", podXNewsLetterSignUpEvent.urlString)
+                putInt("icon", R.drawable.ic_icons_newsletter)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
     private fun navigateToPoll(podXPollEvent: PodXPollEvent) {
@@ -466,12 +553,38 @@ class PodXEventsContainerFragment
         }
     }
 
+    private fun navigateToPollActivity(podXPollEvent: PodXPollEvent) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXPollEvent.notification)
+                putString("caption", podXPollEvent.caption)
+                putString("urlString", podXPollEvent.urlString)
+                putInt("icon", R.drawable.ic_icons_poll)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
+    }
+
     private fun navigateToSocialPrompt(podXSocialPromptEvent: PodXSocialPromptEvent) {
         if (podXSocialPromptEvent.socialLinkUrlString.isNotBlank()) {
             val webPage: Uri = Uri.parse(podXSocialPromptEvent.socialLinkUrlString)
             val intent = Intent(Intent.ACTION_VIEW, webPage)
             startActivity(intent)
         }
+    }
+
+    private fun navigateToSocialPromptActivity(podXSocialPromptEvent: PodXSocialPromptEvent) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXSocialPromptEvent.notification)
+                putString("caption", podXSocialPromptEvent.caption)
+                putString("urlString", podXSocialPromptEvent.socialLinkUrlString)
+                putInt("icon", R.drawable.ic_icons_social)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
     private fun navigateToImage(podXImageEvent: PodXImageEvent) {
