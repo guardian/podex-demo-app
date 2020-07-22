@@ -76,8 +76,23 @@ class PodXEventsContainerFragment
         setNewEventBehaviour()
     }
 
+    private val lastList = mutableListOf<String>()
     private fun setNewEventBehaviour() {
-        thumbnailMutableLiveData.observe(viewLifecycleOwner) {
+        thumbnailMutableLiveData.observe(viewLifecycleOwner) { newThumbList ->
+            val newEvent = newThumbList.firstOrNull { thumb ->
+                !lastList.contains(thumb.uniqueEventId)
+            }?.newEventCallback
+
+            // if we are navigating from or for shown events we don't want to fire this
+            val suppressInit = lastList.isEmpty() && podXEventsContainerViewModel
+                .podXEventsContainerUiModel
+                .hasEvents
+
+            lastList.addAll(newThumbList.map { it.uniqueEventId })
+
+            if (newEvent != null && !suppressInit) {
+                newEvent()
+            }
         }
     }
 

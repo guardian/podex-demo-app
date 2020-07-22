@@ -28,7 +28,7 @@ class PodXLinkFragment :
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.layout_podximagefragment,
+            R.layout.layout_podxlinkfragment,
             container,
             false
         )

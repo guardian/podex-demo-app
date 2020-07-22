@@ -91,6 +91,34 @@ class PlayerViewModel
         podXEventEmitter.podXSupportEventLiveData.observeForever {
             this.postValue(checkAllEvents())
         }
+
+        podXEventEmitter.podXCallPromptEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXFeedBackEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXFeedLinkEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXNewsLetterSignUpEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXPollEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXSocialPromptEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXTextEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
     }
 
     private fun checkAllEvents(): Boolean {

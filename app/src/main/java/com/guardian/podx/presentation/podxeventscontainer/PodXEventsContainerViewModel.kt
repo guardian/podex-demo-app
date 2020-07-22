@@ -32,7 +32,8 @@ data class PodXEventsContainerUiModel(
     val podXNewsLetterSignUpEventsListLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>,
     val podXPollEventsListLiveData: LiveData<List<PodXPollEvent>>,
     val podXSocialPromptEventsListLiveData: LiveData<List<PodXSocialPromptEvent>>,
-    val podXTextEventsListLiveData: LiveData<List<PodXTextEvent>>
+    val podXTextEventsListLiveData: LiveData<List<PodXTextEvent>>,
+    val hasEvents: Boolean
 )
 
 class PodXEventsContainerViewModel
@@ -54,9 +55,22 @@ class PodXEventsContainerViewModel
             podXEventEmitter.podXNewsLetterSignUpEventLiveData,
             podXEventEmitter.podXPollEventLiveData,
             podXEventEmitter.podXSocialPromptEventLiveData,
-            podXEventEmitter.podXTextEventLiveData
+            podXEventEmitter.podXTextEventLiveData,
+            checkAllEvents()
         )
     }
+
+    private fun checkAllEvents(): Boolean =
+        podXEventEmitter.podXImageEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXWebEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXSupportEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXCallPromptEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXFeedBackEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXFeedLinkEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXNewsLetterSignUpEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXPollEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXSocialPromptEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXTextEventLiveData.value?.isNotEmpty() == true
 
     fun openGetFeedItemFromFeedLink(feedLinkEvent: PodXFeedLinkEvent): Flowable<FeedItem> {
         return podXFeedRepository.getFeedWithoutUpDate(feedLinkEvent.remoteFeedUrlString)
