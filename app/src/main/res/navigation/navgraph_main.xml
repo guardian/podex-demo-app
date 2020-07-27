@@ -38,6 +38,15 @@
             android:name="scrollToEvents"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXLinkFragment"
+            app:destination="@id/podXLinkFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXTextFragment"
+            app:destination="@id/podXTextFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXImageFragment"
+            app:destination="@id/podXImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/podXImageFragment"
@@ -72,6 +81,12 @@
             />
         <argument
             android:name="urlString"
+            app:argType="string"
+            android:defaultValue=""
+            />
+
+        <argument
+            android:name="imageUrlString"
             app:argType="string"
             android:defaultValue=""
             />

@@ -37,45 +37,53 @@ class PodXEventListAdapter(
         holder.buttonPodxeventviewholderExpand.rotationX = 0f
 
         holder.buttonPodxeventviewholderExpand.setOnClickListener {
-            // set up image expand binding
-            if (item.imageSwitch) {
-                Timber.i("Image Switch for ${item.captionString}")
-                if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
-                    holder.imageviewPodxeventviewholderExpanded.visibility = View.VISIBLE
-                    holder.imageviewPodxeventviewholderContracted.visibility = View.INVISIBLE
-                } else {
-                    holder.imageviewPodxeventviewholderExpanded.visibility = View.GONE
-                    holder.imageviewPodxeventviewholderContracted.visibility = View.VISIBLE
-                }
-            }
+            expandButtonVisibilitySwitch(holder, item)
+            rotateExpandButtonChevron(holder)
+        }
+    }
 
+    private fun expandButtonVisibilitySwitch
+            (holder: ViewholderPodxeventadapterImageBinding, item: PodXEventThumbnailData) {
+        // set up image expand binding
+        if (item.imageSwitch) {
+            Timber.i("Image Switch for ${item.captionString}")
             if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
-                holder.textviewPodxeventviewholderContractedNotification.visibility = View.INVISIBLE
-                holder.textviewPodxeventviewholderExpandedNotification.visibility = View.VISIBLE
-                holder.textviewPodxeventviewholderExpandedCaption.visibility = View.VISIBLE
+                holder.imageviewPodxeventviewholderExpanded.visibility = View.VISIBLE
+                holder.imageviewPodxeventviewholderContracted.visibility = View.INVISIBLE
             } else {
-                holder.textviewPodxeventviewholderContractedNotification.visibility = View.VISIBLE
-                holder.textviewPodxeventviewholderExpandedNotification.visibility = View.GONE
-                holder.textviewPodxeventviewholderExpandedCaption.visibility = View.GONE
+                holder.imageviewPodxeventviewholderExpanded.visibility = View.GONE
+                holder.imageviewPodxeventviewholderContracted.visibility = View.VISIBLE
             }
+        }
 
-            // rotate the expand chevron, nb. rotation of the actual view is applied before the
-            // animation starts
-            holder.buttonPodxeventviewholderExpand.startAnimation(
-                RotateAnimation(
-                    180f, 0f, Animation.RELATIVE_TO_SELF,
-                    0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-                ).apply {
-                    duration = 500
-                    interpolator = AccelerateDecelerateInterpolator()
-                }
-            )
+        if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
+            holder.textviewPodxeventviewholderContractedNotification.visibility = View.INVISIBLE
+            holder.textviewPodxeventviewholderExpandedNotification.visibility = View.VISIBLE
+            holder.textviewPodxeventviewholderExpandedCaption.visibility = View.VISIBLE
+        } else {
+            holder.textviewPodxeventviewholderContractedNotification.visibility = View.VISIBLE
+            holder.textviewPodxeventviewholderExpandedNotification.visibility = View.GONE
+            holder.textviewPodxeventviewholderExpandedCaption.visibility = View.GONE
+        }
+    }
 
-            if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
-                holder.buttonPodxeventviewholderExpand.rotationX = 0f
-            } else {
-                holder.buttonPodxeventviewholderExpand.rotationX = 180f
+    private fun rotateExpandButtonChevron(holder: ViewholderPodxeventadapterImageBinding) {
+        // rotate the expand chevron, nb. rotation of the actual view is applied before the
+        // animation starts
+        holder.buttonPodxeventviewholderExpand.startAnimation(
+            RotateAnimation(
+                180f, 0f, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+            ).apply {
+                duration = 500
+                interpolator = AccelerateDecelerateInterpolator()
             }
+        )
+
+        if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
+            holder.buttonPodxeventviewholderExpand.rotationX = 0f
+        } else {
+            holder.buttonPodxeventviewholderExpand.rotationX = 180f
         }
     }
 }

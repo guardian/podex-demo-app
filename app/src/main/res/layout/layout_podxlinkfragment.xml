@@ -9,6 +9,10 @@
         <variable
             name="caption"
             type="String" />
+
+        <variable
+            name="imageUrlString"
+            type="String" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -49,6 +53,21 @@
             app:layout_constraintTop_toTopOf="@id/imageview_podxlink_icon"
             app:layout_constraintBottom_toBottomOf="@id/imageview_podxlink_icon"/>
 
+        <ImageView
+            android:id="@+id/imageview_podxlink_preview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/podx_image_margin"
+            app:layout_constraintTop_toBottomOf="@id/imageview_podxlink_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintDimensionRatio="1"
+            android:src="@color/placeholderGrey"
+            imageUrl="@{imageUrlString}"
+            />
+
         <TextView
             android:id="@+id/textview_podxlink"
             android:layout_width="match_parent"
@@ -56,7 +75,7 @@
             android:layout_margin="@dimen/podx_image_margin"
             android:textAppearance="@style/PodXTextAppearanceDark"
             android:text="@{caption}"
-            app:layout_constraintTop_toBottomOf="@id/textview_podxlink_title"
+            app:layout_constraintTop_toBottomOf="@id/imageview_podxlink_preview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

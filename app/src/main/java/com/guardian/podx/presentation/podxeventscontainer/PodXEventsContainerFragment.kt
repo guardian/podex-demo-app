@@ -263,7 +263,7 @@ class PodXEventsContainerFragment
                             resources = resources,
                             theme = theme,
                             newEventCallback = {
-                                // todo probably best left unhandled
+                                // probably best left unhandled
                             }
                         )
                     }
@@ -490,6 +490,7 @@ class PodXEventsContainerFragment
                 putString("notification", podXSupportEvent.notification)
                 putString("caption", podXSupportEvent.caption)
                 putString("urlString", podXSupportEvent.urlString)
+                putString("imageUrlString", podXSupportEvent.ogMetadata.OGImage)
                 putInt("icon", R.drawable.ic_icons_link)
             }
 
@@ -511,6 +512,7 @@ class PodXEventsContainerFragment
                 putString("notification", podXWebEvent.notification)
                 putString("caption", podXWebEvent.caption)
                 putString("urlString", podXWebEvent.urlString)
+                putString("imageUrlString", podXWebEvent.ogMetadata.OGImage)
                 putInt("icon", R.drawable.ic_icons_link)
             }
 
@@ -532,6 +534,7 @@ class PodXEventsContainerFragment
                 putString("notification", podXFeedBackEvent.notification)
                 putString("caption", podXFeedBackEvent.caption)
                 putString("urlString", podXFeedBackEvent.urlString)
+                putString("imageUrlString", podXFeedBackEvent.ogMetadata.OGImage)
                 putInt("icon", R.drawable.ic_icons_feedback)
             }
 
@@ -553,6 +556,7 @@ class PodXEventsContainerFragment
                 putString("notification", podXNewsLetterSignUpEvent.notification)
                 putString("caption", podXNewsLetterSignUpEvent.caption)
                 putString("urlString", podXNewsLetterSignUpEvent.urlString)
+                putString("imageUrlString", podXNewsLetterSignUpEvent.ogMetadata.OGImage)
                 putInt("icon", R.drawable.ic_icons_newsletter)
             }
 
@@ -574,6 +578,7 @@ class PodXEventsContainerFragment
                 putString("notification", podXPollEvent.notification)
                 putString("caption", podXPollEvent.caption)
                 putString("urlString", podXPollEvent.urlString)
+                putString("imageUrlString", podXPollEvent.ogMetadata.OGImage)
                 putInt("icon", R.drawable.ic_icons_poll)
             }
 
@@ -595,6 +600,7 @@ class PodXEventsContainerFragment
                 putString("notification", podXSocialPromptEvent.notification)
                 putString("caption", podXSocialPromptEvent.caption)
                 putString("urlString", podXSocialPromptEvent.socialLinkUrlString)
+                putString("imageUrlString", podXSocialPromptEvent.ogMetadata.OGImage)
                 putInt("icon", R.drawable.ic_icons_social)
             }
 
@@ -626,7 +632,7 @@ class PodXEventsContainerFragment
         val fragmentManager = activity?.supportFragmentManager
         if (fragmentManager != null) {
             PodXCallDialogFragment(podXCallPromptEvent.phoneNumber)
-                .show(fragmentManager, "not sure bout dis")
+                .show(fragmentManager, PHONE_POPUP_TAG)
         }
     }
 
@@ -675,5 +681,9 @@ class PodXEventsContainerFragment
                     }
                 }
             )
+    }
+
+    companion object {
+        private const val PHONE_POPUP_TAG = "phonePopup"
     }
 }

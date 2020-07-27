@@ -21,4 +21,5 @@
     <dimen name="search_progressbar_size">32dp</dimen>
     <dimen name="placeholder_padding">4dp</dimen>
     <dimen name="podx_link_button_margin">16dp</dimen>
+    <dimen name="player_image_margin">8dp</dimen>
 </resources>
