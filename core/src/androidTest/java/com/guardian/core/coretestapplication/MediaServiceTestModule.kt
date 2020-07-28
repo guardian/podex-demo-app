@@ -60,7 +60,6 @@ class MediaServiceTestModule {
 
     @Provides
     fun provideExoplayer(context: Context): ExoPlayer {
-        // todo mock exoplayer
         val uAmpAudioAttributes = AudioAttributes.Builder()
             .setContentType(C.CONTENT_TYPE_MUSIC)
             .setUsage(C.USAGE_MEDIA)

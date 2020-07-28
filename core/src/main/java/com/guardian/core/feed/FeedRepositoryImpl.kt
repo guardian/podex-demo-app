@@ -171,7 +171,6 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXWebEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
-            // todo fetch asynchronously
             val urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
                 OGMetadata
@@ -389,7 +388,6 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXNewsLetterSignUpEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
-            // todo fetch asynchronously
             val urlString = podXNewsLetterSignUpEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
                 OGMetadata
@@ -422,7 +420,6 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXPollEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
-            // todo fetch asynchronously
             val urlString = podXPollEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
                 OGMetadata

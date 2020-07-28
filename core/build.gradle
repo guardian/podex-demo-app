@@ -88,7 +88,7 @@ dependencies {
     // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-    androidTestImplementation 'com.google.truth:truth:0.42'
+    androidTestImplementation 'com.google.truth:truth:1.0.1'
 
     // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -103,37 +103,37 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-core:3.1.0'
     androidTestImplementation 'org.mockito:mockito-android:3.1.0'
 
-    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.0'
 
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    api 'com.google.dagger:dagger:2.24'
-    kapt 'com.google.dagger:dagger-compiler:2.24'
+    api 'com.google.dagger:dagger:2.28.3'
+    kapt 'com.google.dagger:dagger-compiler:2.28.3'
 
-    api 'com.google.dagger:dagger-android:2.24'
-    api 'com.google.dagger:dagger-android-support:2.24'
-    kapt 'com.google.dagger:dagger-android-processor:2.24'
+    api 'com.google.dagger:dagger-android:2.28.3'
+    api 'com.google.dagger:dagger-android-support:2.28.3'
+    kapt 'com.google.dagger:dagger-android-processor:2.28.3'
 
-    testImplementation 'com.google.dagger:dagger:2.24'
-    kaptTest 'com.google.dagger:dagger-compiler:2.24'
+    testImplementation 'com.google.dagger:dagger:2.28.3'
+    kaptTest 'com.google.dagger:dagger-compiler:2.28.3'
 
-    testImplementation 'com.google.dagger:dagger-android:2.24'
-    testImplementation 'com.google.dagger:dagger-android-support:2.24'
-    kaptTest 'com.google.dagger:dagger-android-processor:2.24'
+    testImplementation 'com.google.dagger:dagger-android:2.28.3'
+    testImplementation 'com.google.dagger:dagger-android-support:2.28.3'
+    kaptTest 'com.google.dagger:dagger-android-processor:2.28.3'
 
-    androidTestImplementation 'com.google.dagger:dagger-android:2.24'
-    androidTestImplementation 'com.google.dagger:dagger-android-support:2.24'
-    kaptAndroidTest 'com.google.dagger:dagger-android-processor:2.24'
+    androidTestImplementation 'com.google.dagger:dagger-android:2.28.3'
+    androidTestImplementation 'com.google.dagger:dagger-android-support:2.28.3'
+    kaptAndroidTest 'com.google.dagger:dagger-android-processor:2.28.3'
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     def room_version = "2.2.5"
 
@@ -149,5 +149,5 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
-    implementation 'org.jsoup:jsoup:1.12.1'
+    implementation 'org.jsoup:jsoup:1.13.1'
 }
