@@ -71,8 +71,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    tools:listitem="@layout/viewholder_searchadapter_result"
-                    android:animateLayoutChanges="true"/>
+                    tools:listitem="@layout/viewholder_searchadapter_result" />
 
                 <FrameLayout
                     android:layout_width="0dp"

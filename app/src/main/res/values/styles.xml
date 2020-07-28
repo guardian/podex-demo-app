@@ -1,14 +1,17 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/primaryLightColor</item>
+        <item name="android:colorBackground">@color/primaryLightColor</item>
+        <item name="colorSurface">@color/primaryLightColor</item>
         <item name="android:textColorPrimary">@color/primaryDarkColor</item>
         <item name="android:textAppearance">@style/PodXTextAppearance</item>
         <item name="editTextStyle">@style/PodXEditText</item>
         <item name="android:textViewStyle">@style/PodXTextView</item>
         <item name="android:progressBarStyle">@style/PodXProgressBar</item>
         <item name="seekBarStyle">@style/PodXSeekBar</item>
+        <item name="borderlessButtonStyle">@style/PodXTextButton</item>
+        <item name="materialButtonStyle">@style/PodXButton</item>
     </style>
 
     <style name="PodXTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
@@ -61,5 +64,38 @@
     <style name = "PodXAppBarDark">
         <item name="android:background">@color/primaryColor</item>
         <item name="android:textColorPrimary">@color/primaryLightColor</item>
+    </style>
+
+    <style name="PodXTextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.TextButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="PodXButton" parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button.TextButton" parent="">
+        <item name="colorPrimary">@color/primaryColor</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="">
+        <item name="colorPrimary">@color/primaryColor</item>
+<!--        <item name="colorOnPrimary">@color/shrine_pink_900</item>-->
+    </style>
+
+    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
+<!--        <item name="fontFamily">@font/rubik</item>-->
+<!--        <item name="android:fontFamily">@font/rubik</item>-->
+
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
     </style>
 </resources>

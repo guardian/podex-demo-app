@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutPodxlinkfragmentBinding
 import com.guardian.podx.utils.lifecycleAwareVar
-import timber.log.Timber
 
 class PodXLinkFragment :
     Fragment() {
@@ -39,8 +38,6 @@ class PodXLinkFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Timber.i("image url string: ${podXLinkArgs.imageUrlString}")
 
         binding.caption = podXLinkArgs.caption
         binding.notification = podXLinkArgs.notification

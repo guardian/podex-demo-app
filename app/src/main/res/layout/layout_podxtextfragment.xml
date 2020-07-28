@@ -19,44 +19,59 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <ImageView
-            android:id="@+id/imageview_podxtext_icon"
-            android:layout_width="@dimen/event_icon"
-            android:layout_height="@dimen/event_icon"
-            android:layout_marginTop="@dimen/podxlist_image_margin"
-            android:layout_marginBottom="@dimen/podxlist_image_margin"
-            android:layout_marginStart="@dimen/podx_image_margin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_podxtext"
-            android:src="@drawable/baseline_info_black_24_modified"
-            android:tint="@color/highlightColor" />
-
-        <TextView
-            android:id="@+id/textview_podxtext_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            android:textStyle="bold"
-            android:textSize="@dimen/podx_title"
-            android:text="@{podxText.notification}"
-            android:maxLines="3"
-            app:layout_constraintStart_toEndOf="@id/imageview_podxtext_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/imageview_podxtext_icon"
-            app:layout_constraintBottom_toBottomOf="@id/imageview_podxtext_icon"/>
-        
-        <TextView
-            android:id="@+id/textview_podxtext"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/podx_image_margin"
-            android:textAppearance="@style/PodXTextAppearanceDark"
-            android:text="@{podxText.caption}"
-            app:layout_constraintTop_toBottomOf="@id/textview_podxtext_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/podx_link_button_margin"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_podxtext"
+            app:layout_constraintBottom_toTopOf="@id/fragment_podx_image_collapsed_player_container"
+            app:layout_constrainedHeight="true"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/text_margin">
+
+                <ImageView
+                    android:id="@+id/imageview_podxtext_icon"
+                    android:layout_width="@dimen/event_icon"
+                    android:layout_height="@dimen/event_icon"
+                    android:layout_marginTop="@dimen/podxlist_image_margin"
+                    android:layout_marginBottom="@dimen/podxlist_image_margin"
+                    android:layout_marginStart="@dimen/podx_image_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/baseline_info_black_24_modified"
+                    android:tint="@color/highlightColor" />
+
+                <TextView
+                    android:id="@+id/textview_podxtext_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:textAppearance="@style/PodXTextAppearanceDark"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/podx_title"
+                    android:text="@{podxText.notification}"
+                    android:maxLines="3"
+                    app:layout_constraintStart_toEndOf="@id/imageview_podxtext_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/imageview_podxtext_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/imageview_podxtext_icon"/>
+
+                <TextView
+                    android:id="@+id/textview_podxtext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/podx_image_margin"
+                    android:textAppearance="@style/PodXTextAppearanceDark"
+                    android:text="@{podxText.caption}"
+                    app:layout_constraintTop_toBottomOf="@id/textview_podxtext_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_podx_image_collapsed_player_container"
