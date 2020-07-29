@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PodX</string>
+    <string name="app_name">PodX Player</string>
     <string name="title_entities">Module Title</string>
     <string name="title_feedrepository">Feed Repository</string>
     <string name="title_database">Local Database</string>

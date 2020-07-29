@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PodX</string>
+    <string name="app_name">PodX Player</string>
 
     <!-- Notificaiton Channel -->
     <string name="notification_channel">Now Playing</string>

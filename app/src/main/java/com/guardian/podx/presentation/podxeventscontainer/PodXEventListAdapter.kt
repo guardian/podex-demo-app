@@ -43,7 +43,7 @@ class PodXEventListAdapter(
     }
 
     private fun expandButtonVisibilitySwitch
-            (holder: ViewholderPodxeventadapterImageBinding, item: PodXEventThumbnailData) {
+    (holder: ViewholderPodxeventadapterImageBinding, item: PodXEventThumbnailData) {
         // set up image expand binding
         if (item.imageSwitch) {
             Timber.i("Image Switch for ${item.captionString}")
