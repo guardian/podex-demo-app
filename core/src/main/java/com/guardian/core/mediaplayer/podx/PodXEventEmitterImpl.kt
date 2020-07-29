@@ -49,11 +49,25 @@ class PodXEventEmitterImpl
     override val podXImageEventLiveData: LiveData<List<PodXImageEvent>> =
         podXImageEventMutableLiveData
 
+    private val podXPendingImageEventMutableLiveData = MutableLiveData<List<PodXImageEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingImageEventLiveData: LiveData<List<PodXImageEvent>> =
+        podXPendingImageEventMutableLiveData
+
     private val podXWebEventMutableLiveData = MutableLiveData<List<PodXWebEvent>>()
         .apply {
             value = listOf()
         }
     override val podXWebEventLiveData: LiveData<List<PodXWebEvent>> = podXWebEventMutableLiveData
+
+    private val podXPendingWebEventMutableLiveData = MutableLiveData<List<PodXWebEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingWebEventLiveData: LiveData<List<PodXWebEvent>> =
+        podXPendingWebEventMutableLiveData
 
     private val podXSupportEventMutableLiveData = MutableLiveData<List<PodXSupportEvent>>()
         .apply {
@@ -62,12 +76,26 @@ class PodXEventEmitterImpl
     override val podXSupportEventLiveData: LiveData<List<PodXSupportEvent>> =
         podXSupportEventMutableLiveData
 
+    private val podXPendingSupportEventMutableLiveData = MutableLiveData<List<PodXSupportEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingSupportEventLiveData: LiveData<List<PodXSupportEvent>> =
+        podXPendingSupportEventMutableLiveData
+
     private val podXCallPromptEventMutableLiveData = MutableLiveData<List<PodXCallPromptEvent>>()
         .apply {
             value = listOf()
         }
     override val podXCallPromptEventLiveData: LiveData<List<PodXCallPromptEvent>> =
         podXCallPromptEventMutableLiveData
+
+    private val podXPendingCallPromptEventMutableLiveData = MutableLiveData<List<PodXCallPromptEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingCallPromptEventLiveData: LiveData<List<PodXCallPromptEvent>> =
+        podXPendingCallPromptEventMutableLiveData
 
     private val podXFeedBackEventMutableLiveData = MutableLiveData<List<PodXFeedBackEvent>>()
         .apply {
@@ -76,12 +104,26 @@ class PodXEventEmitterImpl
     override val podXFeedBackEventLiveData: LiveData<List<PodXFeedBackEvent>> =
         podXFeedBackEventMutableLiveData
 
+    private val podXPendingFeedBackMutableLiveData = MutableLiveData<List<PodXFeedBackEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingFeedBackEventLiveData: LiveData<List<PodXFeedBackEvent>> =
+        podXPendingFeedBackMutableLiveData
+
     private val podXFeedLinkEventMutableLiveData = MutableLiveData<List<PodXFeedLinkEvent>>()
         .apply {
             value = listOf()
         }
     override val podXFeedLinkEventLiveData: LiveData<List<PodXFeedLinkEvent>> =
         podXFeedLinkEventMutableLiveData
+
+    private val podXPendingFeedLinkEventMutableLiveData = MutableLiveData<List<PodXFeedLinkEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingFeedLinkEventLiveData: LiveData<List<PodXFeedLinkEvent>> =
+        podXPendingFeedLinkEventMutableLiveData
 
     private val podXNewsLetterSignUpEventMutableLiveData = MutableLiveData<List<PodXNewsLetterSignUpEvent>>()
         .apply {
@@ -90,12 +132,26 @@ class PodXEventEmitterImpl
     override val podXNewsLetterSignUpEventLiveData: LiveData<List<PodXNewsLetterSignUpEvent>> =
         podXNewsLetterSignUpEventMutableLiveData
 
+    private val podXPendingNewsLetterSignUpMutableLiveData = MutableLiveData<List<PodXNewsLetterSignUpEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingNewsLetterSignUpEventLiveData: LiveData<List<PodXNewsLetterSignUpEvent>> =
+        podXPendingNewsLetterSignUpMutableLiveData
+
     private val podXPollEventMutableLiveData = MutableLiveData<List<PodXPollEvent>>()
         .apply {
             value = listOf()
         }
     override val podXPollEventLiveData: LiveData<List<PodXPollEvent>> =
         podXPollEventMutableLiveData
+
+    private val podXPendingPollEventMutableLiveData = MutableLiveData<List<PodXPollEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingPollEventLiveData: LiveData<List<PodXPollEvent>> =
+        podXPendingPollEventMutableLiveData
 
     private val podXSocialPromptEventMutableLiveData = MutableLiveData<List<PodXSocialPromptEvent>>()
         .apply {
@@ -104,12 +160,26 @@ class PodXEventEmitterImpl
     override val podXSocialPromptEventLiveData: LiveData<List<PodXSocialPromptEvent>> =
         podXSocialPromptEventMutableLiveData
 
+    private val podXPendingSocialPromptEventMutableLiveData = MutableLiveData<List<PodXSocialPromptEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingSocialPromptEventLiveData: LiveData<List<PodXSocialPromptEvent>> =
+        podXPendingSocialPromptEventMutableLiveData
+
     private val podXTextEventMutableLiveData = MutableLiveData<List<PodXTextEvent>>()
         .apply {
             value = listOf()
         }
     override val podXTextEventLiveData: LiveData<List<PodXTextEvent>> =
         podXTextEventMutableLiveData
+
+    private val podXPendingTextEventMutableLiveData = MutableLiveData<List<PodXTextEvent>>()
+        .apply{
+            value = listOf()
+        }
+    override val podXPendingTextEventLiveData: LiveData<List<PodXTextEvent>> =
+        podXPendingTextEventMutableLiveData
 
     private val pendingPodXImageEvents: MutableList<PodXImageEvent> = mutableListOf()
     private val pendingPodXWebEvents: MutableList<PodXWebEvent> = mutableListOf()
@@ -148,6 +218,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXWebEvents.clear()
                         pendingPodXWebEvents.addAll(feedPodXEventList)
+                        podXPendingWebEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -164,6 +235,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXImageEvents.clear()
                         pendingPodXImageEvents.addAll(feedPodXEventList)
+                        podXPendingImageEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -181,6 +253,7 @@ class PodXEventEmitterImpl
                         Timber.i("we have ${feedPodXEventList.size} elements coming from cache")
                         pendingPodXSupportEvents.clear()
                         pendingPodXSupportEvents.addAll(feedPodXEventList)
+                        podXPendingSupportEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -197,6 +270,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXCallPromptEvents.clear()
                         pendingPodXCallPromptEvents.addAll(feedPodXEventList)
+                        podXPendingCallPromptEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -213,6 +287,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXFeedBackEvents.clear()
                         pendingPodXFeedBackEvents.addAll(feedPodXEventList)
+                        podXPendingFeedBackMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -229,6 +304,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXFeedLinkEvents.clear()
                         pendingPodXFeedLinkEvents.addAll(feedPodXEventList)
+                        podXPendingFeedLinkEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -245,6 +321,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXNewsLetterSignUpEvents.clear()
                         pendingPodXNewsLetterSignUpEvents.addAll(feedPodXEventList)
+                        podXPendingNewsLetterSignUpMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -261,6 +338,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXPollEvents.clear()
                         pendingPodXPollEvents.addAll(feedPodXEventList)
+                        podXPendingPollEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -277,6 +355,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXSocialPromptEvents.clear()
                         pendingPodXSocialPromptEvents.addAll(feedPodXEventList)
+                        podXPendingSocialPromptEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
@@ -293,6 +372,7 @@ class PodXEventEmitterImpl
                     { feedPodXEventList ->
                         pendingPodXTextEvents.clear()
                         pendingPodXTextEvents.addAll(feedPodXEventList)
+                        podXPendingTextEventMutableLiveData.postValue(feedPodXEventList)
                         registerPlaybackTimerObservable()
                     },
                     { e: Throwable ->
