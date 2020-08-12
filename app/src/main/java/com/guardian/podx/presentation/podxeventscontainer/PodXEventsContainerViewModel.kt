@@ -33,7 +33,17 @@ data class PodXEventsContainerUiModel(
     val podXPollEventsListLiveData: LiveData<List<PodXPollEvent>>,
     val podXSocialPromptEventsListLiveData: LiveData<List<PodXSocialPromptEvent>>,
     val podXTextEventsListLiveData: LiveData<List<PodXTextEvent>>,
-    val hasEvents: Boolean
+    val hasEvents: Boolean,
+    val episodePodXImageEventsListLiveData: LiveData<List<PodXImageEvent>>,
+    val episodePodXWebEventsListLiveData: LiveData<List<PodXWebEvent>>,
+    val episodePodXSupportEventsListLiveData: LiveData<List<PodXSupportEvent>>,
+    val episodePodXCallPromptEventsListLiveData: LiveData<List<PodXCallPromptEvent>>,
+    val episodePodXFeedBackEventsListLiveData: LiveData<List<PodXFeedBackEvent>>,
+    val episodePodXFeedLinkEventsListLiveData: LiveData<List<PodXFeedLinkEvent>>,
+    val episodePodXNewsLetterSignUpEventsListLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>,
+    val episodePodXPollEventsListLiveData: LiveData<List<PodXPollEvent>>,
+    val episodePodXSocialPromptEventsListLiveData: LiveData<List<PodXSocialPromptEvent>>,
+    val episodePodXTextEventsListLiveData: LiveData<List<PodXTextEvent>>
 )
 
 class PodXEventsContainerViewModel
@@ -56,7 +66,17 @@ class PodXEventsContainerViewModel
             podXEventEmitter.podXPollEventLiveData,
             podXEventEmitter.podXSocialPromptEventLiveData,
             podXEventEmitter.podXTextEventLiveData,
-            checkAllEvents()
+            checkAllEvents(),
+            podXEventEmitter.podXPendingImageEventLiveData,
+            podXEventEmitter.podXPendingWebEventLiveData,
+            podXEventEmitter.podXPendingSupportEventLiveData,
+            podXEventEmitter.podXCallPromptEventLiveData,
+            podXEventEmitter.podXFeedBackEventLiveData,
+            podXEventEmitter.podXFeedLinkEventLiveData,
+            podXEventEmitter.podXNewsLetterSignUpEventLiveData,
+            podXEventEmitter.podXPendingPollEventLiveData,
+            podXEventEmitter.podXPendingSocialPromptEventLiveData,
+            podXEventEmitter.podXPendingTextEventLiveData
         )
     }
 

@@ -75,31 +75,219 @@ class PodXEventsContainerFragment
         feedThumbnailLiveData()
         setNewEventBehaviour()
     }
-
+    //
+    // import com.guardian.core.podxevent.PodXCallPromptEvent
+    // import com.guardian.core.podxevent.PodXFeedBackEvent
+    // import com.guardian.core.podxevent.PodXImageEvent
+    // import com.guardian.core.podxevent.PodXNewsLetterSignUpEvent
+    // import com.guardian.core.podxevent.PodXPollEvent
+    // import com.guardian.core.podxevent.PodXSocialPromptEvent
+    // import com.guardian.core.podxevent.PodXSupportEvent
+    // import com.guardian.core.podxevent.PodXTextEvent
+    // import com.guardian.core.podxevent.PodXWebEvent
+    //create unique ids for events so we can fire each once only
     private val lastList = mutableListOf<String>()
     private fun setNewEventBehaviour() {
-        thumbnailMutableLiveData.observe(viewLifecycleOwner) { newThumbList ->
-            val newEvent = newThumbList.firstOrNull { thumb ->
-                !lastList.contains(thumb.uniqueEventId)
-            }?.newEventCallback
-
-            // if we are navigating from or for shown events we don't want to fire this
-            val suppressInit = lastList.isEmpty() && podXEventsContainerViewModel
-                .podXEventsContainerUiModel
-                .hasEvents
-
-            lastList.addAll(newThumbList.map { it.uniqueEventId })
-
-            if (newEvent != null && !suppressInit) {
-                newEvent()
-            }
-        }
+        val suppressInit = lastList.isEmpty() && podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .hasEvents
+        //setNewCallPromptBehaviour(suppressInit)
+        setNewFeedBackBehaviour(suppressInit)
+        setNewImageBehaviour(suppressInit)
+        setNewNewsLetterSignUpBehaviour(suppressInit)
+        setNewPollBehaviour(suppressInit)
+        setNewSocialPromptBehaviour(suppressInit)
+        setNewSupportBehaviour(suppressInit)
+        setNewTextBehaviour(suppressInit)
+        setNewWebBehaviour(suppressInit)
     }
+
+    // private fun setNewCallPromptBehaviour(suppressInit: Boolean) {
+    //     var suppressCallPrompt = suppressInit
+    //     podXEventsContainerViewModel
+    //         .podXEventsContainerUiModel
+    //         .podXCallPromptEventsListLiveData
+    //         .observe(viewLifecycleOwner) { callPromptEvents ->
+    //             val callPromptUnit = callPromptEvents.filter { "callPrompt${it.id}" !in lastList }
+    //                 .map{callPromptEvent ->
+    //                     {(callPromptEvent)}
+    //                 }.firstOrNull()
+    //
+    //             lastList.addAll(callPromptEvents.map { "callPrompt${it.id}" })
+    //
+    //             if (!suppressCallPrompt && callPromptUnit != null) {
+    //                 callPromptUnit()
+    //             }
+    //             suppressCallPrompt = false
+    //         }
+    // }
+
+    private fun setNewFeedBackBehaviour(suppressInit: Boolean) {
+        var suppressFeedBack = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXFeedBackEventsListLiveData
+            .observe(viewLifecycleOwner) { feedBackEvents ->
+                val feedBackUnit = feedBackEvents.filter { "feedBack${it.id}" !in lastList }
+                    .map{feedBackEvent ->
+                        {navigateToFeedBackActivity(feedBackEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(feedBackEvents.map { "feedBack${it.id}" })
+
+                if (!suppressFeedBack && feedBackUnit != null) {
+                    feedBackUnit()
+                }
+                suppressFeedBack = false
+            }
+    }
+
+
+    private fun setNewImageBehaviour(suppressInit: Boolean) {
+        var suppressImage = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXImageEventsListLiveData
+            .observe(viewLifecycleOwner) { imageEvents ->
+                val imageUnit = imageEvents.filter { "image${it.id}" !in lastList }
+                    .map{imageEvent ->
+                        {navigateToImage(imageEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(imageEvents.map { "image${it.id}" })
+
+                if (!suppressImage && imageUnit != null) {
+                    imageUnit()
+                }
+                suppressImage = false
+            }
+    }
+
+    private fun setNewNewsLetterSignUpBehaviour(suppressInit: Boolean) {
+        var suppressNewsLetterSignUp = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXNewsLetterSignUpEventsListLiveData
+            .observe(viewLifecycleOwner) { newsLetterSignUpEvents ->
+                val newsLetterSignUpUnit = newsLetterSignUpEvents.filter { "newsLetterSignUp${it.id}" !in lastList }
+                    .map{newsLetterSignUpEvent ->
+                        {navigateToNewsLetterSignUpActivity(newsLetterSignUpEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(newsLetterSignUpEvents.map { "newsLetterSignUp${it.id}" })
+
+                if (!suppressNewsLetterSignUp && newsLetterSignUpUnit != null) {
+                    newsLetterSignUpUnit()
+                }
+                suppressNewsLetterSignUp = false
+            }
+    }
+
+    private fun setNewPollBehaviour(suppressInit: Boolean) {
+        var suppressPoll = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXPollEventsListLiveData
+            .observe(viewLifecycleOwner) { pollEvents ->
+                val pollUnit = pollEvents.filter { "poll${it.id}" !in lastList }
+                    .map{pollEvent ->
+                        {navigateToPollActivity(pollEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(pollEvents.map { "poll${it.id}" })
+
+                if (!suppressPoll && pollUnit != null) {
+                    pollUnit()
+                }
+                suppressPoll = false
+            }
+    }
+
+    private fun setNewSocialPromptBehaviour(suppressInit: Boolean) {
+        var suppressSocialPrompt = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXSocialPromptEventsListLiveData
+            .observe(viewLifecycleOwner) { socialPromptEvents ->
+                val socialPromptUnit = socialPromptEvents.filter { "socialPrompt${it.id}" !in lastList }
+                    .map{socialPromptEvent ->
+                        {navigateToSocialPromptActivity(socialPromptEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(socialPromptEvents.map { "socialPrompt${it.id}" })
+
+                if (!suppressSocialPrompt && socialPromptUnit != null) {
+                    socialPromptUnit()
+                }
+                suppressSocialPrompt = false
+            }
+    }
+
+    private fun setNewSupportBehaviour(suppressInit: Boolean) {
+        var suppressSupport = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXSupportEventsListLiveData
+            .observe(viewLifecycleOwner) { supportEvents ->
+                val supportUnit = supportEvents.filter { "support${it.id}" !in lastList }
+                    .map{supportEvent ->
+                        {navigateToSupportActivity(supportEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(supportEvents.map { "support${it.id}" })
+
+                if (!suppressSupport && supportUnit != null) {
+                    supportUnit()
+                }
+                suppressSupport = false
+            }
+    }
+
+    private fun setNewTextBehaviour(suppressInit: Boolean) {
+        var suppressText = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXTextEventsListLiveData
+            .observe(viewLifecycleOwner) { textEvents ->
+                val textUnit = textEvents.filter { "text${it.id}" !in lastList }
+                    .map{textEvent ->
+                        {navigateToText(textEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(textEvents.map { "text${it.id}" })
+
+                if (!suppressText && textUnit != null) {
+                    textUnit()
+                }
+                suppressText = false
+            }
+    }
+
+    private fun setNewWebBehaviour(suppressInit: Boolean) {
+        var suppressWeb = suppressInit
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXWebEventsListLiveData
+            .observe(viewLifecycleOwner) { webEvents ->
+                val webUnit = webEvents.filter { "web${it.id}" !in lastList }
+                    .map{webEvent ->
+                        {navigateToWeb(webEvent)}
+                    }.firstOrNull()
+
+                lastList.addAll(webEvents.map { "web${it.id}" })
+
+                if (!suppressWeb && webUnit != null) {
+                    webUnit()
+                }
+                suppressWeb = false
+            }
+    }
+
 
     private fun feedThumbnailLiveData() {
         val imageThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXImageEventsListLiveData
+            .episodePodXImageEventsListLiveData
             .map { imageList ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -110,10 +298,7 @@ class PodXEventsContainerFragment
                                 navigateToImage(image)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToImage(image)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -123,7 +308,7 @@ class PodXEventsContainerFragment
 
         val webThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXWebEventsListLiveData
+            .episodePodXWebEventsListLiveData
             .map { webList ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -134,10 +319,7 @@ class PodXEventsContainerFragment
                                 navigateToWeb(web)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToWebActivity(web)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -147,7 +329,7 @@ class PodXEventsContainerFragment
 
         val supportThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXSupportEventsListLiveData
+            .episodePodXSupportEventsListLiveData
             .map { supportEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -158,10 +340,7 @@ class PodXEventsContainerFragment
                                 navigateToSupport(support)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToSupportActivity(support)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -171,7 +350,7 @@ class PodXEventsContainerFragment
 
         val textThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXTextEventsListLiveData
+            .episodePodXTextEventsListLiveData
             .map { textEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -182,10 +361,7 @@ class PodXEventsContainerFragment
                                 navigateToText(text)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToText(text)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -195,7 +371,7 @@ class PodXEventsContainerFragment
 
         val callPromptThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXCallPromptEventsListLiveData
+            .episodePodXCallPromptEventsListLiveData
             .map { callPromptEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -206,10 +382,7 @@ class PodXEventsContainerFragment
                                 navigateToCall(callPrompt)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToCall(callPrompt)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -219,7 +392,7 @@ class PodXEventsContainerFragment
 
         val feedBackThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXFeedBackEventsListLiveData
+            .episodePodXFeedBackEventsListLiveData
             .map { feedBackEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -230,10 +403,7 @@ class PodXEventsContainerFragment
                                 navigateToFeedBack(feedBack)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToFeedBackActivity(feedBack)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -243,7 +413,7 @@ class PodXEventsContainerFragment
 
         val feedLinkThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXFeedLinkEventsListLiveData
+            .episodePodXFeedLinkEventsListLiveData
             .map { feedLinkEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -261,10 +431,7 @@ class PodXEventsContainerFragment
                                     )
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                // probably best left unhandled
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -274,7 +441,7 @@ class PodXEventsContainerFragment
 
         val newsLetterSignUpThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXNewsLetterSignUpEventsListLiveData
+            .episodePodXNewsLetterSignUpEventsListLiveData
             .map { newsLetterSignUpEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -285,10 +452,7 @@ class PodXEventsContainerFragment
                                 navigateToNewsLetterSignUp(newsLetterSignUp)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToNewsLetterSignUpActivity(newsLetterSignUp)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -298,7 +462,7 @@ class PodXEventsContainerFragment
 
         val pollThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXPollEventsListLiveData
+            .episodePodXPollEventsListLiveData
             .map { pollEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -309,10 +473,7 @@ class PodXEventsContainerFragment
                                 navigateToPoll(poll)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToPollActivity(poll)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
@@ -322,7 +483,7 @@ class PodXEventsContainerFragment
 
         val socialPromptThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXSocialPromptEventsListLiveData
+            .episodePodXSocialPromptEventsListLiveData
             .map { socialPromptEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
@@ -333,10 +494,7 @@ class PodXEventsContainerFragment
                                 navigateToSocialPrompt(socialPrompt)
                             },
                             resources = resources,
-                            theme = theme,
-                            newEventCallback = {
-                                navigateToSocialPromptActivity(socialPrompt)
-                            }
+                            theme = theme
                         )
                     }
                 } else {
