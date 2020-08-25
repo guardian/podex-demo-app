@@ -30,9 +30,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            imageUrl="@{podXThumbnailData.imageUrlString}"/>
+            imageUrl="@{podXThumbnailData.imageUrlString}"
+            placeHolder="@{podXThumbnailData.badgeDrawable}"/>
 
         <ImageView
+            android:id="@+id/imageview_podxeventviewholder_badge_background"
             android:layout_width="@dimen/podxlist_image_badge_bg_width"
             android:layout_height="@dimen/podxlist_image_badge_bg_width"
             android:layout_margin="@dimen/podxlist_badge_bg_margin"
