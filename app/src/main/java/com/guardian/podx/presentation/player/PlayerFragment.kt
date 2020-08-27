@@ -64,10 +64,29 @@ class PlayerFragment
         setupPlayerControls()
         setupSeekBar()
         setupScrollEvent()
+        setupTextExpansion()
 
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPlayer)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
+    }
+
+    private fun setupTextExpansion() {
+        val clickEvent = {
+            if (binding.textviewPlayTitle.maxLines == 1) {
+                binding.textviewPlayTitle.maxLines = 10
+                binding.textviewPlaySubtitle.maxLines = 50
+            } else {
+                binding.textviewPlayTitle.maxLines = 1
+                binding.textviewPlaySubtitle.maxLines = 3
+            }
+        }
+        binding.textviewPlayTitle.setOnClickListener {
+            clickEvent()
+        }
+        binding.textviewPlaySubtitle.setOnClickListener {
+            clickEvent()
+        }
     }
 
     private fun setupScrollEvent() {
