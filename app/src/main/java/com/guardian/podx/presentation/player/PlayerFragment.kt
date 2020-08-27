@@ -206,6 +206,7 @@ class PlayerFragment
                     if (!seekBarMutex.isLocked) {
                         setSeekBarPos(playbackTime)
                     }
+                    binding.textviewPlayerCurrentTime.text = playbackTime.toTimestampMSS(resources)
                 }
             )
     }
