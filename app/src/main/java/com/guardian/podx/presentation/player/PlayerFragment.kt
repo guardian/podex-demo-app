@@ -75,7 +75,7 @@ class PlayerFragment
             // delay the scroll
             lifecycle.coroutineScope.launch {
                 delay(600)
-                Timber.i("firing fullscroll")
+                Timber.i("firing full scroll")
                 binding.scrollviewPlayerRoot.fullScroll(
                     ScrollView.FOCUS_DOWN
                 )
@@ -138,7 +138,7 @@ class PlayerFragment
                     if (mediaItem.albumArtUri != Uri.EMPTY) {
                         binding.artUrlString = mediaItem.albumArtUri.toString()
                     }
-                    binding.duration = mediaItem.duration.toTimestampMSS(requireContext())
+                    binding.duration = mediaItem.duration.toTimestampMSS(resources)
                 }
             )
 
@@ -146,7 +146,7 @@ class PlayerFragment
             .playerUiModel
             .mediaPlaybackPositionLiveData.observe(
                 viewLifecycleOwner,
-                Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(requireContext()) }
+                Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(resources) }
             )
     }
 

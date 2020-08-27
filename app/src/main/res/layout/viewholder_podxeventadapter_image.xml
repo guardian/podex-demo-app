@@ -81,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
-            app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"
+            app:layout_constraintEnd_toStartOf="@id/textview_podxeventviewholder_timestamp"
             app:layout_constraintTop_toTopOf="@id/textview_podxeventviewholder_contracted_notification"
             android:text="@{podXThumbnailData.captionString}"
             android:textAppearance="@style/PodXTextAppearanceDark"
@@ -94,8 +94,18 @@
             app:layout_constrainedWidth="true"
             app:layout_constraintTop_toBottomOf="@id/textview_podxeventviewholder_expanded_notification"
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
-            app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"
+            app:layout_constraintEnd_toStartOf="@id/textview_podxeventviewholder_timestamp"
             android:text="@{podXThumbnailData.notificationString}"
+            android:textAppearance="@style/PodXTextAppearanceDark"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textview_podxeventviewholder_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/textview_podxeventviewholder_expanded_notification"
+            app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"
+            android:text="@{podXThumbnailData.timeStampsActive}"
             android:textAppearance="@style/PodXTextAppearanceDark"
             android:visibility="gone"/>
 
@@ -103,11 +113,22 @@
             android:id="@+id/imageview_podxeventviewholder_expanded"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/podxlist_image_margin"
             app:layout_constrainedWidth="true"
             app:layout_constraintTop_toBottomOf="@id/textview_podxeventviewholder_expanded_caption"
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
-            app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"
+            app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_skip_to_timestamp"
             imageUrl="@{podXThumbnailData.imageUrlString}"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/button_podxeventviewholder_skip_to_timestamp"
+            android:layout_margin="@dimen/podxlist_image_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/button_podxeventviewholder_expand"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/event_list_skip_to"
             android:visibility="gone"/>
 
 

@@ -17,7 +17,8 @@ import java.util.concurrent.Executor
 
 class PodXEventListAdapter(
     callback: DiffUtil.ItemCallback<PodXEventThumbnailData>,
-    executor: Executor
+    executor: Executor,
+    val navigateToTimestampMethod: (Long) -> Unit
 ) : DataBoundListAdapter<PodXEventThumbnailData, ViewholderPodxeventadapterImageBinding>(callback, executor) {
     override fun createBinding(parent: ViewGroup): ViewholderPodxeventadapterImageBinding {
         return DataBindingUtil.inflate(
@@ -45,6 +46,10 @@ class PodXEventListAdapter(
             expandButtonVisibilitySwitch(holder, item)
             rotateExpandButtonChevron(holder)
         }
+
+        holder.buttonPodxeventviewholderSkipToTimestamp.setOnClickListener {
+            navigateToTimestampMethod(item.timeStart)
+        }
     }
 
     private fun expandButtonVisibilitySwitch
@@ -54,7 +59,7 @@ class PodXEventListAdapter(
             Timber.i("Image Switch for ${item.captionString}")
             if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
                 holder.imageviewPodxeventviewholderExpanded.visibility = View.VISIBLE
-                holder.imageviewPodxeventviewholderContracted.visibility = View.INVISIBLE
+                holder.imageviewPodxeventviewholderContracted.visibility = View.GONE
             } else {
                 holder.imageviewPodxeventviewholderExpanded.visibility = View.GONE
                 holder.imageviewPodxeventviewholderContracted.visibility = View.VISIBLE
@@ -65,10 +70,14 @@ class PodXEventListAdapter(
             holder.textviewPodxeventviewholderContractedNotification.visibility = View.INVISIBLE
             holder.textviewPodxeventviewholderExpandedNotification.visibility = View.VISIBLE
             holder.textviewPodxeventviewholderExpandedCaption.visibility = View.VISIBLE
+            holder.buttonPodxeventviewholderSkipToTimestamp.visibility = View.VISIBLE
+            holder.textviewPodxeventviewholderTimestamp.visibility = View.VISIBLE
         } else {
             holder.textviewPodxeventviewholderContractedNotification.visibility = View.VISIBLE
             holder.textviewPodxeventviewholderExpandedNotification.visibility = View.GONE
             holder.textviewPodxeventviewholderExpandedCaption.visibility = View.GONE
+            holder.buttonPodxeventviewholderSkipToTimestamp.visibility = View.GONE
+            holder.textviewPodxeventviewholderTimestamp.visibility = View.GONE
         }
     }
 

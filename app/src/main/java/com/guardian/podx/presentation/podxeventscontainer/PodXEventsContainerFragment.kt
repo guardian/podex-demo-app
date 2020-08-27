@@ -73,18 +73,9 @@ class PodXEventsContainerFragment
         bindVisibilitySwitch()
         setupRecyclerView()
         feedThumbnailLiveData()
-        setNewEventBehaviour()
+        //setNewEventBehaviour()
     }
-    //
-    // import com.guardian.core.podxevent.PodXCallPromptEvent
-    // import com.guardian.core.podxevent.PodXFeedBackEvent
-    // import com.guardian.core.podxevent.PodXImageEvent
-    // import com.guardian.core.podxevent.PodXNewsLetterSignUpEvent
-    // import com.guardian.core.podxevent.PodXPollEvent
-    // import com.guardian.core.podxevent.PodXSocialPromptEvent
-    // import com.guardian.core.podxevent.PodXSupportEvent
-    // import com.guardian.core.podxevent.PodXTextEvent
-    // import com.guardian.core.podxevent.PodXWebEvent
+
     //create unique ids for events so we can fire each once only
     private val lastList = mutableListOf<String>()
     private fun setNewEventBehaviour() {
@@ -316,7 +307,7 @@ class PodXEventsContainerFragment
                     webList.map { web ->
                         web.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
-                                navigateToWeb(web)
+                                navigateToWebActivity(web)
                             },
                             resources = resources,
                             theme = theme
@@ -337,7 +328,7 @@ class PodXEventsContainerFragment
                     supportEvent.map { support ->
                         support.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
-                                navigateToSupport(support)
+                                navigateToSupportActivity(support)
                             },
                             resources = resources,
                             theme = theme
@@ -400,7 +391,7 @@ class PodXEventsContainerFragment
                     feedBackEvent.map { feedBack ->
                         feedBack.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
-                                navigateToFeedBack(feedBack)
+                                navigateToFeedBackActivity(feedBack)
                             },
                             resources = resources,
                             theme = theme
@@ -449,7 +440,7 @@ class PodXEventsContainerFragment
                     newsLetterSignUpEvent.map { newsLetterSignUp ->
                         newsLetterSignUp.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
-                                navigateToNewsLetterSignUp(newsLetterSignUp)
+                                navigateToNewsLetterSignUpActivity(newsLetterSignUp)
                             },
                             resources = resources,
                             theme = theme
@@ -470,7 +461,7 @@ class PodXEventsContainerFragment
                     pollEvent.map { poll ->
                         poll.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
-                                navigateToPoll(poll)
+                                navigateToPollActivity(poll)
                             },
                             resources = resources,
                             theme = theme
@@ -491,7 +482,7 @@ class PodXEventsContainerFragment
                     socialPromptEvent.map { socialPrompt ->
                         socialPrompt.toPodXEventThumbnail(
                             onClickListener = View.OnClickListener {
-                                navigateToSocialPrompt(socialPrompt)
+                                navigateToSocialPromptActivity(socialPrompt)
                             },
                             resources = resources,
                             theme = theme
@@ -812,7 +803,10 @@ class PodXEventsContainerFragment
                     oldItem.captionString == newItem.captionString &&
                         oldItem.imageUrlString == newItem.imageUrlString
             },
-            executor = executor
+            executor = executor,
+            navigateToTimestampMethod = { timeStamp ->
+                podXEventsContainerViewModel.skipToTimestamp(timeStamp)
+            }
         )
             .apply {
                 thumbnailMutableLiveData

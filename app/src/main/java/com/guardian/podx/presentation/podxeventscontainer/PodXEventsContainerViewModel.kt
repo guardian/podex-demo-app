@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
+import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.isPrepared
@@ -115,6 +116,13 @@ class PodXEventsContainerViewModel
         if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
             transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
             podXEventEmitter.registerCurrentFeedItem(feedItem)
+        }
+    }
+
+    fun skipToTimestamp(timeStamp: Long) {
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (isPrepared) {
+            mediaSessionConnection.transportControls.seekTo(timeStamp)
         }
     }
 }
