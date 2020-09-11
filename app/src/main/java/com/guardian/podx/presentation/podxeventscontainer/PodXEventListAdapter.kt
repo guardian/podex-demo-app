@@ -1,6 +1,5 @@
 package com.guardian.podx.presentation.podxeventscontainer
 
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +42,18 @@ class PodXEventListAdapter(
         holder.buttonPodxeventviewholderExpand.rotationX = 0f
 
         holder.buttonPodxeventviewholderExpand.setOnClickListener {
+            expandButtonVisibilitySwitch(holder, item)
+            rotateExpandButtonChevron(holder)
+        }
+
+        item.expandSwitch.observeForever {
+            Timber.i("expand switcvh $it")
+            holder.textviewPodxeventviewholderContractedNotification
+                .visibility = if (it) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
             expandButtonVisibilitySwitch(holder, item)
             rotateExpandButtonChevron(holder)
         }

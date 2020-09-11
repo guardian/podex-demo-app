@@ -130,8 +130,6 @@ interface PodXEventEmitter {
      */
     val podXPendingTextEventLiveData: LiveData<List<PodXTextEvent>>
 
-
-
     /**
      * Register a [FeedItem] with the emitter. Events associated with the feed item will fire
      * according to the playback time taken from the currently instantiated [MediaService].

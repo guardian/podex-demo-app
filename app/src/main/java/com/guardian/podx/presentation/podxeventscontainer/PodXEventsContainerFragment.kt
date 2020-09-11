@@ -73,207 +73,138 @@ class PodXEventsContainerFragment
         bindVisibilitySwitch()
         setupRecyclerView()
         feedThumbnailLiveData()
-        //setNewEventBehaviour()
+        setNewEventBehaviour()
     }
 
-    //create unique ids for events so we can fire each once only
+    // create unique ids for events so we can fire each once only
     private val lastList = mutableListOf<String>()
     private fun setNewEventBehaviour() {
         val suppressInit = lastList.isEmpty() && podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .hasEvents
-        //setNewCallPromptBehaviour(suppressInit)
-        setNewFeedBackBehaviour(suppressInit)
-        setNewImageBehaviour(suppressInit)
-        setNewNewsLetterSignUpBehaviour(suppressInit)
-        setNewPollBehaviour(suppressInit)
-        setNewSocialPromptBehaviour(suppressInit)
-        setNewSupportBehaviour(suppressInit)
-        setNewTextBehaviour(suppressInit)
-        setNewWebBehaviour(suppressInit)
+
+        setNewEventBehaviour(suppressInit)
     }
 
-    // private fun setNewCallPromptBehaviour(suppressInit: Boolean) {
-    //     var suppressCallPrompt = suppressInit
-    //     podXEventsContainerViewModel
-    //         .podXEventsContainerUiModel
-    //         .podXCallPromptEventsListLiveData
-    //         .observe(viewLifecycleOwner) { callPromptEvents ->
-    //             val callPromptUnit = callPromptEvents.filter { "callPrompt${it.id}" !in lastList }
-    //                 .map{callPromptEvent ->
-    //                     {(callPromptEvent)}
-    //                 }.firstOrNull()
-    //
-    //             lastList.addAll(callPromptEvents.map { "callPrompt${it.id}" })
-    //
-    //             if (!suppressCallPrompt && callPromptUnit != null) {
-    //                 callPromptUnit()
-    //             }
-    //             suppressCallPrompt = false
-    //         }
-    // }
-
-    private fun setNewFeedBackBehaviour(suppressInit: Boolean) {
-        var suppressFeedBack = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXFeedBackEventsListLiveData
-            .observe(viewLifecycleOwner) { feedBackEvents ->
-                val feedBackUnit = feedBackEvents.filter { "feedBack${it.id}" !in lastList }
-                    .map{feedBackEvent ->
-                        {navigateToFeedBackActivity(feedBackEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(feedBackEvents.map { "feedBack${it.id}" })
-
-                if (!suppressFeedBack && feedBackUnit != null) {
-                    feedBackUnit()
+    private fun setNewEventBehaviour(suppressInit: Boolean) {
+        val newEventMediator = MediatorLiveData<List<String>>().apply {
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXCallPromptEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressFeedBack = false
             }
-    }
 
-
-    private fun setNewImageBehaviour(suppressInit: Boolean) {
-        var suppressImage = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXImageEventsListLiveData
-            .observe(viewLifecycleOwner) { imageEvents ->
-                val imageUnit = imageEvents.filter { "image${it.id}" !in lastList }
-                    .map{imageEvent ->
-                        {navigateToImage(imageEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(imageEvents.map { "image${it.id}" })
-
-                if (!suppressImage && imageUnit != null) {
-                    imageUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedBackEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressImage = false
             }
-    }
 
-    private fun setNewNewsLetterSignUpBehaviour(suppressInit: Boolean) {
-        var suppressNewsLetterSignUp = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXNewsLetterSignUpEventsListLiveData
-            .observe(viewLifecycleOwner) { newsLetterSignUpEvents ->
-                val newsLetterSignUpUnit = newsLetterSignUpEvents.filter { "newsLetterSignUp${it.id}" !in lastList }
-                    .map{newsLetterSignUpEvent ->
-                        {navigateToNewsLetterSignUpActivity(newsLetterSignUpEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(newsLetterSignUpEvents.map { "newsLetterSignUp${it.id}" })
-
-                if (!suppressNewsLetterSignUp && newsLetterSignUpUnit != null) {
-                    newsLetterSignUpUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedLinkEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressNewsLetterSignUp = false
             }
-    }
 
-    private fun setNewPollBehaviour(suppressInit: Boolean) {
-        var suppressPoll = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXPollEventsListLiveData
-            .observe(viewLifecycleOwner) { pollEvents ->
-                val pollUnit = pollEvents.filter { "poll${it.id}" !in lastList }
-                    .map{pollEvent ->
-                        {navigateToPollActivity(pollEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(pollEvents.map { "poll${it.id}" })
-
-                if (!suppressPoll && pollUnit != null) {
-                    pollUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXImageEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressPoll = false
             }
-    }
 
-    private fun setNewSocialPromptBehaviour(suppressInit: Boolean) {
-        var suppressSocialPrompt = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXSocialPromptEventsListLiveData
-            .observe(viewLifecycleOwner) { socialPromptEvents ->
-                val socialPromptUnit = socialPromptEvents.filter { "socialPrompt${it.id}" !in lastList }
-                    .map{socialPromptEvent ->
-                        {navigateToSocialPromptActivity(socialPromptEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(socialPromptEvents.map { "socialPrompt${it.id}" })
-
-                if (!suppressSocialPrompt && socialPromptUnit != null) {
-                    socialPromptUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXNewsLetterSignUpEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressSocialPrompt = false
             }
-    }
 
-    private fun setNewSupportBehaviour(suppressInit: Boolean) {
-        var suppressSupport = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXSupportEventsListLiveData
-            .observe(viewLifecycleOwner) { supportEvents ->
-                val supportUnit = supportEvents.filter { "support${it.id}" !in lastList }
-                    .map{supportEvent ->
-                        {navigateToSupportActivity(supportEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(supportEvents.map { "support${it.id}" })
-
-                if (!suppressSupport && supportUnit != null) {
-                    supportUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXPollEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressSupport = false
             }
-    }
 
-    private fun setNewTextBehaviour(suppressInit: Boolean) {
-        var suppressText = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXTextEventsListLiveData
-            .observe(viewLifecycleOwner) { textEvents ->
-                val textUnit = textEvents.filter { "text${it.id}" !in lastList }
-                    .map{textEvent ->
-                        {navigateToText(textEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(textEvents.map { "text${it.id}" })
-
-                if (!suppressText && textUnit != null) {
-                    textUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSocialPromptEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressText = false
             }
-    }
 
-    private fun setNewWebBehaviour(suppressInit: Boolean) {
-        var suppressWeb = suppressInit
-        podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .podXWebEventsListLiveData
-            .observe(viewLifecycleOwner) { webEvents ->
-                val webUnit = webEvents.filter { "web${it.id}" !in lastList }
-                    .map{webEvent ->
-                        {navigateToWeb(webEvent)}
-                    }.firstOrNull()
-
-                lastList.addAll(webEvents.map { "web${it.id}" })
-
-                if (!suppressWeb && webUnit != null) {
-                    webUnit()
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSupportEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
                 }
-                suppressWeb = false
             }
-    }
 
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXTextEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
+                }
+            }
+
+            addSource(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXWebEventsListLiveData
+            ) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    postValue(eventList.map { it.getThumbnailId() })
+                }
+            }
+        }
+        newEventMediator.observe(viewLifecycleOwner) { thumbnailIds ->
+            val newEventIds = thumbnailIds.filter { thumbnailId ->
+                !lastList.contains(thumbnailId)
+            }
+
+            val thumbnails = thumbnailMutableLiveData.value
+            if (newEventIds.isNotEmpty() && !thumbnails.isNullOrEmpty()) {
+                lastList.addAll(newEventIds)
+                val firstIndex = thumbnails.indexOfFirst { it.uniqueEventId == newEventIds.first() }
+                if (firstIndex >= 0) {
+                    binding.recyclerviewPodxeventscontainerEvents.scrollToPosition(firstIndex)
+
+                    thumbnails[firstIndex].expandSwitch.postValue(true)
+                }
+            }
+        }
+    }
 
     private fun feedThumbnailLiveData() {
         val imageThumbnailData = podXEventsContainerViewModel

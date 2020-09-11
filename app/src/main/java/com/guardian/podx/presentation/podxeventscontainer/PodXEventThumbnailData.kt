@@ -3,6 +3,7 @@ package com.guardian.podx.presentation.podxeventscontainer
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXFeedBackEvent
 import com.guardian.core.podxevent.PodXFeedLinkEvent
@@ -26,7 +27,8 @@ data class PodXEventThumbnailData(
     val timeStampsActive: String,
     val onClickListener: View.OnClickListener,
     val imageSwitch: Boolean = false,
-    val uniqueEventId: String
+    val uniqueEventId: String,
+    val expandSwitch: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 )
 
 fun PodXWebEvent.toPodXEventThumbnail(
@@ -40,13 +42,19 @@ fun PodXWebEvent.toPodXEventThumbnail(
             captionString = this.caption,
             notificationString = this.notification,
             timeStart = this.timeStart,
-            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
+            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${
+            this.timeEnd.toTimestampMSS(
+                resources
+            )
+            }",
             onClickListener = onClickListener,
             imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme),
-            uniqueEventId = "web${this.id}"
+            uniqueEventId = this.getThumbnailId()
         )
     }
+
+fun PodXWebEvent.getThumbnailId(): String = "web${this.id}"
 
 fun PodXImageEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
@@ -64,8 +72,10 @@ fun PodXImageEvent.toPodXEventThumbnail(
             imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme),
             imageSwitch = true,
-            uniqueEventId = "image${this.id}"
+            uniqueEventId = this.getThumbnailId()
         )
+
+fun PodXImageEvent.getThumbnailId(): String = "image${this.id}"
 
 fun PodXSupportEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
@@ -82,8 +92,10 @@ fun PodXSupportEvent.toPodXEventThumbnail(
             onClickListener = onClickListener,
             imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme),
-            uniqueEventId = "support${this.id}"
+            uniqueEventId = this.getThumbnailId()
         )
+
+fun PodXSupportEvent.getThumbnailId(): String = "support${this.id}"
 
 fun PodXCallPromptEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
@@ -100,8 +112,10 @@ fun PodXCallPromptEvent.toPodXEventThumbnail(
             onClickListener = onClickListener,
             imageDrawable = resources.getDrawable(R.drawable.baseline_call_black_24, theme),
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme),
-            uniqueEventId = "call${this.id}"
+            uniqueEventId = this.getThumbnailId()
         )
+
+fun PodXCallPromptEvent.getThumbnailId(): String = "call${this.id}"
 
 fun PodXFeedBackEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
@@ -118,100 +132,102 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(
             onClickListener = onClickListener,
             imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme),
-            uniqueEventId = "feedback${this.id}"
+            uniqueEventId = this.getThumbnailId()
         )
+
+fun PodXFeedBackEvent.getThumbnailId(): String = "feedback${this.id}"
 
 fun PodXFeedLinkEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
     theme: Resources.Theme
 ):
-    PodXEventThumbnailData {
-        return PodXEventThumbnailData(
-            imageUrlString = this.remoteFeedImageUrlString,
-            captionString = this.caption,
-            notificationString = this.notification,
-            timeStart = this.timeStart,
-            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
-            onClickListener = onClickListener,
-            imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme),
-            uniqueEventId = "feedlink${this.id}"
-        )
-    }
+    PodXEventThumbnailData = PodXEventThumbnailData(
+        imageUrlString = this.remoteFeedImageUrlString,
+        captionString = this.caption,
+        notificationString = this.notification,
+        timeStart = this.timeStart,
+        timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
+        onClickListener = onClickListener,
+        imageDrawable = null,
+        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme),
+        uniqueEventId = this.getThumbnailId()
+    )
+
+fun PodXFeedLinkEvent.getThumbnailId(): String = "feedlink${this.id}"
 
 fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
     theme: Resources.Theme
 ):
-    PodXEventThumbnailData {
-        return PodXEventThumbnailData(
-            imageUrlString = this.ogMetadata.OGImage,
-            captionString = this.caption,
-            notificationString = this.notification,
-            timeStart = this.timeStart,
-            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
-            onClickListener = onClickListener,
-            imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme),
-            uniqueEventId = "newslettersignup${this.id}"
-        )
-    }
+    PodXEventThumbnailData = PodXEventThumbnailData(
+        imageUrlString = this.ogMetadata.OGImage,
+        captionString = this.caption,
+        notificationString = this.notification,
+        timeStart = this.timeStart,
+        timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
+        onClickListener = onClickListener,
+        imageDrawable = null,
+        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme),
+        uniqueEventId = this.getThumbnailId()
+    )
+
+fun PodXNewsLetterSignUpEvent.getThumbnailId(): String = "newsletter${this.id}"
 
 fun PodXPollEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
     theme: Resources.Theme
 ):
-    PodXEventThumbnailData {
-        return PodXEventThumbnailData(
-            imageUrlString = this.ogMetadata.OGImage,
-            captionString = this.caption,
-            notificationString = this.notification,
-            timeStart = this.timeStart,
-            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
-            onClickListener = onClickListener,
-            imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme),
-            uniqueEventId = "poll${this.id}"
-        )
-    }
+    PodXEventThumbnailData = PodXEventThumbnailData(
+        imageUrlString = this.ogMetadata.OGImage,
+        captionString = this.caption,
+        notificationString = this.notification,
+        timeStart = this.timeStart,
+        timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
+        onClickListener = onClickListener,
+        imageDrawable = null,
+        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme),
+        uniqueEventId = this.getThumbnailId()
+    )
+
+fun PodXPollEvent.getThumbnailId(): String = "poll${this.id}"
 
 fun PodXSocialPromptEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
     theme: Resources.Theme
 ):
-    PodXEventThumbnailData {
-        return PodXEventThumbnailData(
-            imageUrlString = this.ogMetadata.OGImage,
-            captionString = this.caption,
-            notificationString = this.notification,
-            timeStart = this.timeStart,
-            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
-            onClickListener = onClickListener,
-            imageDrawable = null,
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme),
-            uniqueEventId = "socialprompt${this.id}"
-        )
-    }
+    PodXEventThumbnailData = PodXEventThumbnailData(
+        imageUrlString = this.ogMetadata.OGImage,
+        captionString = this.caption,
+        notificationString = this.notification,
+        timeStart = this.timeStart,
+        timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
+        onClickListener = onClickListener,
+        imageDrawable = null,
+        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme),
+        uniqueEventId = this.getThumbnailId()
+    )
+
+fun PodXSocialPromptEvent.getThumbnailId(): String = "socialprompt${this.id}"
 
 fun PodXTextEvent.toPodXEventThumbnail(
     onClickListener: View.OnClickListener,
     resources: Resources,
     theme: Resources.Theme
 ):
-    PodXEventThumbnailData {
-        return PodXEventThumbnailData(
-            imageUrlString = null,
-            captionString = this.caption,
-            notificationString = this.notification,
-            timeStart = this.timeStart,
-            timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
-            onClickListener = onClickListener,
-            imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
-            badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme),
-            uniqueEventId = "text${this.id}"
-        )
-    }
+    PodXEventThumbnailData = PodXEventThumbnailData(
+        imageUrlString = null,
+        captionString = this.caption,
+        notificationString = this.notification,
+        timeStart = this.timeStart,
+        timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
+        onClickListener = onClickListener,
+        imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
+        badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme),
+        uniqueEventId = this.getThumbnailId()
+    )
+
+fun PodXTextEvent.getThumbnailId(): String = "text${this.id}"

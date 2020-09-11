@@ -50,7 +50,7 @@ class PodXEventEmitterImpl
         podXImageEventMutableLiveData
 
     private val podXPendingImageEventMutableLiveData = MutableLiveData<List<PodXImageEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingImageEventLiveData: LiveData<List<PodXImageEvent>> =
@@ -63,7 +63,7 @@ class PodXEventEmitterImpl
     override val podXWebEventLiveData: LiveData<List<PodXWebEvent>> = podXWebEventMutableLiveData
 
     private val podXPendingWebEventMutableLiveData = MutableLiveData<List<PodXWebEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingWebEventLiveData: LiveData<List<PodXWebEvent>> =
@@ -77,7 +77,7 @@ class PodXEventEmitterImpl
         podXSupportEventMutableLiveData
 
     private val podXPendingSupportEventMutableLiveData = MutableLiveData<List<PodXSupportEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingSupportEventLiveData: LiveData<List<PodXSupportEvent>> =
@@ -91,7 +91,7 @@ class PodXEventEmitterImpl
         podXCallPromptEventMutableLiveData
 
     private val podXPendingCallPromptEventMutableLiveData = MutableLiveData<List<PodXCallPromptEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingCallPromptEventLiveData: LiveData<List<PodXCallPromptEvent>> =
@@ -105,7 +105,7 @@ class PodXEventEmitterImpl
         podXFeedBackEventMutableLiveData
 
     private val podXPendingFeedBackMutableLiveData = MutableLiveData<List<PodXFeedBackEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingFeedBackEventLiveData: LiveData<List<PodXFeedBackEvent>> =
@@ -119,7 +119,7 @@ class PodXEventEmitterImpl
         podXFeedLinkEventMutableLiveData
 
     private val podXPendingFeedLinkEventMutableLiveData = MutableLiveData<List<PodXFeedLinkEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingFeedLinkEventLiveData: LiveData<List<PodXFeedLinkEvent>> =
@@ -133,7 +133,7 @@ class PodXEventEmitterImpl
         podXNewsLetterSignUpEventMutableLiveData
 
     private val podXPendingNewsLetterSignUpMutableLiveData = MutableLiveData<List<PodXNewsLetterSignUpEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingNewsLetterSignUpEventLiveData: LiveData<List<PodXNewsLetterSignUpEvent>> =
@@ -147,7 +147,7 @@ class PodXEventEmitterImpl
         podXPollEventMutableLiveData
 
     private val podXPendingPollEventMutableLiveData = MutableLiveData<List<PodXPollEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingPollEventLiveData: LiveData<List<PodXPollEvent>> =
@@ -161,7 +161,7 @@ class PodXEventEmitterImpl
         podXSocialPromptEventMutableLiveData
 
     private val podXPendingSocialPromptEventMutableLiveData = MutableLiveData<List<PodXSocialPromptEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingSocialPromptEventLiveData: LiveData<List<PodXSocialPromptEvent>> =
@@ -175,7 +175,7 @@ class PodXEventEmitterImpl
         podXTextEventMutableLiveData
 
     private val podXPendingTextEventMutableLiveData = MutableLiveData<List<PodXTextEvent>>()
-        .apply{
+        .apply {
             value = listOf()
         }
     override val podXPendingTextEventLiveData: LiveData<List<PodXTextEvent>> =

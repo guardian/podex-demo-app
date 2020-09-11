@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.guardian.core.feed.FeedRepository
 import com.guardian.core.feeditem.FeedItem
 import com.guardian.core.feeditem.FeedItemRepository
-import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.id
 import com.guardian.core.mediaplayer.extensions.isPrepared
