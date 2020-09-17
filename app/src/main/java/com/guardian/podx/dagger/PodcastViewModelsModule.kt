@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.guardian.podx.dagger.keys.ViewModelKey
 import com.guardian.podx.presentation.feed.FeedViewModel
 import com.guardian.podx.presentation.player.PlayerViewModel
+import com.guardian.podx.presentation.playersummaryimage.PlayerSummaryImageViewModel
 import com.guardian.podx.presentation.podxeventscontainer.PodXEventsContainerViewModel
 import com.guardian.podx.presentation.search.SearchViewModel
 import dagger.Binds
@@ -33,6 +34,12 @@ abstract class PodcastViewModelsModule {
     @ViewModelKey(PodXEventsContainerViewModel::class)
     abstract fun bindsPodXEventsContainterViewModel
     (podXEventsContainerViewModel: PodXEventsContainerViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PlayerSummaryImageViewModel::class)
+    abstract fun bindsPlayerSummaryImageViewModel
+    (playerSummaryImageViewModel: PlayerSummaryImageViewModel): ViewModel
 
     @Binds
     abstract fun bindsViewModelFactory(factory: ViewModelInjectionFactory):

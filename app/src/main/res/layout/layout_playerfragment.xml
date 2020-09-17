@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="artUrlString"
-            type="String"/>
-
-        <variable
             name="title"
             type="String" />
 
@@ -41,8 +37,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/imageview_play_album_art"
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/imageview_play_summary_image"
+                    android:name="com.guardian.podx.presentation.playersummaryimage.PlayerSummaryImageFragment"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintWidth_percent="0.7"
@@ -53,8 +50,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@string/playerfragment_album_art_alt"
-                    app:srcCompat="@color/placeholderGrey"
-                    imageUrl="@{artUrlString}" />
+                    app:srcCompat="@color/placeholderGrey" />
 
                 <View
                     android:id="@+id/view_play_title_placeholder"
@@ -80,7 +76,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:focusable="true"
-                    app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
+                    app:layout_constraintTop_toBottomOf="@id/imageview_play_summary_image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@{title}"
