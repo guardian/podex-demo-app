@@ -1,7 +1,5 @@
 package com.guardian.podx.presentation.podxeventscontainer
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -78,15 +76,8 @@ class PodXEventsContainerFragment
 
     // create unique ids for events so we can fire each once only
     private val lastList = mutableListOf<String>()
+
     private fun setNewEventBehaviour() {
-        val suppressInit = lastList.isEmpty() && podXEventsContainerViewModel
-            .podXEventsContainerUiModel
-            .hasEvents
-
-        setNewEventBehaviour(suppressInit)
-    }
-
-    private fun setNewEventBehaviour(suppressInit: Boolean) {
         val newEventMediator = MediatorLiveData<List<String>>().apply {
             addSource(
                 podXEventsContainerViewModel
@@ -216,7 +207,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     imageList.map { image ->
                         image.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToImage(image)
                             },
                             resources = resources,
@@ -237,7 +228,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     webList.map { web ->
                         web.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToWebActivity(web)
                             },
                             resources = resources,
@@ -258,7 +249,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     supportEvent.map { support ->
                         support.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToSupportActivity(support)
                             },
                             resources = resources,
@@ -279,7 +270,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     textEvent.map { text ->
                         text.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToText(text)
                             },
                             resources = resources,
@@ -300,7 +291,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     callPromptEvent.map { callPrompt ->
                         callPrompt.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToCall(callPrompt)
                             },
                             resources = resources,
@@ -321,7 +312,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     feedBackEvent.map { feedBack ->
                         feedBack.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToFeedBackActivity(feedBack)
                             },
                             resources = resources,
@@ -342,7 +333,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     feedLinkEvent.map { feedLink ->
                         feedLink.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
                                     .subscribe(
                                         { feedItemFromLink ->
@@ -370,7 +361,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     newsLetterSignUpEvent.map { newsLetterSignUp ->
                         newsLetterSignUp.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToNewsLetterSignUpActivity(newsLetterSignUp)
                             },
                             resources = resources,
@@ -391,7 +382,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     pollEvent.map { poll ->
                         poll.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToPollActivity(poll)
                             },
                             resources = resources,
@@ -412,7 +403,7 @@ class PodXEventsContainerFragment
                 if (resources != null && theme != null) {
                     socialPromptEvent.map { socialPrompt ->
                         socialPrompt.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 navigateToSocialPromptActivity(socialPrompt)
                             },
                             resources = resources,
@@ -556,14 +547,6 @@ class PodXEventsContainerFragment
         return aggregateThumbnails
     }
 
-    private fun navigateToSupport(podXSupportEvent: PodXSupportEvent) {
-        if (podXSupportEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXSupportEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
-    }
-
     private fun navigateToSupportActivity(podXSupportEvent: PodXSupportEvent) {
         val argsBundle = Bundle()
             .apply {
@@ -576,14 +559,6 @@ class PodXEventsContainerFragment
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
-    }
-
-    private fun navigateToWeb(podXWebEvent: PodXWebEvent) {
-        if (podXWebEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXWebEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
     }
 
     private fun navigateToWebActivity(podXWebEvent: PodXWebEvent) {
@@ -600,14 +575,6 @@ class PodXEventsContainerFragment
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToFeedBack(podXFeedBackEvent: PodXFeedBackEvent) {
-        if (podXFeedBackEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXFeedBackEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
-    }
-
     private fun navigateToFeedBackActivity(podXFeedBackEvent: PodXFeedBackEvent) {
         val argsBundle = Bundle()
             .apply {
@@ -620,14 +587,6 @@ class PodXEventsContainerFragment
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
-    }
-
-    private fun navigateToNewsLetterSignUp(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
-        if (podXNewsLetterSignUpEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXNewsLetterSignUpEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
     }
 
     private fun navigateToNewsLetterSignUpActivity(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
@@ -644,14 +603,6 @@ class PodXEventsContainerFragment
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToPoll(podXPollEvent: PodXPollEvent) {
-        if (podXPollEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXPollEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
-    }
-
     private fun navigateToPollActivity(podXPollEvent: PodXPollEvent) {
         val argsBundle = Bundle()
             .apply {
@@ -664,14 +615,6 @@ class PodXEventsContainerFragment
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
-    }
-
-    private fun navigateToSocialPrompt(podXSocialPromptEvent: PodXSocialPromptEvent) {
-        if (podXSocialPromptEvent.socialLinkUrlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXSocialPromptEvent.socialLinkUrlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
     }
 
     private fun navigateToSocialPromptActivity(podXSocialPromptEvent: PodXSocialPromptEvent) {

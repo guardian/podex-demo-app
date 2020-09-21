@@ -228,7 +228,7 @@ class PlayerFragment
     }
 
     private companion object {
-        private const val PROGRESS_MAX = 1000
+        public const val PROGRESS_MAX = 1000
         private const val THIRTY_SECONDS = 30000
         private const val TEN_SECONDS = 10000
     }

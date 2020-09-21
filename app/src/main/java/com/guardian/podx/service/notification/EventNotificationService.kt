@@ -5,12 +5,14 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.media.session.PlaybackState
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
+import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXFeedBackEvent
@@ -30,6 +32,9 @@ import javax.inject.Inject
 class EventNotificationService : Service() {
     @Inject
     lateinit var podXEventEmitter: PodXEventEmitter
+
+    @Inject
+    lateinit var mediaSessionConnection: MediaSessionConnection
 
     private val defaultArgsBundle = Bundle().apply {
         putBoolean("scrollToEvents", true)
@@ -105,7 +110,22 @@ class EventNotificationService : Service() {
                 displayWebEvents(webEventList)
             }
 
+        mediaSessionConnection.playbackState.observeForever {
+            if (!(
+                it.playbackState == PlaybackState.STATE_PLAYING ||
+                    it.playbackState == PlaybackState.STATE_PAUSED
+                )
+            ) {
+                notificationManager.cancel(PODX_EVENT_AGGREGATE_ID)
+            }
+        }
+
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        notificationManager.cancel(PODX_EVENT_AGGREGATE_ID)
+        super.onDestroy()
     }
 
     private val displayingImageIds = mutableListOf<Int>()
@@ -127,17 +147,21 @@ class EventNotificationService : Service() {
                 PODX_IMAGE_NOTIFICATION_RANGE
             if (notificationId !in displayingImageIds) {
                 displayingImageIds.add(notificationId)
+
+                val imageArgsBundle = Bundle().apply {
+                    putParcelable("podXImageEvent", imageEvent)
+                }
                 val imagePendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXImageFragment)
+                    .setArguments(imageArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(imageEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_image)
                     .setContentIntent(imagePendingIntent)
-                    .setGroup(PODX_IMAGE_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -154,15 +178,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_image_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_image)
-                .setGroup(PODX_IMAGE_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_IMAGE_AGGREGATE_ID, aggregateImageNotification)
-        } else {
-            if (imageEventList.isEmpty()) {
-                notificationManager.cancel(PODX_IMAGE_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateImageNotification)
         }
     }
 
@@ -195,7 +215,7 @@ class EventNotificationService : Service() {
                     .setContentText(callPromptEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_call)
                     .setContentIntent(callPromptPendingIntent)
-                    .setGroup(PODX_CALL_PROMPT_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -212,15 +232,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_callprompt_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_call)
-                .setGroup(PODX_CALL_PROMPT_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_CALL_PROMPT_AGGREGATE_ID, aggregateCallPromptNotification)
-        } else {
-            if (callPromptEventList.isEmpty()) {
-                notificationManager.cancel(PODX_CALL_PROMPT_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateCallPromptNotification)
         }
     }
 
@@ -242,18 +258,25 @@ class EventNotificationService : Service() {
             val notificationId = feedBackEvent.id % PODX_FEED_BACK_NOTIFICATION_RANGE +
                 PODX_FEED_BACK_NOTIFICATION_RANGE
             if (notificationId !in displayingFeedBackIds) {
+                val linkArgsBundle = Bundle().apply {
+                    putString("caption", feedBackEvent.caption)
+                    putString("notification", feedBackEvent.notification)
+                    putString("urlString", feedBackEvent.urlString)
+                    putString("imageUrlString", feedBackEvent.ogMetadata.OGImage)
+                }
+
                 displayingFeedBackIds.add(notificationId)
                 val feedBackPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXLinkFragment)
+                    .setArguments(linkArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(feedBackEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_feedback)
                     .setContentIntent(feedBackPendingIntent)
-                    .setGroup(PODX_FEED_BACK_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -270,15 +293,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_feed_back_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_feedback)
-                .setGroup(PODX_FEED_BACK_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_FEED_BACK_AGGREGATE_ID, aggregateFeedBackNotification)
-        } else {
-            if (feedBackEventList.isEmpty()) {
-                notificationManager.cancel(PODX_FEED_BACK_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateFeedBackNotification)
         }
     }
 
@@ -311,7 +330,7 @@ class EventNotificationService : Service() {
                     .setContentText(feedLinkEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_podcast)
                     .setContentIntent(feedLinkPendingIntent)
-                    .setGroup(PODX_FEED_LINK_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -328,15 +347,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_feed_link_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_podcast)
-                .setGroup(PODX_FEED_LINK_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_FEED_LINK_AGGREGATE_ID, aggregateFeedLinkNotification)
-        } else {
-            if (FeedLinkEventList.isEmpty()) {
-                notificationManager.cancel(PODX_FEED_LINK_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateFeedLinkNotification)
         }
     }
 
@@ -358,18 +373,25 @@ class EventNotificationService : Service() {
             val notificationId = newsLetterSignUpEvent.id % PODX_NEWS_LETTER_SIGN_UP_NOTIFICATION_RANGE +
                 PODX_NEWS_LETTER_SIGN_UP_NOTIFICATION_RANGE
             if (notificationId !in displayingNewsLetterSignUpIds) {
+                val linkArgsBundle = Bundle().apply {
+                    putString("caption", newsLetterSignUpEvent.caption)
+                    putString("notification", newsLetterSignUpEvent.notification)
+                    putString("urlString", newsLetterSignUpEvent.urlString)
+                    putString("imageUrlString", newsLetterSignUpEvent.ogMetadata.OGImage)
+                }
+
                 displayingNewsLetterSignUpIds.add(notificationId)
                 val newsLetterSignUpPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXLinkFragment)
+                    .setArguments(linkArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(newsLetterSignUpEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_newsletter)
                     .setContentIntent(newsLetterSignUpPendingIntent)
-                    .setGroup(PODX_NEWS_LETTER_SIGN_UP_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -382,19 +404,19 @@ class EventNotificationService : Service() {
             } else {
                 "${NewsLetterSignUpEventList.size} " + getString(R.string.notification_news_letter_sign_up_content_singular)
             }
-            val aggregateNewsLetterSignUpNotification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
-                .setContentTitle(getString(R.string.notification_news_letter_sign_up_title))
-                .setContentText(contentString)
-                .setSmallIcon(R.drawable.ic_icons_newsletter)
-                .setGroup(PODX_NEWS_LETTER_SIGN_UP_GROUP_KEY)
-                .setGroupSummary(true)
-                .build()
+            val aggregateNewsLetterSignUpNotification =
+                NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
+                    .setContentTitle(getString(R.string.notification_news_letter_sign_up_title))
+                    .setContentText(contentString)
+                    .setSmallIcon(R.drawable.ic_icons_newsletter)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
+                    .setGroupSummary(true)
+                    .build()
 
-            notificationManager.notify(PODX_NEWS_LETTER_SIGN_UP_AGGREGATE_ID, aggregateNewsLetterSignUpNotification)
-        } else {
-            if (NewsLetterSignUpEventList.isEmpty()) {
-                notificationManager.cancel(PODX_NEWS_LETTER_SIGN_UP_AGGREGATE_ID)
-            }
+            notificationManager.notify(
+                PODX_EVENT_AGGREGATE_ID,
+                aggregateNewsLetterSignUpNotification
+            )
         }
     }
 
@@ -416,18 +438,25 @@ class EventNotificationService : Service() {
             val notificationId = pollEvent.id % PODX_POLL_NOTIFICATION_RANGE +
                 PODX_POLL_NOTIFICATION_RANGE
             if (notificationId !in displayingPollIds) {
+                val linkArgsBundle = Bundle().apply {
+                    putString("caption", pollEvent.caption)
+                    putString("notification", pollEvent.notification)
+                    putString("urlString", pollEvent.urlString)
+                    putString("imageUrlString", pollEvent.ogMetadata.OGImage)
+                }
+
                 displayingPollIds.add(notificationId)
                 val pollPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXLinkFragment)
+                    .setArguments(linkArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(pollEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_poll)
                     .setContentIntent(pollPendingIntent)
-                    .setGroup(PODX_POLL_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -444,15 +473,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_poll_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_poll)
-                .setGroup(PODX_POLL_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_POLL_AGGREGATE_ID, aggregatePollNotification)
-        } else {
-            if (PollEventList.isEmpty()) {
-                notificationManager.cancel(PODX_POLL_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregatePollNotification)
         }
     }
 
@@ -474,18 +499,25 @@ class EventNotificationService : Service() {
             val notificationId = socialPromptEvent.id % PODX_SOCIAL_PROMPT_NOTIFICATION_RANGE +
                 PODX_SOCIAL_PROMPT_NOTIFICATION_RANGE
             if (notificationId !in displayingSocialPromptIds) {
+                val linkArgsBundle = Bundle().apply {
+                    putString("caption", socialPromptEvent.caption)
+                    putString("notification", socialPromptEvent.notification)
+                    putString("urlString", socialPromptEvent.socialLinkUrlString)
+                    putString("imageUrlString", socialPromptEvent.ogMetadata.OGImage)
+                }
+
                 displayingSocialPromptIds.add(notificationId)
                 val socialPromptPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXLinkFragment)
+                    .setArguments(linkArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(socialPromptEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_social)
                     .setContentIntent(socialPromptPendingIntent)
-                    .setGroup(PODX_SOCIAL_PROMPT_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -502,15 +534,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_social_prompt_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_social)
-                .setGroup(PODX_SOCIAL_PROMPT_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_SOCIAL_PROMPT_AGGREGATE_ID, aggregateSocialPromptNotification)
-        } else {
-            if (SocialPromptEventList.isEmpty()) {
-                notificationManager.cancel(PODX_SOCIAL_PROMPT_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateSocialPromptNotification)
         }
     }
 
@@ -532,18 +560,25 @@ class EventNotificationService : Service() {
             val notificationId = supportEvent.id % PODX_SUPPORT_NOTIFICATION_RANGE +
                 PODX_SUPPORT_NOTIFICATION_RANGE
             if (notificationId !in displayingSupportIds) {
+                val linkArgsBundle = Bundle().apply {
+                    putString("caption", supportEvent.caption)
+                    putString("notification", supportEvent.notification)
+                    putString("urlString", supportEvent.urlString)
+                    putString("imageUrlString", supportEvent.ogMetadata.OGImage)
+                }
+
                 displayingSupportIds.add(notificationId)
                 val supportPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXLinkFragment)
+                    .setArguments(linkArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(supportEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_link)
                     .setContentIntent(supportPendingIntent)
-                    .setGroup(PODX_SUPPORT_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -560,15 +595,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_support_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_link)
-                .setGroup(PODX_SUPPORT_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_SUPPORT_AGGREGATE_ID, aggregateSupportNotification)
-        } else {
-            if (SupportEventList.isEmpty()) {
-                notificationManager.cancel(PODX_SUPPORT_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateSupportNotification)
         }
     }
 
@@ -590,18 +621,22 @@ class EventNotificationService : Service() {
             val notificationId = textEvent.id % PODX_TEXT_NOTIFICATION_RANGE +
                 PODX_TEXT_NOTIFICATION_RANGE
             if (notificationId !in displayingTextIds) {
+                val textArgsBundle = Bundle().apply {
+                    putParcelable("podXTextEvent", textEvent)
+                }
+
                 displayingTextIds.add(notificationId)
                 val textPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXTextFragment)
+                    .setArguments(textArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(textEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_article)
                     .setContentIntent(textPendingIntent)
-                    .setGroup(PODX_TEXT_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -618,15 +653,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_text_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_article)
-                .setGroup(PODX_TEXT_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_TEXT_AGGREGATE_ID, aggregateTextNotification)
-        } else {
-            if (TextEventList.isEmpty()) {
-                notificationManager.cancel(PODX_TEXT_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateTextNotification)
         }
     }
 
@@ -648,18 +679,25 @@ class EventNotificationService : Service() {
             val notificationId = webEvent.id % PODX_WEB_NOTIFICATION_RANGE +
                 PODX_WEB_NOTIFICATION_RANGE
             if (notificationId !in displayingWebIds) {
+                val linkArgsBundle = Bundle().apply {
+                    putString("caption", webEvent.caption)
+                    putString("notification", webEvent.notification)
+                    putString("urlString", webEvent.urlString)
+                    putString("imageUrlString", webEvent.ogMetadata.OGImage)
+                }
+
                 displayingWebIds.add(notificationId)
                 val webPendingIntent = NavDeepLinkBuilder(this)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXLinkFragment)
+                    .setArguments(linkArgsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)
                     .setContentText(webEvent.notification)
                     .setSmallIcon(R.drawable.ic_icons_social)
                     .setContentIntent(webPendingIntent)
-                    .setGroup(PODX_WEB_GROUP_KEY)
+                    .setGroup(PODX_EVENT_GROUP_KEY)
                     .build()
 
                 notificationManager.notify(notificationId, notification)
@@ -676,15 +714,11 @@ class EventNotificationService : Service() {
                 .setContentTitle(getString(R.string.notification_web_title))
                 .setContentText(contentString)
                 .setSmallIcon(R.drawable.ic_icons_social)
-                .setGroup(PODX_WEB_GROUP_KEY)
+                .setGroup(PODX_EVENT_GROUP_KEY)
                 .setGroupSummary(true)
                 .build()
 
-            notificationManager.notify(PODX_WEB_AGGREGATE_ID, aggregateWebNotification)
-        } else {
-            if (WebEventList.isEmpty()) {
-                notificationManager.cancel(PODX_WEB_AGGREGATE_ID)
-            }
+            notificationManager.notify(PODX_EVENT_AGGREGATE_ID, aggregateWebNotification)
         }
     }
 
@@ -707,36 +741,18 @@ class EventNotificationService : Service() {
     }
 
     companion object {
-        const val PODX_EVENT_CHANNEL = "com.guardian.podx.events.PODX_EVENTS"
-        const val PODX_IMAGE_GROUP_KEY = "com.guardian.podx.events.PODX_IMAGE"
+        const val PODX_EVENT_CHANNEL = "com.guardian.podx.events.PODX_EVENTS_CHANNEL"
+        const val PODX_EVENT_GROUP_KEY = "com.guardian.podx.events.PODX_EVENTS_KEY"
+        const val PODX_EVENT_AGGREGATE_ID = 0x10000
         const val PODX_IMAGE_NOTIFICATION_RANGE = 0x10000
-        const val PODX_IMAGE_AGGREGATE_ID = 0x1000
-        const val PODX_CALL_PROMPT_GROUP_KEY = "com.guardian.podx.events.PODX_CALL_PROMPT"
         const val PODX_CALL_PROMPT_NOTIFICATION_RANGE = 0x20000
-        const val PODX_CALL_PROMPT_AGGREGATE_ID = 0x2000
-        const val PODX_FEED_BACK_GROUP_KEY = "com.guardian.podx.events.PODX_FEED_BACK"
         const val PODX_FEED_BACK_NOTIFICATION_RANGE = 0x30000
-        const val PODX_FEED_BACK_AGGREGATE_ID = 0x3000
-        const val PODX_FEED_LINK_GROUP_KEY = "com.guardian.podx.events.PODX_FEED_LINK"
         const val PODX_FEED_LINK_NOTIFICATION_RANGE = 0x40000
-        const val PODX_FEED_LINK_AGGREGATE_ID = 0x4000
-        const val PODX_NEWS_LETTER_SIGN_UP_GROUP_KEY = "com.guardian.podx.events.PODX_NEWS_LETTER_SIGN_UP"
         const val PODX_NEWS_LETTER_SIGN_UP_NOTIFICATION_RANGE = 0x50000
-        const val PODX_NEWS_LETTER_SIGN_UP_AGGREGATE_ID = 0x5000
-        const val PODX_POLL_GROUP_KEY = "com.guardian.podx.events.PODX_POLL"
         const val PODX_POLL_NOTIFICATION_RANGE = 0x60000
-        const val PODX_POLL_AGGREGATE_ID = 0x6000
-        const val PODX_SOCIAL_PROMPT_GROUP_KEY = "com.guardian.podx.events.PODX_SOCIAL_PROMPT"
         const val PODX_SOCIAL_PROMPT_NOTIFICATION_RANGE = 0x70000
-        const val PODX_SOCIAL_PROMPT_AGGREGATE_ID = 0x7000
-        const val PODX_SUPPORT_GROUP_KEY = "com.guardian.podx.events.PODX_SUPPORT"
         const val PODX_SUPPORT_NOTIFICATION_RANGE = 0x80000
-        const val PODX_SUPPORT_AGGREGATE_ID = 0x8000
-        const val PODX_TEXT_GROUP_KEY = "com.guardian.podx.events.PODX_TEXT"
         const val PODX_TEXT_NOTIFICATION_RANGE = 0x90000
-        const val PODX_TEXT_AGGREGATE_ID = 0x9000
-        const val PODX_WEB_GROUP_KEY = "com.guardian.podx.events.PODX_WEB"
         const val PODX_WEB_NOTIFICATION_RANGE = 0xA0000
-        const val PODX_WEB_AGGREGATE_ID = 0xA000
     }
 }

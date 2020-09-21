@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="duration"
+            type="String" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -10,6 +16,41 @@
         android:visibility="visible"
         android:background="@color/primaryLightColor">
 
+        <SeekBar
+            android:id="@+id/seekbar_collapsed_player_light_position"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:maxLines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/textview_collapsed_player_light_current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seekbar_collapsed_player_light_position"
+            android:text="0:00"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/textview_collapsed_player_light_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seekbar_collapsed_player_light_position"
+            android:text="@{duration}"
+            android:textSize="14sp"/>
+
+
 
         <ImageButton
             android:id="@+id/imagebutton_collapsed_player_light_seekbackwards"
@@ -19,8 +60,8 @@
             android:scaleType="fitXY"
             android:src="@drawable/baseline_replay_10_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imagebutton_collapsed_player_light_playpause"
+            app:layout_constraintBottom_toBottomOf="@id/imagebutton_collapsed_player_light_playpause"
             app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_light_playpause"/>
 
         <ImageButton
@@ -32,7 +73,7 @@
             android:tint="@color/highlightColor"
             app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_light_seekbackwards"
             app:layout_constraintEnd_toStartOf="@id/imagebutton_collapsed_player_light_seekforwards"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_collapsed_player_light_total_time"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageButton
@@ -44,8 +85,8 @@
             android:src="@drawable/baseline_forward_30_24"
             app:layout_constraintStart_toEndOf="@id/imagebutton_collapsed_player_light_playpause"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/imagebutton_collapsed_player_light_playpause"
+            app:layout_constraintBottom_toBottomOf="@id/imagebutton_collapsed_player_light_playpause"/>
 
         <FrameLayout
             android:layout_width="match_parent"
