@@ -9,17 +9,25 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutPodxlinkfragmentBinding
 import com.guardian.podx.utils.lifecycleAwareVar
+import javax.inject.Inject
 
-class PodXLinkFragment :
+class PodXLinkFragment
+@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
     Fragment() {
 
     private var binding: LayoutPodxlinkfragmentBinding by lifecycleAwareVar()
 
     private val podXLinkArgs: PodXLinkFragmentArgs by navArgs()
+
+    private val podXLinkViewModel: PodXLinkViewModel by viewModels {
+        viewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +57,10 @@ class PodXLinkFragment :
                 val intent = Intent(Intent.ACTION_VIEW, webPage)
                 startActivity(intent)
             }
+        }
+
+        binding.buttonPodxlinkSkipToTimestamp.setOnClickListener {
+            podXLinkViewModel.skipToTimestamp(podXLinkArgs.timeStart)
         }
 
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxlink)

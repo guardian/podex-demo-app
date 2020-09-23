@@ -53,14 +53,13 @@ class PlayerFragment
             false
         )
 
-        setupMediaInfo()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupMediaInfo()
         setupPlayerControls()
         setupSeekBar()
         setupScrollEvent()
@@ -154,12 +153,12 @@ class PlayerFragment
                         binding.viewPlaySubtitlePlaceholder.visibility = View.GONE
                         binding.title = mediaItem.title.toString()
                         binding.description = mediaItem.description.description.toString()
+
+                        if (mediaItem.albumArtUri != Uri.EMPTY) {
+                            binding.artUrlString = mediaItem.albumArtUri.toString()
+                        }
                     }
                     binding.duration = mediaItem.duration.toTimestampMSS(resources)
-
-                    if (mediaItem.albumArtUri != Uri.EMPTY) {
-                        binding.imageUrl = mediaItem.albumArtUri.toString()
-                    }
                 }
             )
 

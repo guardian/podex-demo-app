@@ -20,7 +20,7 @@
             type="String"/>
 
         <variable
-            name="imageUrl"
+            name="artUrlString"
             type="String" />
     </data>
     <ScrollView
@@ -54,7 +54,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@string/playerfragment_album_art_alt"
                     app:srcCompat="@color/placeholderGrey"
-                    imageUrl="imageUrl"/>
+                    imageUrl="@{artUrlString}"/>
 
                 <View
                     android:id="@+id/view_play_title_placeholder"

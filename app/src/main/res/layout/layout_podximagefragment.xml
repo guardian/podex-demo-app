@@ -64,7 +64,9 @@
                         android:id="@+id/imageview_podximage"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_margin="@dimen/podx_image_margin"
+                        android:layout_marginStart="@dimen/podx_image_margin"
+                        android:layout_marginEnd="@dimen/podx_image_margin"
+                        android:layout_marginTop="@dimen/text_margin"
                         imageUrl="@{podxImage.urlString}"
                         app:layout_constrainedHeight="true"
                         app:layout_constraintHeight_percent="0.60"
@@ -76,12 +78,26 @@
                         android:id="@+id/textview_podximage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/podx_image_margin"
+                        android:layout_marginStart="@dimen/podx_image_margin"
+                        android:layout_marginEnd="@dimen/podx_image_margin"
+                        android:layout_marginTop="@dimen/text_margin"
                         android:textAppearance="@style/PodXTextAppearanceDark"
                         android:text="@{podxImage.caption}"
                         app:layout_constraintTop_toBottomOf="@id/imageview_podximage"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_podximage_skip_to_timestamp"
+                        android:layout_marginEnd="@dimen/podx_image_margin"
+                        android:layout_marginTop="@dimen/text_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textview_podximage"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:text="@string/event_list_skip_to"
+                        android:visibility="visible"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

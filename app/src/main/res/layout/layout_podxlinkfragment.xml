@@ -70,7 +70,9 @@
                     android:id="@+id/imageview_podxlink_preview"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/podx_image_margin"
+                    android:layout_marginStart="@dimen/podx_image_margin"
+                    android:layout_marginEnd="@dimen/podx_image_margin"
+                    android:layout_marginTop="@dimen/text_margin"
                     app:layout_constraintTop_toBottomOf="@id/imageview_podxlink_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -85,12 +87,15 @@
                     android:id="@+id/textview_podxlink"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/podx_image_margin"
+                    android:layout_marginStart="@dimen/podx_image_margin"
+                    android:layout_marginEnd="@dimen/podx_image_margin"
+                    android:layout_marginTop="@dimen/text_margin"
                     android:textAppearance="@style/PodXTextAppearanceDark"
                     android:text="@{caption}"
                     app:layout_constraintTop_toBottomOf="@id/imageview_podxlink_preview"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -101,9 +106,20 @@
             android:layout_marginBottom="@dimen/podx_link_button_margin"
             app:layout_constraintBottom_toTopOf="@id/fragment_podx_image_collapsed_player_container"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_podxlink_skip_to_timestamp"
             android:text="@string/podxlink_navigate"
             />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_podxlink_skip_to_timestamp"
+            android:layout_marginBottom="@dimen/podx_link_button_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/fragment_podx_image_collapsed_player_container"
+            app:layout_constraintStart_toEndOf="@id/button_podxlink_navigate"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/event_list_skip_to"
+            android:visibility="visible"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_podx_image_collapsed_player_container"

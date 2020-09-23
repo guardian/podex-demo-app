@@ -90,6 +90,16 @@
             app:argType="string"
             android:defaultValue=""
             />
+
+        <argument
+            android:name="timeStart"
+            app:argType="long"
+            android:defaultValue="0L"/>
+
+        <argument
+            android:name="timeEnd"
+            app:argType="long"
+            android:defaultValue="0L"/>
     </fragment>
 
     <action

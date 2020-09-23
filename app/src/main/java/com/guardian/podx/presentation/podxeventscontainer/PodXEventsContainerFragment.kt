@@ -105,20 +105,6 @@ class PodXEventsContainerFragment
                         }
                     }
 
-                // podXEventsContainerViewModel
-                //     .podXEventsContainerUiModel
-                //     .podXFeedLinkEventsListLiveData
-                //     .observe(viewLifecycleOwner) { eventList ->
-                //         if (eventList.isNotEmpty()) {
-                //             eventList.forEach {
-                //                 if (!lastList.contains(it.getThumbnailId())) {
-                //                     lastList.add(it.getThumbnailId())
-                //                     na
-                //                 }
-                //             }
-                //         }
-                //     }
-
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXImageEventsListLiveData
@@ -576,6 +562,8 @@ class PodXEventsContainerFragment
                 putString("caption", podXSupportEvent.caption)
                 putString("urlString", podXSupportEvent.urlString)
                 putString("imageUrlString", podXSupportEvent.ogMetadata.OGImage)
+                putLong("timeStart", podXSupportEvent.timeStart)
+                putLong("timeEnd", podXSupportEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_link)
             }
 
@@ -590,6 +578,8 @@ class PodXEventsContainerFragment
                 putString("caption", podXWebEvent.caption)
                 putString("urlString", podXWebEvent.urlString)
                 putString("imageUrlString", podXWebEvent.ogMetadata.OGImage)
+                putLong("timeStart", podXWebEvent.timeStart)
+                putLong("timeEnd", podXWebEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_link)
             }
 
@@ -604,6 +594,8 @@ class PodXEventsContainerFragment
                 putString("caption", podXFeedBackEvent.caption)
                 putString("urlString", podXFeedBackEvent.urlString)
                 putString("imageUrlString", podXFeedBackEvent.ogMetadata.OGImage)
+                putLong("timeStart", podXFeedBackEvent.timeStart)
+                putLong("timeEnd", podXFeedBackEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_feedback)
             }
 
@@ -618,6 +610,8 @@ class PodXEventsContainerFragment
                 putString("caption", podXNewsLetterSignUpEvent.caption)
                 putString("urlString", podXNewsLetterSignUpEvent.urlString)
                 putString("imageUrlString", podXNewsLetterSignUpEvent.ogMetadata.OGImage)
+                putLong("timeStart", podXNewsLetterSignUpEvent.timeStart)
+                putLong("timeEnd", podXNewsLetterSignUpEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_newsletter)
             }
 
@@ -632,6 +626,8 @@ class PodXEventsContainerFragment
                 putString("caption", podXPollEvent.caption)
                 putString("urlString", podXPollEvent.urlString)
                 putString("imageUrlString", podXPollEvent.ogMetadata.OGImage)
+                putLong("timeStart", podXPollEvent.timeStart)
+                putLong("timeEnd", podXPollEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_poll)
             }
 
@@ -646,6 +642,8 @@ class PodXEventsContainerFragment
                 putString("caption", podXSocialPromptEvent.caption)
                 putString("urlString", podXSocialPromptEvent.socialLinkUrlString)
                 putString("imageUrlString", podXSocialPromptEvent.ogMetadata.OGImage)
+                putLong("timeStart", podXSocialPromptEvent.timeStart)
+                putLong("timeEnd", podXSocialPromptEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_social)
             }
 
