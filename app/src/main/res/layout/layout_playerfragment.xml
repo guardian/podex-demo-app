@@ -18,6 +18,10 @@
         <variable
             name="duration"
             type="String"/>
+
+        <variable
+            name="imageUrl"
+            type="String" />
     </data>
     <ScrollView
         android:id="@+id/scrollview_player_root"
@@ -37,9 +41,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.fragment.app.FragmentContainerView
+                <ImageView
                     android:id="@+id/imageview_play_summary_image"
-                    android:name="com.guardian.podx.presentation.playersummaryimage.PlayerSummaryImageFragment"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintWidth_percent="0.7"
@@ -50,7 +53,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@string/playerfragment_album_art_alt"
-                    app:srcCompat="@color/placeholderGrey" />
+                    app:srcCompat="@color/placeholderGrey"
+                    imageUrl="imageUrl"/>
 
                 <View
                     android:id="@+id/view_play_title_placeholder"

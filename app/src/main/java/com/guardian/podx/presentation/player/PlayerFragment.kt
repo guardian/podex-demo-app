@@ -1,5 +1,6 @@
 package com.guardian.podx.presentation.player
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.navArgs
+import com.guardian.core.mediaplayer.extensions.albumArtUri
 import com.guardian.core.mediaplayer.extensions.duration
 import com.guardian.core.mediaplayer.extensions.title
 import com.guardian.podx.R
@@ -140,6 +142,7 @@ class PlayerFragment
     }
 
     private fun setupMediaInfo() {
+
         playerViewModel
             .playerUiModel
             .mediaMetadataLiveData
@@ -153,6 +156,10 @@ class PlayerFragment
                         binding.description = mediaItem.description.description.toString()
                     }
                     binding.duration = mediaItem.duration.toTimestampMSS(resources)
+
+                    if (mediaItem.albumArtUri != Uri.EMPTY) {
+                        binding.imageUrl = mediaItem.albumArtUri.toString()
+                    }
                 }
             )
 

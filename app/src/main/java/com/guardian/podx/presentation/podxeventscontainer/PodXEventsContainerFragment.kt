@@ -78,123 +78,145 @@ class PodXEventsContainerFragment
     private val lastList = mutableListOf<String>()
 
     private fun setNewEventBehaviour() {
-        val newEventMediator = MediatorLiveData<List<String>>().apply {
-            addSource(
-                podXEventsContainerViewModel
-                    .podXEventsContainerUiModel
-                    .podXCallPromptEventsListLiveData
-            ) { eventList ->
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXCallPromptEventsListLiveData
+            .observe(viewLifecycleOwner) { eventList ->
                 if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
+                    eventList.forEach {
+                        if (!lastList.contains(it.getThumbnailId())) {
+                            lastList.add(it.getThumbnailId())
+                            navigateToCall(it)
+                        }
+                    }
                 }
-            }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXFeedBackEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToFeedBackActivity(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
-                podXEventsContainerViewModel
-                    .podXEventsContainerUiModel
-                    .podXFeedLinkEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                // podXEventsContainerViewModel
+                //     .podXEventsContainerUiModel
+                //     .podXFeedLinkEventsListLiveData
+                //     .observe(viewLifecycleOwner) { eventList ->
+                //         if (eventList.isNotEmpty()) {
+                //             eventList.forEach {
+                //                 if (!lastList.contains(it.getThumbnailId())) {
+                //                     lastList.add(it.getThumbnailId())
+                //                     na
+                //                 }
+                //             }
+                //         }
+                //     }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXImageEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToImage(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXNewsLetterSignUpEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToNewsLetterSignUpActivity(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXPollEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToPollActivity(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXSocialPromptEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToSocialPromptActivity(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXSupportEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToSupportActivity(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXTextEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
-            }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToText(it)
+                                }
+                            }
+                        }
+                    }
 
-            addSource(
                 podXEventsContainerViewModel
                     .podXEventsContainerUiModel
                     .podXWebEventsListLiveData
-            ) { eventList ->
-                if (eventList.isNotEmpty()) {
-                    postValue(eventList.map { it.getThumbnailId() })
-                }
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToWebActivity(it)
+                                }
+                            }
+                        }
+                    }
             }
-        }
-        newEventMediator.observe(viewLifecycleOwner) { thumbnailIds ->
-            val newEventIds = thumbnailIds.filter { thumbnailId ->
-                !lastList.contains(thumbnailId)
-            }
-
-            val thumbnails = thumbnailMutableLiveData.value
-            if (newEventIds.isNotEmpty() && !thumbnails.isNullOrEmpty()) {
-                lastList.addAll(newEventIds)
-                val firstIndex = thumbnails.indexOfFirst { it.uniqueEventId == newEventIds.first() }
-                if (firstIndex >= 0) {
-                    binding.recyclerviewPodxeventscontainerEvents.scrollToPosition(firstIndex)
-
-                    thumbnails[firstIndex].expandSwitch.postValue(true)
-                }
-            }
-        }
     }
 
     private fun feedThumbnailLiveData() {
