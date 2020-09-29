@@ -26,7 +26,6 @@ import com.guardian.podx.utils.toTimestampMSS
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
-import timber.log.Timber
 import javax.inject.Inject
 
 class PlayerFragment
@@ -93,7 +92,6 @@ class PlayerFragment
             // delay the scroll
             lifecycle.coroutineScope.launch {
                 delay(600)
-                Timber.i("firing full scroll")
                 binding.scrollviewPlayerRoot.fullScroll(
                     ScrollView.FOCUS_DOWN
                 )

@@ -8,7 +8,6 @@ import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     lateinit var fragmentInjectionFactory: FragmentInjectionFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Timber.i("Creating main activity")
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         supportFragmentManager.fragmentFactory = fragmentInjectionFactory

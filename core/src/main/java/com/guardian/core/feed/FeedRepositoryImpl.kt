@@ -162,7 +162,6 @@ class FeedRepositoryImpl
                 currentFeedItem
             }.also { feedItems ->
                 feedItemRepository.addFeedItems(feedItems)
-                Timber.i("Caching feed items ${feedItems.size}")
             }
     }
 
@@ -214,7 +213,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXImageEvents(podXEventList)
-                Timber.i("Caching PodxImageEvents ${podXEventList.size}")
             }
         }
     }
@@ -245,7 +243,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXSupportEvents(podXEventList)
-                Timber.i("Caching PodxSupportEvents ${podXEventList.size}")
             }
         }
     }
@@ -266,7 +263,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXCallPromptEvents(podXEventList)
-                Timber.i("Caching PodxCallEvents ${podXEventList.size}")
             }
         }
     }
@@ -297,7 +293,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXFeedBackEvents(podXEventList)
-                Timber.i("Caching PodxFeedBackEvents ${podXEventList.size}")
             }
         }
     }
@@ -341,7 +336,6 @@ class FeedRepositoryImpl
                 .firstOrError()
                 .subscribe(
                     { cachedFeed ->
-                        Timber.i("adding cached feed link once")
                         addFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
                     },
                     { e: Throwable ->
@@ -410,7 +404,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXNewsLetterSignUpEvents(podXEventList)
-                Timber.i("Caching PodxNewsLetterSignUpEvents ${podXEventList.size}")
             }
         }
     }
@@ -442,7 +435,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXPollEvents(podXEventList)
-                Timber.i("Caching PodxPollEvents ${podXEventList.size}")
             }
         }
     }
@@ -475,7 +467,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXSocialPromptEvents(podXEventList)
-                Timber.i("Caching PodxWebEvents ${podXEventList.size}")
             }
         }
     }
@@ -496,7 +487,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXTextEvents(podXEventList)
-                Timber.i("Caching PodxPollEvents ${podXEventList.size}")
             }
         }
     }

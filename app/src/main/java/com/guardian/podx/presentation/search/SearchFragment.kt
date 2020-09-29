@@ -25,7 +25,6 @@ import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutSearchfragmentBinding
 import com.guardian.podx.presentation.common.hideKeyboard
 import com.guardian.podx.utils.lifecycleAwareVar
-import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -50,7 +49,6 @@ class SearchFragment
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.i("Creating Search View")
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.layout_searchfragment,
@@ -85,7 +83,6 @@ class SearchFragment
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_searchfragment, menu)
-        Timber.i("Inflating")
     }
 
     private var rootScene: Scene by lifecycleAwareVar()
@@ -151,7 +148,6 @@ class SearchFragment
                     Observer { results ->
                         binding.progressbarSearch.hide()
                         this.submitList(results)
-                        Timber.i("${this.itemCount} SearchResults added")
                     }
                 )
         }

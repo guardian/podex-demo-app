@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.guardian.podx.R
 import com.guardian.podx.databinding.ViewholderPodxeventadapterImageBinding
 import com.guardian.podx.presentation.common.DataBoundListAdapter
-import timber.log.Timber
 import java.util.concurrent.Executor
 
 class PodXEventListAdapter(
@@ -47,7 +46,6 @@ class PodXEventListAdapter(
         }
 
         item.expandSwitch.observeForever {
-            Timber.i("expand switcvh $it")
             holder.textviewPodxeventviewholderContractedNotification
                 .visibility = if (it) {
                 View.VISIBLE
@@ -67,7 +65,6 @@ class PodXEventListAdapter(
     (holder: ViewholderPodxeventadapterImageBinding, item: PodXEventThumbnailData) {
         // set up image expand binding
         if (item.imageSwitch) {
-            Timber.i("Image Switch for ${item.captionString}")
             if (holder.textviewPodxeventviewholderContractedNotification.visibility == View.VISIBLE) {
                 holder.imageviewPodxeventviewholderExpanded.visibility = View.VISIBLE
                 holder.imageviewPodxeventviewholderContracted.visibility = View.GONE

@@ -89,7 +89,6 @@ class FeedViewModel
         feedItemDisposable.add(
             feedItemRepository.getFeedItemsForFeed(feed)
                 .subscribe { feedItemList ->
-                    Timber.i("list from repo ${feedItemList.size}")
                     mutableFeedItemData.postValue(feedItemList)
                 }
         )

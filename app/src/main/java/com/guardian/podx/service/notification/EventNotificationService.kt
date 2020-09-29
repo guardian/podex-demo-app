@@ -26,7 +26,6 @@ import com.guardian.core.podxevent.PodXTextEvent
 import com.guardian.core.podxevent.PodXWebEvent
 import com.guardian.podx.R
 import dagger.android.AndroidInjection
-import timber.log.Timber
 import javax.inject.Inject
 
 class EventNotificationService : Service() {
@@ -61,7 +60,6 @@ class EventNotificationService : Service() {
 
         podXEventEmitter.podXImageEventLiveData
             .observeForever { imageEventList ->
-                Timber.i("getting event list")
                 displayImageEvents(imageEventList)
             }
 

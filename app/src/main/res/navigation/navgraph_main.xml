@@ -55,6 +55,9 @@
         <argument
             android:name="podXImageEvent"
             app:argType="com.guardian.core.podxevent.PodXImageEvent"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
     </fragment>
     <fragment
         android:id="@+id/podXTextFragment"
@@ -63,6 +66,9 @@
         <argument
             android:name="podXTextEvent"
             app:argType="com.guardian.core.podxevent.PodXTextEvent"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
     </fragment>
 
     <fragment
@@ -100,6 +106,9 @@
             android:name="timeEnd"
             app:argType="long"
             android:defaultValue="0L"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
     </fragment>
 
     <action

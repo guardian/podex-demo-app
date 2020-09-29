@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutPodxtextfragmentBinding
@@ -54,5 +55,17 @@ class PodXTextFragment
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxtext)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
+    }
+
+    private fun setupEventTimeout() {
+        val timeOut = podXTextEvent.podXTextEvent.timeEnd
+        podXTextViewModel
+            .podXTextUiModel
+            .playbackTimeLiveData
+            .observe(viewLifecycleOwner) { playbackTime ->
+                if (playbackTime > timeOut) {
+                    findNavController().navigateUp()
+                }
+            }
     }
 }

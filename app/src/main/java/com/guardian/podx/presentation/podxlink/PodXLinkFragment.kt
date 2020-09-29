@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutPodxlinkfragmentBinding
@@ -66,5 +67,21 @@ class PodXLinkFragment
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxlink)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
+
+        if (podXLinkArgs.newEventFlag) {
+            setupEventTimeout()
+        }
+    }
+
+    private fun setupEventTimeout() {
+        val timeOut = podXLinkArgs.timeEnd
+        podXLinkViewModel
+            .podXLinkUiModel
+            .playbackTimeLiveData
+            .observe(viewLifecycleOwner) { playbackTime ->
+                if (playbackTime > timeOut) {
+                    findNavController().navigateUp()
+                }
+            }
     }
 }

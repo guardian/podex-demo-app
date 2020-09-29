@@ -20,7 +20,6 @@ import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutFeedfragmentBinding
 import com.guardian.podx.service.notification.EventNotificationService
 import com.guardian.podx.utils.lifecycleAwareVar
-import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -145,7 +144,6 @@ class FeedFragment
             feedViewModel.uiModel.feedItemData.observe(
                 viewLifecycleOwner,
                 Observer { feedItemList ->
-                    Timber.i("returned items ${feedItemList.size}")
                     submitList(feedItemList)
                 }
             )

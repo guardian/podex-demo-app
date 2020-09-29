@@ -382,9 +382,10 @@ class PodXEventEmitterImpl
         currentFeedItemDisposable.clear()
         val playbackState = mediaSessionConnection.playbackState.value
         if (playbackState != null && playbackState.isPlaying) {
-            updateEmittedEvents(getPlaybackPositionFromState(playbackState))
+            val currentTimeMillis = getPlaybackPositionFromState(playbackState)
+            updateEmittedEvents(currentTimeMillis)
 
-            val nextEventTime = getNextEventTime(getPlaybackPositionFromState(playbackState))
+            val nextEventTime = getNextEventTime(currentTimeMillis)
             val nextEventObservable = Observable.fromCallable {
                 mediaSessionConnection.playbackState.value.let { playbackState ->
                     if (playbackState != null) {
@@ -394,7 +395,7 @@ class PodXEventEmitterImpl
                     }
                 }
             }.delaySubscription(
-                nextEventTime, TimeUnit.MILLISECONDS
+                nextEventTime - currentTimeMillis, TimeUnit.MILLISECONDS
             )
 
             currentFeedItemDisposable.add(
@@ -437,9 +438,11 @@ class PodXEventEmitterImpl
             }
             ).filter {
             eventTime ->
-            eventTime > currentTimeMillis
-        }.min() ?: Long.MAX_VALUE - currentTimeMillis
+            eventTime >= currentTimeMillis
+        }.minOrNull() ?: Long.MAX_VALUE - currentTimeMillis
 
+        Timber.i("next event timer ${max(minEvent, 250L)}")
+        Timber.i("next event timer current $currentTimeMillis")
         return max(minEvent, 250L)
     }
 
@@ -449,11 +452,13 @@ class PodXEventEmitterImpl
                 pendingImageEvent.timeStart <= timeMillis &&
                     pendingImageEvent.timeEnd >= timeMillis
             }
-
         // only post if there are new values
         if (currentImageEventList
             .size != (podXImageEventMutableLiveData.value)?.size ?: 0
         ) {
+            for (imageEvent in currentImageEventList) {
+                Timber.i("web event id ${imageEvent.id}")
+            }
             podXImageEventMutableLiveData.postValue(currentImageEventList)
         }
 
@@ -465,6 +470,9 @@ class PodXEventEmitterImpl
         if (currentWebEventList
             .size != (podXWebEventMutableLiveData.value)?.size ?: 0
         ) {
+            for (webEvent in currentWebEventList) {
+                Timber.i("web event id ${webEvent.id}")
+            }
             podXWebEventMutableLiveData.postValue(currentWebEventList)
         }
 

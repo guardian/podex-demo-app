@@ -78,6 +78,88 @@ class PodXEventsContainerFragment
     private val lastList = mutableListOf<String>()
 
     private fun setNewEventBehaviour() {
+        lastList.apply {
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXImageEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXCallPromptEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedBackEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedLinkEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXNewsLetterSignUpEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXPollEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSocialPromptEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSupportEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXTextEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXWebEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+        }
+
         podXEventsContainerViewModel
             .podXEventsContainerUiModel
             .podXCallPromptEventsListLiveData
@@ -86,7 +168,7 @@ class PodXEventsContainerFragment
                     eventList.forEach {
                         if (!lastList.contains(it.getThumbnailId())) {
                             lastList.add(it.getThumbnailId())
-                            navigateToCall(it)
+                            navigateToCall(it, true)
                         }
                     }
                 }
@@ -99,7 +181,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToFeedBackActivity(it)
+                                    navigateToFeedBackActivity(it, true)
                                 }
                             }
                         }
@@ -113,7 +195,8 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToImage(it)
+                                    Timber.i("navigate to id ${it.getThumbnailId()}")
+                                    navigateToImage(it, true)
                                 }
                             }
                         }
@@ -127,7 +210,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToNewsLetterSignUpActivity(it)
+                                    navigateToNewsLetterSignUpActivity(it, true)
                                 }
                             }
                         }
@@ -141,7 +224,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToPollActivity(it)
+                                    navigateToPollActivity(it, true)
                                 }
                             }
                         }
@@ -155,7 +238,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToSocialPromptActivity(it)
+                                    navigateToSocialPromptActivity(it, true)
                                 }
                             }
                         }
@@ -169,7 +252,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToSupportActivity(it)
+                                    navigateToSupportActivity(it, true)
                                 }
                             }
                         }
@@ -183,7 +266,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToText(it)
+                                    navigateToText(it, true)
                                 }
                             }
                         }
@@ -197,7 +280,7 @@ class PodXEventsContainerFragment
                             eventList.forEach {
                                 if (!lastList.contains(it.getThumbnailId())) {
                                     lastList.add(it.getThumbnailId())
-                                    navigateToWebActivity(it)
+                                    navigateToWebActivity(it, true)
                                 }
                             }
                         }
@@ -216,7 +299,7 @@ class PodXEventsContainerFragment
                     imageList.map { image ->
                         image.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToImage(image)
+                                navigateToImage(image, false)
                             },
                             resources = resources,
                             theme = theme
@@ -237,7 +320,7 @@ class PodXEventsContainerFragment
                     webList.map { web ->
                         web.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToWebActivity(web)
+                                navigateToWebActivity(web, false)
                             },
                             resources = resources,
                             theme = theme
@@ -258,7 +341,7 @@ class PodXEventsContainerFragment
                     supportEvent.map { support ->
                         support.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToSupportActivity(support)
+                                navigateToSupportActivity(support, false)
                             },
                             resources = resources,
                             theme = theme
@@ -279,7 +362,7 @@ class PodXEventsContainerFragment
                     textEvent.map { text ->
                         text.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToText(text)
+                                navigateToText(text, false)
                             },
                             resources = resources,
                             theme = theme
@@ -300,7 +383,7 @@ class PodXEventsContainerFragment
                     callPromptEvent.map { callPrompt ->
                         callPrompt.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToCall(callPrompt)
+                                navigateToCall(callPrompt, false)
                             },
                             resources = resources,
                             theme = theme
@@ -321,7 +404,7 @@ class PodXEventsContainerFragment
                     feedBackEvent.map { feedBack ->
                         feedBack.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToFeedBackActivity(feedBack)
+                                navigateToFeedBackActivity(feedBack, false)
                             },
                             resources = resources,
                             theme = theme
@@ -345,7 +428,6 @@ class PodXEventsContainerFragment
                                 podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
                                     .subscribe(
                                         { feedItemFromLink ->
-                                            Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
                                             navigateToFeedItem(feedItemFromLink)
                                         },
                                         { e -> Timber.e(e) }
@@ -370,7 +452,7 @@ class PodXEventsContainerFragment
                     newsLetterSignUpEvent.map { newsLetterSignUp ->
                         newsLetterSignUp.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToNewsLetterSignUpActivity(newsLetterSignUp)
+                                navigateToNewsLetterSignUpActivity(newsLetterSignUp, false)
                             },
                             resources = resources,
                             theme = theme
@@ -391,7 +473,7 @@ class PodXEventsContainerFragment
                     pollEvent.map { poll ->
                         poll.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToPollActivity(poll)
+                                navigateToPollActivity(poll, false)
                             },
                             resources = resources,
                             theme = theme
@@ -412,7 +494,7 @@ class PodXEventsContainerFragment
                     socialPromptEvent.map { socialPrompt ->
                         socialPrompt.toPodXEventThumbnail(
                             onClickListener = {
-                                navigateToSocialPromptActivity(socialPrompt)
+                                navigateToSocialPromptActivity(socialPrompt, false)
                             },
                             resources = resources,
                             theme = theme
@@ -531,7 +613,6 @@ class PodXEventsContainerFragment
     }
 
     private fun navigateToFeedItem(feedItemFromLink: FeedItem?) {
-        Timber.i("got to navigate function with ${feedItemFromLink?.feedItemAudioUrl}")
         if (feedItemFromLink != null) {
             podXEventsContainerViewModel.prepareFeedItemForPlayback(feedItemFromLink)
 
@@ -552,10 +633,12 @@ class PodXEventsContainerFragment
             }
         }
 
+        aggregateThumbnails.sortBy { it.timeStart }
+
         return aggregateThumbnails
     }
 
-    private fun navigateToSupportActivity(podXSupportEvent: PodXSupportEvent) {
+    private fun navigateToSupportActivity(podXSupportEvent: PodXSupportEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putString("notification", podXSupportEvent.notification)
@@ -565,13 +648,14 @@ class PodXEventsContainerFragment
                 putLong("timeStart", podXSupportEvent.timeStart)
                 putLong("timeEnd", podXSupportEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_link)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToWebActivity(podXWebEvent: PodXWebEvent) {
+    private fun navigateToWebActivity(podXWebEvent: PodXWebEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putString("notification", podXWebEvent.notification)
@@ -581,13 +665,14 @@ class PodXEventsContainerFragment
                 putLong("timeStart", podXWebEvent.timeStart)
                 putLong("timeEnd", podXWebEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_link)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToFeedBackActivity(podXFeedBackEvent: PodXFeedBackEvent) {
+    private fun navigateToFeedBackActivity(podXFeedBackEvent: PodXFeedBackEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putString("notification", podXFeedBackEvent.notification)
@@ -597,13 +682,14 @@ class PodXEventsContainerFragment
                 putLong("timeStart", podXFeedBackEvent.timeStart)
                 putLong("timeEnd", podXFeedBackEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_feedback)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToNewsLetterSignUpActivity(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
+    private fun navigateToNewsLetterSignUpActivity(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putString("notification", podXNewsLetterSignUpEvent.notification)
@@ -613,13 +699,14 @@ class PodXEventsContainerFragment
                 putLong("timeStart", podXNewsLetterSignUpEvent.timeStart)
                 putLong("timeEnd", podXNewsLetterSignUpEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_newsletter)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToPollActivity(podXPollEvent: PodXPollEvent) {
+    private fun navigateToPollActivity(podXPollEvent: PodXPollEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putString("notification", podXPollEvent.notification)
@@ -629,13 +716,14 @@ class PodXEventsContainerFragment
                 putLong("timeStart", podXPollEvent.timeStart)
                 putLong("timeEnd", podXPollEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_poll)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToSocialPromptActivity(podXSocialPromptEvent: PodXSocialPromptEvent) {
+    private fun navigateToSocialPromptActivity(podXSocialPromptEvent: PodXSocialPromptEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putString("notification", podXSocialPromptEvent.notification)
@@ -645,38 +733,44 @@ class PodXEventsContainerFragment
                 putLong("timeStart", podXSocialPromptEvent.timeStart)
                 putLong("timeEnd", podXSocialPromptEvent.timeEnd)
                 putInt("icon", R.drawable.ic_icons_social)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToImage(podXImageEvent: PodXImageEvent) {
+    private fun navigateToImage(podXImageEvent: PodXImageEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putParcelable("podXImageEvent", podXImageEvent)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXImageFragment, argsBundle)
     }
 
-    private fun navigateToText(podXTextEvent: PodXTextEvent) {
+    private fun navigateToText(podXTextEvent: PodXTextEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putParcelable("podXTextEvent", podXTextEvent)
+                putBoolean("newEventFlag", newEvent)
             }
 
         findNavController()
             .navigate(R.id.action_global_podXTextFragment, argsBundle)
     }
 
-    private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent) {
-        val fragmentManager = activity?.supportFragmentManager
-        if (fragmentManager != null) {
-            PodXCallDialogFragment(podXCallPromptEvent.phoneNumber)
-                .show(fragmentManager, PHONE_POPUP_TAG)
-        }
+    private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent, newEvent: Boolean) {
+        // val argsBundle = Bundle()
+        //     .apply {
+        //         putParcelable("podXCallEvent", podXCallPromptEvent)
+        //         putBoolean("newEventFlag", newEvent)
+        //     }
+        //
+        // findNavController()
+        //     .navigate(R.id.action_global_podXCallPromptFragment, argsBundle)
     }
 
     private fun setupRecyclerView() {
