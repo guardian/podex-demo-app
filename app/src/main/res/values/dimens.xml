@@ -22,4 +22,5 @@
     <dimen name="placeholder_padding">4dp</dimen>
     <dimen name="podx_link_button_margin">16dp</dimen>
     <dimen name="player_image_margin">8dp</dimen>
+    <dimen name="podxcall_preview_number">26dp</dimen>
 </resources>

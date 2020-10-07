@@ -203,10 +203,16 @@ class EventNotificationService : Service() {
                 PODX_CALL_PROMPT_NOTIFICATION_RANGE
             if (notificationId !in displayingCallPromptIds) {
                 displayingCallPromptIds.add(notificationId)
+                val argsBundle = Bundle()
+                    .apply {
+                        putParcelable("podXCallPromptEvent", callPromptEvent)
+                    }
+
                 val callPromptPendingIntent = NavDeepLinkBuilder(this)
+                    .setArguments(argsBundle)
                     .setGraph(R.navigation.navgraph_main)
-                    .setDestination(R.id.playerFragment)
-                    .setArguments(defaultArgsBundle)
+                    .setDestination(R.id.podXCallFragment)
+                    .setArguments(argsBundle)
                     .createPendingIntent()
 
                 val notification = NotificationCompat.Builder(this, PODX_EVENT_CHANNEL)

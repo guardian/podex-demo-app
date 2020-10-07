@@ -8,6 +8,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion "29.0.2"
 
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
     buildTypes {
         release {
             minifyEnabled false

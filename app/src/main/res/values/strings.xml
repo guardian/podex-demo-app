@@ -50,4 +50,6 @@
     <string name="notification_web_title">Link</string>
     <string name="podxlink_navigate">Visit Webpage</string>
     <string name="event_list_skip_to">skip to</string>
+    <string name="podxcall_dial">Dial Number</string>
+    <string name="podxcall_preview_static">Phone No:</string>
 </resources>

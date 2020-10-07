@@ -763,14 +763,14 @@ class PodXEventsContainerFragment
     }
 
     private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent, newEvent: Boolean) {
-        // val argsBundle = Bundle()
-        //     .apply {
-        //         putParcelable("podXCallEvent", podXCallPromptEvent)
-        //         putBoolean("newEventFlag", newEvent)
-        //     }
-        //
-        // findNavController()
-        //     .navigate(R.id.action_global_podXCallPromptFragment, argsBundle)
+        val argsBundle = Bundle()
+            .apply {
+                putParcelable("podXCallPromptEvent", podXCallPromptEvent)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXCallPromptFragment, argsBundle)
     }
 
     private fun setupRecyclerView() {
