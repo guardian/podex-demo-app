@@ -20,7 +20,7 @@ data class PodXPollEvent(
     val notification: String,
     val feedItemUrlString: String,
     @Embedded
-    var ogMetadata: OGMetadata,
+    var metadata: Metadata,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 ) : Parcelable

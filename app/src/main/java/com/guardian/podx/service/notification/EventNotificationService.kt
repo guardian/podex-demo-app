@@ -266,7 +266,7 @@ class EventNotificationService : Service() {
                     putString("caption", feedBackEvent.caption)
                     putString("notification", feedBackEvent.notification)
                     putString("urlString", feedBackEvent.urlString)
-                    putString("imageUrlString", feedBackEvent.ogMetadata.OGImage)
+                    putString("imageUrlString", feedBackEvent.metadata.OGImage)
                 }
 
                 displayingFeedBackIds.add(notificationId)
@@ -381,7 +381,7 @@ class EventNotificationService : Service() {
                     putString("caption", newsLetterSignUpEvent.caption)
                     putString("notification", newsLetterSignUpEvent.notification)
                     putString("urlString", newsLetterSignUpEvent.urlString)
-                    putString("imageUrlString", newsLetterSignUpEvent.ogMetadata.OGImage)
+                    putString("imageUrlString", newsLetterSignUpEvent.metadata.OGImage)
                 }
 
                 displayingNewsLetterSignUpIds.add(notificationId)
@@ -446,7 +446,7 @@ class EventNotificationService : Service() {
                     putString("caption", pollEvent.caption)
                     putString("notification", pollEvent.notification)
                     putString("urlString", pollEvent.urlString)
-                    putString("imageUrlString", pollEvent.ogMetadata.OGImage)
+                    putString("imageUrlString", pollEvent.metadata.OGImage)
                 }
 
                 displayingPollIds.add(notificationId)
@@ -507,7 +507,7 @@ class EventNotificationService : Service() {
                     putString("caption", socialPromptEvent.caption)
                     putString("notification", socialPromptEvent.notification)
                     putString("urlString", socialPromptEvent.socialLinkUrlString)
-                    putString("imageUrlString", socialPromptEvent.ogMetadata.OGImage)
+                    putString("imageUrlString", socialPromptEvent.metadata.OGImage)
                 }
 
                 displayingSocialPromptIds.add(notificationId)
@@ -568,7 +568,7 @@ class EventNotificationService : Service() {
                     putString("caption", supportEvent.caption)
                     putString("notification", supportEvent.notification)
                     putString("urlString", supportEvent.urlString)
-                    putString("imageUrlString", supportEvent.ogMetadata.OGImage)
+                    putString("imageUrlString", supportEvent.metadata.OGImage)
                 }
 
                 displayingSupportIds.add(notificationId)
@@ -687,7 +687,7 @@ class EventNotificationService : Service() {
                     putString("caption", webEvent.caption)
                     putString("notification", webEvent.notification)
                     putString("urlString", webEvent.urlString)
-                    putString("imageUrlString", webEvent.ogMetadata.OGImage)
+                    putString("imageUrlString", webEvent.metadata.OGImage)
                 }
 
                 displayingWebIds.add(notificationId)

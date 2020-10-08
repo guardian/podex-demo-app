@@ -38,7 +38,7 @@ fun PodXWebEvent.toPodXEventThumbnail(
 ):
     PodXEventThumbnailData {
         return PodXEventThumbnailData(
-            imageUrlString = this.ogMetadata.OGImage,
+            imageUrlString = this.metadata.OGImage,
             captionString = this.caption,
             notificationString = this.notification,
             timeStart = this.timeStart,
@@ -84,7 +84,7 @@ fun PodXSupportEvent.toPodXEventThumbnail(
 ):
     PodXEventThumbnailData =
         PodXEventThumbnailData(
-            imageUrlString = this.ogMetadata.OGImage,
+            imageUrlString = this.metadata.OGImage,
             captionString = this.caption,
             notificationString = this.notification,
             timeStart = this.timeStart,
@@ -124,7 +124,7 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(
 ):
     PodXEventThumbnailData =
         PodXEventThumbnailData(
-            imageUrlString = this.ogMetadata.OGImage,
+            imageUrlString = this.metadata.OGImage,
             captionString = this.caption,
             notificationString = this.notification,
             timeStart = this.timeStart,
@@ -162,7 +162,7 @@ fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(
     theme: Resources.Theme
 ):
     PodXEventThumbnailData = PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
+        imageUrlString = this.metadata.OGImage,
         captionString = this.caption,
         notificationString = this.notification,
         timeStart = this.timeStart,
@@ -181,7 +181,7 @@ fun PodXPollEvent.toPodXEventThumbnail(
     theme: Resources.Theme
 ):
     PodXEventThumbnailData = PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
+        imageUrlString = this.metadata.OGImage,
         captionString = this.caption,
         notificationString = this.notification,
         timeStart = this.timeStart,
@@ -200,7 +200,7 @@ fun PodXSocialPromptEvent.toPodXEventThumbnail(
     theme: Resources.Theme
 ):
     PodXEventThumbnailData = PodXEventThumbnailData(
-        imageUrlString = this.ogMetadata.OGImage,
+        imageUrlString = this.metadata.OGImage,
         captionString = this.caption,
         notificationString = this.notification,
         timeStart = this.timeStart,

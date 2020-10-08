@@ -22,5 +22,5 @@ data class PodXSupportEvent(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     @Embedded
-    var ogMetadata: OGMetadata
+    var metadata: Metadata
 ) : Parcelable

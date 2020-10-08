@@ -46,10 +46,10 @@ class PodXCallFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.podXCallPromptEvent = podXCallFragmentArgs.podxCallPromptEvent
+        binding.podXCallPromptEvent = podXCallFragmentArgs.podXCallPromptEvent
 
         binding.buttonPodxcallSkipToTimestamp.setOnClickListener {
-            podXCallViewModel.skipToTimestamp(podXCallFragmentArgs.podxCallPromptEvent.timeStart)
+            podXCallViewModel.skipToTimestamp(podXCallFragmentArgs.podXCallPromptEvent.timeStart)
         }
 
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxcall)
@@ -62,7 +62,7 @@ class PodXCallFragment
     }
 
     private fun setupEventTimeout() {
-        val timeOut = podXCallFragmentArgs.podxCallPromptEvent.timeEnd
+        val timeOut = podXCallFragmentArgs.podXCallPromptEvent.timeEnd
         podXCallViewModel
             .podXCallUiModel
             .playbackTimeLiveData

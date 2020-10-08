@@ -52,4 +52,7 @@
     <string name="event_list_skip_to">skip to</string>
     <string name="podxcall_dial">Dial Number</string>
     <string name="podxcall_preview_static">Phone No:</string>
+    <string name="about_title">About PodX</string>
+    <string name="about_text">PodX is a rich podcast client that enables information to show on your phone as a podcast plays back.</string>
+    <string name="menu_about">About PodX</string>
 </resources>

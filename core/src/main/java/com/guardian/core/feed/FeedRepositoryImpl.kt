@@ -11,7 +11,7 @@ import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.library.BaseRepository
 import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
-import com.guardian.core.podxevent.OGMetadata
+import com.guardian.core.podxevent.Metadata
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXFeedBackEvent
@@ -65,8 +65,12 @@ class FeedRepositoryImpl
         // Fire and forget our update from the web for this feed, results will update the room repo
         // which will in turn propagate via subscription
         repositoryScope.launch {
-            generalFeedApi.getFeedDeSerializedXml(feedUrl).apply {
-                mapFeedObjectFromXmlFeedObjectAndCache(this, feedUrl)
+            try {
+                generalFeedApi.getFeedDeSerializedXml(feedUrl).apply {
+                    mapFeedObjectFromXmlFeedObjectAndCache(this, feedUrl)
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
             }
         }
 
@@ -172,11 +176,11 @@ class FeedRepositoryImpl
             // set a placeholder as we will scrape metadata afterwards
             val urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
-            } catch (exception: IllegalArgumentException) {
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
+            } catch (exception: Exception) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXWebEvent(
@@ -187,7 +191,7 @@ class FeedRepositoryImpl
                 caption = podXWebEventXmlDataObject.caption.trim(),
                 notification = podXWebEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -223,11 +227,11 @@ class FeedRepositoryImpl
         }.map { podXSupportEventXmlDataObject ->
             val urlString = podXSupportEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXSupportEvent(
@@ -238,7 +242,7 @@ class FeedRepositoryImpl
                 caption = podXSupportEventXmlDataObject.caption.trim(),
                 notification = podXSupportEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -273,11 +277,11 @@ class FeedRepositoryImpl
         }.map { podXFeedBackEventXmlDataObject ->
             val urlString = podXFeedBackEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXFeedBackEvent(
@@ -288,7 +292,7 @@ class FeedRepositoryImpl
                 notification = podXFeedBackEventXmlDataObject.notification.trim(),
                 urlString = podXFeedBackEventXmlDataObject.attributes["url"]?.value ?: "",
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -384,11 +388,11 @@ class FeedRepositoryImpl
             // set a placeholder as we will scrape metadata afterwards
             val urlString = podXNewsLetterSignUpEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXNewsLetterSignUpEvent(
@@ -399,7 +403,7 @@ class FeedRepositoryImpl
                 caption = podXNewsLetterSignUpEventXmlDataObject.caption.trim(),
                 notification = podXNewsLetterSignUpEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -415,11 +419,11 @@ class FeedRepositoryImpl
             // set a placeholder as we will scrape metadata afterwards
             val urlString = podXPollEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXPollEvent(
@@ -430,7 +434,7 @@ class FeedRepositoryImpl
                 caption = podXPollEventXmlDataObject.caption.trim(),
                 notification = podXPollEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -446,11 +450,11 @@ class FeedRepositoryImpl
             podXSocialLinkXmlDataObject.socialLink.map {
                 val urlString = it.attributes["url"]?.value ?: ""
                 val placeholderMetadata = try {
-                    OGMetadata
-                        .extractOGMetadataFromUrlString(urlString)
+                    Metadata
+                        .extractMetadataFromUrlString(urlString)
                 } catch (exception: IllegalArgumentException) {
                     Timber.w("could not extract og data for $urlString")
-                    OGMetadata("", "", "", "")
+                    Metadata("", "", "", "")
                 }
 
                 PodXSocialPromptEvent(
@@ -461,7 +465,7 @@ class FeedRepositoryImpl
                     notification = podXSocialLinkXmlDataObject.notification.trim(),
                     feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
                     socialLinkUrlString = urlString,
-                    ogMetadata = placeholderMetadata
+                    metadata = placeholderMetadata
                 )
             }
         }.also { podXEventList ->

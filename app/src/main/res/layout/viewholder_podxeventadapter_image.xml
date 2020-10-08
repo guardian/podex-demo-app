@@ -60,7 +60,7 @@
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
             app:layout_constraintEnd_toStartOf="@id/button_podxeventviewholder_expand"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{podXThumbnailData.captionString}"
+            android:text="@{podXThumbnailData.notificationString}"
             android:lines="1"
             android:ellipsize="end"
             android:textAppearance="@style/PodXTextAppearanceDark"/>
@@ -83,7 +83,7 @@
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
             app:layout_constraintEnd_toStartOf="@id/textview_podxeventviewholder_timestamp"
             app:layout_constraintTop_toTopOf="@id/textview_podxeventviewholder_contracted_notification"
-            android:text="@{podXThumbnailData.captionString}"
+            android:text="@{podXThumbnailData.notificationString}"
             android:textAppearance="@style/PodXTextAppearanceDark"
             android:visibility="gone"/>
 
@@ -95,7 +95,7 @@
             app:layout_constraintTop_toBottomOf="@id/textview_podxeventviewholder_expanded_notification"
             app:layout_constraintStart_toEndOf="@id/constraintlayout_podxeventscontainer_image_collapsed"
             app:layout_constraintEnd_toStartOf="@id/textview_podxeventviewholder_timestamp"
-            android:text="@{podXThumbnailData.notificationString}"
+            android:text="@{podXThumbnailData.captionString}"
             android:textAppearance="@style/PodXTextAppearanceDark"
             android:visibility="gone"/>
 

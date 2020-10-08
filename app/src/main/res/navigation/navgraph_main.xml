@@ -14,6 +14,9 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_searchFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
@@ -119,7 +122,7 @@
         android:name="com.guardian.podx.presentation.podxcall.PodXCallFragment"
         android:label="PodXCallFragment" >
         <argument
-            android:name="podxCallPromptEvent"
+            android:name="podXCallPromptEvent"
             app:argType="com.guardian.core.podxevent.PodXCallPromptEvent"/>
         <argument
             android:name="newEventFlag"
@@ -152,7 +155,7 @@
 
     <action
         android:id="@+id/action_global_podXCallPromptFragment"
-        app:destination="@id/podXLinkFragment"
+        app:destination="@id/podXCallFragment"
         app:enterAnim="@anim/slide_in_bottom"
         app:exitAnim="@anim/slide_out_top"
         app:popEnterAnim="@anim/slide_in_top"
@@ -165,5 +168,9 @@
         app:exitAnim="@anim/slide_out_top"
         app:popEnterAnim="@anim/slide_in_top"
         app:popExitAnim="@anim/slide_out_bottom"/>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.guardian.podx.presentation.about.AboutFragment"
+        android:label="AboutFragment" />
 
 </navigation>

@@ -1,6 +1,6 @@
 package com.guardian.core.testutils
 
-import com.guardian.core.podxevent.OGMetadata
+import com.guardian.core.podxevent.Metadata
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXImageEvent
 import com.guardian.core.podxevent.PodXSupportEvent
@@ -35,7 +35,7 @@ object InstrumentationMockedEventDataSources {
         caption = "feed 1 web item 1 caption",
         notification = "feed 1 web item 1 caption",
         feedItemUrlString = InstrumentationMockedFeedDataSources.testFeedItem1.feedItemAudioUrl,
-        ogMetadata = OGMetadata(
+        metadata = Metadata(
             "http://localhost/testWeb11/ogimage.png",
             "Feed 1 Web 1",
             "http://localhost/testWeb11/ogurl",
@@ -49,7 +49,7 @@ object InstrumentationMockedEventDataSources {
         caption = "feed 1 web item 2 caption",
         notification = "feed 1 web item 2 caption",
         feedItemUrlString = InstrumentationMockedFeedDataSources.testFeedItem1.feedItemAudioUrl,
-        ogMetadata = OGMetadata(
+        metadata = Metadata(
             "http://localhost/testWeb12/ogimage.png",
             "Feed 1 Web 2",
             "http://localhost/testWeb12/ogurl",

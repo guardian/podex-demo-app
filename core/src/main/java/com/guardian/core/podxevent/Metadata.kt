@@ -6,7 +6,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 @Parcelize
-data class OGMetadata(
+data class Metadata(
     val OGImage: String,
     val OGTitle: String,
     val OGUrl: String,
@@ -14,7 +14,7 @@ data class OGMetadata(
 ) : Parcelable {
     companion object OGMetadataFactory {
         @Throws(IllegalArgumentException::class)
-        fun extractOGMetadataFromUrlString(urlString: String): OGMetadata {
+        fun extractMetadataFromUrlString(urlString: String): Metadata {
             val document: Document = Jsoup.connect(urlString)
                 .get()
 
@@ -24,22 +24,31 @@ data class OGMetadata(
             document.select("meta[property]")
                 .forEach { element ->
                     if (element.attributes()["property"] in listOf(
-                        "og:image",
-                        "og:title",
-                        "og:type",
-                        "og:url"
-                    )
+                            "og:image",
+                            "og:title",
+                            "og:type",
+                            "og:url"
+                        )
                     ) {
                         argMap[element.attributes()["property"]] = element.attributes()["content"]
+
+                        if (!element.attributes()["href"].isNullOrBlank()) {
+                            if (element.attributes()["href"][0] == '/') {
+                                argMap[element.attributes()["rel"]] =
+                                    element.attributes()["abs:href"]
+                            } else {
+                                argMap[element.attributes()["rel"]] = element.attributes()["href"]
+                            }
+                        }
                     }
                 }
 
-            if (argMap["og:image"].isNullOrBlank()) {
+            if (argMap["og:image"].isNullOrBlank() && argMap["apple-touch-icon"].isNullOrBlank()) {
                 throw IllegalArgumentException()
             }
 
-            return OGMetadata(
-                OGImage = argMap["og:image"] ?: "",
+            return Metadata(
+                OGImage = argMap["og:image"] ?: argMap["apple-touch-icon"] ?: "",
                 OGTitle = argMap["og:title"] ?: "",
                 OGType = argMap["og:type"] ?: "",
                 OGUrl = argMap["og:url"] ?: ""

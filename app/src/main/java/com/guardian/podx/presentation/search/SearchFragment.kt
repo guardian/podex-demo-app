@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.Scene
-import androidx.transition.TransitionManager
 import com.guardian.core.search.SearchResult
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutSearchfragmentBinding
@@ -67,8 +66,7 @@ class SearchFragment
 
         // setup action bar
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
-        // todo remove static test data add feed search
-        // setHasOptionsMenu(true)
+         setHasOptionsMenu(true)
 
         // initialise search
         if (savedInstanceState == null) {
@@ -88,17 +86,23 @@ class SearchFragment
     private var rootScene: Scene by lifecycleAwareVar()
     private val changeBounds = ChangeBounds()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.item_searchfragment_search) {
-            binding.edittextSearchTerm.visibility = when (binding.edittextSearchTerm.visibility) {
-                View.VISIBLE -> {
-                    hideKeyboard()
-                    View.GONE
-                }
-                else -> {
-                    View.VISIBLE
-                }
-            }
-            TransitionManager.go(rootScene, changeBounds)
+        // if (item.itemId == R.id.item_searchfragment_search) {
+        //     binding.edittextSearchTerm.visibility = when (binding.edittextSearchTerm.visibility) {
+        //         View.VISIBLE -> {
+        //             hideKeyboard()
+        //             View.GONE
+        //         }
+        //         else -> {
+        //             View.VISIBLE
+        //         }
+        //     }
+        //     TransitionManager.go(rootScene, changeBounds)
+        // }
+
+        if (item.itemId == R.id.item_searchfragment_about) {
+            val action = SearchFragmentDirections.actionSearchFragmentToAboutFragment()
+            findNavController()
+                .navigate(action)
         }
 
         return super.onOptionsItemSelected(item)
