@@ -10,10 +10,9 @@ import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.currentPlayBackPosition
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.mediaplayer.extensions.isPrepared
-import com.guardian.podx.presentation.podximage.PodXImageUiModel
 import javax.inject.Inject
 
-data class PodXCallUiModel (
+data class PodXCallUiModel(
     val playbackTimeLiveData: LiveData<Long>
 )
 

@@ -64,6 +64,7 @@
     <style name = "PodXAppBarDark">
         <item name="android:background">@color/primaryColor</item>
         <item name="android:textColorPrimary">@color/primaryLightColor</item>
+        <item name="tint">@color/primaryLightColor</item>
     </style>
 
     <style name="PodXTextButton" parent="Widget.MaterialComponents.Button.TextButton">

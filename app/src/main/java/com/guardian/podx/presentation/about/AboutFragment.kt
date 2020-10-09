@@ -11,7 +11,7 @@ import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutAboutfragmentBinding
 import com.guardian.podx.utils.lifecycleAwareVar
 
-class AboutFragment: Fragment() {
+class AboutFragment : Fragment() {
     private var binding: LayoutAboutfragmentBinding by lifecycleAwareVar()
 
     override fun onCreateView(

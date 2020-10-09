@@ -35,6 +35,7 @@ class PodXEventEmitterImpl
 ) :
     PodXEventEmitter {
 
+    private val rootDisposable = CompositeDisposable()
     private val currentFeedDisposable = CompositeDisposable()
     private val currentFeedItemDisposable = CompositeDisposable()
 
@@ -196,14 +197,19 @@ class PodXEventEmitterImpl
 
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.clear()
+        rootDisposable.clear()
         // listen for changes on the feed item in case we need to update the episode events
-        currentFeedDisposable.add(
+        rootDisposable.add(
             feedItemRepository.getFeedItemForUrlString(feedItemUrlString = feedItem.feedItemAudioUrl)
-            .subscribe ({
-                registerAllEventTypes(it)
-            }, {
-                Timber.e(it)
-            })
+                .subscribe(
+                    {
+                        currentFeedDisposable.clear()
+                        registerAllEventTypes(it)
+                    },
+                    {
+                        Timber.e(it)
+                    }
+                )
         )
 
         registerAllEventTypes(feedItem)

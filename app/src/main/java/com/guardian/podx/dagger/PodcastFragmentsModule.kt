@@ -75,7 +75,7 @@ abstract class PodcastFragmentsModule {
     @IntoMap
     @FragmentKey(PodXCallFragment::class)
     abstract fun bindsPodXCallFragment
-            (podXCallFragment: PodXCallFragment): Fragment
+    (podXCallFragment: PodXCallFragment): Fragment
 
     @Binds
     abstract fun bindsFragmentInjectionFactory(fragmentInjectionFactory: FragmentInjectionFactory):

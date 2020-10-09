@@ -382,7 +382,6 @@ class FeedRepositoryImpl
             )
         )
         Timber.i("Caching PodxFeedLink")
-
     }
 
     private fun mapPodXNewsLetterSignUps(feedItemXmlDataObject: FeedItemXmlDataObject) {

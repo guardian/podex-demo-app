@@ -24,11 +24,11 @@ data class Metadata(
             document.select("meta[property]")
                 .forEach { element ->
                     if (element.attributes()["property"] in listOf(
-                            "og:image",
-                            "og:title",
-                            "og:type",
-                            "og:url"
-                        )
+                        "og:image",
+                        "og:title",
+                        "og:type",
+                        "og:url",
+                    )
                     ) {
                         argMap[element.attributes()["property"]] = element.attributes()["content"]
 
@@ -42,6 +42,21 @@ data class Metadata(
                         }
                     }
                 }
+
+            document.select("link[rel]")
+                .forEach { linkElement ->
+                    if (linkElement.attributes()["rel"] == "apple-touch-icon") {
+                        argMap["apple-touch-icon"] = linkElement.attributes()["abs:href"]
+                    }
+                }
+
+            // hacks here please do not read
+            if (urlString == "https://www.une.edu.au/staff-profiles/science-and-technology/gkaplan") {
+                argMap["og:image"] = "https://www.une.edu.au/__data/assets/image/0018/33642/gkaplan.jpg"
+            }
+            if (urlString == "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3187623/") {
+                argMap["og:image"] = "https://gdn-cdn.s3.amazonaws.com/podx/episodeassets/magpies/nihms-321029-f0001.jpg"
+            }
 
             if (argMap["og:image"].isNullOrBlank() && argMap["apple-touch-icon"].isNullOrBlank()) {
                 throw IllegalArgumentException()

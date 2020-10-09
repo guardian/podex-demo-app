@@ -60,7 +60,7 @@ abstract class PodcastViewModelsModule {
     @IntoMap
     @ViewModelKey(PodXCallViewModel::class)
     abstract fun bindsPodXCallViewModel
-            (podXCallViewModel: PodXCallViewModel): ViewModel
+    (podXCallViewModel: PodXCallViewModel): ViewModel
 
     @Binds
     abstract fun bindsViewModelFactory(factory: ViewModelInjectionFactory):

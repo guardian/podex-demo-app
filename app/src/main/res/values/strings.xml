@@ -53,6 +53,6 @@
     <string name="podxcall_dial">Dial Number</string>
     <string name="podxcall_preview_static">Phone No:</string>
     <string name="about_title">About PodX</string>
-    <string name="about_text">PodX is a rich podcast client that enables information to show on your phone as a podcast plays back.</string>
+    <string name="about_text">PodX is an experiment aimed at enhancing the podcasting format.\n\nPodcasts are distributed by RSS feeds, we have created an extension to RSS that allows podcasting apps to support timed events that can show a variety of media at specified times during playback.\n\nThis app is a demo created in 2020 of how these events could be displayed, we decided to have them pop up during playback but also be available as a list at the bottom of the episode. This way you could experience the media live or scroll through the list of media at a later time.\n\nPodX is open source and free to use, any developer can take our work and build on it.\n\nIf you have any questions you can contact the team at australia.podx@theguardian.com</string>
     <string name="menu_about">About PodX</string>
 </resources>

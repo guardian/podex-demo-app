@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:theme="@style/PodXAppBarDark"
-            app:title="@string/about_title"/>
+            app:title="@string/about_title" />
         
         <TextView
             android:id="@+id/textview_about_main"

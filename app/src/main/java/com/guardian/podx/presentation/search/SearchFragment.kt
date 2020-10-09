@@ -66,7 +66,7 @@ class SearchFragment
 
         // setup action bar
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
-         setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
 
         // initialise search
         if (savedInstanceState == null) {
