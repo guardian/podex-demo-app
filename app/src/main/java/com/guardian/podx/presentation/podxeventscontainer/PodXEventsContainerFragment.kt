@@ -801,7 +801,9 @@ class PodXEventsContainerFragment
                     .observe(
                         viewLifecycleOwner,
                         Observer {
+                            Timber.i("receiving new listy")
                             submitList(it)
+                            notifyDataSetChanged()
                         }
                     )
             }

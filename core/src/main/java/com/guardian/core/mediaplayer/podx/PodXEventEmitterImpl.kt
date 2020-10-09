@@ -5,6 +5,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guardian.core.feeditem.FeedItem
+import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.extensions.isPlaying
 import com.guardian.core.podxevent.PodXCallPromptEvent
@@ -29,7 +30,8 @@ import kotlin.math.max
 class PodXEventEmitterImpl
 @Inject constructor(
     private val mediaSessionConnection: MediaSessionConnection,
-    private val podXEventRepository: PodXEventRepository
+    private val podXEventRepository: PodXEventRepository,
+    private val feedItemRepository: FeedItemRepository
 ) :
     PodXEventEmitter {
 
@@ -194,7 +196,20 @@ class PodXEventEmitterImpl
 
     override fun registerCurrentFeedItem(feedItem: FeedItem) {
         currentFeedDisposable.clear()
+        // listen for changes on the feed item in case we need to update the episode events
+        currentFeedDisposable.add(
+            feedItemRepository.getFeedItemForUrlString(feedItemUrlString = feedItem.feedItemAudioUrl)
+            .subscribe ({
+                registerAllEventTypes(it)
+            }, {
+                Timber.e(it)
+            })
+        )
 
+        registerAllEventTypes(feedItem)
+    }
+
+    private fun registerAllEventTypes(feedItem: FeedItem) {
         registerImageEvents(feedItem)
         registerWebEvents(feedItem)
         registerSupportEvents(feedItem)
@@ -264,6 +279,8 @@ class PodXEventEmitterImpl
             podXEventRepository.getCallPromptEventsForFeedItem(feedItem)
                 .subscribe(
                     { feedPodXEventList ->
+                        Timber.i("call prompts emitting ${feedPodXEventList.firstOrNull()?.phoneNumber}")
+                        Timber.i("call prompts emitting ${feedPodXEventList.firstOrNull()?.phoneNumber}")
                         pendingPodXCallPromptEvents.clear()
                         pendingPodXCallPromptEvents.addAll(feedPodXEventList)
                         podXPendingCallPromptEventMutableLiveData.postValue(feedPodXEventList)

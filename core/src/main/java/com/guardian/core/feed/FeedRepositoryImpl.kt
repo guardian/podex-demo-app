@@ -247,6 +247,7 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXSupportEvents(podXEventList)
+                Timber.i("Caching PodxSupportEvents ${podXEventList.size}")
             }
         }
     }
@@ -267,6 +268,7 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXCallPromptEvents(podXEventList)
+                Timber.i("Caching PodxCallEvents ${podXEventList.size}")
             }
         }
     }
@@ -379,6 +381,8 @@ class FeedRepositoryImpl
                 )
             )
         )
+        Timber.i("Caching PodxFeedLink")
+
     }
 
     private fun mapPodXNewsLetterSignUps(feedItemXmlDataObject: FeedItemXmlDataObject) {
