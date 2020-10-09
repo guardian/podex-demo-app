@@ -52,8 +52,10 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
         val elementMap = xmlDataObject.factory.getXmlParserElementMap()
         val xmlAttributeValueMap = mutableMapOf<String, String>()
         for (attributeIndex in 0 until xmlPullParser.attributeCount) {
-            xmlAttributeValueMap.put(xmlPullParser.getAttributeName(attributeIndex),
-                xmlPullParser.getAttributeValue(attributeIndex))
+            xmlAttributeValueMap.put(
+                xmlPullParser.getAttributeName(attributeIndex),
+                xmlPullParser.getAttributeValue(attributeIndex)
+            )
         }
 
         // handle self closing tags
@@ -64,7 +66,8 @@ class XmlPullParserAdapterImpl constructor(val xmlPullParserFactory: XmlPullPars
             val currentDepth = xmlPullParser.depth
             while (eventType != END_DOCUMENT &&
                 xmlPullParser.depth >= currentDepth &&
-                !(xmlPullParser.depth == currentDepth && eventType == END_TAG)) {
+                !(xmlPullParser.depth == currentDepth && eventType == END_TAG)
+            ) {
                 if (eventType == START_TAG) {
                     val currentName = xmlPullParser.name
                     val attributeCheck = elementMap[currentName]

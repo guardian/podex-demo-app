@@ -26,9 +26,21 @@ interface PodXEventEmitter {
     val podXImageEventLiveData: LiveData<List<PodXImageEvent>>
 
     /**
+     * A LiveData which contains a list of [PodXImageEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingImageEventLiveData: LiveData<List<PodXImageEvent>>
+
+    /**
      * A LiveData which contains a list of currently showing [PodXWebEvent]s
      */
     val podXWebEventLiveData: LiveData<List<PodXWebEvent>>
+
+    /**
+     * A LiveData which contains a list of [PodXWebEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingWebEventLiveData: LiveData<List<PodXWebEvent>>
 
     /**
      * A LiveData which contains a list of currently showing [PodXSupportEvent]s
@@ -36,9 +48,21 @@ interface PodXEventEmitter {
     val podXSupportEventLiveData: LiveData<List<PodXSupportEvent>>
 
     /**
+     * A LiveData which contains a list of [PodXSupportEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingSupportEventLiveData: LiveData<List<PodXSupportEvent>>
+
+    /**
      * A LiveData which contains a list of currently showing [PodXCallPromptEvent]s
      */
     val podXCallPromptEventLiveData: LiveData<List<PodXCallPromptEvent>>
+
+    /**
+     * A LiveData which contains a list of [PodXCallPromptEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingCallPromptEventLiveData: LiveData<List<PodXCallPromptEvent>>
 
     /**
      * A LiveData which contains a list of currently showing [PodXFeedBackEvent]s
@@ -46,9 +70,21 @@ interface PodXEventEmitter {
     val podXFeedBackEventLiveData: LiveData<List<PodXFeedBackEvent>>
 
     /**
+     * A LiveData which contains a list of [PodXFeedBackEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingFeedBackEventLiveData: LiveData<List<PodXFeedBackEvent>>
+
+    /**
      * A LiveData which contains a list of currently showing [PodXFeedLinkEvent]s
      */
     val podXFeedLinkEventLiveData: LiveData<List<PodXFeedLinkEvent>>
+
+    /**
+     * A LiveData which contains a list of [PodXFeedLinkEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingFeedLinkEventLiveData: LiveData<List<PodXFeedLinkEvent>>
 
     /**
      * A LiveData which contains a list of currently showing [PodXNewsLetterSignUpEvent]s
@@ -56,9 +92,21 @@ interface PodXEventEmitter {
     val podXNewsLetterSignUpEventLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>
 
     /**
+     * A LiveData which contains a list of [PodXNewsLetterSignUpEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingNewsLetterSignUpEventLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>
+
+    /**
      * A LiveData which contains a list of currently showing [PodXPollEvent]s
      */
     val podXPollEventLiveData: LiveData<List<PodXPollEvent>>
+
+    /**
+     * A LiveData which contains a list of [PodXPollEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingPollEventLiveData: LiveData<List<PodXPollEvent>>
 
     /**
      * A LiveData which contains a list of currently showing [PodXSocialPromptEvent]s
@@ -66,9 +114,21 @@ interface PodXEventEmitter {
     val podXSocialPromptEventLiveData: LiveData<List<PodXSocialPromptEvent>>
 
     /**
+     * A LiveData which contains a list of [PodXSocialPromptEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingSocialPromptEventLiveData: LiveData<List<PodXSocialPromptEvent>>
+
+    /**
      * A LiveData which contains a list of currently showing [PodXTextEvent]s
      */
     val podXTextEventLiveData: LiveData<List<PodXTextEvent>>
+
+    /**
+     * A LiveData which contains a list of [PodXTextEvent]s that will be shown in a currently
+     * playing episode
+     */
+    val podXPendingTextEventLiveData: LiveData<List<PodXTextEvent>>
 
     /**
      * Register a [FeedItem] with the emitter. Events associated with the feed item will fire

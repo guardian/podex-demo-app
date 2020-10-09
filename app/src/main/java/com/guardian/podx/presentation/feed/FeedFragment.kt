@@ -20,7 +20,6 @@ import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutFeedfragmentBinding
 import com.guardian.podx.service.notification.EventNotificationService
 import com.guardian.podx.utils.lifecycleAwareVar
-import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -98,7 +97,7 @@ class FeedFragment
             handleSelection = { feedItem ->
                 feedViewModel.prepareFeedItemForPlayback(feedItem)
                 val action = FeedFragmentDirections.actionFeedFragmentToPlayerFragment()
-                //start notification service
+                // start notification service
                 Intent(context, EventNotificationService::class.java)
                     .also {
                         context?.startService(it)
@@ -106,42 +105,48 @@ class FeedFragment
                 findNavController()
                     .navigate(action)
             },
-            handlePlayPause = {feedItem ->
+            handlePlayPause = { feedItem ->
                 feedViewModel.attemptPlaybackOrPause(feedItem)
-                //start notification service
+                // start notification service
                 Intent(context, EventNotificationService::class.java)
                     .also {
                         context?.startService(it)
                     }
             },
-            bindIsPlaying = {feedItem ->
-                MutableLiveData<Boolean>().also{ isItemPlayingLiveData ->
+            bindIsPlaying = { feedItem ->
+                MutableLiveData<Boolean>().also { isItemPlayingLiveData ->
                     feedViewModel.uiModel.nowPlayingIdLiveData.observe(
                         viewLifecycleOwner,
                         Observer { nowPlayingId ->
                             val isPlaying = feedViewModel.uiModel.isPlayingLiveData.value ?: false
                             isItemPlayingLiveData
-                                .postValue((feedItem.feedItemAudioUrl == nowPlayingId)
-                                    && isPlaying)
-                        })
+                                .postValue(
+                                    (feedItem.feedItemAudioUrl == nowPlayingId) &&
+                                        isPlaying
+                                )
+                        }
+                    )
 
                     feedViewModel.uiModel.isPlayingLiveData.observe(
                         viewLifecycleOwner,
                         Observer { isPlaying ->
                             val nowPlayingId = feedViewModel.uiModel.nowPlayingIdLiveData.value
                             isItemPlayingLiveData
-                                .postValue((feedItem.feedItemAudioUrl == nowPlayingId)
-                                    && isPlaying)
-                        })
+                                .postValue(
+                                    (feedItem.feedItemAudioUrl == nowPlayingId) &&
+                                        isPlaying
+                                )
+                        }
+                    )
                 }
-            }).apply {
-                feedViewModel.uiModel.feedItemData.observe(
-                    viewLifecycleOwner,
-                    Observer { feedItemList ->
-                        Timber.i("returned items ${feedItemList.size}")
-                        submitList(feedItemList)
-                    }
-                )
             }
+        ).apply {
+            feedViewModel.uiModel.feedItemData.observe(
+                viewLifecycleOwner,
+                Observer { feedItemList ->
+                    submitList(feedItemList)
+                }
+            )
+        }
     }
 }

@@ -33,11 +33,13 @@ class PlayerViewModel
     ViewModel() {
 
     val playerUiModel by lazy {
-        PlayerUiModel(mediaMetadataMutableLiveData,
+        PlayerUiModel(
+            mediaMetadataMutableLiveData,
             mutableMediaButtonIsPlaying,
             mutableMediaPlaybackPosition,
             mutableIsPreparedLiveData,
-            mutableHasPodXEventsLiveData)
+            mutableHasPodXEventsLiveData
+        )
     }
 
     private val compositeDisposable = CompositeDisposable()
@@ -52,8 +54,6 @@ class PlayerViewModel
 
     private val mutableMediaPlaybackPosition = MutableLiveData<Long>().apply {
         mediaSessionConnection.playbackState.observeForever {
-
-            Timber.i( "posting ${it.currentPlayBackPosition}")
             checkPlaybackPosition()
 
             if (it.playbackState == PlaybackState.STATE_PLAYING) {
@@ -61,7 +61,6 @@ class PlayerViewModel
                     it.currentPlayBackPosition
                 )
             }
-
         }
     }
     private val mutableMediaButtonIsPlaying = MutableLiveData<Boolean>().apply {
@@ -78,7 +77,7 @@ class PlayerViewModel
         }
     }
 
-    private val mutableHasPodXEventsLiveData = MutableLiveData<Boolean>().apply{
+    private val mutableHasPodXEventsLiveData = MutableLiveData<Boolean>().apply {
         podXEventEmitter.podXImageEventLiveData.observeForever {
             this.postValue(checkAllEvents())
         }
@@ -88,6 +87,34 @@ class PlayerViewModel
         }
 
         podXEventEmitter.podXSupportEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXCallPromptEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXFeedBackEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXFeedLinkEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXNewsLetterSignUpEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXPollEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXSocialPromptEventLiveData.observeForever {
+            this.postValue(checkAllEvents())
+        }
+
+        podXEventEmitter.podXTextEventLiveData.observeForever {
             this.postValue(checkAllEvents())
         }
     }
@@ -105,7 +132,6 @@ class PlayerViewModel
             podXEventEmitter.podXTextEventLiveData.value?.isNotEmpty() == true
     }
 
-
     /**
      * changes the playback status
      */
@@ -119,7 +145,8 @@ class PlayerViewModel
                     playbackState.isPlaying -> transportControls.pause()
                     playbackState.isPlayEnabled -> transportControls.play()
                     else -> {
-                        Timber.w("%s%s", "Playable item clicked but neither play ",
+                        Timber.w(
+                            "%s%s", "Playable item clicked but neither play ",
                             "nor pause are enabled!"
                         )
                     }
@@ -128,13 +155,16 @@ class PlayerViewModel
         }
     }
 
-    private fun checkPlaybackPosition(): Boolean = playbackCheckHandler.postDelayed({
-        val currPosition = mediaSessionConnection.playbackState.value?.currentPlayBackPosition
-        if (mutableMediaPlaybackPosition.value != currPosition && currPosition != null)
-            mutableMediaPlaybackPosition.postValue(currPosition)
-        if (mediaSessionConnection.playbackState.value?.isPlaying == true)
-            checkPlaybackPosition()
-    }, 250)
+    private fun checkPlaybackPosition(): Boolean = playbackCheckHandler.postDelayed(
+        {
+            val currPosition = mediaSessionConnection.playbackState.value?.currentPlayBackPosition
+            if (mutableMediaPlaybackPosition.value != currPosition && currPosition != null)
+                mutableMediaPlaybackPosition.postValue(currPosition)
+            if (mediaSessionConnection.playbackState.value?.isPlaying == true)
+                checkPlaybackPosition()
+        },
+        250
+    )
 
     override fun onCleared() {
         super.onCleared()

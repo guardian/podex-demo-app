@@ -43,7 +43,7 @@ class FeedViewModel
 
     private val mutableFeedData: MutableLiveData<Feed> = MutableLiveData()
     private val mutableFeedItemData: MutableLiveData<List<FeedItem>> = MutableLiveData(listOf())
-    private val mutableNowPlayingIdLiveData = MutableLiveData<String?>().apply{
+    private val mutableNowPlayingIdLiveData = MutableLiveData<String?>().apply {
         mediaSessionConnection.nowPlaying
             .observeForever {
                 this.postValue(it.id)
@@ -72,24 +72,25 @@ class FeedViewModel
 
     fun getFeedAndItems(feedUrl: String) {
         feedDisposable.clear()
-        feedDisposable.add(feedRepository.getFeed(feedUrl)
-            .subscribe { feed ->
-                Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
-                if (feed != null) {
-                    mutableFeedData.postValue(feed)
-                    getFeedItems(feed)
+        feedDisposable.add(
+            feedRepository.getFeed(feedUrl)
+                .subscribe { feed ->
+                    Timber.i("got feed data changed ${feed?.feedUrlString ?: "null feed"}")
+                    if (feed != null) {
+                        mutableFeedData.postValue(feed)
+                        getFeedItems(feed)
+                    }
                 }
-            }
         )
     }
 
     private fun getFeedItems(feed: Feed) {
         feedItemDisposable.clear()
-        feedItemDisposable.add(feedItemRepository.getFeedItemsForFeed(feed)
-            .subscribe { feedItemList ->
-                Timber.i("list from repo ${feedItemList.size}")
-                mutableFeedItemData.postValue(feedItemList)
-            }
+        feedItemDisposable.add(
+            feedItemRepository.getFeedItemsForFeed(feed)
+                .subscribe { feedItemList ->
+                    mutableFeedItemData.postValue(feedItemList)
+                }
         )
     }
 
@@ -124,7 +125,8 @@ class FeedViewModel
                     playbackState.isPlaying -> transportControls.pause()
                     playbackState.isPlayEnabled -> transportControls.play()
                     else -> {
-                        Timber.w("%s%s", "Playable item clicked but neither play ",
+                        Timber.w(
+                            "%s%s", "Playable item clicked but neither play ",
                             "nor pause are enabled!"
                         )
                     }

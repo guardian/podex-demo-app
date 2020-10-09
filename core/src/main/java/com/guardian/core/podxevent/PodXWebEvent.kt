@@ -7,8 +7,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "podx_web_events",
-    indices = [Index(value = ["feedItemUrlString"], unique = false)])
+@Entity(
+    tableName = "podx_web_events",
+    indices = [Index(value = ["feedItemUrlString"], unique = false)]
+)
 @Parcelize
 data class PodXWebEvent(
     val timeStart: Long,
@@ -18,7 +20,7 @@ data class PodXWebEvent(
     val notification: String,
     val feedItemUrlString: String,
     @Embedded
-    var ogMetadata: OGMetadata,
+    var metadata: Metadata,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 ) : Parcelable

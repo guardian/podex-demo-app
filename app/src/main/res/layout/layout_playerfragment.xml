@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="artUrlString"
-            type="String"/>
-
-        <variable
             name="title"
             type="String" />
 
@@ -22,6 +18,10 @@
         <variable
             name="duration"
             type="String"/>
+
+        <variable
+            name="artUrlString"
+            type="String" />
     </data>
     <ScrollView
         android:id="@+id/scrollview_player_root"
@@ -42,16 +42,19 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageview_play_album_art"
-                    android:layout_width="match_parent"
+                    android:id="@+id/imageview_play_summary_image"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintWidth_percent="0.7"
                     android:scaleType="fitXY"
-                    android:layout_margin="@dimen/podx_image_margin"
+                    android:layout_marginTop="@dimen/player_image_margin"
+                    app:layout_constraintDimensionRatio="1"
                     app:layout_constraintTop_toBottomOf="@id/toolbar_player"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:contentDescription="@string/playerfragment_album_art_alt"
                     app:srcCompat="@color/placeholderGrey"
-                    imageUrl="@{artUrlString}" />
+                    imageUrl="@{artUrlString}"/>
 
                 <View
                     android:id="@+id/view_play_title_placeholder"
@@ -74,16 +77,15 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:textAlignment="center"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:marqueeRepeatLimit="marquee_forever"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:focusable="true"
-                    app:layout_constraintTop_toBottomOf="@id/imageview_play_album_art"
+                    app:layout_constraintTop_toBottomOf="@id/imageview_play_summary_image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="@{title}"
                     android:textStyle="bold"
-                    android:textAppearance="@style/PodXTextAppearanceDark"/>
+                    android:textAppearance="@style/PodXTextAppearanceDark" />
 
 
                 <View
@@ -105,7 +107,7 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
                     android:textAlignment="center"
-                    android:ellipsize="marquee"
+                    android:ellipsize="end"
                     android:singleLine="false"
                     android:maxLines="3"
                     android:marqueeRepeatLimit="marquee_forever"
@@ -170,16 +172,37 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
+                <TextView
+                    android:id="@+id/textview_player_current_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seekbar_player_position"
+                    android:text="0:00"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/textview_player_total_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seekbar_player_position"
+                    android:text="@{duration}"
+                    android:textSize="14sp"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_player_podx_events_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:name="com.guardian.podx.presentation.podxeventscontainer.PodXEventsContainerFragment"
                 android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@id/constraintlayout_player_container"
-                tools:ignore="Instantiatable" />
+                app:layout_constraintTop_toBottomOf="@id/constraintlayout_player_container" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

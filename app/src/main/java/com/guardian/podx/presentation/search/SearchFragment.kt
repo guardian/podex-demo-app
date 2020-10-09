@@ -19,13 +19,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.ChangeBounds
 import androidx.transition.Scene
-import androidx.transition.TransitionManager
 import com.guardian.core.search.SearchResult
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutSearchfragmentBinding
 import com.guardian.podx.presentation.common.hideKeyboard
 import com.guardian.podx.utils.lifecycleAwareVar
-import timber.log.Timber
 import java.util.concurrent.Executor
 import javax.inject.Inject
 
@@ -34,10 +32,10 @@ import javax.inject.Inject
  */
 
 class SearchFragment
-    @Inject constructor(
-        viewModelProviderFactory: ViewModelProvider.Factory,
-        private val executor: Executor
-    ) :
+@Inject constructor(
+    viewModelProviderFactory: ViewModelProvider.Factory,
+    private val executor: Executor
+) :
     Fragment() {
 
     private val searchViewModel: SearchViewModel by viewModels {
@@ -50,7 +48,6 @@ class SearchFragment
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.i("Creating Search View")
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.layout_searchfragment,
@@ -69,8 +66,7 @@ class SearchFragment
 
         // setup action bar
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarSearch)
-        //todo remove static test data add feed search
-        //setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
 
         // initialise search
         if (savedInstanceState == null) {
@@ -85,23 +81,28 @@ class SearchFragment
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_searchfragment, menu)
-        Timber.i("Inflating")
     }
 
     private var rootScene: Scene by lifecycleAwareVar()
     private val changeBounds = ChangeBounds()
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.item_searchfragment_search) {
-            binding.edittextSearchTerm.visibility = when (binding.edittextSearchTerm.visibility) {
-                View.VISIBLE -> {
-                    hideKeyboard()
-                    View.GONE
-                }
-                else -> {
-                    View.VISIBLE
-                }
-            }
-            TransitionManager.go(rootScene, changeBounds)
+        // if (item.itemId == R.id.item_searchfragment_search) {
+        //     binding.edittextSearchTerm.visibility = when (binding.edittextSearchTerm.visibility) {
+        //         View.VISIBLE -> {
+        //             hideKeyboard()
+        //             View.GONE
+        //         }
+        //         else -> {
+        //             View.VISIBLE
+        //         }
+        //     }
+        //     TransitionManager.go(rootScene, changeBounds)
+        // }
+
+        if (item.itemId == R.id.item_searchfragment_about) {
+            val action = SearchFragmentDirections.actionSearchFragmentToAboutFragment()
+            findNavController()
+                .navigate(action)
         }
 
         return super.onOptionsItemSelected(item)
@@ -146,11 +147,13 @@ class SearchFragment
                 .navigate(action)
         }.apply {
             searchViewModel.uiModel.results
-                .observe(viewLifecycleOwner, Observer { results ->
-                    binding.progressbarSearch.hide()
-                    this.submitList(results)
-                    Timber.i("${this.itemCount} SearchResults added")
-                })
+                .observe(
+                    viewLifecycleOwner,
+                    Observer { results ->
+                        binding.progressbarSearch.hide()
+                        this.submitList(results)
+                    }
+                )
         }
     }
 }

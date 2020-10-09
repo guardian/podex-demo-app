@@ -26,7 +26,6 @@ import com.guardian.podx.utils.toTimestampMSS
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
-import timber.log.Timber
 import javax.inject.Inject
 
 class PlayerFragment
@@ -53,29 +52,46 @@ class PlayerFragment
             false
         )
 
-        setupMediaInfo()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupMediaInfo()
         setupPlayerControls()
         setupSeekBar()
         setupScrollEvent()
+        setupTextExpansion()
 
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPlayer)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
     }
 
+    private fun setupTextExpansion() {
+        val clickEvent = {
+            if (binding.textviewPlayTitle.maxLines == 1) {
+                binding.textviewPlayTitle.maxLines = 10
+                binding.textviewPlaySubtitle.maxLines = 50
+            } else {
+                binding.textviewPlayTitle.maxLines = 1
+                binding.textviewPlaySubtitle.maxLines = 3
+            }
+        }
+        binding.textviewPlayTitle.setOnClickListener {
+            clickEvent()
+        }
+        binding.textviewPlaySubtitle.setOnClickListener {
+            clickEvent()
+        }
+    }
+
     private fun setupScrollEvent() {
         if (args.scrollToEvents) {
-            //delay the scroll
+            // delay the scroll
             lifecycle.coroutineScope.launch {
                 delay(600)
-                Timber.i("firing fullscroll")
                 binding.scrollviewPlayerRoot.fullScroll(
                     ScrollView.FOCUS_DOWN
                 )
@@ -123,6 +139,7 @@ class PlayerFragment
     }
 
     private fun setupMediaInfo() {
+
         playerViewModel
             .playerUiModel
             .mediaMetadataLiveData
@@ -134,22 +151,21 @@ class PlayerFragment
                         binding.viewPlaySubtitlePlaceholder.visibility = View.GONE
                         binding.title = mediaItem.title.toString()
                         binding.description = mediaItem.description.description.toString()
+
+                        if (mediaItem.albumArtUri != Uri.EMPTY) {
+                            binding.artUrlString = mediaItem.albumArtUri.toString()
+                        }
                     }
-                    if (mediaItem.albumArtUri != Uri.EMPTY) {
-                        binding.artUrlString = mediaItem.albumArtUri.toString()
-                    }
-                    binding.duration = mediaItem.duration.toTimestampMSS(requireContext())
+                    binding.duration = mediaItem.duration.toTimestampMSS(resources)
                 }
             )
-
-
 
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData.observe(
-            viewLifecycleOwner,
-            Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(requireContext()) }
-        )
+                viewLifecycleOwner,
+                Observer { pos -> binding.playbackPosition = pos.toTimestampMSS(resources) }
+            )
     }
 
     private fun setupSeekBar() {
@@ -159,16 +175,16 @@ class PlayerFragment
         val seekBarMutex = Mutex(false)
 
         binding.seekbarPlayerPosition
-            .setOnSeekBarChangeListener (
-                object: SeekBar.OnSeekBarChangeListener {
-                    //ignore the scanning
+            .setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    // ignore the scanning
                     override fun onProgressChanged(
                         seekBar: SeekBar?,
                         progress: Int,
                         fromUser: Boolean
                     ) {}
 
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {seekBarMutex.tryLock(this)}
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) { seekBarMutex.tryLock(this) }
 
                     override fun onStopTrackingTouch(seekBar: SeekBar?) {
                         seekBarMutex.unlock(this)
@@ -183,12 +199,15 @@ class PlayerFragment
         playerViewModel
             .playerUiModel
             .mediaPlaybackPositionLiveData
-            .observe(viewLifecycleOwner,
-                Observer{ playbackTime ->
+            .observe(
+                viewLifecycleOwner,
+                Observer { playbackTime ->
                     if (!seekBarMutex.isLocked) {
                         setSeekBarPos(playbackTime)
                     }
-                })
+                    binding.textviewPlayerCurrentTime.text = playbackTime.toTimestampMSS(resources)
+                }
+            )
     }
 
     private fun setSeekBarPos(pos: Long) {
@@ -203,17 +222,17 @@ class PlayerFragment
     }
 
     fun Int.toTimeInCurrentMedia(): Long {
-        //if the metadata isn't set we assume playback hasn't started
+        // if the metadata isn't set we assume playback hasn't started
         val currentDuration = playerViewModel.playerUiModel
             .mediaMetadataLiveData
             .value
             ?.duration ?: 0
 
-        return (this.toDouble() / PROGRESS_MAX  * currentDuration).toLong()
+        return (this.toDouble() / PROGRESS_MAX * currentDuration).toLong()
     }
 
     private companion object {
-        private const val PROGRESS_MAX = 1000
+        public const val PROGRESS_MAX = 1000
         private const val THIRTY_SECONDS = 30000
         private const val TEN_SECONDS = 10000
     }

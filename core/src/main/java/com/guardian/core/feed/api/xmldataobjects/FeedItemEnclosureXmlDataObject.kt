@@ -6,8 +6,8 @@ import com.guardian.core.library.xml.XmlDataObjectFactory
 
 class FeedItemEnclosureXmlDataObject : XmlDataObject {
     override fun isEmpty(): Boolean = attributes.values
-    .map { it.value.isEmpty() }
-    .reduce { acc, b -> acc || b }
+        .map { it.value.isEmpty() }
+        .reduce { acc, b -> acc || b }
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf(
         "url" to ValueContainer(""),
@@ -23,7 +23,7 @@ class FeedItemEnclosureXmlDataObject : XmlDataObject {
         override fun getXmlParserElementMap(): Map<String, ValueContainer<*>> = mapOf()
 
         override fun instantiateFromXmlParserElementMap
-                (xmlParserElementMap: Map<String, ValueContainer<*>>):
+        (xmlParserElementMap: Map<String, ValueContainer<*>>):
             XmlDataObject = FeedItemEnclosureXmlDataObject()
     }
 }

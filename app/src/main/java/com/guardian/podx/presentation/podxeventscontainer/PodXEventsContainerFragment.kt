@@ -1,7 +1,5 @@
 package com.guardian.podx.presentation.podxeventscontainer
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -72,22 +70,236 @@ class PodXEventsContainerFragment
 
         bindVisibilitySwitch()
         setupRecyclerView()
-        feedThumnailLiveData()
+        feedThumbnailLiveData()
+        setNewEventBehaviour()
     }
 
-    private fun feedThumnailLiveData() {
+    // create unique ids for events so we can fire each once only
+    private val lastList = mutableListOf<String>()
 
+    private fun setNewEventBehaviour() {
+        lastList.apply {
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXImageEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXCallPromptEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedBackEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedLinkEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXNewsLetterSignUpEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXPollEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSocialPromptEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSupportEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXTextEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+
+            addAll(
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXWebEventsListLiveData
+                    .value
+                    ?.map { it.getThumbnailId() } ?: listOf()
+            )
+        }
+
+        podXEventsContainerViewModel
+            .podXEventsContainerUiModel
+            .podXCallPromptEventsListLiveData
+            .observe(viewLifecycleOwner) { eventList ->
+                if (eventList.isNotEmpty()) {
+                    eventList.forEach {
+                        if (!lastList.contains(it.getThumbnailId())) {
+                            lastList.add(it.getThumbnailId())
+                            navigateToCall(it, true)
+                        }
+                    }
+                }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXFeedBackEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToFeedBackActivity(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXImageEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    Timber.i("navigate to id ${it.getThumbnailId()}")
+                                    navigateToImage(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXNewsLetterSignUpEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToNewsLetterSignUpActivity(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXPollEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToPollActivity(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSocialPromptEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToSocialPromptActivity(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXSupportEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToSupportActivity(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXTextEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToText(it, true)
+                                }
+                            }
+                        }
+                    }
+
+                podXEventsContainerViewModel
+                    .podXEventsContainerUiModel
+                    .podXWebEventsListLiveData
+                    .observe(viewLifecycleOwner) { eventList ->
+                        if (eventList.isNotEmpty()) {
+                            eventList.forEach {
+                                if (!lastList.contains(it.getThumbnailId())) {
+                                    lastList.add(it.getThumbnailId())
+                                    navigateToWebActivity(it, true)
+                                }
+                            }
+                        }
+                    }
+            }
+    }
+
+    private fun feedThumbnailLiveData() {
         val imageThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXImageEventsListLiveData
+            .episodePodXImageEventsListLiveData
             .map { imageList ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     imageList.map { image ->
                         image.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToImage(image)
+                            onClickListener = {
+                                navigateToImage(image, false)
                             },
                             resources = resources,
                             theme = theme
@@ -100,15 +312,15 @@ class PodXEventsContainerFragment
 
         val webThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXWebEventsListLiveData
+            .episodePodXWebEventsListLiveData
             .map { webList ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     webList.map { web ->
                         web.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToWeb(web)
+                            onClickListener = {
+                                navigateToWebActivity(web, false)
                             },
                             resources = resources,
                             theme = theme
@@ -119,21 +331,21 @@ class PodXEventsContainerFragment
                 }
             }
 
-        val supportThumbailData = podXEventsContainerViewModel
+        val supportThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXSupportEventsListLiveData
+            .episodePodXSupportEventsListLiveData
             .map { supportEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
-                     supportEvent.map { support ->
-                            support.toPodXEventThumbnail(
-                                onClickListener = View.OnClickListener {
-                                    navigateToSupport(support)
-                                },
-                                resources = resources,
-                                theme = theme
-                            )
+                    supportEvent.map { support ->
+                        support.toPodXEventThumbnail(
+                            onClickListener = {
+                                navigateToSupportActivity(support, false)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
                     }
                 } else {
                     listOf()
@@ -142,20 +354,20 @@ class PodXEventsContainerFragment
 
         val textThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXTextEventsListLiveData
+            .episodePodXTextEventsListLiveData
             .map { textEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     textEvent.map { text ->
-                            text.toPodXEventThumbnail(
-                                onClickListener = View.OnClickListener {
-                                    navigateToText(text)
-                                },
-                                resources = resources,
-                                theme = theme
-                            )
-                        }
+                        text.toPodXEventThumbnail(
+                            onClickListener = {
+                                navigateToText(text, false)
+                            },
+                            resources = resources,
+                            theme = theme
+                        )
+                    }
                 } else {
                     listOf()
                 }
@@ -163,15 +375,15 @@ class PodXEventsContainerFragment
 
         val callPromptThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXCallPromptEventsListLiveData
+            .episodePodXCallPromptEventsListLiveData
             .map { callPromptEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     callPromptEvent.map { callPrompt ->
                         callPrompt.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToCall(callPrompt)
+                            onClickListener = {
+                                navigateToCall(callPrompt, false)
                             },
                             resources = resources,
                             theme = theme
@@ -184,15 +396,15 @@ class PodXEventsContainerFragment
 
         val feedBackThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXFeedBackEventsListLiveData
+            .episodePodXFeedBackEventsListLiveData
             .map { feedBackEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     feedBackEvent.map { feedBack ->
                         feedBack.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToFeedBack(feedBack)
+                            onClickListener = {
+                                navigateToFeedBackActivity(feedBack, false)
                             },
                             resources = resources,
                             theme = theme
@@ -205,19 +417,19 @@ class PodXEventsContainerFragment
 
         val feedLinkThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXFeedLinkEventsListLiveData
+            .episodePodXFeedLinkEventsListLiveData
             .map { feedLinkEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     feedLinkEvent.map { feedLink ->
                         feedLink.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
+                            onClickListener = {
                                 podXEventsContainerViewModel.openGetFeedItemFromFeedLink(feedLink)
-                                    .subscribe({ feedItemFromLink ->
-                                        Timber.i("attempting to navigate to feel link ${feedItemFromLink.feedItemAudioUrl}")
-                                        navigateToFeedItem(feedItemFromLink)
-                                    },
+                                    .subscribe(
+                                        { feedItemFromLink ->
+                                            navigateToFeedItem(feedItemFromLink)
+                                        },
                                         { e -> Timber.e(e) }
                                     )
                             },
@@ -232,15 +444,15 @@ class PodXEventsContainerFragment
 
         val newsLetterSignUpThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXNewsLetterSignUpEventsListLiveData
+            .episodePodXNewsLetterSignUpEventsListLiveData
             .map { newsLetterSignUpEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     newsLetterSignUpEvent.map { newsLetterSignUp ->
                         newsLetterSignUp.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToNewsLetterSignUp(newsLetterSignUp)
+                            onClickListener = {
+                                navigateToNewsLetterSignUpActivity(newsLetterSignUp, false)
                             },
                             resources = resources,
                             theme = theme
@@ -253,15 +465,15 @@ class PodXEventsContainerFragment
 
         val pollThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXPollEventsListLiveData
+            .episodePodXPollEventsListLiveData
             .map { pollEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     pollEvent.map { poll ->
                         poll.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToPoll(poll)
+                            onClickListener = {
+                                navigateToPollActivity(poll, false)
                             },
                             resources = resources,
                             theme = theme
@@ -274,15 +486,15 @@ class PodXEventsContainerFragment
 
         val socialPromptThumbnailData = podXEventsContainerViewModel
             .podXEventsContainerUiModel
-            .podXSocialPromptEventsListLiveData
+            .episodePodXSocialPromptEventsListLiveData
             .map { socialPromptEvent ->
                 val resources = activity?.resources
                 val theme = activity?.theme
                 if (resources != null && theme != null) {
                     socialPromptEvent.map { socialPrompt ->
                         socialPrompt.toPodXEventThumbnail(
-                            onClickListener = View.OnClickListener {
-                                navigateToSocialPrompt(socialPrompt)
+                            onClickListener = {
+                                navigateToSocialPromptActivity(socialPrompt, false)
                             },
                             resources = resources,
                             theme = theme
@@ -293,7 +505,6 @@ class PodXEventsContainerFragment
                 }
             }
 
-
         MediatorLiveData<List<PodXEventThumbnailData>>()
             .apply {
                 observe(viewLifecycleOwner) {
@@ -301,72 +512,107 @@ class PodXEventsContainerFragment
                 }
 
                 addSource(imageThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
-                 addSource(webThumbnailData) {
-                     postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                         supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                         feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                         pollThumbnailData, socialPromptThumbnailData))
-                 }
+                addSource(webThumbnailData) {
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
+                }
 
-                addSource(supportThumbailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                addSource(supportThumbnailData) {
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(textThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(callPromptThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(feedBackThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(feedLinkThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(pollThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
 
                 addSource(socialPromptThumbnailData) {
-                    postValue(generatecurrentThumbnails(imageThumbnailData, webThumbnailData,
-                        supportThumbailData, textThumbnailData, callPromptThumbnailData,
-                        feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
-                        pollThumbnailData, socialPromptThumbnailData))
+                    postValue(
+                        generateCurrentThumbnails(
+                            imageThumbnailData, webThumbnailData,
+                            supportThumbnailData, textThumbnailData, callPromptThumbnailData,
+                            feedBackThumbnailData, feedLinkThumbnailData, newsLetterSignUpThumbnailData,
+                            pollThumbnailData, socialPromptThumbnailData
+                        )
+                    )
                 }
             }
     }
 
     private fun navigateToFeedItem(feedItemFromLink: FeedItem?) {
-        Timber.i("got to navigate function with ${feedItemFromLink?.feedItemAudioUrl}")
         if (feedItemFromLink != null) {
             podXEventsContainerViewModel.prepareFeedItemForPlayback(feedItemFromLink)
 
@@ -375,97 +621,156 @@ class PodXEventsContainerFragment
         }
     }
 
-    private fun generatecurrentThumbnails(
-        vararg eventsThumbnailLiveDatas: LiveData<List<PodXEventThumbnailData>>
-    ) : List<PodXEventThumbnailData> {
+    private fun generateCurrentThumbnails(
+        vararg eventsThumbnailLiveData: LiveData<List<PodXEventThumbnailData>>
+    ): List<PodXEventThumbnailData> {
         val aggregateThumbnails = mutableListOf<PodXEventThumbnailData>()
 
-        for (thumbnailLiveData in eventsThumbnailLiveDatas) {
+        for (thumbnailLiveData in eventsThumbnailLiveData) {
             val thumbnailData = thumbnailLiveData.value
             if (!thumbnailData.isNullOrEmpty()) {
                 aggregateThumbnails.addAll(thumbnailData)
             }
         }
 
+        aggregateThumbnails.sortBy { it.timeStart }
+
         return aggregateThumbnails
     }
 
-    private fun navigateToSupport(podXSupportEvent: PodXSupportEvent) {
-        if (podXSupportEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXSupportEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
+    private fun navigateToSupportActivity(podXSupportEvent: PodXSupportEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXSupportEvent.notification)
+                putString("caption", podXSupportEvent.caption)
+                putString("urlString", podXSupportEvent.urlString)
+                putString("imageUrlString", podXSupportEvent.metadata.OGImage)
+                putLong("timeStart", podXSupportEvent.timeStart)
+                putLong("timeEnd", podXSupportEvent.timeEnd)
+                putInt("icon", R.drawable.ic_icons_link)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToWeb(podXWebEvent: PodXWebEvent) {
-        if (podXWebEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXWebEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
+    private fun navigateToWebActivity(podXWebEvent: PodXWebEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXWebEvent.notification)
+                putString("caption", podXWebEvent.caption)
+                putString("urlString", podXWebEvent.urlString)
+                putString("imageUrlString", podXWebEvent.metadata.OGImage)
+                putLong("timeStart", podXWebEvent.timeStart)
+                putLong("timeEnd", podXWebEvent.timeEnd)
+                putInt("icon", R.drawable.ic_icons_link)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToFeedBack(podXFeedBackEvent: PodXFeedBackEvent) {
-        if (podXFeedBackEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXFeedBackEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
+    private fun navigateToFeedBackActivity(podXFeedBackEvent: PodXFeedBackEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXFeedBackEvent.notification)
+                putString("caption", podXFeedBackEvent.caption)
+                putString("urlString", podXFeedBackEvent.urlString)
+                putString("imageUrlString", podXFeedBackEvent.metadata.OGImage)
+                putLong("timeStart", podXFeedBackEvent.timeStart)
+                putLong("timeEnd", podXFeedBackEvent.timeEnd)
+                putInt("icon", R.drawable.ic_icons_feedback)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToNewsLetterSignUp(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent) {
-        if (podXNewsLetterSignUpEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXNewsLetterSignUpEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
+    private fun navigateToNewsLetterSignUpActivity(podXNewsLetterSignUpEvent: PodXNewsLetterSignUpEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXNewsLetterSignUpEvent.notification)
+                putString("caption", podXNewsLetterSignUpEvent.caption)
+                putString("urlString", podXNewsLetterSignUpEvent.urlString)
+                putString("imageUrlString", podXNewsLetterSignUpEvent.metadata.OGImage)
+                putLong("timeStart", podXNewsLetterSignUpEvent.timeStart)
+                putLong("timeEnd", podXNewsLetterSignUpEvent.timeEnd)
+                putInt("icon", R.drawable.ic_icons_newsletter)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToPoll (podXPollEvent: PodXPollEvent) {
-        if (podXPollEvent.urlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXPollEvent.urlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
+    private fun navigateToPollActivity(podXPollEvent: PodXPollEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXPollEvent.notification)
+                putString("caption", podXPollEvent.caption)
+                putString("urlString", podXPollEvent.urlString)
+                putString("imageUrlString", podXPollEvent.metadata.OGImage)
+                putLong("timeStart", podXPollEvent.timeStart)
+                putLong("timeEnd", podXPollEvent.timeEnd)
+                putInt("icon", R.drawable.ic_icons_poll)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToSocialPrompt(podXSocialPromptEvent: PodXSocialPromptEvent) {
-        if (podXSocialPromptEvent.socialLinkUrlString.isNotBlank()) {
-            val webPage: Uri = Uri.parse(podXSocialPromptEvent.socialLinkUrlString)
-            val intent = Intent(Intent.ACTION_VIEW, webPage)
-            startActivity(intent)
-        }
+    private fun navigateToSocialPromptActivity(podXSocialPromptEvent: PodXSocialPromptEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putString("notification", podXSocialPromptEvent.notification)
+                putString("caption", podXSocialPromptEvent.caption)
+                putString("urlString", podXSocialPromptEvent.socialLinkUrlString)
+                putString("imageUrlString", podXSocialPromptEvent.metadata.OGImage)
+                putLong("timeStart", podXSocialPromptEvent.timeStart)
+                putLong("timeEnd", podXSocialPromptEvent.timeEnd)
+                putInt("icon", R.drawable.ic_icons_social)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXLinkFragment, argsBundle)
     }
 
-    private fun navigateToImage(podXImageEvent: PodXImageEvent) {
+    private fun navigateToImage(podXImageEvent: PodXImageEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putParcelable("podXImageEvent", podXImageEvent)
+                putBoolean("newEventFlag", newEvent)
             }
-
 
         findNavController()
             .navigate(R.id.action_global_podXImageFragment, argsBundle)
     }
 
-    private fun navigateToText(podXTextEvent: PodXTextEvent) {
+    private fun navigateToText(podXTextEvent: PodXTextEvent, newEvent: Boolean) {
         val argsBundle = Bundle()
             .apply {
                 putParcelable("podXTextEvent", podXTextEvent)
+                putBoolean("newEventFlag", newEvent)
             }
-
 
         findNavController()
             .navigate(R.id.action_global_podXTextFragment, argsBundle)
     }
 
-    private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent) {
-        val fragmentManager = activity?.supportFragmentManager
-        if (fragmentManager != null) {
-            PodXCallDialogFragment(podXCallPromptEvent.phoneNumber)
-                .show(fragmentManager, "not sure bout dis")
-        }
+    private fun navigateToCall(podXCallPromptEvent: PodXCallPromptEvent, newEvent: Boolean) {
+        val argsBundle = Bundle()
+            .apply {
+                putParcelable("podXCallPromptEvent", podXCallPromptEvent)
+                putBoolean("newEventFlag", newEvent)
+            }
+
+        findNavController()
+            .navigate(R.id.action_global_podXCallPromptFragment, argsBundle)
     }
 
     private fun setupRecyclerView() {
@@ -486,20 +791,28 @@ class PodXEventsContainerFragment
                     oldItem.captionString == newItem.captionString &&
                         oldItem.imageUrlString == newItem.imageUrlString
             },
-            executor = executor
+            executor = executor,
+            navigateToTimestampMethod = { timeStamp ->
+                podXEventsContainerViewModel.skipToTimestamp(timeStamp)
+            }
         )
             .apply {
                 thumbnailMutableLiveData
-                    .observe(viewLifecycleOwner,
+                    .observe(
+                        viewLifecycleOwner,
                         Observer {
+                            Timber.i("receiving new listy")
                             submitList(it)
-                        })
+                            notifyDataSetChanged()
+                        }
+                    )
             }
     }
 
     private fun bindVisibilitySwitch() {
         thumbnailMutableLiveData
-            .observe(viewLifecycleOwner,
+            .observe(
+                viewLifecycleOwner,
                 Observer {
                     binding
                         .constraintlayoutPodxeventscontainerRoot
@@ -508,6 +821,11 @@ class PodXEventsContainerFragment
                     } else {
                         View.VISIBLE
                     }
-                })
+                }
+            )
+    }
+
+    companion object {
+        private const val PHONE_POPUP_TAG = "phonePopup"
     }
 }

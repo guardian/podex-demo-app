@@ -28,12 +28,16 @@ class SearchViewModel
 
     fun doSearch(search: String) {
         compositeDisposable.clear()
-        compositeDisposable.add(searchRepository.doSearch(search)
-            .subscribe ({
-                searchResults.postValue(it)
-            }, { e: Throwable ->
-                Timber.e(e)
-            })
+        compositeDisposable.add(
+            searchRepository.doSearch(search)
+                .subscribe(
+                    {
+                        searchResults.postValue(it)
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
+                    }
+                )
 
         )
     }

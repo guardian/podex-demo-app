@@ -18,8 +18,10 @@ fun String.parseNormalPlayTimeToMillis(): Long {
 
                 3 -> {
                     // expect the format HH:MM:SS.mmm
-                    (this[0].toLong() * 3600000 + this[1].toLong() * 60000 +
-                        (this[2].toDouble() * 1000)).toLong()
+                    (
+                        this[0].toLong() * 3600000 + this[1].toLong() * 60000 +
+                            (this[2].toDouble() * 1000)
+                        ).toLong()
                 }
 
                 else -> {

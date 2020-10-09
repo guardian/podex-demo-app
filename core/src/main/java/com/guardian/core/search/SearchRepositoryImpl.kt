@@ -4,7 +4,6 @@ import com.guardian.core.library.subscribeOnIoObserveOnMain
 import com.guardian.core.search.api.itunes.ItunesSearchApi
 import com.guardian.core.search.api.spoofedtestfeed.SpoofedTestFeedApi
 import io.reactivex.Flowable
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchRepositoryImpl
@@ -17,7 +16,7 @@ constructor(
 
     override fun doSearch(term: String): Flowable<List<SearchResult>> {
 
-        //todo proper itunes search integration
+        // todo proper itunes search integration
         // return itunesSearchApi.search(term)
         //     .map { searchResultSetApiObject: SearchResultSetApiObject ->
         //         spoofedTestFeedApi.search() + searchResultSetApiObject.results

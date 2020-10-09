@@ -19,12 +19,12 @@ class SearchDataModule {
         gsonConverterFactory: GsonConverterFactory,
         @Named("rxjava") rxJavaCallAdapterFactory: CallAdapter.Factory
     ): ItunesSearchApi = Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl(ItunesSearchApi.ENDPOINT)
-            .addCallAdapterFactory(rxJavaCallAdapterFactory)
-            .addConverterFactory(gsonConverterFactory)
-            .build()
-            .create(ItunesSearchApi::class.java)
+        .client(okHttpClient)
+        .baseUrl(ItunesSearchApi.ENDPOINT)
+        .addCallAdapterFactory(rxJavaCallAdapterFactory)
+        .addConverterFactory(gsonConverterFactory)
+        .build()
+        .create(ItunesSearchApi::class.java)
 
     // TODO Delete this
     @Provides

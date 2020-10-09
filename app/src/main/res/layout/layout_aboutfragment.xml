@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:theme="@style/PodXAppBarDark"
+            app:title="@string/about_title" />
+        
+        <TextView
+            android:id="@+id/textview_about_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_text"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_about"
+            android:layout_margin="@dimen/text_margin"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -32,7 +32,18 @@ data class PodXEventsContainerUiModel(
     val podXNewsLetterSignUpEventsListLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>,
     val podXPollEventsListLiveData: LiveData<List<PodXPollEvent>>,
     val podXSocialPromptEventsListLiveData: LiveData<List<PodXSocialPromptEvent>>,
-    val podXTextEventsListLiveData: LiveData<List<PodXTextEvent>>
+    val podXTextEventsListLiveData: LiveData<List<PodXTextEvent>>,
+    val hasEvents: Boolean,
+    val episodePodXImageEventsListLiveData: LiveData<List<PodXImageEvent>>,
+    val episodePodXWebEventsListLiveData: LiveData<List<PodXWebEvent>>,
+    val episodePodXSupportEventsListLiveData: LiveData<List<PodXSupportEvent>>,
+    val episodePodXCallPromptEventsListLiveData: LiveData<List<PodXCallPromptEvent>>,
+    val episodePodXFeedBackEventsListLiveData: LiveData<List<PodXFeedBackEvent>>,
+    val episodePodXFeedLinkEventsListLiveData: LiveData<List<PodXFeedLinkEvent>>,
+    val episodePodXNewsLetterSignUpEventsListLiveData: LiveData<List<PodXNewsLetterSignUpEvent>>,
+    val episodePodXPollEventsListLiveData: LiveData<List<PodXPollEvent>>,
+    val episodePodXSocialPromptEventsListLiveData: LiveData<List<PodXSocialPromptEvent>>,
+    val episodePodXTextEventsListLiveData: LiveData<List<PodXTextEvent>>
 )
 
 class PodXEventsContainerViewModel
@@ -54,9 +65,32 @@ class PodXEventsContainerViewModel
             podXEventEmitter.podXNewsLetterSignUpEventLiveData,
             podXEventEmitter.podXPollEventLiveData,
             podXEventEmitter.podXSocialPromptEventLiveData,
-            podXEventEmitter.podXTextEventLiveData
+            podXEventEmitter.podXTextEventLiveData,
+            checkAllEvents(),
+            podXEventEmitter.podXPendingImageEventLiveData,
+            podXEventEmitter.podXPendingWebEventLiveData,
+            podXEventEmitter.podXPendingSupportEventLiveData,
+            podXEventEmitter.podXPendingCallPromptEventLiveData,
+            podXEventEmitter.podXPendingFeedBackEventLiveData,
+            podXEventEmitter.podXPendingFeedLinkEventLiveData,
+            podXEventEmitter.podXPendingNewsLetterSignUpEventLiveData,
+            podXEventEmitter.podXPendingPollEventLiveData,
+            podXEventEmitter.podXPendingSocialPromptEventLiveData,
+            podXEventEmitter.podXPendingTextEventLiveData
         )
     }
+
+    private fun checkAllEvents(): Boolean =
+        podXEventEmitter.podXImageEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXWebEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXSupportEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXCallPromptEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXFeedBackEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXFeedLinkEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXNewsLetterSignUpEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXPollEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXSocialPromptEventLiveData.value?.isNotEmpty() == true ||
+            podXEventEmitter.podXTextEventLiveData.value?.isNotEmpty() == true
 
     fun openGetFeedItemFromFeedLink(feedLinkEvent: PodXFeedLinkEvent): Flowable<FeedItem> {
         return podXFeedRepository.getFeedWithoutUpDate(feedLinkEvent.remoteFeedUrlString)
@@ -81,6 +115,13 @@ class PodXEventsContainerViewModel
         if (!(isPrepared && feedItem.feedItemAudioUrl == nowPlaying?.id)) {
             transportControls.prepareFromMediaId(feedItem.feedItemAudioUrl, null)
             podXEventEmitter.registerCurrentFeedItem(feedItem)
+        }
+    }
+
+    fun skipToTimestamp(timeStamp: Long) {
+        val isPrepared = mediaSessionConnection.playbackState.value?.isPrepared ?: false
+        if (isPrepared) {
+            mediaSessionConnection.transportControls.seekTo(timeStamp)
         }
     }
 }

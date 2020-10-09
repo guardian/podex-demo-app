@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="podx_image_margin">32dp</dimen>
+    <dimen name="podx_image_margin">48dp</dimen>
     <dimen name="collapsed_player_margin">8dp</dimen>
     <dimen name="collapsed_player_image">64dp</dimen>
     <dimen name="collapsed_player_control_size">32dp</dimen>
     <dimen name="collapsed_player_light_playpause_size">56dp</dimen>
-    <dimen name="collapsed_player_light_total_height">80dp</dimen>
+    <dimen name="collapsed_player_light_total_height">120dp</dimen>
     <dimen name="podxlist_image_size">64dp</dimen>
     <dimen name="podxlist_image_margin">8dp</dimen>
     <dimen name="podxlist_image_size_with_margins">80dp</dimen>
@@ -20,4 +20,7 @@
     <dimen name="podxlist_caption_margin">24dp</dimen>
     <dimen name="search_progressbar_size">32dp</dimen>
     <dimen name="placeholder_padding">4dp</dimen>
+    <dimen name="podx_link_button_margin">16dp</dimen>
+    <dimen name="player_image_margin">8dp</dimen>
+    <dimen name="podxcall_preview_number">26dp</dimen>
 </resources>

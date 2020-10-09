@@ -11,7 +11,7 @@ import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.library.BaseRepository
 import com.guardian.core.library.parseNormalPlayTimeToMillis
 import com.guardian.core.library.parseNormalPlayTimeToMillisOrNull
-import com.guardian.core.podxevent.OGMetadata
+import com.guardian.core.podxevent.Metadata
 import com.guardian.core.podxevent.PodXCallPromptEvent
 import com.guardian.core.podxevent.PodXEventRepository
 import com.guardian.core.podxevent.PodXFeedBackEvent
@@ -65,8 +65,12 @@ class FeedRepositoryImpl
         // Fire and forget our update from the web for this feed, results will update the room repo
         // which will in turn propagate via subscription
         repositoryScope.launch {
-            generalFeedApi.getFeedDeSerializedXml(feedUrl).apply {
-                mapFeedObjectFromXmlFeedObjectAndCache(this, feedUrl)
+            try {
+                generalFeedApi.getFeedDeSerializedXml(feedUrl).apply {
+                    mapFeedObjectFromXmlFeedObjectAndCache(this, feedUrl)
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
             }
         }
 
@@ -162,7 +166,6 @@ class FeedRepositoryImpl
                 currentFeedItem
             }.also { feedItems ->
                 feedItemRepository.addFeedItems(feedItems)
-                Timber.i("Caching feed items ${feedItems.size}")
             }
     }
 
@@ -171,14 +174,13 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXWebEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
-            // todo fetch asynchronously
             val urlString = podXWebEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
-            } catch (exception: IllegalArgumentException) {
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
+            } catch (exception: Exception) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXWebEvent(
@@ -189,7 +191,7 @@ class FeedRepositoryImpl
                 caption = podXWebEventXmlDataObject.caption.trim(),
                 notification = podXWebEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -215,7 +217,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXImageEvents(podXEventList)
-                Timber.i("Caching PodxImageEvents ${podXEventList.size}")
             }
         }
     }
@@ -226,11 +227,11 @@ class FeedRepositoryImpl
         }.map { podXSupportEventXmlDataObject ->
             val urlString = podXSupportEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXSupportEvent(
@@ -241,7 +242,7 @@ class FeedRepositoryImpl
                 caption = podXSupportEventXmlDataObject.caption.trim(),
                 notification = podXSupportEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
@@ -278,11 +279,11 @@ class FeedRepositoryImpl
         }.map { podXFeedBackEventXmlDataObject ->
             val urlString = podXFeedBackEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXFeedBackEvent(
@@ -293,12 +294,11 @@ class FeedRepositoryImpl
                 notification = podXFeedBackEventXmlDataObject.notification.trim(),
                 urlString = podXFeedBackEventXmlDataObject.attributes["url"]?.value ?: "",
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXFeedBackEvents(podXEventList)
-                Timber.i("Caching PodxFeedBackEvents ${podXEventList.size}")
             }
         }
     }
@@ -340,42 +340,48 @@ class FeedRepositoryImpl
         repositoryScopedDisposable.add(
             feedDao.getFeedForUrlString(feedUrl)
                 .firstOrError()
-                .subscribe ({cachedFeed ->
-                    Timber.i("adding cached feed link once")
-                    addFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
-                }, { e: Throwable ->
-                    Timber.e(e)
+                .subscribe(
+                    { cachedFeed ->
+                        addFeedLinkWithImage(cachedFeed.feedImageUrlString, feedLinkEvent)
+                    },
+                    { e: Throwable ->
+                        Timber.e(e)
 
-                    generalFeedApi.getFeedDeSerializedXml(feedUrl)
-                        .apply {
-                            val feedImage: String = this.itunesImage.attributes["href"]?.value
-                                ?: this.image.url
+                        generalFeedApi.getFeedDeSerializedXml(feedUrl)
+                            .apply {
+                                val feedImage: String = this.itunesImage.attributes["href"]?.value
+                                    ?: this.image.url
 
-                            Timber.e(e)
+                                Timber.e(e)
 
-                            addFeedLinkWithImage(feedImage, feedLinkEvent)
-                        }
-                })
+                                addFeedLinkWithImage(feedImage, feedLinkEvent)
+                            }
+                    }
+                )
         )
     }
 
     private fun addFeedLinkWithImage(feedImageUrlString: String, feedLinkEvent: PodXFeedLinkEvent) {
         podXEventRepository.addPodXFeedLinkEvents(
-            listOf(PodXFeedLinkEvent(
-                remoteFeedImageUrlString = feedImageUrlString,
-                timeStart = feedLinkEvent.timeStart,
-                timeEnd = feedLinkEvent.timeEnd,
-                caption = feedLinkEvent.caption,
-                notification = feedLinkEvent.notification,
-                currentFeedItemUrlString = feedLinkEvent.currentFeedItemUrlString,
-                remoteFeedUrlString = feedLinkEvent.remoteFeedUrlString,
-                remoteFeedItemUrlString = feedLinkEvent.remoteFeedItemUrlString,
-                remoteFeedItemTitle = feedLinkEvent.remoteFeedItemTitle,
-                remoteFeedItemPubDate = feedLinkEvent.remoteFeedItemPubDate,
-                remoteFeedItemGuid = feedLinkEvent.remoteFeedItemGuid,
-                remoteItemAudioTime = feedLinkEvent.remoteItemAudioTime,
-                id = feedLinkEvent.id
-            )))
+            listOf(
+                PodXFeedLinkEvent(
+                    remoteFeedImageUrlString = feedImageUrlString,
+                    timeStart = feedLinkEvent.timeStart,
+                    timeEnd = feedLinkEvent.timeEnd,
+                    caption = feedLinkEvent.caption,
+                    notification = feedLinkEvent.notification,
+                    currentFeedItemUrlString = feedLinkEvent.currentFeedItemUrlString,
+                    remoteFeedUrlString = feedLinkEvent.remoteFeedUrlString,
+                    remoteFeedItemUrlString = feedLinkEvent.remoteFeedItemUrlString,
+                    remoteFeedItemTitle = feedLinkEvent.remoteFeedItemTitle,
+                    remoteFeedItemPubDate = feedLinkEvent.remoteFeedItemPubDate,
+                    remoteFeedItemGuid = feedLinkEvent.remoteFeedItemGuid,
+                    remoteItemAudioTime = feedLinkEvent.remoteItemAudioTime,
+                    id = feedLinkEvent.id
+                )
+            )
+        )
+        Timber.i("Caching PodxFeedLink")
     }
 
     private fun mapPodXNewsLetterSignUps(feedItemXmlDataObject: FeedItemXmlDataObject) {
@@ -383,14 +389,13 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXNewsLetterSignUpEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
-            // todo fetch asynchronously
             val urlString = podXNewsLetterSignUpEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXNewsLetterSignUpEvent(
@@ -401,12 +406,11 @@ class FeedRepositoryImpl
                 caption = podXNewsLetterSignUpEventXmlDataObject.caption.trim(),
                 notification = podXNewsLetterSignUpEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXNewsLetterSignUpEvents(podXEventList)
-                Timber.i("Caching PodxNewsLetterSignUpEvents ${podXEventList.size}")
             }
         }
     }
@@ -416,14 +420,13 @@ class FeedRepositoryImpl
             podXEventXmlDataObject.start.parseNormalPlayTimeToMillisOrNull() != null
         }.map { podXPollEventXmlDataObject ->
             // set a placeholder as we will scrape metadata afterwards
-            // todo fetch asynchronously
             val urlString = podXPollEventXmlDataObject.attributes["url"]?.value ?: ""
             val placeholderMetadata = try {
-                OGMetadata
-                    .extractOGMetadataFromUrlString(urlString)
+                Metadata
+                    .extractMetadataFromUrlString(urlString)
             } catch (exception: IllegalArgumentException) {
                 Timber.w("could not extract og data for $urlString")
-                OGMetadata("", "", "", "")
+                Metadata("", "", "", "")
             }
 
             PodXPollEvent(
@@ -434,12 +437,11 @@ class FeedRepositoryImpl
                 caption = podXPollEventXmlDataObject.caption.trim(),
                 notification = podXPollEventXmlDataObject.notification.trim(),
                 feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
-                ogMetadata = placeholderMetadata
+                metadata = placeholderMetadata
             )
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXPollEvents(podXEventList)
-                Timber.i("Caching PodxPollEvents ${podXEventList.size}")
             }
         }
     }
@@ -451,11 +453,11 @@ class FeedRepositoryImpl
             podXSocialLinkXmlDataObject.socialLink.map {
                 val urlString = it.attributes["url"]?.value ?: ""
                 val placeholderMetadata = try {
-                    OGMetadata
-                        .extractOGMetadataFromUrlString(urlString)
+                    Metadata
+                        .extractMetadataFromUrlString(urlString)
                 } catch (exception: IllegalArgumentException) {
                     Timber.w("could not extract og data for $urlString")
-                    OGMetadata("", "", "", "")
+                    Metadata("", "", "", "")
                 }
 
                 PodXSocialPromptEvent(
@@ -466,13 +468,12 @@ class FeedRepositoryImpl
                     notification = podXSocialLinkXmlDataObject.notification.trim(),
                     feedItemUrlString = feedItemXmlDataObject.enclosureXmlDataObject.attributes["url"]?.value ?: "",
                     socialLinkUrlString = urlString,
-                    ogMetadata = placeholderMetadata
+                    metadata = placeholderMetadata
                 )
             }
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXSocialPromptEvents(podXEventList)
-                Timber.i("Caching PodxWebEvents ${podXEventList.size}")
             }
         }
     }
@@ -493,7 +494,6 @@ class FeedRepositoryImpl
         }.also { podXEventList ->
             if (podXEventList.isNotEmpty()) {
                 podXEventRepository.addPodXTextEvents(podXEventList)
-                Timber.i("Caching PodxPollEvents ${podXEventList.size}")
             }
         }
     }

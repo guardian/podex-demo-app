@@ -2,6 +2,7 @@ package com.guardian.core.dagger
 
 import android.content.ComponentName
 import android.content.Context
+import com.guardian.core.feeditem.FeedItemRepository
 import com.guardian.core.mediaplayer.MediaService
 import com.guardian.core.mediaplayer.common.MediaSessionConnection
 import com.guardian.core.mediaplayer.podx.PodXEventEmitter
@@ -26,8 +27,9 @@ class MediaSessionConnectionModule {
     @Singleton
     fun providePodXEventEmitter(
         mediaSessionConnection: MediaSessionConnection,
-        podXEventRepository: PodXEventRepository
+        podXEventRepository: PodXEventRepository,
+        feedItemRepository: FeedItemRepository
     ): PodXEventEmitter {
-        return PodXEventEmitterImpl(mediaSessionConnection, podXEventRepository)
+        return PodXEventEmitterImpl(mediaSessionConnection, podXEventRepository, feedItemRepository)
     }
 }

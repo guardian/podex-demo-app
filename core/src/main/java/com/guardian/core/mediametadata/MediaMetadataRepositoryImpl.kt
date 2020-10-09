@@ -64,31 +64,31 @@ class MediaMetadataRepositoryImpl
 
 private fun MediaMetadataCompat.Builder.from(feedItem: FeedItem, feed: Feed, episodeCount: Int):
     MediaMetadataCompat.Builder {
-    id = feedItem.feedItemAudioUrl
-    title = feedItem.title
-    artist = feedItem.author
-    album = feed.title
-    duration = feedItem.lengthMs
-    // todo genre = jsonMusic.genre
-    mediaUri = feedItem.feedItemAudioUrl
-    albumArtUri = feedItem.imageUrlString
-    trackNumber = feedItem.episodeNumber
-    trackCount = episodeCount.toLong()
-    flag = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+        id = feedItem.feedItemAudioUrl
+        title = feedItem.title
+        artist = feedItem.author
+        album = feed.title
+        duration = feedItem.lengthMs
+        // todo genre = jsonMusic.genre
+        mediaUri = feedItem.feedItemAudioUrl
+        albumArtUri = feedItem.imageUrlString
+        trackNumber = feedItem.episodeNumber
+        trackCount = episodeCount.toLong()
+        flag = MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 
-    // todo move to metadata getAlbumArt = art
+        // todo move to metadata getAlbumArt = art
 
-    // To make things easier for *displaying* these, set the display properties as well.
-    displayTitle = feedItem.title
-    displaySubtitle = feedItem.author
-    displayDescription = feedItem.description
-    displayIconUri = feedItem.imageUrlString
+        // To make things easier for *displaying* these, set the display properties as well.
+        displayTitle = feedItem.title
+        displaySubtitle = feedItem.author
+        displayDescription = feedItem.description
+        displayIconUri = feedItem.imageUrlString
 
-    // Add downloadStatus to force the creation of an "extras" bundle in the resulting
-    // MediaMetadataCompat object. This is needed to send accurate metadata to the
-    // media session during updates.
-    downloadStatus = MediaDescriptionCompat.STATUS_NOT_DOWNLOADED
+        // Add downloadStatus to force the creation of an "extras" bundle in the resulting
+        // MediaMetadataCompat object. This is needed to send accurate metadata to the
+        // media session during updates.
+        downloadStatus = MediaDescriptionCompat.STATUS_NOT_DOWNLOADED
 
-    // Allow it to be used in the typical builder style.
-    return this
-}
+        // Allow it to be used in the typical builder style.
+        return this
+    }

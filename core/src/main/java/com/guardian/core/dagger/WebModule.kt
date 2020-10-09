@@ -52,5 +52,5 @@ class WebModule {
 
     @Provides
     fun provideXMLPullParserAdapter(xmlPullParserFactory: XmlPullParserFactory):
-            XmlPullParserAdapter = XmlPullParserAdapterImpl(xmlPullParserFactory)
+        XmlPullParserAdapter = XmlPullParserAdapterImpl(xmlPullParserFactory)
 }

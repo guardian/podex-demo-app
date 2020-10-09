@@ -7,18 +7,26 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.guardian.podx.R
 import com.guardian.podx.databinding.LayoutPodxtextfragmentBinding
 import com.guardian.podx.utils.lifecycleAwareVar
 import javax.inject.Inject
 
-class PodXTextFragment @Inject constructor() :
+class PodXTextFragment
+@Inject constructor(viewModelProviderFactory: ViewModelProvider.Factory) :
     Fragment() {
 
     private var binding: LayoutPodxtextfragmentBinding by lifecycleAwareVar()
 
     private val podXTextEvent: PodXTextFragmentArgs by navArgs()
+
+    private val podXTextViewModel: PodXTextViewModel by viewModels {
+        viewModelProviderFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +48,24 @@ class PodXTextFragment @Inject constructor() :
 
         binding.podxText = podXTextEvent.podXTextEvent
 
+        binding.buttonPodxtextSkipToTimestamp.setOnClickListener {
+            podXTextViewModel.skipToTimestamp(podXTextEvent.podXTextEvent.timeStart)
+        }
+
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxtext)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""
+    }
+
+    private fun setupEventTimeout() {
+        val timeOut = podXTextEvent.podXTextEvent.timeEnd
+        podXTextViewModel
+            .podXTextUiModel
+            .playbackTimeLiveData
+            .observe(viewLifecycleOwner) { playbackTime ->
+                if (playbackTime > timeOut) {
+                    findNavController().navigateUp()
+                }
+            }
     }
 }

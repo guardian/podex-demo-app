@@ -52,10 +52,10 @@ class UampPlaybackPreparer(
      * TODO: Add support for ACTION_PREPARE and ACTION_PLAY, which mean "prepare/play something".
      */
     override fun getSupportedPrepareActions(): Long =
-            PlaybackStateCompat.ACTION_PREPARE_FROM_MEDIA_ID or
-                    PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or
-                    PlaybackStateCompat.ACTION_PREPARE_FROM_SEARCH or
-                    PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
+        PlaybackStateCompat.ACTION_PREPARE_FROM_MEDIA_ID or
+            PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or
+            PlaybackStateCompat.ACTION_PREPARE_FROM_SEARCH or
+            PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
 
     override fun onPrepare(playWhenReady: Boolean) = Unit
 
@@ -69,14 +69,10 @@ class UampPlaybackPreparer(
      * [MediaSessionCompat.Callback.onPlayFromMediaId], otherwise it's
      * [MediaSessionCompat.Callback.onPrepareFromMediaId].
      */
-    override fun onPrepareFromMediaId(mediaId: String?, playWhenReady: Boolean, extras: Bundle?) {
+    override fun onPrepareFromMediaId(mediaId: String, playWhenReady: Boolean, extras: Bundle?) {
         musicSource.whenReady {
             coroutineScope.launch {
-                val itemToPlay: MediaMetadataCompat? = if (mediaId != null) {
-                    musicSource.findById(mediaId)
-                } else {
-                    null
-                }
+                val itemToPlay: MediaMetadataCompat? = musicSource.findById(mediaId)
                 if (itemToPlay == null) {
                     Timber.w("Content not found: MediaID=$mediaId")
                 } else {
@@ -111,10 +107,10 @@ class UampPlaybackPreparer(
      *
      * For details on how search is handled, see [AbstractMusicSource.search].
      */
-    override fun onPrepareFromSearch(query: String?, playWhenReady: Boolean, extras: Bundle?) {
+    override fun onPrepareFromSearch(query: String, playWhenReady: Boolean, extras: Bundle?) {
         musicSource.whenReady {
             coroutineScope.launch {
-                val metadataList = musicSource.search(query ?: "", extras ?: Bundle.EMPTY)
+                val metadataList = musicSource.search(query, extras ?: Bundle.EMPTY)
                 if (metadataList.isNotEmpty()) {
                     val mediaSource = metadataList.toMediaSource(dataSourceFactory)
                     exoPlayer.prepare(mediaSource)
@@ -123,12 +119,12 @@ class UampPlaybackPreparer(
         }
     }
 
-    override fun onPrepareFromUri(uri: Uri?, playWhenReady: Boolean, extras: Bundle?) = Unit
+    override fun onPrepareFromUri(uri: Uri, playWhenReady: Boolean, extras: Bundle?) = Unit
 
     override fun onCommand(
-        player: Player?,
-        controlDispatcher: ControlDispatcher?,
-        command: String?,
+        player: Player,
+        controlDispatcher: ControlDispatcher,
+        command: String,
         extras: Bundle?,
         cb: ResultReceiver?
     ) = false
@@ -142,7 +138,5 @@ class UampPlaybackPreparer(
      * @return a [List] of [MediaMetadataCompat] objects representing a playlist.
      */
     private suspend fun buildPlaylist(item: MediaMetadataCompat): List<MediaMetadataCompat> =
-            musicSource.filter { it.album == item.album }.sortedBy { it.trackNumber }
+        musicSource.filter { it.album == item.album }.sortedBy { it.trackNumber }
 }
-
-private const val TAG = "MediaSessionHelper"

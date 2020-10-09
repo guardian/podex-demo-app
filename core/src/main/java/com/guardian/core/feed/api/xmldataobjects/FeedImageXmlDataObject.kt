@@ -11,8 +11,8 @@ data class FeedImageXmlDataObject(
 ) : XmlDataObject {
     override fun isEmpty(): Boolean =
         title.isEmpty() &&
-                url.isEmpty() &&
-                link.isEmpty()
+            url.isEmpty() &&
+            link.isEmpty()
 
     override val attributes: Map<String, ValueContainer<String>> = mapOf()
 

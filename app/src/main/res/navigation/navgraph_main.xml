@@ -14,6 +14,9 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_searchFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
@@ -38,6 +41,18 @@
             android:name="scrollToEvents"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXLinkFragment"
+            app:destination="@id/podXLinkFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXTextFragment"
+            app:destination="@id/podXTextFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXImageFragment"
+            app:destination="@id/podXImageFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_podXCallFragment"
+            app:destination="@id/podXCallFragment" />
     </fragment>
     <fragment
         android:id="@+id/podXImageFragment"
@@ -46,6 +61,9 @@
         <argument
             android:name="podXImageEvent"
             app:argType="com.guardian.core.podxevent.PodXImageEvent"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
     </fragment>
     <fragment
         android:id="@+id/podXTextFragment"
@@ -54,6 +72,61 @@
         <argument
             android:name="podXTextEvent"
             app:argType="com.guardian.core.podxevent.PodXTextEvent"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/podXLinkFragment"
+        android:name="com.guardian.podx.presentation.podxlink.PodXLinkFragment"
+        android:label="PodXLinkFragment" >
+        <argument
+            android:name="caption"
+            app:argType="string"
+            android:defaultValue=""
+            />
+        <argument
+            android:name="notification"
+            app:argType="string"
+            android:defaultValue=""
+            />
+        <argument
+            android:name="urlString"
+            app:argType="string"
+            android:defaultValue=""
+            />
+
+        <argument
+            android:name="imageUrlString"
+            app:argType="string"
+            android:defaultValue=""
+            />
+
+        <argument
+            android:name="timeStart"
+            app:argType="long"
+            android:defaultValue="0L"/>
+
+        <argument
+            android:name="timeEnd"
+            app:argType="long"
+            android:defaultValue="0L"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/podXCallFragment"
+        android:name="com.guardian.podx.presentation.podxcall.PodXCallFragment"
+        android:label="PodXCallFragment" >
+        <argument
+            android:name="podXCallPromptEvent"
+            app:argType="com.guardian.core.podxevent.PodXCallPromptEvent"/>
+        <argument
+            android:name="newEventFlag"
+            app:argType="boolean"/>
     </fragment>
 
     <action
@@ -71,6 +144,23 @@
         app:exitAnim="@anim/slide_out_top"
         app:popEnterAnim="@anim/slide_in_top"
         app:popExitAnim="@anim/slide_out_bottom"/>
+
+    <action
+        android:id="@+id/action_global_podXLinkFragment"
+        app:destination="@id/podXLinkFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"/>
+
+    <action
+        android:id="@+id/action_global_podXCallPromptFragment"
+        app:destination="@id/podXCallFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"/>
+
     <action
         android:id="@+id/action_global_playerFragment"
         app:destination="@id/playerFragment"
@@ -78,5 +168,9 @@
         app:exitAnim="@anim/slide_out_top"
         app:popEnterAnim="@anim/slide_in_top"
         app:popExitAnim="@anim/slide_out_bottom"/>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.guardian.podx.presentation.about.AboutFragment"
+        android:label="AboutFragment" />
 
 </navigation>

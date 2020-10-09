@@ -24,8 +24,8 @@ class MediaServiceModule {
     // todo get the user agent application name from application
     @Provides
     fun provideDataSourceFactory(context: Context): DataSource.Factory = DefaultDataSourceFactory(
-            context, Util.getUserAgent(context, "podx"), null
-        )
+        context, Util.getUserAgent(context, "PodX"), null
+    )
 
     @Provides
     fun provideExoPlayer(context: Context): ExoPlayer {

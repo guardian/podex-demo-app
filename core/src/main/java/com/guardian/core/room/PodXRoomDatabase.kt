@@ -22,28 +22,29 @@ import com.guardian.core.podxevent.dao.PodXFeedBackEventDao
 import com.guardian.core.podxevent.dao.PodXFeedLinkEventDao
 import com.guardian.core.podxevent.dao.PodXImageEventDao
 import com.guardian.core.podxevent.dao.PodXNewsLetterSignUpEventDao
-import com.guardian.core.podxevent.dao.PodXNewsLetterSignUpEventDao_Impl
 import com.guardian.core.podxevent.dao.PodXPollEventDao
 import com.guardian.core.podxevent.dao.PodXSocialPromptEventDao
 import com.guardian.core.podxevent.dao.PodXSupportEventDao
 import com.guardian.core.podxevent.dao.PodXTextEventDao
 import com.guardian.core.podxevent.dao.PodXWebEventDao
 
-@Database(entities = [
-    Feed::class,
-    FeedItem::class,
-    PodXImageEvent::class,
-    PodXWebEvent::class,
-    PodXSupportEvent::class,
-    PodXCallPromptEvent::class,
-    PodXFeedBackEvent::class,
-    PodXFeedLinkEvent::class,
-    PodXNewsLetterSignUpEvent::class,
-    PodXPollEvent::class,
-    PodXSocialPromptEvent::class,
-    PodXTextEvent::class
-],
-    version = PodXRoomDatabase.VERSION)
+@Database(
+    entities = [
+        Feed::class,
+        FeedItem::class,
+        PodXImageEvent::class,
+        PodXWebEvent::class,
+        PodXSupportEvent::class,
+        PodXCallPromptEvent::class,
+        PodXFeedBackEvent::class,
+        PodXFeedLinkEvent::class,
+        PodXNewsLetterSignUpEvent::class,
+        PodXPollEvent::class,
+        PodXSocialPromptEvent::class,
+        PodXTextEvent::class
+    ],
+    version = PodXRoomDatabase.VERSION
+)
 @TypeConverters(RoomTypeConverters::class)
 abstract class PodXRoomDatabase : RoomDatabase() {
     abstract fun getFeedDao(): FeedDao

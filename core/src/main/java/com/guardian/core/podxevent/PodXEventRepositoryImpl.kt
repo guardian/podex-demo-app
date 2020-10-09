@@ -15,18 +15,18 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 class PodXEventRepositoryImpl
-    @Inject constructor(
-        private val podXImageEventDao: PodXImageEventDao,
-        private val podXWebEventDao: PodXWebEventDao,
-        private val podXSupportEventDao: PodXSupportEventDao,
-        private val podXCallPromptEventDao: PodXCallPromptEventDao,
-        private val podXFeedBackEventDao: PodXFeedBackEventDao,
-        private val podXFeedLinkEventDao: PodXFeedLinkEventDao,
-        private val podXNewsLetterSignUpEventDao: PodXNewsLetterSignUpEventDao,
-        private val podXPollEventDao: PodXPollEventDao,
-        private val podXSocialPromptEventDao: PodXSocialPromptEventDao,
-        private val podXTextEventDao: PodXTextEventDao
-    ) :
+@Inject constructor(
+    private val podXImageEventDao: PodXImageEventDao,
+    private val podXWebEventDao: PodXWebEventDao,
+    private val podXSupportEventDao: PodXSupportEventDao,
+    private val podXCallPromptEventDao: PodXCallPromptEventDao,
+    private val podXFeedBackEventDao: PodXFeedBackEventDao,
+    private val podXFeedLinkEventDao: PodXFeedLinkEventDao,
+    private val podXNewsLetterSignUpEventDao: PodXNewsLetterSignUpEventDao,
+    private val podXPollEventDao: PodXPollEventDao,
+    private val podXSocialPromptEventDao: PodXSocialPromptEventDao,
+    private val podXTextEventDao: PodXTextEventDao
+) :
     PodXEventRepository {
     override fun deletePodXEventsForFeedItem(feedItem: FeedItem) {
         podXImageEventDao.removePodXImageEventList(feedItem.feedItemAudioUrl)
