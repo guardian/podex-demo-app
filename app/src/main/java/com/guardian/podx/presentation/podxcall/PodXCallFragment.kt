@@ -52,6 +52,14 @@ class PodXCallFragment
             podXCallViewModel.skipToTimestamp(podXCallFragmentArgs.podXCallPromptEvent.timeStart)
         }
 
+        binding.buttonPodxcallMakeCall.setOnClickListener {
+            val fragmentManager = activity?.supportFragmentManager
+            if (fragmentManager != null) {
+                PodXCallDialogFragment(podXCallFragmentArgs.podXCallPromptEvent.phoneNumber)
+                    .show(fragmentManager, "callPromptPodX")
+            }
+        }
+
         (activity as AppCompatActivity?)?.setSupportActionBar(binding.toolbarPodxcall)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (requireActivity() as AppCompatActivity?)?.supportActionBar?.title = ""

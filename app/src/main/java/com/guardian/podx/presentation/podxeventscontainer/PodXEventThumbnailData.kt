@@ -19,7 +19,6 @@ import com.guardian.podx.utils.toTimestampMSS
 
 data class PodXEventThumbnailData(
     val imageUrlString: String?,
-    val imageDrawable: Drawable?,
     val badgeDrawable: Drawable?,
     val notificationString: String,
     val captionString: String,
@@ -48,7 +47,6 @@ fun PodXWebEvent.toPodXEventThumbnail(
             )
             }",
             onClickListener = onClickListener,
-            imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme),
             uniqueEventId = this.getThumbnailId()
         )
@@ -69,7 +67,6 @@ fun PodXImageEvent.toPodXEventThumbnail(
             timeStart = this.timeStart,
             timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
             onClickListener = onClickListener,
-            imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_image, theme),
             imageSwitch = true,
             uniqueEventId = this.getThumbnailId()
@@ -90,7 +87,6 @@ fun PodXSupportEvent.toPodXEventThumbnail(
             timeStart = this.timeStart,
             timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
             onClickListener = onClickListener,
-            imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_link, theme),
             uniqueEventId = this.getThumbnailId()
         )
@@ -110,7 +106,6 @@ fun PodXCallPromptEvent.toPodXEventThumbnail(
             timeStart = this.timeStart,
             timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
             onClickListener = onClickListener,
-            imageDrawable = resources.getDrawable(R.drawable.baseline_call_black_24, theme),
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_call, theme),
             uniqueEventId = this.getThumbnailId()
         )
@@ -130,7 +125,6 @@ fun PodXFeedBackEvent.toPodXEventThumbnail(
             timeStart = this.timeStart,
             timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
             onClickListener = onClickListener,
-            imageDrawable = null,
             badgeDrawable = resources.getDrawable(R.drawable.ic_icons_feedback, theme),
             uniqueEventId = this.getThumbnailId()
         )
@@ -149,7 +143,6 @@ fun PodXFeedLinkEvent.toPodXEventThumbnail(
         timeStart = this.timeStart,
         timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
         onClickListener = onClickListener,
-        imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_podcast, theme),
         uniqueEventId = this.getThumbnailId()
     )
@@ -168,7 +161,6 @@ fun PodXNewsLetterSignUpEvent.toPodXEventThumbnail(
         timeStart = this.timeStart,
         timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
         onClickListener = onClickListener,
-        imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_newsletter, theme),
         uniqueEventId = this.getThumbnailId()
     )
@@ -187,7 +179,6 @@ fun PodXPollEvent.toPodXEventThumbnail(
         timeStart = this.timeStart,
         timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
         onClickListener = onClickListener,
-        imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_poll, theme),
         uniqueEventId = this.getThumbnailId()
     )
@@ -206,7 +197,6 @@ fun PodXSocialPromptEvent.toPodXEventThumbnail(
         timeStart = this.timeStart,
         timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
         onClickListener = onClickListener,
-        imageDrawable = null,
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_social, theme),
         uniqueEventId = this.getThumbnailId()
     )
@@ -225,7 +215,6 @@ fun PodXTextEvent.toPodXEventThumbnail(
         timeStart = this.timeStart,
         timeStampsActive = "${this.timeStart.toTimestampMSS(resources)} - ${this.timeEnd.toTimestampMSS(resources)}",
         onClickListener = onClickListener,
-        imageDrawable = resources.getDrawable(R.drawable.baseline_library_books_black_24, theme),
         badgeDrawable = resources.getDrawable(R.drawable.ic_icons_article, theme),
         uniqueEventId = this.getThumbnailId()
     )

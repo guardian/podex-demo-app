@@ -1,4 +1,4 @@
-package com.guardian.podx.presentation.podxeventscontainer
+package com.guardian.podx.presentation.podxcall
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -19,7 +19,7 @@ class PodXCallDialogFragment constructor(private val phoneNumberString: String) 
                     R.string.alertpositive_call_event
                 ) { _, _ ->
                     val intent = Intent(Intent.ACTION_DIAL).apply {
-                        data = Uri.parse("tel:$phoneNumberString")
+                        data = Uri.parse("tel:${phoneNumberString.replace(Regex("[^0-9.]"), "")}")
                     }
 
                     if (intent.resolveActivity(fragmentActivity.packageManager) != null) {

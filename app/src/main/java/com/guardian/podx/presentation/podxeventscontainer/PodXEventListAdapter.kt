@@ -30,7 +30,7 @@ class PodXEventListAdapter(
     override fun bind(holder: ViewholderPodxeventadapterImageBinding, item: PodXEventThumbnailData) {
         holder.podXThumbnailData = item
         holder.imageviewPodxeventviewholderBadge.setImageDrawable(item.badgeDrawable)
-        if (item.imageDrawable == null && item.imageUrlString.isNullOrBlank()) {
+        if (item.imageUrlString.isNullOrBlank()) {
             holder.imageviewPodxeventviewholderBadge.visibility = View.INVISIBLE
             holder.imageviewPodxeventviewholderBadgeBackground.visibility = View.INVISIBLE
         }

@@ -15,6 +15,24 @@ data class Metadata(
     companion object OGMetadataFactory {
         @Throws(IllegalArgumentException::class)
         fun extractMetadataFromUrlString(urlString: String): Metadata {
+            // hacks here please do not read
+            if (urlString == "https://www.une.edu.au/staff-profiles/science-and-technology/gkaplan") {
+                return Metadata(
+                    OGImage = "https://www.une.edu.au/__data/assets/image/0018/33642/gkaplan.jpg",
+                    OGTitle = "",
+                    OGType = "",
+                    OGUrl = ""
+                )
+            }
+            if (urlString == "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3187623/") {
+                return Metadata(
+                    OGImage = "https://gdn-cdn.s3.amazonaws.com/podx/episodeassets/magpies/nihms-321029-f0001.jpg",
+                    OGTitle = "",
+                    OGType = "",
+                    OGUrl = ""
+                )
+            }
+
             val document: Document = Jsoup.connect(urlString)
                 .get()
 
@@ -49,14 +67,6 @@ data class Metadata(
                         argMap["apple-touch-icon"] = linkElement.attributes()["abs:href"]
                     }
                 }
-
-            // hacks here please do not read
-            if (urlString == "https://www.une.edu.au/staff-profiles/science-and-technology/gkaplan") {
-                argMap["og:image"] = "https://www.une.edu.au/__data/assets/image/0018/33642/gkaplan.jpg"
-            }
-            if (urlString == "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3187623/") {
-                argMap["og:image"] = "https://gdn-cdn.s3.amazonaws.com/podx/episodeassets/magpies/nihms-321029-f0001.jpg"
-            }
 
             if (argMap["og:image"].isNullOrBlank() && argMap["apple-touch-icon"].isNullOrBlank()) {
                 throw IllegalArgumentException()
